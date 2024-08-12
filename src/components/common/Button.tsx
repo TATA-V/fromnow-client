@@ -13,8 +13,8 @@ interface Props {
 }
 
 const Button = ({ size = 'big', color = 'black', disabled = false, Icon, children }: Props) => {
-  const [btnSize, setBtnSize] = useState<string[]>(['w-full', 'h-[48px]', 'rounded-2xl']);
-  const [btnColor, setBtnColor] = useState<string[]>(['border-black900', 'bg-black900', 'text-white']);
+  const [btnSize, setBtnSize] = useState<string[]>([]);
+  const [btnColor, setBtnColor] = useState<string[]>([]);
 
   useEffect(() => {
     let tempSize: string[] = [];

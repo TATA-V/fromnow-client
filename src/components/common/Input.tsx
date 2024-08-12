@@ -16,16 +16,20 @@ interface Props {
 }
 
 const Input = ({ mode, placeholder, editable = true, changeInput, search }: Props) => {
-  const [color, setColor] = useState<string[]>(['border-black900', 'bg-white', 'text-black900', '#1C1C1E']);
+  const initialColor = editable
+    ? ['border-black900', 'bg-white', 'text-black900', '#1C1C1E']
+    : ['border-black200', 'bg-black200', 'text-black300', ''];
+
+  const [color, setColor] = useState<string[]>(initialColor);
   const [isFocused, setIsFocused] = useState(false);
   const applyCustomStyles = isFocused || !editable || mode === 'error' || mode === 'trust';
 
   useEffect(() => {
-    let tempColor: string[] = [];
     if (!editable) {
       setColor(['border-black200', 'bg-black200', 'text-black300', '']);
       return;
     }
+    let tempColor: string[] = [];
     switch (mode) {
       case 'black':
         tempColor = ['border-black900', 'bg-white', 'text-black900', '#1C1C1E'];
@@ -49,13 +53,13 @@ const Input = ({ mode, placeholder, editable = true, changeInput, search }: Prop
     <View className="relative">
       <TextInput
         onSubmitEditing={changeInput}
-        className={`${applyCustomStyles ? color.slice(0, -1).join(' ') : 'border-black200 bg-white text-black300'}
-            caret-[${color[3] || '#0e0e0e'}] font-PTDLight text-sm focus:outline-none h-[49px] w-full rounded-2xl border-[1px]
+        className={`${applyCustomStyles ? color.slice(0, -1).join(' ') : 'border-black200 bg-white text-black900'}
+            caret-[${color[color.length - 1] || '#0e0e0e'}] font-PTDLight text-sm focus:outline-none h-[49px] w-full rounded-2xl border-[1px]
             ${search ? 'pl-[48px]' : 'pl-5'} pr-5 transition-[border-color,color] duration-300 ease-in-out`}
         placeholder={placeholder}
         editable={editable}
         placeholderTextColor="#E4E5EA"
-        cursorColor={color[3] || '#1C1C1E'}
+        cursorColor={color[color.length - 1] || '#1C1C1E'}
         // prettier-ignore
         onFocus={() => { if (!editable) return; setIsFocused(true); }}
         // prettier-ignore
