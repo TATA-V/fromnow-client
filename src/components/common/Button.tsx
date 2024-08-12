@@ -2,9 +2,10 @@ import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { Text, Pressable, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
-type Color = 'black' | 'white';
+type Color = 'black' | 'white' | 'yellow';
 
 interface Props {
+  onPress?: () => void;
   size?: string;
   color?: Color;
   disabled?: boolean;
@@ -12,7 +13,7 @@ interface Props {
   children: ReactNode;
 }
 
-const Button = ({ size = 'big', color = 'black', disabled = false, Icon, children }: Props) => {
+const Button = ({ onPress, size = 'big', color = 'black', disabled = false, Icon, children }: Props) => {
   const [btnSize, setBtnSize] = useState<string[]>([]);
   const [btnColor, setBtnColor] = useState<string[]>([]);
 
@@ -34,6 +35,10 @@ const Button = ({ size = 'big', color = 'black', disabled = false, Icon, childre
     setBtnSize(tempSize);
 
     let tempColor: string[] = [];
+    if (color === 'yellow') {
+      setBtnColor(['border-kakao', 'bg-kakao', 'text-kakaoTxt']);
+      return;
+    }
     if (disabled) {
       tempColor = color === 'black' ? ['border-black300', 'bg-black200', 'text-black500'] : ['border-black300', 'bg-white', 'text-black300'];
     }
@@ -44,7 +49,10 @@ const Button = ({ size = 'big', color = 'black', disabled = false, Icon, childre
   }, [size, color, disabled]);
 
   return (
-    <Pressable disabled={disabled} className={`${btnSize.join(' ')} ${btnColor[0]} ${btnColor[1]} border-[1px] flex justify-center items-center`}>
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      className={`${btnSize.join(' ')} ${btnColor[0]} ${btnColor[1]} border-[1px] flex justify-center items-center`}>
       <View className={`${size === 'big' ? 'gap-[10px]' : 'gap-[8px]'} flex flex-row justify-center items-center`}>
         {Icon && <Icon />}
         <Text className={`font-PTDSemiBold ${btnColor[2]} text-sm`}>{children}</Text>

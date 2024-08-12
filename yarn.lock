@@ -3930,6 +3930,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-native: "npm:0.74.3"
     react-native-dotenv: "npm:^3.4.11"
+    react-native-raw-bottom-sheet: "npm:^3.0.0"
     react-native-safe-area-context: "npm:^4.10.8"
     react-native-screens: "npm:^3.32.0"
     react-native-svg: "npm:^15.4.0"
@@ -10885,6 +10886,13 @@ __metadata:
   peerDependencies:
     "@babel/runtime": ^7.20.6
   checksum: 10c0/9ed4a37fb59030706d17a1cc49d05af9d8fc57dcb2ef97e122b844f3ab6f6331ebc089afac559fe5bddf37806aa282b4118005f1b27aae5e37fdc3fc8bd7625c
+  languageName: node
+  linkType: hard
+
+"react-native-raw-bottom-sheet@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "react-native-raw-bottom-sheet@npm:3.0.0"
+  checksum: 10c0/dd4a702ba97132ebfb41d6dfae8bc08a838fff536e9301f158ca168fbdc62f7c462b354209c480a868cfaf380c5c47f4c7c980c413e939570f8e126811e691bf
   languageName: node
   linkType: hard
 

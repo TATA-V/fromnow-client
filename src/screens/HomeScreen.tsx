@@ -50,7 +50,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView className="bg-white flex-1">
-      <StatusBar barStyle={'light-content'} backgroundColor={'#fff'} />
+      <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
       <Pressable onPress={goToLogin} className="bg-green-300 p-4 text-green-900 m-10 border border-solid border-green-900 rounded">
         <Text className="font-UhBee">Go To SignIn</Text>
       </Pressable>
