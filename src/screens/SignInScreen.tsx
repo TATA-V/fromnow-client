@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { SafeAreaView, StatusBar, Text, View } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
+import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 
 import GoogleSignInBtn from '@components/SignIn/GoogleSignInBtn';
 import KakaoSignInBtn from '@components/SignIn/KakaoSignInBtn';
 
 const SignInScreen = () => {
+  const actionSheetRef = useRef<ActionSheetRef>(null);
+
   return (
     <SafeAreaView className="bg-white flex-1 px-5">
       <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
@@ -23,6 +26,9 @@ const SignInScreen = () => {
           </View>
         </View>
       </View>
+      <ActionSheet ref={actionSheetRef}>
+        <Text>Hi, I am here.</Text>
+      </ActionSheet>
     </SafeAreaView>
   );
 };

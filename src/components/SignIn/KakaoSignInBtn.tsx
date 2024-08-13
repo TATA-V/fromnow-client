@@ -4,6 +4,7 @@ import { isWeb } from '@utils/deviceInfo';
 import { login } from '@react-native-kakao/user';
 import KakaoIcon from '@assets/icons/kakao.svg';
 import Button from '@components/common/Button';
+import { SheetManager } from 'react-native-actions-sheet';
 
 const KakaoSignInBtn = () => {
   const signInWithKakao = async () => {
@@ -19,6 +20,7 @@ const KakaoSignInBtn = () => {
     try {
       const res = await login();
       const idToken = res.idToken;
+      await SheetManager.show('signup-policy');
     } catch (error) {
       console.error('Kakao login failed:', error);
     }

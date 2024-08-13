@@ -1,21 +1,30 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
 const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
   template: path.resolve(__dirname, './public/index.html'),
   filename: 'index.html',
   inject: 'body',
 });
 // tsx 파일 로더
-const tsxLoader = {
-  test: /\.(js|jsx|ts|tsx)$/,
-  exclude: /node_modules/,
-  use: {
-    loader: 'babel-loader',
-    options: {
-      presets: ['@babel/preset-react'],
+const tsxLoader = [
+  {
+    test: /\.(js|jsx|ts|tsx)$/,
+    exclude: /node_modules/,
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-react'],
+      },
     },
   },
-};
+  {
+    test: /@?(react-native-actions-sheet).*\.(ts|js)x?$/,
+    include: /node_modules/,
+    loader: 'babel-loader',
+  },
+];
 // 이미지 파일 로더
 const imgLoader = {
   test: /\.(gif|jpe?g|png)$/,
@@ -51,12 +60,17 @@ module.exports = {
     alias: {
       'react-native$': 'react-native-web',
     },
-    extensions: ['.web.js', '.js', '.ts', 'jsx', '.tsx', 'json', '.css'],
+    extensions: ['.web.js', '.js', '.ts', '.jsx', '.tsx', '.json', '.css'],
   },
   module: {
-    rules: [tsxLoader, imgLoader, svgLoader, cssLoader],
+    rules: [...tsxLoader, imgLoader, svgLoader, cssLoader],
   },
-  plugins: [HTMLWebpackPluginConfig],
+  plugins: [
+    HTMLWebpackPluginConfig,
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(true),
+    }),
+  ],
   devServer: {
     open: true,
     historyApiFallback: true,

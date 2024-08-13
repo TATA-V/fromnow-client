@@ -1,6 +1,7 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset', '@babel/preset-react'],
   plugins: [
+    'react-native-reanimated/plugin',
     'nativewind/babel',
     [
       'module-resolver',
@@ -14,6 +15,7 @@ module.exports = {
           '@style': './src/style',
           '@hooks': './src/hooks',
           '@utils': './src/utils',
+          '@store': './src/store',
           '@api': './src/api',
         },
         extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],

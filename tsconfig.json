@@ -13,6 +13,7 @@
       "@style/*": ["style/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
+      "@store/*": ["store/*"],
       "@api/*": ["api/*"],
     },
   },
