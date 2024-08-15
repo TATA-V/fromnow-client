@@ -76,8 +76,14 @@
 		<string>Pretendard-Regular.otf</string>
 		<string>Pretendard-SemiBold.otf</string>
 		<string>Pretendard-Thin.otf</string>
-		<string>UhBee-Bold.ttf</string>
-		<string>UhBee.ttf</string>
+		<string>UhBeemysen.ttf</string>
+		<string>UhBeemysenBold.ttf</string>
 	</array>
+  <key>NSCameraUsageDescription</key>
+  <string>CameraUsage</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Save photos to your photo gallery</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>AccessPhotoLibrary</string>
 </dict>
 </plist>

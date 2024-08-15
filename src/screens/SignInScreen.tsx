@@ -10,7 +10,7 @@ const SignInScreen = () => {
   const actionSheetRef = useRef<ActionSheetRef>(null);
 
   return (
-    <SafeAreaView className="bg-white flex-1 px-5">
+    <SafeAreaView className="bg-white flex-1">
       <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
       <View className="h-screen flex flex-col justify-between">
         <View className="w-full flex items-center pt-[120px]">
@@ -19,7 +19,7 @@ const SignInScreen = () => {
           </View>
           <Text className="font-UhBee text-[28px]">지금의 순간을 기록하세요, 프롬 나우</Text>
         </View>
-        <View className="flex flex-col mb-[60px]">
+        <View className="flex flex-col mb-[60px] px-5">
           <GoogleSignInBtn />
           <View className="mt-[12px]">
             <KakaoSignInBtn />

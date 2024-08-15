@@ -6,12 +6,15 @@ import { isWeb } from '@utils/deviceInfo';
 import { KAKAO_NATIVE_APP_KEY, KAKAO_NATIVE_JS_KEY, KAKAO_NATIVE_API_KEY } from '@env';
 import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { SheetProvider } from 'react-native-actions-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '@components/BottomSheet/sheets';
 
 import RQProvider from '@components/provider/RQProvider';
 import ToastNotiProvider from '@components/provider/ToastProvider';
-import HomeScreen from 'screens/HomeScreen';
-import SignInScreen from 'screens/SignInScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import SignInScreen from './src/screens/SignInScreen';
+import SignupNicknameScreen from './src/screens/SignupNicknameScreen';
+import SignupPhotoScreen from './src/screens/SignupPhotoScreen';
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -25,18 +28,22 @@ function App() {
   return (
     <>
       {!isWeb && (
-        <RQProvider>
-          <ToastNotiProvider>
-            <SheetProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <RQProvider>
+            <ToastNotiProvider>
               <NavigationContainer>
-                <Stack.Navigator>
-                  <Stack.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
-                  <Stack.Screen name="SignIn" options={{ headerShown: false }} component={SignInScreen} />
-                </Stack.Navigator>
+                <SheetProvider>
+                  <Stack.Navigator>
+                    <Stack.Screen name="Home" options={{ headerShown: false }} component={SignupPhotoScreen} />
+                    <Stack.Screen name="SignIn" options={{ headerShown: false }} component={SignInScreen} />
+                    <Stack.Screen name="SignupNickname" options={{ headerShown: false }} component={SignupNicknameScreen} />
+                    <Stack.Screen name="SignupPhoto" options={{ headerShown: false }} component={SignupPhotoScreen} />
+                  </Stack.Navigator>
+                </SheetProvider>
               </NavigationContainer>
-            </SheetProvider>
-          </ToastNotiProvider>
-        </RQProvider>
+            </ToastNotiProvider>
+          </RQProvider>
+        </GestureHandlerRootView>
       )}
       {isWeb && (
         <Router>

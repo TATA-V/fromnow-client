@@ -5,6 +5,7 @@ import CheckLineIcon from '@assets/icons/checkLine.svg';
 import CheckFillIcon from '@assets/icons/checkFill.svg';
 
 import Button from '@components/common/Button';
+import useNavi from '@hooks/useNavi';
 
 const SignupPolicy = () => {
   const [isChecked, setIsChecked] = useState({
@@ -13,6 +14,7 @@ const SignupPolicy = () => {
     personalInfo: false,
     ageConfirm: false,
   });
+  const { navigation } = useNavi();
 
   const list = [
     { name: 'serviceAgree', content: '[필수] 서비스 이용에 동의합니다' },
@@ -21,11 +23,9 @@ const SignupPolicy = () => {
   ];
 
   const toggleCheck = (value: string) => {
-    console.log('value:', value);
     setIsChecked(prev => {
       const newChecked = { ...prev, [value]: !prev[value] };
       const allChecked = Object.values(newChecked).every(Boolean);
-      console.log('allChecked:', allChecked);
       return { ...newChecked, all: allChecked };
     });
   };
@@ -36,6 +36,7 @@ const SignupPolicy = () => {
 
   const agreeAndContinue = () => {
     SheetManager.hide('signup-policy');
+    navigation.navigate('SignupNickname');
   };
 
   return (

@@ -5,15 +5,18 @@ import { login } from '@react-native-kakao/user';
 import KakaoIcon from '@assets/icons/kakao.svg';
 import Button from '@components/common/Button';
 import { SheetManager } from 'react-native-actions-sheet';
+import useToast from '@hooks/useToast';
 
 const KakaoSignInBtn = () => {
+  const { showToast } = useToast();
+
   const signInWithKakao = async () => {
     if (isWeb) {
       try {
-        await login({ web: { redirectUri: CLIENT_URL, prompt: ['select_account'] } });
+        await login({ web: { redirectUri: `${CLIENT_URL}/signin`, prompt: ['select_account'] } });
         return;
       } catch (error) {
-        console.error('Kakao login failed:', error);
+        showToast('Kakao login failed:', error);
       }
     }
 
@@ -22,7 +25,7 @@ const KakaoSignInBtn = () => {
       const idToken = res.idToken;
       await SheetManager.show('signup-policy');
     } catch (error) {
-      console.error('Kakao login failed:', error);
+      showToast('Kakao login failed:', error);
     }
   };
 

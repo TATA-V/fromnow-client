@@ -38,12 +38,12 @@
       "sha1": "72cf55b4d2ea4adc75123f33ca839c10cabfaab4"
     },
     {
-      "path": "src/assets/fonts/uhbee/UhBee-Bold.ttf",
-      "sha1": "be9547a541a5c05b7277b0878763a2513cdacba5"
+      "path": "src/assets/fonts/uhbee/UhBeemysen.ttf",
+      "sha1": "95a4b584db382da9097971a9a9eef776ce56fdb8"
     },
     {
-      "path": "src/assets/fonts/uhbee/UhBee.ttf",
-      "sha1": "95a4b584db382da9097971a9a9eef776ce56fdb8"
+      "path": "src/assets/fonts/uhbee/UhBeemysenBold.ttf",
+      "sha1": "be9547a541a5c05b7277b0878763a2513cdacba5"
     }
   ]
 }

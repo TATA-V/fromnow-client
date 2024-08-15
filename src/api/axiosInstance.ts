@@ -35,10 +35,8 @@ instance.interceptors.response.use(
   async error => {
     const { navigate, navigation } = useNavi();
     const { showToast } = useToast();
-    const {
-      config,
-      response: { status },
-    } = error;
+    // prettier-ignore
+    const { config, response: { status } } = error;
 
     if (status === 401 && !config._retry) {
       config._retry = true;

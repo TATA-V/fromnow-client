@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react';
-import { Text, Pressable, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 type Color = 'black' | 'white' | 'yellow';
@@ -49,7 +49,7 @@ const Button = ({ onPress, size = 'big', color = 'black', disabled = false, Icon
   }, [size, color, disabled]);
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
       className={`${btnSize.join(' ')} ${btnColor[0]} ${btnColor[1]} border-[1px] flex justify-center items-center`}>
@@ -57,7 +57,7 @@ const Button = ({ onPress, size = 'big', color = 'black', disabled = false, Icon
         {Icon && <Icon />}
         <Text className={`font-PTDSemiBold ${btnColor[2]} text-sm`}>{children}</Text>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

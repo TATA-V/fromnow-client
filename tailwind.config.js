@@ -30,8 +30,8 @@ module.exports = {
       PTDRegular: ['Pretendard-Regular'],
       PTDSemiBold: ['Pretendard-SemiBold'],
       PTDThin: ['Pretendard-Thin'],
-      UhBeeBold: ['UhBee-Bold'],
-      UhBee: ['UhBee'],
+      UhBeeBold: ['UhBeemysenBold'],
+      UhBee: ['UhBeemysen'],
     },
   },
   plugins: [
@@ -39,6 +39,16 @@ module.exports = {
       const newUtilities = {
         '.w-fit': {
           width: 'fit-content',
+        },
+        '.error-text': {
+          color: '#B3B4B9',
+          fontFamily: 'Pretendard-Light',
+          fontSize: '12px',
+        },
+        '.default-label': {
+          color: '#1C1C1E',
+          fontFamily: 'Pretendard-Light',
+          fontSize: '12px',
         },
       };
       addUtilities(newUtilities, ['responsive', 'hover', 'focus']);

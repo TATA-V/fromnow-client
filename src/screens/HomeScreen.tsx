@@ -8,9 +8,12 @@ import { CLIENT_URL } from '@env';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
 import Input from '@components/common/Input';
+import useToast from '@hooks/useToast';
+import { font } from '@styles/font';
 
 const HomeScreen = () => {
   const { navigate, navigation } = useNavi();
+  const { showToast } = useToast();
 
   const goToLogin = () => {
     if (isWeb && navigate) {
@@ -41,7 +44,7 @@ const HomeScreen = () => {
         setKakaoWebIdToken(idToken);
         accessTokenIssued.current = true;
       } catch (error) {
-        console.error('Failed to issue token:', error);
+        showToast('Failed to issue token:', error);
       }
     };
 
@@ -52,7 +55,7 @@ const HomeScreen = () => {
     <SafeAreaView className="bg-white flex-1">
       <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
       <Pressable onPress={goToLogin} className="bg-green-300 p-4 text-green-900 m-10 border border-solid border-green-900 rounded">
-        <Text className="font-UhBee">Go To SignIn</Text>
+        <Text style={font.UhBee}>Go To SignIn</Text>
       </Pressable>
       <View className="flex flex-col gap-5 mb-5">
         <View className="px-5">

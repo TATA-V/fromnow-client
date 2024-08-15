@@ -6,7 +6,6 @@ import { useSignInGoogle } from '@hooks/query';
 import useToast from '@hooks/useToast';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
-import { SheetManager } from 'react-native-actions-sheet';
 
 const GoogleSignInBtn = () => {
   const { showToast } = useToast();
@@ -50,7 +49,6 @@ const GoogleSignInBtn = () => {
         showToast(`구글 로그인과 관련 없는 오류가 발생했습니다: ${error}`);
       }
     }
-    await SheetManager.show('signup-policy');
   };
 
   return (
