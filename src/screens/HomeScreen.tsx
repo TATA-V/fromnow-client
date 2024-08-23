@@ -1,59 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, SafeAreaView, StatusBar, Text, View } from 'react-native';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 import useNavi from '@hooks/useNavi';
-import { isWeb } from '@utils/deviceInfo';
-import { useLocation } from 'react-router-dom';
-import { issueAccessTokenWithCodeWeb } from '@react-native-kakao/user';
-import { CLIENT_URL } from '@env';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
 import Input from '@components/common/Input';
-import useToast from '@hooks/useToast';
 import { font } from '@styles/font';
 
 const HomeScreen = () => {
-  const { navigate, navigation } = useNavi();
-  const { showToast } = useToast();
+  const { navigation } = useNavi();
 
   const goToLogin = () => {
-    if (isWeb && navigate) {
-      navigate('/signin');
-      return;
-    }
     if (navigation) {
       navigation.navigate('SignIn');
     }
   };
 
-  // kakao web 로그인
-  const location = isWeb ? useLocation() : { search: '' };
-  const [kakaoWebIdToken, setKakaoWebIdToken] = useState('');
-  const accessTokenIssued = useRef(false);
-  useEffect(() => {
-    if (!isWeb) return;
-    const code = new URLSearchParams(location.search).get('code');
-    if (!code) return;
-    const fetchAccessToken = async () => {
-      if (!code || accessTokenIssued.current) return;
-
-      try {
-        const { idToken } = await issueAccessTokenWithCodeWeb({
-          code,
-          redirectUri: CLIENT_URL,
-        });
-        setKakaoWebIdToken(idToken);
-        accessTokenIssued.current = true;
-      } catch (error) {
-        showToast('Failed to issue token:', error);
-      }
-    };
-
-    fetchAccessToken();
-  }, [location.search]);
-
   return (
-    <SafeAreaView className="bg-white flex-1">
-      <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
+    <>
       <Pressable onPress={goToLogin} className="bg-green-300 p-4 text-green-900 m-10 border border-solid border-green-900 rounded">
         <Text style={font.UhBee}>Go To SignIn</Text>
       </Pressable>
@@ -86,7 +49,7 @@ const HomeScreen = () => {
           <Input placeholder="input" mode="trust" />
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 

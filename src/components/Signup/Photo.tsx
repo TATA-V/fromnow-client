@@ -13,8 +13,6 @@ const Photo = () => {
       height: 300,
       cropping: true,
     }).then(item => {
-      console.log('sourceURL:', item);
-      console.log('sourceURL:', item.path);
       setImage(item.path);
     });
   };

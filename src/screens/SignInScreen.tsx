@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { SafeAreaView, StatusBar, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 
@@ -10,8 +10,7 @@ const SignInScreen = () => {
   const actionSheetRef = useRef<ActionSheetRef>(null);
 
   return (
-    <SafeAreaView className="bg-white flex-1">
-      <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
+    <>
       <View className="h-screen flex flex-col justify-between">
         <View className="w-full flex items-center pt-[120px]">
           <View className="w-[200px] h-[38px] mb-4">
@@ -29,7 +28,7 @@ const SignInScreen = () => {
       <ActionSheet ref={actionSheetRef}>
         <Text>Hi, I am here.</Text>
       </ActionSheet>
-    </SafeAreaView>
+    </>
   );
 };
 

@@ -1,7 +1,12 @@
 import { instance } from '@api/axiosInstance';
 
-export const getOne = async (idToken: string) => {
-  const query = new URLSearchParams({ id_token: idToken });
-  const res = await instance.get(`/api/oauth2/google?${query}`);
+export interface GetOne {
+  path: string;
+  token: string;
+}
+
+export const getOne = async ({ path, token }: GetOne) => {
+  const query = new URLSearchParams({ id_token: token });
+  const res = await instance.get(`/api/oauth2/${path}?${query}`);
   return res;
 };

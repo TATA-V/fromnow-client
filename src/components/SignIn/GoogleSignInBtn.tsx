@@ -1,11 +1,12 @@
 import React from 'react';
-import { isIOS, isWeb } from '@utils/deviceInfo';
+import { isIOS } from '@utils/deviceInfo';
 import { GoogleSignin, statusCodes, isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { ANDROID_WEB_CLIENT_ID, IOS_WED_CLIENT_ID, IOS_CLIENT_ID } from '@env';
-import { useSignInGoogle } from '@hooks/query';
+import { useSignInSocial } from '@hooks/query';
 import useToast from '@hooks/useToast';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
+import { getOne } from '@api/user';
 
 const GoogleSignInBtn = () => {
   const { showToast } = useToast();
@@ -15,18 +16,16 @@ const GoogleSignInBtn = () => {
     iosClientId: isIOS && IOS_CLIENT_ID,
     offlineAccess: true,
   });
-  const signInMutation = useSignInGoogle();
+  const signInMutation = useSignInSocial();
 
   const signInWithGoogle = async () => {
-    if (isWeb) {
-      alert('웹은 아직 구글 로그인이 안 돼요:(');
-      return;
-    }
     try {
       await GoogleSignin.hasPlayServices();
       const res = await GoogleSignin.signIn();
       const idToken = res.idToken;
-      signInMutation.mutate(idToken);
+      signInMutation.mutate({ path: 'google', token: idToken });
+      // const res2 = await getOne({ path: 'google', token: idToken });
+      // console.log('res2:', res2);
     } catch (error) {
       if (isErrorWithCode(error)) {
         switch (error.code) {
@@ -47,6 +46,7 @@ const GoogleSignInBtn = () => {
         }
       } else {
         showToast(`구글 로그인과 관련 없는 오류가 발생했습니다: ${error}`);
+        console.log('error:', error);
       }
     }
   };

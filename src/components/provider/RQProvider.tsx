@@ -1,8 +1,5 @@
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { ReactNode, useState } from 'react';
-import { isWeb } from '@utils/deviceInfo';
-import { ENV_MODE } from '@env';
 
 interface Props {
   children: ReactNode;
@@ -22,12 +19,7 @@ function RQProvider({ children }: Props) {
     }),
   );
 
-  return (
-    <QueryClientProvider client={client}>
-      {children}
-      {isWeb && <ReactQueryDevtools initialIsOpen={ENV_MODE === 'local'} />}
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }
 
 export default RQProvider;

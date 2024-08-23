@@ -14,9 +14,10 @@ interface Props {
   search?: boolean;
   value?: string;
   setValue?: Dispatch<SetStateAction<string>>;
+  onSubmitEditing?: () => void;
 }
 
-const Input = ({ mode, placeholder, editable = true, search, value, setValue }: Props) => {
+const Input = ({ mode, placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
   const initialColor = editable
     ? ['border-black900', 'bg-white', 'text-black900', '#1C1C1E']
     : ['border-black200', 'bg-black200', 'text-black300', ''];
@@ -51,7 +52,7 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue }: 
   }, [mode]);
 
   return (
-    <View className="relative">
+    <View className="relative w-full">
       <TextInput
         value={value}
         onChangeText={setValue}
@@ -62,12 +63,14 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue }: 
         editable={editable}
         placeholderTextColor="#E4E5EA"
         cursorColor={color[color.length - 1] || '#1C1C1E'}
+        selectionColor={color[color.length - 1] || '#1C1C1E'}
         // prettier-ignore
         onFocus={() => { if (!editable) return; setIsFocused(true); }}
         // prettier-ignore
         onBlur={() => { if (!editable) return;  setIsFocused(false); }}
         multiline={false}
         returnKeyType="next"
+        onSubmitEditing={onSubmitEditing}
       />
       <View className="absolute right-[16px] h-full justify-center">
         {mode === 'error' && <CircleDangerIcon />}
@@ -78,9 +81,11 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue }: 
           <View className="absolute left-[16px] h-full justify-center">
             <SearchIcon />
           </View>
-          <Pressable className="absolute right-[16px] h-full justify-center">
-            <CircleXIcon />
-          </Pressable>
+          {value && value.length !== 0 && (
+            <Pressable onPress={() => setValue('')} className="absolute right-[16px] h-full justify-center">
+              <CircleXIcon />
+            </Pressable>
+          )}
         </>
       )}
     </View>

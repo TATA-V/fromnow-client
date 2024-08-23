@@ -1,9 +1,6 @@
-import { isWeb } from '@utils/deviceInfo';
 import { getStorage, removeStorage } from '@utils/storage';
 import { BASE_URL } from '@env';
 import axios, { AxiosError } from 'axios';
-import useNavi from '@hooks/useNavi';
-import useToast from '@hooks/useToast';
 
 export const instance = axios.create({
   baseURL: `${BASE_URL}`,
@@ -23,8 +20,7 @@ instance.interceptors.request.use(
     return config;
   },
   async (error: AxiosError) => {
-    const { showToast } = useToast();
-    showToast(`error: ${error}`);
+    console.log(`request error: ${error}`);
   },
 );
 
@@ -33,8 +29,6 @@ instance.interceptors.response.use(
     return res;
   },
   async error => {
-    const { navigate, navigation } = useNavi();
-    const { showToast } = useToast();
     // prettier-ignore
     const { config, response: { status } } = error;
 
@@ -46,13 +40,8 @@ instance.interceptors.response.use(
 
     if (status === 401 && config._retry) {
       await removeStorage('access');
-      showToast('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
-      if (isWeb) {
-        navigate('/signin');
-      }
-      if (!isWeb) {
-        navigation.navigate('SignIn');
-      }
+      console.log('로그인 만료되었습니다. 다시 로그인해주세요.');
+      // navigate('SignIn');
     }
 
     return Promise.reject(error);

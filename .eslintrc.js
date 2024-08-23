@@ -13,6 +13,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     'react-native/no-inline-styles': 'off',
+    'react/no-unstable-nested-components': 'off',
     'prettier/prettier': ['error',
       {
         printWidth: 150,

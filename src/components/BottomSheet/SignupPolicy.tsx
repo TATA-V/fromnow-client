@@ -36,7 +36,7 @@ const SignupPolicy = () => {
 
   const agreeAndContinue = () => {
     SheetManager.hide('signup-policy');
-    navigation.navigate('SignupNickname');
+    navigation.navigate('Signup', { screen: 'Nickname' });
   };
 
   return (
