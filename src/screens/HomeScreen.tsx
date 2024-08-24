@@ -4,7 +4,7 @@ import useNavi from '@hooks/useNavi';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
 import Input from '@components/common/Input';
-import { font } from '@styles/font';
+import { Alert } from 'react-native';
 
 const HomeScreen = () => {
   const { navigation } = useNavi();
@@ -18,11 +18,11 @@ const HomeScreen = () => {
   return (
     <>
       <Pressable onPress={goToLogin} className="bg-green-300 p-4 text-green-900 m-10 border border-solid border-green-900 rounded">
-        <Text style={font.UhBee}>Go To SignIn</Text>
+        <Text className="font-UhBee">Go To SignIn</Text>
       </Pressable>
       <View className="flex flex-col gap-5 mb-5">
         <View className="px-5">
-          <Button color="black" disabled Icon={GoogleIcon}>
+          <Button onPress={() => Alert.alert('로그인 세션 만료')} color="white" Icon={GoogleIcon}>
             button
           </Button>
         </View>

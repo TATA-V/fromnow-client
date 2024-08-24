@@ -1,6 +1,8 @@
-import { getStorage, removeStorage } from '@utils/storage';
+import { getStorage, removeStorage, setStorage } from '@utils/storage';
 import { BASE_URL } from '@env';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { Alert } from 'react-native';
+import * as RootNavi from '@utils/rootNavigation';
 
 export const instance = axios.create({
   baseURL: `${BASE_URL}`,
@@ -15,14 +17,22 @@ instance.interceptors.request.use(
   async config => {
     const access = await getStorage('access');
     if (access) {
-      config.headers.authorization = access;
+      config.headers.authorization = `Bearer ${access}`;
     }
     return config;
   },
   async (error: AxiosError) => {
-    console.log(`request error: ${error}`);
+    Alert.alert(`request error: ${error}`);
   },
 );
+
+const tokenAndRequsetUpdate = async (config: AxiosRequestConfig) => {
+  const res = await instance.get('/api/jwt/access-token');
+  const access = res.headers.authorization;
+  setStorage('access', access);
+  instance.defaults.headers.common.authorization = `Bearer ${access}`;
+  return instance(config);
+};
 
 instance.interceptors.response.use(
   res => {
@@ -34,14 +44,13 @@ instance.interceptors.response.use(
 
     if (status === 401 && !config._retry) {
       config._retry = true;
-      // refresh 토큰 재발급해야 함. 아직 서버 쪽 구현이 안 되어있음
-      return;
+      return tokenAndRequsetUpdate(config);
     }
 
     if (status === 401 && config._retry) {
       await removeStorage('access');
-      console.log('로그인 만료되었습니다. 다시 로그인해주세요.');
-      // navigate('SignIn');
+      Alert.alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+      RootNavi.navigate('SignIn');
     }
 
     return Promise.reject(error);
