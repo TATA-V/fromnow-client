@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import RecentSearches from '@components/Search/RecentSearches';
 import SearchHeader from '@components/Search/SearchHeader';
-import FriendNotFound from '@components/Search/FriendNotFound';
+import SearchNotFound from '@components/Search/SearchNotFound';
 import SearchResultList from '@components/Search/SearchResultList';
 import { getStorage, setStorage } from '@utils/storage';
 
@@ -42,7 +42,7 @@ const SearchScreen = () => {
         {/* 검색 결과가 있으면 */}
         {hasSearched && <SearchResultList />}
         {/* 검색 결과가 없으면 */}
-        {/* {hasSearched && <FriendNotFound />} */}
+        {/* {hasSearched && <SearchNotFound />} */}
       </View>
       <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
     </>

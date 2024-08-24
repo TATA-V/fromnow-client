@@ -26,7 +26,7 @@ instance.interceptors.request.use(
   },
 );
 
-const tokenAndRequsetUpdate = async (config: AxiosRequestConfig) => {
+const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
   const res = await instance.get('/api/jwt/access-token');
   const access = res.headers.authorization;
   setStorage('access', access);
@@ -44,7 +44,7 @@ instance.interceptors.response.use(
 
     if (status === 401 && !config._retry) {
       config._retry = true;
-      return tokenAndRequsetUpdate(config);
+      return tokenAndRequestUpdate(config);
     }
 
     if (status === 401 && config._retry) {

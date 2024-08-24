@@ -4,7 +4,7 @@ import AvatarSad from '@assets/icons/avatarSad.svg';
 import ShareIcon from '@assets/icons/share.svg';
 import Button from '@components/common/Button';
 
-const FriendNotFound = () => {
+const SearchNotFound = () => {
   return (
     <View className="h-screen flex flex-col items-center justify-center transfrom translate-y-[-94px]">
       <AvatarSad />
@@ -19,4 +19,4 @@ const FriendNotFound = () => {
   );
 };
 
-export default FriendNotFound;
+export default SearchNotFound;

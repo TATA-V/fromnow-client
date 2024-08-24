@@ -11,7 +11,6 @@ export const useSignInSocial = () => {
     mutationFn: ({ path, token }: GetOne) => getOne({ path, token }),
     onSuccess: res => {
       const access = res.headers.authorization;
-      console.log('access:', access);
       setStorage('access', access);
       SheetManager.show('signup-policy');
     },
