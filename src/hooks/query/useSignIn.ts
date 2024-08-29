@@ -12,10 +12,11 @@ export const useSignInSocial = () => {
     onSuccess: res => {
       const access = res.headers.authorization;
       setStorage('access', access);
+      console.log('res 우와 성공:', res.data);
       SheetManager.show('signup-policy');
     },
     onError: error => {
-      console.log('error:', error);
+      console.log('로그인에 실패했습니다:', error);
       showToast(`로그인에 실패했습니다: ${error}`);
     },
   });

@@ -22,7 +22,7 @@ instance.interceptors.request.use(
     return config;
   },
   async (error: AxiosError) => {
-    Alert.alert(`request error: ${error}`);
+    return Promise.reject(error);
   },
 );
 

@@ -14,7 +14,6 @@ const KakaoSignInBtn = () => {
       const res = await login();
       const accessToken = res.accessToken;
       signInMutation.mutate({ path: 'kakao', token: accessToken });
-      console.log('accessToken:', accessToken);
     } catch (error) {
       showToast('Kakao login failed:', error);
     }

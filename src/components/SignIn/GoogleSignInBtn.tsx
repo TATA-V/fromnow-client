@@ -6,7 +6,6 @@ import { useSignInSocial } from '@hooks/query';
 import useToast from '@hooks/useToast';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
-import { getOne } from '@api/user';
 
 const GoogleSignInBtn = () => {
   const { showToast } = useToast();
@@ -24,8 +23,6 @@ const GoogleSignInBtn = () => {
       const res = await GoogleSignin.signIn();
       const idToken = res.idToken;
       signInMutation.mutate({ path: 'google', token: idToken });
-      // const res2 = await getOne({ path: 'google', token: idToken });
-      // console.log('res2:', res2);
     } catch (error) {
       if (isErrorWithCode(error)) {
         switch (error.code) {
