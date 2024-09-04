@@ -12,7 +12,7 @@ const SearchNotFound = () => {
         <Text className="font-UhBee text-black900 text-2xl">친구를 찾지 못했어요 ;(</Text>
         <Text className="font-UhBee text-black900 text-2xl">링크를 공유하여 친구를 초대해 보세요!</Text>
       </View>
-      <Button onPress={async () => await Share.share({ message: '프롬나우 전파하기' })} size="mid" Icon={ShareIcon}>
+      <Button onPress={async () => await Share.share({ message: '프롬나우 전파하기' })} size="mid" icon={<ShareIcon />}>
         프롬나우 전파하기
       </Button>
     </View>

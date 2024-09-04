@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import InputField from '@components/common/InputField';
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
+import { useUpdateNickname } from '@hooks/query';
+import { updateNickname } from '@api/user';
+import { getAll } from '@api/diary';
 
 interface FormValues {
   nickname: string;
@@ -16,12 +19,13 @@ const SignupNicknameScreen = () => {
     formState: { errors },
   } = useForm<FormValues>();
   const { navigation } = useNavi();
+  const { updateNicknameMutation } = useUpdateNickname();
 
-  const onSubmit = handleSubmit(data => {
+  const onSubmit = handleSubmit(async data => {
     const { nickname } = data;
-    // 닉네임 제출
     if (errors.nickname) return;
-    navigation.navigate('Signup', { screen: 'Photo' });
+    updateNicknameMutation.mutate(nickname);
+    // navigation.navigate('Signup', { screen: 'Photo' });
   });
 
   return (
@@ -34,6 +38,7 @@ const SignupNicknameScreen = () => {
           </View>
           <View className="h-[122px] flex flex-col justify-center">
             <InputField
+              label="별명"
               name="nickname"
               control={control}
               rules={{

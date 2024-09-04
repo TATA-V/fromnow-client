@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Badge from '@components/common/Badge';
+import HistoryChip from '@components/Search/HistoryChip';
 import { getStorage, removeStorage, setStorage } from '@utils/storage';
 
 interface Props {
@@ -14,9 +14,8 @@ const RecentSearches = ({ history, setHistory }: Props) => {
   useEffect(() => {
     const getSorages = async () => {
       const isAutoSaveString = await getStorage('isAutoSave');
-      let searchHistory = JSON.parse(await getStorage('searchHistory'));
+      let searchHistory = JSON.parse(await getStorage('searchHistory')) || [];
       setAutoSave(isAutoSaveString === 'true');
-      setHistory(searchHistory.slice(0, 10));
       setHistory(searchHistory);
     };
 
@@ -44,8 +43,8 @@ const RecentSearches = ({ history, setHistory }: Props) => {
   };
 
   return (
-    <View className="w-full p-5 my-[4px] rounded-2xl bg-white border-[1px] border-black200">
-      <View className="w-full flex flex-row justify-between pb-[13px]">
+    <View className="w-full py-4 pr-4 pl-[9px]  my-[4px] rounded-2xl bg-white border-[1px] border-black200">
+      <View className="w-full flex pl-[7px] flex-row justify-between pb-[13px]">
         <Text className="text-black700 font-PTDSemiBold text-base">최근 검색</Text>
         <View className="flex flex-row">
           <TouchableOpacity onPress={removeAll}>
@@ -59,8 +58,13 @@ const RecentSearches = ({ history, setHistory }: Props) => {
       </View>
       <View className="flex flex-row flex-wrap">
         {history.map((title, idx) => (
-          <Badge key={idx} title={title} removeOne={removeOne} />
+          <HistoryChip key={idx} title={title} removeOne={removeOne} />
         ))}
+        {history.length === 0 && (
+          <View className="py-4 w-full items-center">
+            <Text className="text-[#cbcdd3] font-PTDMedium">최근 검색이 없습니다.</Text>
+          </View>
+        )}
       </View>
     </View>
   );

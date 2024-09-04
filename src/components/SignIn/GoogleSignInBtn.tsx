@@ -49,7 +49,7 @@ const GoogleSignInBtn = () => {
   };
 
   return (
-    <Button onPress={signInWithGoogle} color="white" Icon={GoogleIcon}>
+    <Button onPress={signInWithGoogle} color="white" icon={<GoogleIcon />}>
       Google로 로그인하기
     </Button>
   );

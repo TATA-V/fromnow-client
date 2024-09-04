@@ -20,7 +20,7 @@ const KakaoSignInBtn = () => {
   };
 
   return (
-    <Button onPress={signInWithKakao} color="yellow" Icon={KakaoIcon}>
+    <Button onPress={signInWithKakao} color="yellow" icon={<KakaoIcon />}>
       Kakao로 로그인하기
     </Button>
   );

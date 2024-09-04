@@ -4,6 +4,7 @@ import Input from '@components/common/Input';
 import { Control, RegisterOptions, Controller, FieldErrors } from 'react-hook-form';
 
 interface Props {
+  label: string;
   name: string;
   control: Control<any>;
   rules: RegisterOptions;
@@ -11,10 +12,10 @@ interface Props {
   placeholder: string;
 }
 
-const InputField = ({ name, control, rules, errors, placeholder }: Props) => {
+const InputField = ({ label, name, control, rules, errors, placeholder }: Props) => {
   return (
     <>
-      <Text className="default-label mb-3">별명</Text>
+      <Text className="default-label mb-3">{label}</Text>
       <Controller
         control={control}
         rules={rules}

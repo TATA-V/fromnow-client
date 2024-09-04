@@ -71,6 +71,7 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue, on
         multiline={false}
         returnKeyType="next"
         onSubmitEditing={onSubmitEditing}
+        blurOnSubmit={false}
       />
       <View className="absolute right-[16px] h-full justify-center">
         {mode === 'error' && <CircleDangerIcon />}

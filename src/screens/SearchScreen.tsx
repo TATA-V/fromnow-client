@@ -24,23 +24,25 @@ const SearchScreen = () => {
       return;
     }
 
-    let histStorage: string[] = JSON.parse(await getStorage('searchHistory'));
+    let histStorage: string[] = JSON.parse(await getStorage('searchHistory')) || [];
     if (!Array.isArray(history)) {
       histStorage = [];
     }
     if (!histStorage.includes(search.trim())) {
       histStorage.unshift(search.trim());
       setHistory([search, ...history].slice(0, 10));
-      await setStorage('searchHistory', JSON.stringify(histStorage.slice(0, 10)));
+      const updateHistory = histStorage.length > 10 ? histStorage.slice(0, 10) : histStorage;
+      await setStorage('searchHistory', JSON.stringify(updateHistory));
     }
   };
 
   return (
     <>
       <View className="px-5 pt-[66px]">
-        {!hasSearched && <RecentSearches history={history} setHistory={setHistory} />}
+        {/* {!hasSearched && <RecentSearches history={history} setHistory={setHistory} />} */}
+        <RecentSearches history={history} setHistory={setHistory} />
         {/* 검색 결과가 있으면 */}
-        {hasSearched && <SearchResultList />}
+        {/* {hasSearched && <SearchResultList />} */}
         {/* 검색 결과가 없으면 */}
         {/* {hasSearched && <SearchNotFound />} */}
       </View>
