@@ -6,13 +6,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CalendarIcon from '@assets/icons/calendar.svg';
 import MenuIcon from '@assets/icons/menu.svg';
 import GalleryIcon from '@assets/icons/gallery.svg';
+import useCurrentRoute from '@hooks/useCurrentRoute';
 
 interface Props {
   title: string;
 }
 
 const TeamHeader = ({ title }: Props) => {
-  const { navigation, route } = useNavi();
+  const { navigation } = useNavi();
+  const { route } = useCurrentRoute();
   const insets = useSafeAreaInsets();
 
   const navigateToScreen = (target: string) => {

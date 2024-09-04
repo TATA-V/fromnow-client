@@ -6,7 +6,7 @@ import useToast from '@hooks/useToast';
 import { useSignInSocial } from '@hooks/query';
 
 const KakaoSignInBtn = () => {
-  const { showToast } = useToast();
+  const { errorToast } = useToast();
   const signInMutation = useSignInSocial();
 
   const signInWithKakao = async () => {
@@ -15,7 +15,7 @@ const KakaoSignInBtn = () => {
       const accessToken = res.accessToken;
       signInMutation.mutate({ path: 'kakao', token: accessToken });
     } catch (error) {
-      showToast('Kakao login failed:', error);
+      errorToast('Kakao login failed:', error);
     }
   };
 

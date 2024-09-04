@@ -1,19 +1,29 @@
 import { updateNickname, updatePhoto } from '@api/user';
 import { useMutation } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
+import useNavi from '@hooks/useNavi';
+import useCurrentRoute from '@hooks/useCurrentRoute';
 
 export const useUpdateNickname = () => {
-  const { showToast } = useToast();
+  const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
+  const { route } = useCurrentRoute();
 
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
-    onSuccess: res => {
-      console.log('res.data', res.data);
-      showToast('닉네임 설정 완료!');
+    onSuccess: () => {
+      successToast('별명 설정 완료!');
+      navigation.navigate('Signup', { screen: 'Photo' });
+      if (route.name === 'Nickname') {
+        navigation.navigate('Signup', { screen: 'Photo' });
+      }
     },
     onError: error => {
-      console.log('update nickname error', error);
-      showToast('닉네임 변경에 실패했습니다.');
+      if (error.message === 'Request failed with status code 409') {
+        errorToast('이미 존재하는 별명입니다.');
+        return;
+      }
+      errorToast('별명 변경에 실패했습니다.');
     },
   });
 
@@ -23,16 +33,20 @@ export const useUpdateNickname = () => {
 };
 
 export const useUpdatePhoto = () => {
-  const { showToast } = useToast();
+  const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
+  const { route } = useCurrentRoute();
 
   const updatePhotoMutation = useMutation({
     mutationFn: updatePhoto,
-    onSuccess: res => {
-      console.log('res.data', res.data);
-      console.log('res', res);
+    onSuccess: () => {
+      if (route.name === 'Photo') {
+        navigation.navigate('Home');
+        successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
+      }
     },
     onError: () => {
-      showToast('프로필 사진 변경에 실패했습니다.');
+      errorToast('프로필 사진 변경에 실패했습니다.');
     },
   });
 

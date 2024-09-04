@@ -7,7 +7,6 @@ import profilePng from '@assets/png/profile.png';
 import Button from '@components/common/Button';
 import TeamFolder, { Color } from '@components/common/TeamFolder';
 import TeamNotFound from '@components/Home/TeamNotFound';
-import DraggableFlatList from 'react-native-draggable-flatlist';
 
 export interface Team {
   id: number;
@@ -34,6 +33,14 @@ const HomeScreen = () => {
   ]);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
 
+  const renderItem = ({ item, index }: { item: Team; index: number }) => {
+    return (
+      <View className={`${index % 2 !== 0 ? 'mr-0' : 'mr-[18px]'}`}>
+        <TeamFolder {...item} color={colors[index % colors.length]} />
+      </View>
+    );
+  };
+
   return (
     <>
       <HomeHeader />
@@ -41,11 +48,7 @@ const HomeScreen = () => {
         <FlatList
           data={teamList}
           keyExtractor={team => team.id.toString()}
-          renderItem={({ item, index }) => (
-            <View className={`${index % 2 !== 0 ? 'mr-0' : 'mr-[18px]'}`}>
-              <TeamFolder {...item} color={colors[index % colors.length]} />
-            </View>
-          )}
+          renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={{ width: 18, height: 18 }} />}
           contentContainerStyle={{ position: 'relative', paddingHorizontal: 18, paddingTop: 16, paddingBottom: 6 }}
           showsVerticalScrollIndicator={false}

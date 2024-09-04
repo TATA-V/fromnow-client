@@ -6,6 +6,8 @@ import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '@components/BottomSheet/sheets';
+import 'react-native-reanimated';
+import 'react-native-gesture-handler';
 
 import RQProvider from '@components/provider/RQProvider';
 import ToastNotiProvider from '@components/provider/ToastProvider';
@@ -63,7 +65,9 @@ function App() {
               <SAVProvider>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
                   <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Signup" component={SignupStackNavi} options={{ headerShown: false }} />
                   <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Profile" component={ProfileStackNavi} options={{ headerShown: false }} />
                   <Stack.Screen name="Team" options={{ headerShown: false }}>
                     {props => <TeamScreen {...props} paramName="Team" />}
                   </Stack.Screen>
@@ -76,8 +80,6 @@ function App() {
                   <Stack.Screen name="TeamEdit" options={{ headerShown: false }}>
                     {props => <TeamEditScreen {...props} paramName="TeamEdit" />}
                   </Stack.Screen>
-                  <Stack.Screen name="Signup" component={SignupStackNavi} options={{ headerShown: false }} />
-                  <Stack.Screen name="Profile" component={ProfileStackNavi} options={{ headerShown: false }} />
                   <Stack.Screen
                     name="Search"
                     component={SearchScreen}

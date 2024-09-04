@@ -1194,7 +1194,7 @@ PODS:
     - React-utils (= 0.74.3)
   - RNCAsyncStorage (1.24.0):
     - React-Core
-  - RNCKakaoCore (2.2.5):
+  - RNCKakaoCore (2.2.6):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1216,7 +1216,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNCKakaoUser (2.2.5):
+  - RNCKakaoUser (2.2.6):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1239,7 +1239,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - RNCKakaoCore
     - Yoga
-  - RNGestureHandler (2.18.1):
+  - RNGestureHandler (2.19.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1272,7 +1272,7 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController (~> 2.7.4)
-  - RNReanimated (3.15.0):
+  - RNReanimated (3.15.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1292,10 +1292,10 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.0)
-    - RNReanimated/worklets (= 3.15.0)
+    - RNReanimated/reanimated (= 3.15.1)
+    - RNReanimated/worklets (= 3.15.1)
     - Yoga
-  - RNReanimated/reanimated (3.15.0):
+  - RNReanimated/reanimated (3.15.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1316,7 +1316,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated/worklets (3.15.0):
+  - RNReanimated/worklets (3.15.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1641,12 +1641,12 @@ SPEC CHECKSUMS:
   React-utils: a06061b3887c702235d2dac92dacbd93e1ea079e
   ReactCommon: f00e436b3925a7ae44dfa294b43ef360fbd8ccc4
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
-  RNCKakaoCore: c13c18b2f5c69dee55246df2078c6a7cf2490dda
-  RNCKakaoUser: 610eb74404378c09c28026846f9d0ff9aa944dae
-  RNGestureHandler: efed690b8493a00b99654043daeb1335276ac4a2
+  RNCKakaoCore: 271121ac80392d3ebe06782c5bcab4879cb3ea65
+  RNCKakaoUser: 4bb56db5ec0619ec6f8f58730fc47a7e35c23b9e
+  RNGestureHandler: 67e78f16895947f7e57ab91e75e914d3e9ef7239
   RNGoogleSignin: 08dc4ba7eac2096c7fecfe109f0950fa4683c803
   RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
-  RNReanimated: 45553a3ae29a75a76269595f8554d07d4090e392
+  RNReanimated: 9ed0e560d784729b12ff79920677a1117d4b13ec
   RNScreens: aa943ad421c3ced3ef5a47ede02b0cbfc43a012e
   RNSVG: 5da7a24f31968ec74f0b091e3440080f347e279b
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d

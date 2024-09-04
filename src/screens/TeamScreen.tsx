@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import useNavi from '@hooks/useNavi';
 import TeamHeader from '@components/Team/TeamHeader';
+import useCurrentRoute from '@hooks/useCurrentRoute';
 
 interface Props {
   paramName: string;
 }
 
 const TeamScreen = ({}: Props) => {
-  // prettier-ignore
-  // const { route: { params } } = useNavi();
-  // console.log('route:', params.id);
+  const { route } = useCurrentRoute();
+  console.log('route:', route.params.id);
+
   return (
     <>
       <View className="pt-[66px]">

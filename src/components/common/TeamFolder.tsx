@@ -42,7 +42,10 @@ const TeamFolder = ({ isNew, color, id, title, users }: Props) => {
   }, [color]);
 
   return (
-    <Pressable onPress={() => navigation.navigate('Team', { id })} className="relative">
+    <Pressable
+      onPress={() => navigation.navigate('Team', { id })}
+      // className={`relative ${isActive ? 'opacity-70' : 'opacity-100'}`}>
+      className="relative">
       <Svg width={162} height={162} viewBox="0 0 162 162" fill="none">
         <Path
           fill={colors[0]}

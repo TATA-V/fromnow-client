@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import useNavi from '@hooks/useNavi';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
+import useCurrentRoute from '@hooks/useCurrentRoute';
 
 interface Props {
   paramName: string;
 }
 
 const TeamSettingScreen = ({}: Props) => {
-  // prettier-ignore
-  // const { route: { params } } = useNavi();
-  // console.log('route:', params.id);
+  const { route } = useCurrentRoute();
+  console.log('route:', route.params.id);
 
   return (
     <>

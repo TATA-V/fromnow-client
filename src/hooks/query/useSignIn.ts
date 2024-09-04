@@ -6,7 +6,7 @@ import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 
 export const useSignInSocial = () => {
-  const { showToast } = useToast();
+  const { errorToast } = useToast();
   const { navigation } = useNavi();
 
   const signInMutation = useMutation({
@@ -14,15 +14,15 @@ export const useSignInSocial = () => {
     onSuccess: res => {
       const access = res.headers.authorization;
       setStorage('access', access);
-      console.log('ㅠㅠ:', access);
-      // if (res.data.message === '새로 회원가입하는 유저입니다!') {
-      SheetManager.show('signup-policy');
-      //   return;
-      // }
-      // navigation.navigate('Home');
+      if (res.data.message === '새로 회원가입하는 유저입니다!') {
+        SheetManager.show('signup-policy');
+        return;
+      }
+      navigation.navigate('Home');
     },
     onError: error => {
-      showToast(`로그인에 실패했습니다: ${error}`);
+      console.log('signin error:', error);
+      errorToast(`로그인에 실패했습니다: ${error}`);
     },
   });
 

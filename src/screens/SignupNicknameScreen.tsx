@@ -5,8 +5,6 @@ import InputField from '@components/common/InputField';
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
 import { useUpdateNickname } from '@hooks/query';
-import { updateNickname } from '@api/user';
-import { getAll } from '@api/diary';
 
 interface FormValues {
   nickname: string;
@@ -25,7 +23,6 @@ const SignupNicknameScreen = () => {
     const { nickname } = data;
     if (errors.nickname) return;
     updateNicknameMutation.mutate(nickname);
-    // navigation.navigate('Signup', { screen: 'Photo' });
   });
 
   return (

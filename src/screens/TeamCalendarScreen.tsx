@@ -1,16 +1,15 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import useNavi from '@hooks/useNavi';
 import TeamHeader from '@components/Team/TeamHeader';
+import useCurrentRoute from '@hooks/useCurrentRoute';
 
 interface Props {
   paramName: string;
 }
 
 const TeamCalendarScreen = ({}: Props) => {
-  // prettier-ignore
-  // const { route: { params } } = useNavi();
-  // console.log('route:', params.id);
+  const { route } = useCurrentRoute();
+  console.log('route:', route.params.id);
 
   return (
     <>

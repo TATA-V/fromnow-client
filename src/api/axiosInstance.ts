@@ -16,9 +16,8 @@ export const instance = axios.create({
 instance.interceptors.request.use(
   async config => {
     const access = await getStorage('access');
-    console.log('interceptors:', access);
     if (access) {
-      config.headers['Authorization'] = `Bearer ${access}`;
+      config.headers['Authorization'] = access;
     }
     return config;
   },
@@ -29,10 +28,10 @@ instance.interceptors.request.use(
 
 const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
   const res = await instance.get('/api/jwt/access-token');
-  const access = await res.headers['Authorization'];
+  const access = res.headers.authorization;
   console.log('update access:', access);
   await setStorage('access', access);
-  instance.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+  instance.defaults.headers.common['Authorization'] = access;
   return instance(config);
 };
 

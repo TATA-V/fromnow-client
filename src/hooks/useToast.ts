@@ -3,11 +3,27 @@ import { useToast as useToastNoti, ToastOptions } from 'react-native-toast-notif
 const useToast = () => {
   const toast = useToastNoti();
 
-  const showToast = (msg: string, type?: ToastOptions) => {
+  const simpleToast = (msg: string, type?: ToastOptions) => {
     toast.show(msg, { ...type });
   };
 
-  return { showToast };
+  const successToast = (msg: string, type?: ToastOptions) => {
+    toast.show(msg, {
+      style: { backgroundColor: '#E7F5EC', borderRadius: 10, borderWidth: 1, borderColor: '#B0DDC1' },
+      textStyle: { color: '#1C1C1E' },
+      ...type,
+    });
+  };
+
+  const errorToast = (msg: string, type?: ToastOptions) => {
+    toast.show(msg, {
+      style: { backgroundColor: '#FFEEEE', borderRadius: 10, borderWidth: 1, borderColor: '#FEC7C6' },
+      textStyle: { color: '#F04438' },
+      ...type,
+    });
+  };
+
+  return { simpleToast, successToast, errorToast };
 };
 
 export default useToast;
