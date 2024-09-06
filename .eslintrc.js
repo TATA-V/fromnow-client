@@ -20,6 +20,9 @@ module.exports = {
         printWidth: 150,
         bracketSpacing: true,
         bracketSameLine: true,
+        arrowParens: 'avoid',
+        singleQuote: true,
+        trailingComma: 'all',
       }
     ],
   },

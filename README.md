@@ -1,4 +1,4 @@
-`React-Native` `Typescript` `TailwindCSS` `TanStack-Query` `Axios` `React-Hook-Form`
+`React-Native` `Typescript` `Axios` `TailwindCSS` `TanStack-Query` `React-Hook-Form` `Moti`
 
 🔗 _**<a href="https://fromnow.vercel.app">fromnow deploy link</a>**_
 

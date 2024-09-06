@@ -13,9 +13,8 @@ export const useUpdateNickname = () => {
     mutationFn: updateNickname,
     onSuccess: () => {
       successToast('별명 설정 완료!');
-      navigation.navigate('Signup', { screen: 'Photo' });
       if (route.name === 'Nickname') {
-        navigation.navigate('Signup', { screen: 'Photo' });
+        navigation.navigate('SignupPhoto');
       }
     },
     onError: error => {

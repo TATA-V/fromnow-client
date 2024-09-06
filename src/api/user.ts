@@ -1,6 +1,5 @@
 import { instance } from '@api/axiosInstance';
 import { Image as ImageType } from 'react-native-image-crop-picker';
-import { BASE_URL } from '@env';
 
 export interface GetOne {
   path: string;
@@ -8,9 +7,6 @@ export interface GetOne {
 }
 
 export const getOne = async ({ path, token }: GetOne) => {
-  console.log('path:', path);
-  console.log('token:', token);
-  console.log('BASE_URL:', BASE_URL);
   const query = new URLSearchParams({ id_token: token });
   const res = await instance.get(`/api/oauth2/${path}?${query}`);
   return res;

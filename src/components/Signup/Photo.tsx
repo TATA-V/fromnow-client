@@ -2,7 +2,7 @@ import { View, TouchableOpacity, Image, Pressable, Text } from 'react-native';
 import React, { Dispatch, SetStateAction } from 'react';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import AvatarHappy from '@assets/icons/avatarHappy.svg';
-import CameraIcon from '@assets/icons/camera.svg';
+import CameraIcon from '@assets/icons/CameraIcon';
 
 interface Props {
   image: ImageType;
