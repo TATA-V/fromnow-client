@@ -52,7 +52,11 @@ const HomeScreen = () => {
   return (
     <>
       <HomeHeader />
-      <ScrollView className="flex-1 bg-white" showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1 bg-white"
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 150 }}>
         <View className="flex w-full items-center flex-1 pt-4">
           <DndProvider>
             <DraggableGrid gap={16} direction="row" size={GRID_SIZE} onOrderChange={onGridOrderChange} style={styles.grid}>
@@ -78,7 +82,7 @@ const HomeScreen = () => {
               })}
             </DraggableGrid>
           </DndProvider>
-          <View className="mb-[115px] w-full items-center pt-[18px]">
+          <View className="w-full items-center pt-[18px]">
             <Button size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
               모임 생성하기
             </Button>

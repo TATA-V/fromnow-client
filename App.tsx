@@ -25,12 +25,13 @@ import SignupPhotoScreen from './src/screens/SignupPhotoScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import MyFriendScreen from './src/screens/MyFriendScreen';
-import MyGroupScreen from './src/screens/MyGroupScreen';
+import MyTeamScreen from './src/screens/MyTeamScreen';
 import NotifyScreen from './src/screens/NotifyScreen';
 import TeamScreen from './src/screens/TeamScreen';
 import TeamCalendarScreen from './src/screens/TeamCalendarScreen';
 import TeamSettingScreen from './src/screens/TeamSettingScreen';
 import TeamEditScreen from './src/screens/TeamEditScreen';
+import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
 
 function App() {
   const Tab = createBottomTabNavigator();
@@ -78,9 +79,10 @@ function App() {
                     component={MyFriendScreen}
                     options={{ header: () => <DefaultHeader title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
+                  <Stack.Screen name="MyLikedPost" component={MyLikedPostScreen} options={{ headerShown: false }} />
                   <Stack.Screen
-                    name="MyGroup"
-                    component={MyGroupScreen}
+                    name="MyTeam"
+                    component={MyTeamScreen}
                     options={{ header: () => <DefaultHeader title="내 모임" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
                   <Stack.Screen name="Team" options={{ headerShown: false }}>
