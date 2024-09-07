@@ -79,12 +79,12 @@ function App() {
                     component={MyFriendScreen}
                     options={{ header: () => <DefaultHeader title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
-                  <Stack.Screen name="MyLikedPost" component={MyLikedPostScreen} options={{ headerShown: false }} />
-                  <Stack.Screen
+                  {/* <Stack.Screen
                     name="MyTeam"
                     component={MyTeamScreen}
                     options={{ header: () => <DefaultHeader title="내 모임" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
-                  />
+                  /> */}
+                  <Stack.Screen name="MyLikedPost" component={MyLikedPostScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Team" options={{ headerShown: false }}>
                     {props => <TeamScreen {...props} paramName="Team" />}
                   </Stack.Screen>

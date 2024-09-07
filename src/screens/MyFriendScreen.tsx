@@ -27,8 +27,9 @@ const MyFriendScreen = () => {
       </View>
       <ScrollView className="px-4 pt-[4px]" contentContainerStyle={{ paddingBottom: 30 }}>
         <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden">
-          {isAllFriend && [...Array(20)].map((_, idx) => <FriendItem key={idx} isFriend />)}
-          {!isAllFriend && [...Array(20)].map((_, idx) => <FriendItem key={idx} isFriend={false} />)}
+          {[...Array(20)].map((_, idx) => (
+            <FriendItem key={idx} isFriend={isAllFriend} />
+          ))}
         </View>
       </ScrollView>
     </View>
