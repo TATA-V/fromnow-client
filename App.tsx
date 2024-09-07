@@ -62,7 +62,7 @@ function App() {
             <SheetProvider>
               <SAVProvider>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
-                  {/* <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
                   <Stack.Screen
                     name="SignupNickname"
@@ -84,7 +84,11 @@ function App() {
                     component={MyTeamScreen}
                     options={{ header: () => <DefaultHeader title="내 모임" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
-                  <Stack.Screen name="MyLikedPost" component={MyLikedPostScreen} options={{ headerShown: false }} />
+                  <Stack.Screen
+                    name="MyLikedPost"
+                    component={MyLikedPostScreen}
+                    options={{ header: () => <DefaultHeader title="좋아요 누른 일상" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
+                  />
                   <Stack.Screen name="Team" options={{ headerShown: false }}>
                     {props => <TeamScreen {...props} paramName="Team" />}
                   </Stack.Screen>
@@ -101,7 +105,7 @@ function App() {
                     name="Search"
                     component={SearchScreen}
                     options={{ headerShown: false, contentStyle: { backgroundColor: '#FBFBFD' } }}
-                  /> */}
+                  />
                   <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <DefaultHeader title="알림" /> }} />
                 </Stack.Navigator>
               </SAVProvider>

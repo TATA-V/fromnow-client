@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import MyPhoto from '@components/Profile/MyPhoto';
 import FriendsIcon from '@assets/icons/friends.svg';
 import FolderIcon from '@assets/icons/folder.svg';
@@ -15,10 +15,9 @@ import MyNickname from '@components/Profile/MyNickname';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
-  const { route } = useCurrentRoute();
 
   const navigateToScreen = (target: string) => {
-    navigation.navigate(target, { id: route.params.id });
+    navigation.navigate(target);
   };
   const logoutUser = async () => {
     await removeStorage('access');
@@ -34,9 +33,10 @@ const ProfileScreen = () => {
       icon: <PeoplePolicyIcon />,
       label: '개인정보처리방침',
       section: '고객 센터',
+      onPress: () => {},
       submenu: [
-        { icon: <DocumentIcon />, label: '이용약관' },
-        { icon: <CcIcon />, label: '사업자 정보' },
+        { icon: <DocumentIcon />, label: '이용약관', onPress: () => {} },
+        { icon: <CcIcon />, label: '사업자 정보', onPress: () => {} },
       ],
     },
   ];
@@ -47,21 +47,21 @@ const ProfileScreen = () => {
         <MyPhoto />
         <MyNickname />
       </View>
-      {list.map(({ icon, label, section, submenu }, key) => (
+      {list.map(({ icon, label, section, submenu, onPress }, key) => (
         <View key={key} className="h-[98px] pt-[12px]">
           <View className="h-[30px] justify-center">
             <Text className="text-black500 font-PTDSemiBold text-sm">{section}</Text>
           </View>
-          <View className="h-[56px] flex flex-row items-center">
+          <TouchableOpacity onPress={onPress} className="h-[56px] flex flex-row items-center">
             {icon}
             <Text className="ml-[4px] text-black900 font-PTDLight text-sm">{label}</Text>
-          </View>
+          </TouchableOpacity>
           {submenu &&
-            submenu.map(({ icon: subIcon, label: subLabel }, idx) => (
-              <View key={idx} className="h-[56px] flex flex-row items-center">
+            submenu.map(({ icon: subIcon, label: subLabel, onPress: subOnPress }, idx) => (
+              <TouchableOpacity onPress={subOnPress} key={idx} className="h-[56px] flex flex-row items-center">
                 {subIcon}
                 <Text className="ml-[4px] text-black900 font-PTDLight text-sm">{subLabel}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
         </View>
       ))}

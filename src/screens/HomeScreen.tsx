@@ -9,6 +9,7 @@ import TeamFolder, { Color } from '@components/common/TeamFolder';
 import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
 import TeamNotFound from '@components/Home/TeamNotFound';
+import FadeIn from '@components/common/FadeIn';
 
 export interface Team {
   id: number;
@@ -75,7 +76,9 @@ const HomeScreen = () => {
                         loop: true,
                         repeatReverse: true,
                       }}> */}
-                    <TeamFolder {...item} color={colors[idx % colors.length]} />
+                    <FadeIn>
+                      <TeamFolder {...item} color={colors[idx % colors.length]} />
+                    </FadeIn>
                     {/* </MotiView> */}
                   </Draggable>
                 );
