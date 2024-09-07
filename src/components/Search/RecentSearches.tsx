@@ -43,7 +43,7 @@ const RecentSearches = ({ history, setHistory }: Props) => {
   };
 
   return (
-    <View className="w-full py-4 pr-4 pl-[9px]  my-[4px] rounded-2xl bg-white border-[1px] border-black200">
+    <View className="px-4 w-full py-4 pr-4 pl-[9px]  my-[4px] rounded-2xl bg-white border-[1px] border-black200">
       <View className="w-full flex pl-[7px] flex-row justify-between pb-[13px]">
         <Text className="text-black700 font-PTDSemiBold text-base">최근 검색</Text>
         <View className="flex flex-row">

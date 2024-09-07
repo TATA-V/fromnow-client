@@ -38,7 +38,7 @@ const SearchScreen = () => {
 
   return (
     <>
-      <View className="px-5 pt-[66px]">
+      <View className="pt-[66px]">
         {!hasSearched && <RecentSearches history={history} setHistory={setHistory} />}
         {/* 검색 결과가 있으면 */}
         {hasSearched && <SearchResultList />}

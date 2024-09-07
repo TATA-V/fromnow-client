@@ -27,7 +27,7 @@ const SignupNicknameScreen = () => {
 
   return (
     <>
-      <View className="px-5 pb-5 flex justify-between h-full">
+      <View className="px-4 pb-5 flex justify-between h-full">
         <View>
           <View className="h-[132px] flex flex-col justify-center">
             <Text className="font-UhBee text-black900 text-3xl">정말 반가워요!</Text>

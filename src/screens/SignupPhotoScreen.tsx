@@ -5,9 +5,11 @@ import Photo from '@components/Signup/Photo';
 import useNavi from '@hooks/useNavi';
 import { useUpdatePhoto } from '@hooks/query';
 import { Image as ImageType } from 'react-native-image-crop-picker';
+import useToast from '@hooks/useToast';
 
 const SignupPhotoScreen = () => {
   const [image, setImage] = useState<ImageType>();
+  const { successToast } = useToast();
   const { navigation } = useNavi();
 
   const { updatePhotoMutation } = useUpdatePhoto();
@@ -18,11 +20,12 @@ const SignupPhotoScreen = () => {
       return;
     }
     navigation.navigate('Home');
+    successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
   };
 
   return (
     <>
-      <View className="px-5 pb-5 flex justify-between h-full">
+      <View className="px-4 pb-5 flex justify-between h-full">
         <View>
           <View className="h-[132px] flex flex-col justify-center">
             <Text className="font-UhBee text-black900 text-3xl">당신의 개성을 맘껏 뽐내보세요!</Text>

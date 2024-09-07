@@ -42,7 +42,7 @@ const ProfileScreen = () => {
   ];
 
   return (
-    <ScrollView className="px-5 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }}>
+    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }}>
       <View className="h-[220px] flex items-center justify-center">
         <MyPhoto />
         <MyNickname />

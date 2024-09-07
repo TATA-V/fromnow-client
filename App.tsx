@@ -62,7 +62,7 @@ function App() {
             <SheetProvider>
               <SAVProvider>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
-                  <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
+                  {/* <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
                   <Stack.Screen
                     name="SignupNickname"
@@ -73,7 +73,7 @@ function App() {
                     name="SignupPhoto"
                     component={SignupPhotoScreen}
                     options={{ header: () => <DefaultHeader title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
-                  />
+                  /> */}
                   <Stack.Screen
                     name="MyFriend"
                     component={MyFriendScreen}
