@@ -73,17 +73,17 @@ function App() {
                     name="SignupPhoto"
                     component={SignupPhotoScreen}
                     options={{ header: () => <DefaultHeader title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
-                  /> */}
+                  />
                   <Stack.Screen
                     name="MyFriend"
                     component={MyFriendScreen}
                     options={{ header: () => <DefaultHeader title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
-                  {/* <Stack.Screen
+                  <Stack.Screen
                     name="MyTeam"
                     component={MyTeamScreen}
                     options={{ header: () => <DefaultHeader title="내 모임" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
-                  /> */}
+                  />
                   <Stack.Screen name="MyLikedPost" component={MyLikedPostScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Team" options={{ headerShown: false }}>
                     {props => <TeamScreen {...props} paramName="Team" />}
@@ -101,8 +101,8 @@ function App() {
                     name="Search"
                     component={SearchScreen}
                     options={{ headerShown: false, contentStyle: { backgroundColor: '#FBFBFD' } }}
-                  />
-                  <Stack.Screen name="Notify" component={NotifyScreen} options={{ headerShown: false }} />
+                  /> */}
+                  <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <DefaultHeader title="알림" /> }} />
                 </Stack.Navigator>
               </SAVProvider>
             </SheetProvider>

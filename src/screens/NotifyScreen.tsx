@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { FlatList } from 'react-native';
+import NotifyItem from '@components/Notify/NotifyItem';
 
 const NotifyScreen = () => {
   return (
-    <View>
-      <Text>NotifyScreen</Text>
-    </View>
+    <FlatList
+      data={[...Array(20)]}
+      keyExtractor={(_, idx) => idx.toString()}
+      renderItem={({ item, index }) => <NotifyItem key={index} />}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 30, paddingHorizontal: 16 }}
+    />
   );
 };
 
