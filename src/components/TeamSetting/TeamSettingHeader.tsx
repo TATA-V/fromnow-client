@@ -19,7 +19,7 @@ const TeamSettingHeader = ({ title, dayCount }: Props) => {
         <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
           <LeftArrowIcon />
         </TouchableOpacity>
-        <View className="flex flex-col h-[32px] justify-between">
+        <View className="space-y-[5px]">
           <Text className="text-black900 text-sm font-PTDSemiBold ml-[4px]">{title}</Text>
           <Text className="text-black500 text-[12px] font-PTDLight ml-[4px]">{dayCount}일째 일상을 공유하고 있어요 :)</Text>
         </View>

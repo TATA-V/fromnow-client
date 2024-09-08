@@ -23,7 +23,11 @@ const PostItem = () => {
         <Text className="text-black900 text-[12px] font-PTDLight">좋아요 1개</Text>
       </View>
       <View>
-        <Text className="text-black900 font-UhBee text-xl">둥근해 미친거 또 떴네</Text>
+        <Text className="text-black900 font-UhBee text-xl leading-[20px] mt-[4px]">
+          나는 어제 디자이너를 죽였다{'\n'}
+          이유는 터무니 없다{'\n'}
+          개발할게 너무 많았기 때문이다
+        </Text>
       </View>
       <Text className="text-black400 font-PTDLight text-[12px]">00:00:00</Text>
     </View>

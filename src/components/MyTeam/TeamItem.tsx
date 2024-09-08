@@ -25,7 +25,7 @@ const TeamItem = ({ isTeam }: Props) => {
       </View>
       <TouchableOpacity
         className={`${isTeam ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
-        h-9 px-[12.5px] flex justify-center items-center rounded-xl`}>
+        h-9 w-[74px] flex justify-center items-center rounded-xl`}>
         <Text className={`${isTeam ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isTeam ? '모임' : '모임추가'}</Text>
       </TouchableOpacity>
     </View>

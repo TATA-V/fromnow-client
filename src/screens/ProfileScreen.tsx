@@ -8,7 +8,6 @@ import LogoutIcon from '@assets/icons/logout.svg';
 import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import CcIcon from '@assets/icons/cc.svg';
-import useCurrentRoute from '@hooks/useCurrentRoute';
 import useNavi from '@hooks/useNavi';
 import { removeStorage } from '@utils/storage';
 import MyNickname from '@components/Profile/MyNickname';

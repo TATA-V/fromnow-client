@@ -11,6 +11,7 @@ module.exports = {
         black900: '#1C1C1E',
         black700: '#6E6D73',
         black500: '#B3B4B9',
+        black400: '#D9D9DC',
         black300: '#E4E5EA',
         black200: '#F3F3F8',
         black100: '#FBFBFD',

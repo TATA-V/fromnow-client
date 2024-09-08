@@ -22,7 +22,7 @@ const MyNickname = () => {
           onSubmitEditing={submitNickname}
           className="text-black900 font-UhBee text-3xl"
           blurOnSubmit={false}
-          onBlur={() => setIsEditing(false)}
+          onBlur={submitNickname}
           autoFocus
         />
       )}
