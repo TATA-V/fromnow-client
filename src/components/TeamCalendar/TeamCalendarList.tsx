@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { Theme } from 'react-native-calendars/src/types';
 import OneCard from '@assets/icons/one-card.svg';
 import TwoCard from '@assets/icons/two-card.svg';
 import ThreeCard from '@assets/icons/three-card.svg';
 import { MotiView } from 'moti';
+import * as holidays from '@utils/holidays';
 
 LocaleConfig.locales.fr = {
   monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
@@ -22,7 +23,23 @@ function DayComponent({ date, state, marking }) {
   const isSaturday = momentDate.day() === 6;
   const isSunday = momentDate.day() === 0;
 
-  const textColor = isSaturday ? 'text-fnBlue' : isSunday ? 'text-fnPink' : 'text-black900';
+  let isHoliday = false;
+  const year = date.dateString.split('-')[0];
+  switch (year) {
+    case '2024':
+      isHoliday = holidays.holidays2024.includes(date.dateString);
+      break;
+    case '2025':
+      isHoliday = holidays.holidays2025.includes(date.dateString);
+      break;
+    default:
+      isHoliday = false;
+      break;
+  }
+
+  const isHolidat = holidays.holidays2024.includes(date.dateString);
+
+  const textColor = isSaturday ? 'text-fnBlue' : isSunday || isHoliday ? 'text-fnPink' : 'text-black900';
 
   return (
     <TouchableOpacity style={marking?.todayStyle} onPress={() => console.log(date)} className="h-[98px] space-y-[3px] items-center w-full">
@@ -32,13 +49,13 @@ function DayComponent({ date, state, marking }) {
   );
 }
 
-const TeamCalendar = () => {
+const TeamCalendarList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 50);
+    }, 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -123,4 +140,4 @@ const TeamCalendar = () => {
   );
 };
 
-export default TeamCalendar;
+export default TeamCalendarList;
