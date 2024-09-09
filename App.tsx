@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { KAKAO_NATIVE_APP_KEY } from '@env';
@@ -6,6 +6,9 @@ import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AnimatePresence, MotiView } from 'moti';
+import { StyleSheet } from 'react-native';
+import BootSplash from 'react-native-bootsplash';
 import '@components/BottomSheet/sheets';
 import 'react-native-reanimated';
 import 'react-native-gesture-handler';
@@ -15,6 +18,7 @@ import ToastNotiProvider from '@components/provider/ToastProvider';
 import SAVProvider from '@components/provider/SAVProvider';
 
 import BottomTabBar from '@components/BottomNavi/BottomTabBar';
+import SplashLottie from '@components/Lottie/SplashLottie';
 import DefaultHeader from '@components/common/DefaultHeader';
 import ProfileHeader from '@components/Profile/ProfileHeader';
 
@@ -34,6 +38,18 @@ import TeamEditScreen from './src/screens/TeamEditScreen';
 import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
 
 function App() {
+  const [showLottie, setShowLottie] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = setTimeout(() => {
+      BootSplash.hide({ fade: false });
+      setShowLottie(false);
+    }, 500);
+    return () => {
+      clearTimeout(unsubscribe);
+    };
+  }, []);
+
   const Tab = createBottomTabNavigator();
   const BottomTabScreen = () => {
     return (
@@ -108,6 +124,18 @@ function App() {
                   />
                   <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <DefaultHeader title="알림" /> }} />
                 </Stack.Navigator>
+                <AnimatePresence>
+                  {showLottie && (
+                    <MotiView
+                      style={[StyleSheet.absoluteFill]}
+                      className="bg-black900 flex justify-center items-center"
+                      from={{ opacity: 1 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}>
+                      <SplashLottie customStyle={{ height: 500, width: '100%' }} />
+                    </MotiView>
+                  )}
+                </AnimatePresence>
               </SAVProvider>
             </SheetProvider>
           </NavigationContainer>

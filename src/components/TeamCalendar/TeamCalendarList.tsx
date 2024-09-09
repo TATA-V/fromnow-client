@@ -6,7 +6,6 @@ import { Theme } from 'react-native-calendars/src/types';
 import OneCard from '@assets/icons/one-card.svg';
 import TwoCard from '@assets/icons/two-card.svg';
 import ThreeCard from '@assets/icons/three-card.svg';
-import { MotiView } from 'moti';
 import * as holidays from '@utils/holidays';
 
 LocaleConfig.locales.fr = {
@@ -37,8 +36,6 @@ function DayComponent({ date, state, marking }) {
       break;
   }
 
-  const isHolidat = holidays.holidays2024.includes(date.dateString);
-
   const textColor = isSaturday ? 'text-fnBlue' : isSunday || isHoliday ? 'text-fnPink' : 'text-black900';
 
   return (
@@ -62,81 +59,74 @@ const TeamCalendarList = () => {
   const today = moment(new Date()).format('YYYY-MM-DD');
 
   return (
-    <MotiView
-      from={{ opacity: 0 }}
-      animate={{ opacity: loading ? 0 : 1 }}
-      transition={{
-        type: 'timing',
-        duration: 200,
-      }}>
-      <CalendarList
-        dayComponent={DayComponent}
-        calendarHeight={600}
-        futureScrollRange={5}
-        theme={
-          {
-            'stylesheet.calendar.main': {
-              dayContainer: {
-                flex: 1,
-                padding: 0,
-                margin: 0,
-                display: 'flex',
-                justifyContent: 'center',
-              },
-              week: {
-                marginTop: 0,
-                marginBottom: 0,
-                flexDirection: 'row',
-                justifyContent: 'center',
-              },
+    <CalendarList
+      dayComponent={DayComponent}
+      calendarHeight={600}
+      pastScrollRange={10} // 과거 달력
+      futureScrollRange={0}
+      calendarStyle={{ paddingTop: 30, paddingBottom: 30 }}
+      theme={
+        {
+          'stylesheet.calendar.main': {
+            dayContainer: {
+              flex: 1,
+              padding: 0,
+              margin: 0,
+              display: 'flex',
+              justifyContent: 'center',
             },
-            'stylesheet.calendar.header': {
-              header: {
-                height: 60,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 60,
-              },
-              monthText: {
-                color: '#1C1C1E',
-                fontSize: 30,
-                fontFamily: 'UhBeemysen',
-              },
-              dayHeader: {
-                height: 50,
-                color: '#B3B4B9',
-                fontSize: 20,
-                fontFamily: 'UhBeemysen',
-                diplay: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                lineHeight: 50,
-              },
-              week: {
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                height: 50,
-                borderBottomWidth: 1,
-                borderColor: '#F3F3F8',
-                marginHorizontal: 0,
-                marginTop: 0,
-              },
-              dayTextAtIndex0: { color: '#FEC7C6' },
-              dayTextAtIndex6: { color: '#8EB9E6' },
+            week: {
+              marginTop: 0,
+              marginBottom: 0,
+              flexDirection: 'row',
+              justifyContent: 'center',
             },
-          } as Theme
-        }
-        hideExtraDays={true}
-        monthFormat={'yyyy년 M월'}
-        markedDates={{
-          [today]: {
-            todayStyle: { borderWidth: 1, borderColor: '#E4E5EA', borderRadius: 11, backgroundColor: '#F3F3F8' },
-          } as unknown,
-        }}
-      />
-    </MotiView>
+          },
+          'stylesheet.calendar.header': {
+            header: {
+              height: 60,
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            monthText: {
+              color: '#1C1C1E',
+              fontSize: 30,
+              fontFamily: 'UhBeemysen',
+            },
+            dayHeader: {
+              height: 50,
+              color: '#B3B4B9',
+              fontSize: 20,
+              fontFamily: 'UhBeemysen',
+              diplay: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              lineHeight: 50,
+            },
+            week: {
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              height: 50,
+              borderBottomWidth: 1,
+              borderColor: '#F3F3F8',
+              marginHorizontal: 0,
+              marginTop: 0,
+            },
+            dayTextAtIndex0: { color: '#FEC7C6' },
+            dayTextAtIndex6: { color: '#8EB9E6' },
+          },
+        } as Theme
+      }
+      hideExtraDays={true}
+      monthFormat={'yyyy년 M월'}
+      markedDates={{
+        [today]: {
+          todayStyle: { borderWidth: 1, borderColor: '#E4E5EA', borderRadius: 11, backgroundColor: '#F3F3F8' },
+        } as unknown,
+      }}
+    />
   );
 };
 

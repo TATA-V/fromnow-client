@@ -18,7 +18,7 @@ const TeamScreen = ({}: Props) => {
       <View className="pt-[66px]">
         <HorizontalCalendar />
       </View>
-      <View className="flex-1 bg-black100">
+      {/* <View className="flex-1 bg-black100">
         <FlatList
           data={[...Array(20)]}
           keyExtractor={(_, idx) => idx.toString()}
@@ -27,7 +27,7 @@ const TeamScreen = ({}: Props) => {
           ItemSeparatorComponent={() => <View className="h-[18px]" />}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
         />
-      </View>
+      </View> */}
 
       <TeamHeader title="아줌마들의 우정은 디질때까지" />
     </>

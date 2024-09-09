@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-calendars/src/calendar-list/item.js b/node_modules/react-native-calendars/src/calendar-list/item.js
+index 0e5be76..b4605c7 100644
+--- a/node_modules/react-native-calendars/src/calendar-list/item.js
++++ b/node_modules/react-native-calendars/src/calendar-list/item.js
+@@ -1,5 +1,6 @@
+ import React, { useRef, useMemo, useCallback } from 'react';
+-import { Text } from 'react-native';
++import LoadingLottie from '../../../../../FromNow/src/components/Lottie/LoadingLottie'
++import { View } from 'react-native';
+ import { toMarkingFormat } from '../interface';
+ import { extractCalendarProps } from '../componentUpdater';
+ import styleConstructor from './style';
+@@ -52,7 +53,7 @@ const CalendarListItem = React.memo((props) => {
+         }
+     }, [onPressArrowRight, scrollToMonth]);
+     if (!visible) {
+-        return (<Text style={textStyle}>{dateString}</Text>);
++        return (<View style={[textStyle,{alignSelf:'center',justifyContent:'center'}]}><LoadingLottie customStyle={{ width: 130, height: 130 }} /></View>)
+     }
+     return (<Calendar hideArrows={true} hideExtraDays={true} {...calendarProps} current={dateString} style={calendarStyle} headerStyle={horizontal ? headerStyle : undefined} disableMonthChange onPressArrowLeft={horizontal ? _onPressArrowLeft : onPressArrowLeft} onPressArrowRight={horizontal ? _onPressArrowRight : onPressArrowRight}/>);
+ });

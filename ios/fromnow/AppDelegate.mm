@@ -3,6 +3,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
 #import <RNCKakaoUser/RNCKakaoUserUtil.h>
+#import "RNBootSplash.h"
 
 @implementation AppDelegate
 
@@ -39,6 +40,14 @@
   }
 
   return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options];
+}
+
+- (UIView *)createRootViewWithBridge:(RCTBridge *)bridge
+                          moduleName:(NSString *)moduleName
+                           initProps:(NSDictionary *)initProps {
+  UIView *rootView = [super createRootViewWithBridge:bridge moduleName:moduleName initProps:initProps];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; 
+  return rootView;
 }
 
 @end
