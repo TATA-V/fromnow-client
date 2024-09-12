@@ -11,6 +11,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@irisjae/recyclerlistview": "^1.0.2",
     "@mgcrea/react-native-dnd": "^2.2.0",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-google-signin/google-signin": "^12.2.1",
@@ -24,6 +25,7 @@
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "lottie-react-native": "^6.7.2",
+    "moment-modification-rn": "^1.0.2",
     "moti": "^0.29.0",
     "nativewind": "^2.0.11",
     "patch-package": "^8.0.0",

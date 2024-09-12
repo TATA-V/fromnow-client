@@ -51,10 +51,10 @@ const HomeScreen = () => {
   };
 
   return (
-    <>
+    <View className="bg-black100 flex-1">
       <HomeHeader />
       <ScrollView
-        className="flex-1 bg-white"
+        className="flex-1 bg-black100"
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 150 }}>
@@ -94,7 +94,7 @@ const HomeScreen = () => {
       </ScrollView>
       {/* 모임이 하나도 없다면 */}
       {/* <TeamNotFound /> */}
-    </>
+    </View>
   );
 };
 

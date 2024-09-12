@@ -39,14 +39,19 @@ import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
 
 function App() {
   const [showLottie, setShowLottie] = useState(true);
+  const [isDarkModeStatusBar, setIsDarkModeStatusBar] = useState(true);
 
   useEffect(() => {
     const unsubscribe = setTimeout(() => {
       BootSplash.hide({ fade: false });
       setShowLottie(false);
-    }, 500);
+    }, 2000);
+    const unsubscribeDarkMode = setTimeout(() => {
+      setIsDarkModeStatusBar(false);
+    }, 2500);
     return () => {
       clearTimeout(unsubscribe);
+      clearTimeout(unsubscribeDarkMode);
     };
   }, []);
 
@@ -76,7 +81,7 @@ function App() {
         <ToastNotiProvider>
           <NavigationContainer>
             <SheetProvider>
-              <SAVProvider>
+              <SAVProvider isDarkMode={isDarkModeStatusBar}>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
                   <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />

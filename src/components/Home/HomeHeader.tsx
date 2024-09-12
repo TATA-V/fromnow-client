@@ -9,7 +9,7 @@ const HomeHeader = () => {
   const { navigation } = useNavi();
 
   return (
-    <View className="h-[66px] w-full flex flex-row px-[8px] items-center justify-between bg-white">
+    <View className="bg-black100 h-[66px] w-full flex flex-row px-[8px] items-center justify-between">
       <View className="px-[10px] w-[112px] h-38px">
         <View className="w-[92px] h-[18px]">
           <Logo />

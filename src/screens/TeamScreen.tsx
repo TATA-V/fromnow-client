@@ -1,25 +1,84 @@
-import React from 'react';
-import { View, FlatList } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, FlatList, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Animated } from 'react-native';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import PostItem from '@components/common/PostItem';
-import HorizontalCalendar from '@components/Team/HorizontalCalendar';
+import CalendarStrip from '@components/Team/CalendarStrip/CalendarStrip';
+import Badge from '@components/common/Badge';
+import moment from 'moment-modification-rn';
+import { MotiView } from 'moti';
+import { Easing } from 'react-native-reanimated';
+import 'moment-modification-rn/locale/ko';
+moment.locale('ko');
 
 interface Props {
   paramName: string;
 }
 
 const TeamScreen = ({}: Props) => {
+  const [isScrollUp, setIsScrollUp] = useState(true);
+  const lastOffsetY = useRef<number>(0);
+
   const { route } = useCurrentRoute();
   console.log('route:', route.params.id);
 
+  const scrollPosts = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentOffsetY = e.nativeEvent.contentOffset.y;
+    if (currentOffsetY > lastOffsetY.current && currentOffsetY > 0) {
+      setIsScrollUp(false);
+    }
+    if (currentOffsetY < lastOffsetY.current || currentOffsetY === 0) {
+      setIsScrollUp(true);
+    }
+    lastOffsetY.current = currentOffsetY;
+  };
+
+  useEffect(() => {
+    console.log('isScrollUp:', isScrollUp);
+  }, [isScrollUp]);
+
   return (
     <>
-      <View className="pt-[66px]">
-        <HorizontalCalendar />
-      </View>
-      {/* <View className="flex-1 bg-black100">
+      <MotiView
+        animate={{ height: isScrollUp ? 138 : 0, opacity: isScrollUp ? 1 : 0 }}
+        transition={{
+          type: 'timing',
+          duration: 300,
+          easing: Easing.inOut(Easing.ease),
+        }}
+        className="bg-white mt-[66px]">
+        <CalendarStrip
+          style={{ height: 138, backgroundColor: '#fff' }}
+          calendarStrip={{ height: 94 }}
+          dateNumberStyle={{ color: '#573333', fontFamily: 'Pretendard-SemiBold', fontSize: 14 }}
+          dateNameStyle={{ color: '#1C1C1E', fontFamily: 'Pretendard-SemiBold', fontSize: 12 }}
+          calendarHeaderContainerStyle={{ height: 44, justifyContent: 'center', alignItems: 'center' }}
+          leftSelector={[]}
+          rightSelector={[]}
+          scrollable={true}
+          scrollerPaging={true}
+          onDateSelected={date => console.log('dateSelected', date)}
+          onWeekChanged={(start, end) => console.log(start, end)}
+          minDate={moment('2024-09-01')}
+          maxDate={moment().add(4, 'days')}
+          dayComponent={({ date, selected, onDateSelected }) => (
+            <Pressable
+              onPress={() => onDateSelected(date)}
+              className={`${selected && 'bg-black200'} relative items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
+              <View className="w-[36px] h-[36px] rounded-[12px] bg-black900 flex justify-center items-center">
+                <Text className="text-white text-[14px] font-PTDSemiBold">{date.date()}</Text>
+              </View>
+              <Text className="text-black900 text-[12x] font-PTDSemiBold">{date.format('ddd')}</Text>
+              <View className="absolute top-[-5px] left-[1px]">
+                <Badge width={24} height={24} bgColor={'#F04438'} />
+              </View>
+            </Pressable>
+          )}
+        />
+      </MotiView>
+      <View className="flex-1 bg-black100">
         <FlatList
+          onScroll={scrollPosts}
           data={[...Array(20)]}
           keyExtractor={(_, idx) => idx.toString()}
           renderItem={({ item, index }) => <PostItem key={index} />}
@@ -27,7 +86,7 @@ const TeamScreen = ({}: Props) => {
           ItemSeparatorComponent={() => <View className="h-[18px]" />}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
         />
-      </View> */}
+      </View>
 
       <TeamHeader title="아줌마들의 우정은 디질때까지" />
     </>

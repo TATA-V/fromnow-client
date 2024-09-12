@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
+import moment from 'moment-modification-rn';
 import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { Theme } from 'react-native-calendars/src/types';
@@ -39,7 +39,7 @@ function DayComponent({ date, state, marking }) {
   const textColor = isSaturday ? 'text-fnBlue' : isSunday || isHoliday ? 'text-fnPink' : 'text-black900';
 
   return (
-    <TouchableOpacity style={marking?.todayStyle} onPress={() => console.log(date)} className="h-[98px] space-y-[3px] items-center w-full">
+    <TouchableOpacity onPress={() => console.log(date)} className="h-[98px] items-center w-full">
       <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
       <TwoCard />
     </TouchableOpacity>
@@ -55,8 +55,6 @@ const TeamCalendarList = () => {
     }, 200);
     return () => clearTimeout(timer);
   }, []);
-
-  const today = moment(new Date()).format('YYYY-MM-DD');
 
   return (
     <CalendarList
@@ -121,11 +119,6 @@ const TeamCalendarList = () => {
       }
       hideExtraDays={true}
       monthFormat={'yyyy년 M월'}
-      markedDates={{
-        [today]: {
-          todayStyle: { borderWidth: 1, borderColor: '#E4E5EA', borderRadius: 11, backgroundColor: '#F3F3F8' },
-        } as unknown,
-      }}
     />
   );
 };

@@ -17,7 +17,7 @@ const PostItem = () => {
         <Image source={postJpg} className="w-full h-[311px] rounded-xl" resizeMode="cover" />
       </View>
       <View className="h-[42px] space-y-[6px]">
-        <TouchableOpacity>
+        <TouchableOpacity className="w-[24px] h-[24px] flex justify-center items-center">
           <HeartIcon />
         </TouchableOpacity>
         <Text className="text-black900 text-[12px] font-PTDLight">좋아요 1개</Text>

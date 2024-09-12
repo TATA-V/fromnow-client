@@ -23,7 +23,15 @@ const useToast = () => {
     });
   };
 
-  return { simpleToast, successToast, errorToast };
+  const warnToast = (msg: string, type?: ToastOptions) => {
+    toast.show(msg, {
+      style: { backgroundColor: '#FFF8DB', borderRadius: 10, borderWidth: 1, borderColor: '#FEE987' },
+      textStyle: { color: '#D3AE00' },
+      ...type,
+    });
+  };
+
+  return { simpleToast, successToast, errorToast, warnToast };
 };
 
 export default useToast;

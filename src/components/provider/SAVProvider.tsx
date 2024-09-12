@@ -3,12 +3,13 @@ import { SafeAreaView, StatusBar } from 'react-native';
 
 interface Props {
   children: ReactNode;
+  isDarkMode?: boolean;
 }
 
-function SAVProvider({ children }: Props) {
+function SAVProvider({ children, isDarkMode = false }: Props) {
   return (
-    <SafeAreaView className="bg-white flex-1 w-full">
-      <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
+    <SafeAreaView className="flex-1 w-full">
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#1C1C1E' : '#fff'} />
       {children}
     </SafeAreaView>
   );
