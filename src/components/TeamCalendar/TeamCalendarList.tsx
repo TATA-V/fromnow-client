@@ -3,9 +3,7 @@ import moment from 'moment-modification-rn';
 import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { Theme } from 'react-native-calendars/src/types';
-import OneCard from '@assets/icons/one-card.svg';
-import TwoCard from '@assets/icons/two-card.svg';
-import ThreeCard from '@assets/icons/three-card.svg';
+import ImageCards from '@components/TeamCalendar/ImageCards';
 import * as holidays from '@utils/holidays';
 
 LocaleConfig.locales.fr = {
@@ -41,7 +39,7 @@ function DayComponent({ date, state, marking }) {
   return (
     <TouchableOpacity onPress={() => console.log(date)} className="h-[98px] items-center w-full">
       <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
-      <TwoCard />
+      <ImageCards imgs={['1', '2', '3']} />
     </TouchableOpacity>
   );
 }

@@ -6,7 +6,7 @@ interface Props {
   message: string;
 }
 
-const AvatarSadMsg = ({ message = `오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!` }: Props) => {
+const AvatarSadMsg = ({ message }: Props) => {
   return (
     <View className="items-center">
       <AvatarSad />
