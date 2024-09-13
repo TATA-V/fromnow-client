@@ -3,10 +3,10 @@ import Svg, { Path } from 'react-native-svg';
 
 interface Props {
   size?: number;
-  color: string;
+  color?: string;
 }
 
-const PlusIcon = ({ size = 25, color }: Props) => {
+const PlusIcon = ({ size = 25, color = '#1C1C1E' }: Props) => {
   return (
     <Svg width={size} height={size} fill="none" viewBox="0 0 25 25">
       <Path

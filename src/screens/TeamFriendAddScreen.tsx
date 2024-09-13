@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const TeamSettingScreen = () => {
+const TeamFriendAddScreen = () => {
   return (
     <View>
-      <Text>TeamSettingScreen</Text>
+      <Text>TeamFriendAddScreen</Text>
     </View>
   );
 };
 
-export default TeamSettingScreen;
+export default TeamFriendAddScreen;

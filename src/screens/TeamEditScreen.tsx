@@ -1,15 +1,7 @@
-import { View, Text } from 'react-native';
 import React from 'react';
-import useCurrentRoute from '@hooks/useCurrentRoute';
+import { View, Text } from 'react-native';
 
-interface Props {
-  paramName: string;
-}
-
-const TeamEditScreen = ({}: Props) => {
-  const { route } = useCurrentRoute();
-  console.log('route:', route.params.id);
-
+const TeamEditScreen = () => {
   return (
     <View>
       <Text>TeamEditScreen</Text>

@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import CircleDangerIcon from '@assets/icons/circleDanger.svg';
 import CircleCheckIcon from '@assets/icons/circleCheck.svg';
-import CircleXIcon from '@assets/icons/circleX.svg';
+import CircleXIcon from '@assets/icons/CircleXIcon';
 import SearchIcon from '@assets/icons/search.svg';
 
 type Mode = 'black' | 'error' | 'trust' | 'gray';

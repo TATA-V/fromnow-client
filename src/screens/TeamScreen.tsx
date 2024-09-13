@@ -40,7 +40,7 @@ const TeamScreen = ({}: Props) => {
   return (
     <>
       <MotiView
-        animate={{ height: isScrollUp ? 138 : 0, opacity: isScrollUp ? 1 : 0 }}
+        animate={{ translateY: isScrollUp ? 0 : -138, height: isScrollUp ? 138 : 0 }}
         transition={{
           type: 'timing',
           duration: 300,

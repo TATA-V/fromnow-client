@@ -39,12 +39,11 @@ const SearchScreen = () => {
   return (
     <>
       <View className="pt-[66px]">
-        {/* {!hasSearched && <RecentSearches history={history} setHistory={setHistory} />} */}
+        {!hasSearched && <RecentSearches history={history} setHistory={setHistory} />}
         {/* 검색 결과가 있으면 */}
         {hasSearched && <SearchResultList />}
         {/* 검색 결과가 없으면 */}
-        {/* {hasSearched && <SearchNotFound />} */}
-        <SearchNotFound />
+        {hasSearched && <SearchNotFound />}
       </View>
       <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
     </>

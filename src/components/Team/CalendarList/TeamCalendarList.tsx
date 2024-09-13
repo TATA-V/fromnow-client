@@ -3,8 +3,10 @@ import moment from 'moment-modification-rn';
 import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { Theme } from 'react-native-calendars/src/types';
-import ImageCards from '@components/TeamCalendar/ImageCards';
+import ImageCards from '@components/Team/CalendarList/ImageCards';
 import * as holidays from '@utils/holidays';
+import useCurrentRoute from '@hooks/useCurrentRoute';
+import useNavi from '@hooks/useNavi';
 
 LocaleConfig.locales.fr = {
   monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
@@ -16,6 +18,8 @@ LocaleConfig.locales.fr = {
 LocaleConfig.defaultLocale = 'fr';
 
 function DayComponent({ date, state, marking }) {
+  const { navigation } = useNavi();
+  const { route } = useCurrentRoute();
   const momentDate = moment(date.dateString);
   const isSaturday = momentDate.day() === 6;
   const isSunday = momentDate.day() === 0;
@@ -37,7 +41,9 @@ function DayComponent({ date, state, marking }) {
   const textColor = isSaturday ? 'text-fnBlue' : isSunday || isHoliday ? 'text-fnPink' : 'text-black900';
 
   return (
-    <TouchableOpacity onPress={() => console.log(date)} className="h-[98px] items-center w-full">
+    <TouchableOpacity
+      onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, postDate: date.dateString })}
+      className="h-[98px] items-center w-full">
       <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
       <ImageCards imgs={['1', '2', '3']} />
     </TouchableOpacity>

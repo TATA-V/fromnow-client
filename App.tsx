@@ -36,6 +36,8 @@ import TeamCalendarScreen from './src/screens/TeamCalendarScreen';
 import TeamSettingScreen from './src/screens/TeamSettingScreen';
 import TeamEditScreen from './src/screens/TeamEditScreen';
 import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
+import TeamDetailScreen from './src/screens/TeamDetailScreen';
+import TeamFriendAddScreen from './src/screens/TeamFriendAddScreen';
 
 function App() {
   const [showLottie, setShowLottie] = useState(true);
@@ -119,8 +121,19 @@ function App() {
                   <Stack.Screen name="TeamSetting" options={{ headerShown: false }}>
                     {props => <TeamSettingScreen {...props} paramName="TeamSetting" />}
                   </Stack.Screen>
-                  <Stack.Screen name="TeamEdit" options={{ headerShown: false }}>
+                  <Stack.Screen name="TeamEdit" options={{ header: () => <DefaultHeader title="모임정보 수정하기" /> }}>
                     {props => <TeamEditScreen {...props} paramName="TeamEdit" />}
+                  </Stack.Screen>
+                  <Stack.Screen
+                    name="TeamFriendAdd"
+                    options={{
+                      contentStyle: { backgroundColor: '#FBFBFD' },
+                      header: () => <DefaultHeader title="모임친구 초대" customStyle={{ backgroundColor: '#FBFBFD' }} />,
+                    }}>
+                    {props => <TeamFriendAddScreen {...props} paramName="TeamFriendAdd" />}
+                  </Stack.Screen>
+                  <Stack.Screen name="TeamDetail" options={{ headerShown: false }}>
+                    {props => <TeamDetailScreen {...props} paramName="TeamDetail" />}
                   </Stack.Screen>
                   <Stack.Screen
                     name="Search"

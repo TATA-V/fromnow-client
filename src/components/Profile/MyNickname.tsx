@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
-import PenIcon from '@assets/icons/pen.svg';
+import PenIcon from '@assets/icons/PenIcon';
 import { useUpdateNickname } from '@hooks/query';
 
 const MyNickname = () => {

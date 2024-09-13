@@ -11,7 +11,7 @@ const FriendItem = ({ isFriend }: Props) => {
     <View className="h-[60px] rounded-2xl bg-white w-full flex flex-row justify-between items-center px-4">
       <View className="flex flex-row gap-2 items-center">
         <Image source={profilePng} className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200" />
-        <Text className="text-black900 font-PTDLight text-sm">현아</Text>
+        <Text className="text-black900 font-PTDLight text-sm">채순</Text>
       </View>
       <TouchableOpacity
         className={`${isFriend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}

@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import TeamCalendarList from '@components/TeamCalendar/TeamCalendarList';
+import TeamCalendarList from '@components/Team/CalendarList/TeamCalendarList';
 
 interface Props {
   paramName: string;

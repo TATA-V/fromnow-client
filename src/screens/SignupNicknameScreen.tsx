@@ -3,10 +3,9 @@ import { Text, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import InputField from '@components/common/InputField';
 import Button from '@components/common/Button';
-import useNavi from '@hooks/useNavi';
 import { useUpdateNickname } from '@hooks/query';
 
-interface FormValues {
+interface Form {
   nickname: string;
 }
 
@@ -15,8 +14,7 @@ const SignupNicknameScreen = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
-  const { navigation } = useNavi();
+  } = useForm<Form>();
   const { updateNicknameMutation } = useUpdateNickname();
 
   const onSubmit = handleSubmit(async data => {
