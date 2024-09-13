@@ -4,7 +4,7 @@ import TeamItem from '@components/MyTeam/TeamItem';
 
 const { width } = Dimensions.get('window');
 
-const MyTeamScreen = () => {
+const MyTeamRequestScreen = () => {
   const [isAllTeam, setIsAllTeam] = useState(true);
 
   return (
@@ -36,7 +36,7 @@ const MyTeamScreen = () => {
   );
 };
 
-export default MyTeamScreen;
+export default MyTeamRequestScreen;
 
 const styles = StyleSheet.create({
   button: {

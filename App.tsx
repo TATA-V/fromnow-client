@@ -29,7 +29,7 @@ import SignupPhotoScreen from './src/screens/SignupPhotoScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import MyFriendScreen from './src/screens/MyFriendScreen';
-import MyTeamScreen from './src/screens/MyTeamScreen';
+import MyTeamRequestScreen from './src/screens/MyTeamRequestScreen';
 import NotifyScreen from './src/screens/NotifyScreen';
 import TeamScreen from './src/screens/TeamScreen';
 import TeamCalendarScreen from './src/screens/TeamCalendarScreen';
@@ -103,8 +103,8 @@ function App() {
                     options={{ header: () => <DefaultHeader title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
                   <Stack.Screen
-                    name="MyTeam"
-                    component={MyTeamScreen}
+                    name="MyTeamRequest"
+                    component={MyTeamRequestScreen}
                     options={{ header: () => <DefaultHeader title="내 모임" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
                   <Stack.Screen

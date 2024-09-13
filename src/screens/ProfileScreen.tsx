@@ -25,7 +25,7 @@ const ProfileScreen = () => {
 
   const list = [
     { icon: <FriendsIcon />, label: '내 친구', section: '친구 관리', onPress: () => navigateToScreen('MyFriend') },
-    { icon: <FolderIcon />, label: '내 모임', section: '모임 관리', onPress: () => navigateToScreen('MyTeam') },
+    { icon: <FolderIcon />, label: '받은 모임 요청', section: '모임 관리', onPress: () => navigateToScreen('MyTeamRequest') },
     { icon: <HeartsIcon />, label: '좋아요 누른 일상', section: '일상 관리', onPress: () => navigateToScreen('MyLikedPost') },
     { icon: <LogoutIcon />, label: '로그아웃', section: '일상 관리', onPress: logoutUser },
     {
