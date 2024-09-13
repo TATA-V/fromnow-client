@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import TeamDetailHeader from '@components/Team/TeamDetailHeader';
 import PostItem from '@components/common/PostItem';

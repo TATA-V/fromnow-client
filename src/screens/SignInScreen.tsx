@@ -15,11 +15,11 @@ const SignInScreen = () => {
           </View>
           <Text className="font-UhBee text-[28px]">지금의 순간을 기록하세요, 프롬 나우</Text>
         </View>
-        <View className="flex flex-col mb-[60px] px-4">
-          <GoogleSignInBtn />
-          <View className="mt-[12px]">
-            <KakaoSignInBtn />
-          </View>
+      </View>
+      <View className="absolute bottom-[20px] px-4 w-full">
+        <GoogleSignInBtn />
+        <View className="mt-[12px]">
+          <KakaoSignInBtn />
         </View>
       </View>
     </>

@@ -45,6 +45,8 @@ const SignupNicknameScreen = () => {
             />
           </View>
         </View>
+      </View>
+      <View className="absolute bottom-[20px] px-4 w-full">
         <Button onPress={onSubmit} disabled={!!errors.nickname}>
           다음
         </Button>

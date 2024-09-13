@@ -35,6 +35,8 @@ const SignupPhotoScreen = () => {
             <Photo image={image} setImage={setImage} />
           </View>
         </View>
+      </View>
+      <View className="absolute bottom-[20px] px-4 w-full">
         <Button onPress={startFromNow}>프롬나우 시작</Button>
       </View>
     </>
