@@ -10,7 +10,6 @@ import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import FadeIn from '@components/common/FadeIn';
-import ConfirmModal from '@components/common/ConfirmModal';
 
 export interface Team {
   id: number;
@@ -51,21 +50,9 @@ const HomeScreen = () => {
     return randomRotate[randomIndex];
   };
 
-  const [openConfirm, setOpenConfirm] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const confirmModalProps = { title: '타이틀', description: '내용 설명', open: openConfirm, setOpen: setOpenDialog };
-
   return (
     <View className="bg-black100 flex-1">
       <HomeHeader />
-      <Pressable onPress={() => setOpenConfirm(true)}>
-        <Text>Open Confirm Modal</Text>
-      </Pressable>
-      <Pressable onPress={() => setOpenDialog(true)}>
-        <Text>Open Dialog Modal</Text>
-      </Pressable>
-      <ConfirmModal {...confirmModalProps} />
       <ScrollView
         className="flex-1 bg-black100"
         showsHorizontalScrollIndicator={false}

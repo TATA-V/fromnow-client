@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Share } from 'react-native';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
@@ -10,12 +10,14 @@ import ShareIcon from '@assets/icons/ShareIcon';
 import TrashIcon from '@assets/icons/trash.svg';
 import { CLIENT_URL } from '@env';
 import useNavi from '@hooks/useNavi';
+import DialogModal from '@components/common/DialogModal';
 
 interface Props {
   paramName: string;
 }
 
 const TeamSettingScreen = ({}: Props) => {
+  const [openModal, setOpenModal] = useState(false);
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
   console.log('route:', route.params.id);
@@ -48,8 +50,10 @@ const TeamSettingScreen = ({}: Props) => {
       title: '초대링크 공유하기',
       onPress: async () => await Share.share({ message: `${CLIENT_URL}TeamSetting?id=${route.params.id}` }),
     },
-    { icon: <TrashIcon />, title: '모임 삭제하기', onPress: () => {} },
+    { icon: <TrashIcon />, title: '모임 삭제하기', onPress: () => setOpenModal(true) },
   ];
+
+  const deleteTeam = () => {};
 
   return (
     <>
@@ -82,6 +86,13 @@ const TeamSettingScreen = ({}: Props) => {
         </View>
       </ScrollView>
       <TeamSettingHeader title="아줌마들의 우정은 디질때까지" dayCount={20} />
+      <DialogModal
+        title="모임 삭제"
+        description={`모임을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.`}
+        open={openModal}
+        setOpen={setOpenModal}
+        confirm={deleteTeam}
+      />
     </>
   );
 };
