@@ -51,6 +51,7 @@ function App() {
     const unsubscribeDarkMode = setTimeout(() => {
       setIsDarkModeStatusBar(false);
     }, 2500);
+
     return () => {
       clearTimeout(unsubscribe);
       clearTimeout(unsubscribeDarkMode);
