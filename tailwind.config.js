@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        fnRed: '#F04438',
         fnPink: '#FEC7C6',
         fnBlue: '#8EB9E6',
         fnYellow: '#FEE987',
@@ -15,7 +16,6 @@ module.exports = {
         black300: '#E4E5EA',
         black200: '#F3F3F8',
         black100: '#FBFBFD',
-        error: '#F04438',
         success: '#12B76A',
         kakao: '#FEE500',
         kakaoTxt: '#212121',

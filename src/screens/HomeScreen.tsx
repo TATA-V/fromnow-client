@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Text, ScrollView, ImageSourcePropType, StyleSheet, View, Animated, PanResponder, Pressable } from 'react-native';
+import { ScrollView, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { DndProvider, Draggable, DraggableGrid, DraggableGridProps } from '@mgcrea/react-native-dnd';
-import HomeHeader from '@components/Home/HomeHeader';
 import PlusIcon from '@assets/icons/PlusIcon';
 import profilePng from '@assets/png/profile.png';
+import HomeHeader from '@components/Home/HomeHeader';
 import Button from '@components/common/Button';
 import TeamFolder, { Color } from '@components/common/TeamFolder';
 import { MotiView } from 'moti';

@@ -3120,6 +3120,7 @@ __metadata:
     react-native-actions-sheet: "npm:^0.9.7"
     react-native-bootsplash: "npm:^6.1.3"
     react-native-calendars: "npm:^1.1306.0"
+    react-native-camera-kit: "npm:^13.0.0"
     react-native-dotenv: "npm:^3.4.11"
     react-native-gesture-handler: "npm:^2.18.1"
     react-native-haptic-feedback: "npm:^2.3.1"
@@ -7671,7 +7672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.15, lodash@npm:^4.17.21":
+"lodash@npm:^4.14.2, lodash@npm:^4.17.15, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -9565,6 +9566,18 @@ __metadata:
     moment:
       optional: true
   checksum: 10c0/a9926965239ec0b0cefe04d6ec5ac033b3c32388a602ec7a832d98cd46896e3de10d31387137caafa5571a86c2e8000800af3ccfc18b221668f1631aa16b05b6
+  languageName: node
+  linkType: hard
+
+"react-native-camera-kit@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "react-native-camera-kit@npm:13.0.0"
+  dependencies:
+    lodash: "npm:^4.14.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/4de86f2b031be2c11da26c54222303fd4f6b5abc79fe67da608585289ecdc8320e84e96ea37d4adc4f6c2dbfb70a049eaa3a291f9102d1820530e5ac16f0e5e7
   languageName: node
   linkType: hard
 

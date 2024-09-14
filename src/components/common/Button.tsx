@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
 
 type Color = 'black' | 'white' | 'yellow';
 
@@ -10,9 +10,10 @@ interface Props {
   disabled?: boolean;
   icon?: ReactNode;
   children: ReactNode;
+  customStyle?: StyleProp<ViewStyle>;
 }
 
-const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon, children }: Props) => {
+const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon, customStyle, children }: Props) => {
   const [btnSize, setBtnSize] = useState<string[]>([]);
   const [btnColor, setBtnColor] = useState<string[]>([]);
 
@@ -49,6 +50,7 @@ const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon
 
   return (
     <TouchableOpacity
+      style={customStyle}
       onPress={onPress}
       disabled={disabled}
       className={`${btnSize.join(' ')} ${btnColor[0]} ${btnColor[1]} border-[1px] flex justify-center items-center`}>

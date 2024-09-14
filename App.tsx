@@ -38,6 +38,7 @@ import TeamEditScreen from './src/screens/TeamEditScreen';
 import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
 import TeamDetailScreen from './src/screens/TeamDetailScreen';
 import TeamFriendAddScreen from './src/screens/TeamFriendAddScreen';
+import CameraScreen from './src/screens/CameraScreen';
 
 function App() {
   const [showLottie, setShowLottie] = useState(true);
@@ -88,6 +89,7 @@ function App() {
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
                   <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
                   <Stack.Screen
                     name="SignupNickname"
                     component={SignupNicknameScreen}

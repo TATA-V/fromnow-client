@@ -11,13 +11,9 @@ interface Props {
 const DefaultHeader = ({ title, customStyle }: Props) => {
   const { navigation } = useNavi();
 
-  const goBack = () => {
-    navigation.goBack();
-  };
-
   return (
     <View style={customStyle} className="px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
-      <TouchableOpacity onPress={goBack} className="w-[44px] h-[44px] p-[10px]">
+      <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
         <LeftArrowIcon />
       </TouchableOpacity>
       <Text className="text-black900 text-base font-PTDSemiBold">{title}</Text>

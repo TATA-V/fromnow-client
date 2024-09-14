@@ -18,7 +18,7 @@ const useToast = () => {
   const errorToast = (msg: string, type?: ToastOptions) => {
     toast.show(msg, {
       style: { backgroundColor: '#FFEEEE', borderRadius: 10, borderWidth: 1, borderColor: '#FEC7C6' },
-      textStyle: { color: '#F04438' },
+      textStyle: { color: '#FF8A00' },
       ...type,
     });
   };
@@ -26,7 +26,7 @@ const useToast = () => {
   const warnToast = (msg: string, type?: ToastOptions) => {
     toast.show(msg, {
       style: { backgroundColor: '#FFF8DB', borderRadius: 10, borderWidth: 1, borderColor: '#FEE987' },
-      textStyle: { color: '#D3AE00' },
+      textStyle: { color: '#FD7A00' },
       ...type,
     });
   };
