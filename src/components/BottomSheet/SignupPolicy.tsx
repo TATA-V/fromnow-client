@@ -74,7 +74,6 @@ export default SignupPolicy;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    maxWidth: 598,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
   },

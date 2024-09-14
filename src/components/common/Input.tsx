@@ -57,7 +57,7 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue, on
         value={value}
         onChangeText={setValue}
         className={`${applyCustomStyles ? color.slice(0, -1).join(' ') : 'border-black200 bg-white text-black900'}
-            caret-[${color[color.length - 1] || '#0e0e0e'}] font-PTDLight text-sm focus:outline-none h-[49px] w-full rounded-2xl border-[1px]
+            font-PTDLight text-sm focus:outline-none h-[49px] w-full rounded-2xl border-[1px]
             ${search ? 'pl-[48px]' : 'pl-5'} pr-5 transition-[border-color,color] duration-300 ease-in-out`}
         placeholder={placeholder}
         editable={editable}
@@ -71,6 +71,7 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue, on
         multiline={false}
         returnKeyType="next"
         onSubmitEditing={onSubmitEditing}
+        scrollEnabled={false}
         blurOnSubmit={false}
       />
       <View className="absolute right-[16px] h-full justify-center">

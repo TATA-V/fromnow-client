@@ -10,7 +10,7 @@ import mossionPng from '@assets/png/mission.png';
 import useToast from '@hooks/useToast';
 
 const Timer = () => {
-  const totalDuration = moment.duration(1, 'minutes');
+  const totalDuration = moment.duration(5, 'minutes');
   const [time, setTime] = useState(totalDuration);
   const [openMissionModal, setOpenMissionModal] = useState(true);
   const { navigation } = useNavi();

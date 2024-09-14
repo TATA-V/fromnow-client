@@ -39,6 +39,7 @@ import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
 import TeamDetailScreen from './src/screens/TeamDetailScreen';
 import TeamFriendAddScreen from './src/screens/TeamFriendAddScreen';
 import CameraScreen from './src/screens/CameraScreen';
+import PostEditScreen from './src/screens/PostEditScreen';
 
 function App() {
   const [showLottie, setShowLottie] = useState(true);
@@ -137,6 +138,9 @@ function App() {
                   </Stack.Screen>
                   <Stack.Screen name="TeamDetail" options={{ headerShown: false }}>
                     {props => <TeamDetailScreen {...props} paramName="TeamDetail" />}
+                  </Stack.Screen>
+                  <Stack.Screen name="PostEdit" options={{ header: () => <DefaultHeader title="일상 기록하기" /> }}>
+                    {props => <PostEditScreen {...props} paramName="TeamDetail" />}
                   </Stack.Screen>
                   <Stack.Screen
                     name="Search"
