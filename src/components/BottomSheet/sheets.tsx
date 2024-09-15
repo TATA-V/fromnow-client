@@ -13,3 +13,5 @@ declare module 'react-native-actions-sheet' {
     'select-team': SheetDefinition;
   }
 }
+
+export {};

@@ -10,8 +10,6 @@ import { AnimatePresence, MotiView } from 'moti';
 import { StyleSheet } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import '@components/BottomSheet/sheets';
-import 'react-native-reanimated';
-import 'react-native-gesture-handler';
 
 import RQProvider from '@components/provider/RQProvider';
 import ToastNotiProvider from '@components/provider/ToastProvider';

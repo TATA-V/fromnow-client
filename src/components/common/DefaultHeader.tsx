@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
-import LeftArrowIcon from '@assets/icons/leftArrow.svg';
+import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
 
 interface Props {

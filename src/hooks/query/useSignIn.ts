@@ -1,4 +1,4 @@
-import { GetOne, getOne } from '@api/user';
+import { GetOne, getOne } from '@api/auth';
 import { setStorage } from '@utils/storage';
 import { useMutation } from '@tanstack/react-query';
 import { SheetManager } from 'react-native-actions-sheet';

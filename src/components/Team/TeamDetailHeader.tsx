@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import useNavi from '@hooks/useNavi';
-import LeftArrowIcon from '@assets/icons/leftArrow.svg';
+import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Props {

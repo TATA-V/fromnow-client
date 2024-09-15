@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, Pressable } from 'react-native';
-import LeftArrowIcon from '@assets/icons/leftArrow.svg';
+import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Input from '@components/common/Input';

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, FlatList, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Animated } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, FlatList, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import PostItem from '@components/common/PostItem';
@@ -8,6 +8,11 @@ import Badge from '@components/common/Badge';
 import moment from 'moment-modification-rn';
 import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
+import AvatarHappyMsg from '@components/common/AvatarHappyMsg';
+import Button from '@components/common/Button';
+import { StyleSheet } from 'react-native';
+import CameraIcon from '@assets/icons/CameraIcon';
+import blurPng from '@assets/png/blur.png';
 import 'moment-modification-rn/locale/ko';
 moment.locale('ko');
 
@@ -17,12 +22,14 @@ interface Props {
 
 const TeamScreen = ({}: Props) => {
   const [isScrollUp, setIsScrollUp] = useState(true);
+  const [isPostsHidden, setIsPostsHidden] = useState(true);
   const lastOffsetY = useRef<number>(0);
 
   const { route } = useCurrentRoute();
   console.log('route:', route.params.id);
 
   const scrollPosts = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (isPostsHidden) return;
     const currentOffsetY = e.nativeEvent.contentOffset.y;
     if (currentOffsetY > lastOffsetY.current && currentOffsetY > 0) {
       setIsScrollUp(false);
@@ -32,10 +39,6 @@ const TeamScreen = ({}: Props) => {
     }
     lastOffsetY.current = currentOffsetY;
   };
-
-  useEffect(() => {
-    console.log('isScrollUp:', isScrollUp);
-  }, [isScrollUp]);
 
   return (
     <>
@@ -76,7 +79,7 @@ const TeamScreen = ({}: Props) => {
           )}
         />
       </MotiView>
-      <View className="flex-1 bg-black100">
+      <View className="relative flex-1 bg-black100">
         <FlatList
           onScroll={scrollPosts}
           data={[...Array(20)]}
@@ -86,8 +89,16 @@ const TeamScreen = ({}: Props) => {
           ItemSeparatorComponent={() => <View className="h-[18px]" />}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
         />
+        {isPostsHidden && <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />}
+        <View className="absolute h-full justify-center items-center w-full transform translate-y-[-20px]" pointerEvents="box-none">
+          <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
+          <View className="mt-[24px]">
+            <Button size="mid" customStyle={{ width: 170 }} icon={<CameraIcon height={24} width={24} />}>
+              내 일상 공유하기
+            </Button>
+          </View>
+        </View>
       </View>
-
       <TeamHeader title="아줌마들의 우정은 디질때까지" />
     </>
   );
