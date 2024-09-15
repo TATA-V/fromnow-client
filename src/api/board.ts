@@ -17,7 +17,7 @@ export const postOne = async (body: CreateBoard) => {
   const { diaryId, uploadPhotos, createDiaryDto } = body;
 
   const formData = new FormData();
-  uploadPhotos.map((image, idx) => {
+  uploadPhotos.forEach((image, idx) => {
     formData.append(`uploadPhotos[${idx}]`, {
       uri: image.path,
       type: image.mime,
