@@ -54,8 +54,7 @@ const Timer = () => {
           </Text>
         </View>
         <MotiView
-          from={{ right: '0%' }}
-          animate={{ right: `${progressPercentage}%` }}
+          animate={{ right: `${progressPercentage - 3}%` }}
           transition={{
             type: 'timing',
             duration: 500,

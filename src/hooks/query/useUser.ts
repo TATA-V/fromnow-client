@@ -1,8 +1,9 @@
-import { updateNickname, updatePhoto } from '@api/user';
-import { useMutation } from '@tanstack/react-query';
+import { getAllMyFriend, getAllMyFriendRequest, getAllMyLikedPost, getAllMyTeamRequest, updateNickname, updatePhoto } from '@api/user';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
+import { MyLikedPost, MyFriend, MyFriendRequest, MyTeamRequest } from '@clientTypes/user';
 
 export const useUpdateNickname = () => {
   const { successToast, errorToast } = useToast();
@@ -56,4 +57,40 @@ export const useUpdatePhoto = () => {
   return {
     updatePhotoMutation,
   };
+};
+
+export const useGetAllMyLikedPost = () => {
+  const { data, isError, isLoading } = useQuery<MyLikedPost[]>({
+    queryKey: ['my', 'liked', 'posts'],
+    queryFn: getAllMyLikedPost,
+  });
+
+  return { data, isError, isLoading };
+};
+
+export const useGetAllMyFriend = () => {
+  const { data, isError, isLoading } = useQuery<MyFriend[]>({
+    queryKey: ['my', 'friends'],
+    queryFn: getAllMyFriend,
+  });
+
+  return { data, isError, isLoading };
+};
+
+export const useGetAllMyFriendRequest = () => {
+  const { data, isError, isLoading } = useQuery<MyFriendRequest[]>({
+    queryKey: ['my', 'friend', 'request'],
+    queryFn: getAllMyFriendRequest,
+  });
+
+  return { data, isError, isLoading };
+};
+
+export const useGetAllMyTeamRequest = () => {
+  const { data, isError, isLoading } = useQuery<MyTeamRequest[]>({
+    queryKey: ['my', 'team', 'request'],
+    queryFn: getAllMyTeamRequest,
+  });
+
+  return { data, isError, isLoading };
 };

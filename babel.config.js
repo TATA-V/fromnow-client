@@ -16,6 +16,7 @@ module.exports = {
           '@hooks': './src/hooks',
           '@utils': './src/utils',
           '@store': './src/store',
+          '@clientTypes': './src/types',
           '@api': './src/api',
         },
         extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],

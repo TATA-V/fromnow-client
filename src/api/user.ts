@@ -20,3 +20,23 @@ export const updatePhoto = async (image: ImageType) => {
   });
   return res;
 };
+
+export const getAllMyLikedPost = async () => {
+  const res = await instance.get('/api/my/likes');
+  return res.data;
+};
+
+export const getAllMyFriend = async () => {
+  const res = await instance.get('/api/my/friend/mutual');
+  return res.data;
+};
+
+export const getAllMyFriendRequest = async () => {
+  const res = await instance.get('/api/my/friend/requests/received');
+  return res.data;
+};
+
+export const getAllMyTeamRequest = async () => {
+  const res = await instance.get('/api/my/diary/requests/received');
+  return res.data;
+};
