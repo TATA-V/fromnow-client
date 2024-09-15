@@ -12,8 +12,7 @@ export const getAll = async () => {
 };
 
 export const deleteOne = async (diaryId: number) => {
-  const query = new URLSearchParams({ diaryId: diaryId.toString() });
-  const res = await instance.delete(`/api/diary?${query}`);
+  const res = await instance.delete(`/api/diary/${diaryId}`);
   return res;
 };
 

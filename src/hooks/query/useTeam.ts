@@ -82,10 +82,10 @@ export const usePostAccept = () => {
   const acceptTeamMutation = useMutation({
     mutationFn: postAccept,
     onSuccess: () => {
-      successToast('다이어리 초대 수락이 완료되었습니다!');
+      successToast('다이어리 초대 수락이 완료되었습니다.');
     },
     onError: () => {
-      errorToast('다이어리 수락에 실패했습니다.');
+      errorToast('다이어리 초대 수락에 실패했습니다.');
     },
   });
 
