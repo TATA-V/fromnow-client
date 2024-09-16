@@ -21,7 +21,7 @@ const GoogleSignInBtn = () => {
     try {
       await GoogleSignin.hasPlayServices();
       const res = await GoogleSignin.signIn();
-      const idToken = res.idToken;
+      const idToken = res.data.idToken;
       signInMutation.mutate({ path: 'google', token: idToken });
     } catch (error) {
       if (isErrorWithCode(error)) {

@@ -107,7 +107,7 @@ function App() {
                   <Stack.Screen
                     name="MyTeamRequest"
                     component={MyTeamRequestScreen}
-                    options={{ header: () => <DefaultHeader title="내 모임" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
+                    options={{ header: () => <DefaultHeader title="받은 모임 요청" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
                   <Stack.Screen
                     name="MyLikedPost"

@@ -3,7 +3,7 @@ import { Board, CreateBoard } from '@clientTypes/board';
 import { GetAll, getAll, postDisLike, postLike, postOne } from '@api/board';
 import useToast from '@hooks/useToast';
 
-export const useGetAll = (boardData: GetAll) => {
+export const useGetAllBoard = (boardData: GetAll) => {
   const { data, isError, isLoading } = useQuery<Board[]>({
     queryKey: ['all', 'board'],
     queryFn: () => getAll(boardData),
@@ -12,7 +12,7 @@ export const useGetAll = (boardData: GetAll) => {
   return { data, isError, isLoading };
 };
 
-export const usePostOne = () => {
+export const usePostOneBoard = () => {
   const { successToast, errorToast } = useToast();
 
   const createBoardMutation = useMutation({
@@ -28,7 +28,7 @@ export const usePostOne = () => {
   return { createBoardMutation };
 };
 
-export const usePostLike = () => {
+export const useLikeBoard = () => {
   const likeBoardMutation = useMutation({
     mutationFn: postLike,
     onSuccess: () => {},
@@ -38,7 +38,7 @@ export const usePostLike = () => {
   return { likeBoardMutation };
 };
 
-export const usePostDisLike = () => {
+export const useDisLikeBoard = () => {
   const disLikeBoardMutation = useMutation({
     mutationFn: postDisLike,
     onSuccess: () => {},

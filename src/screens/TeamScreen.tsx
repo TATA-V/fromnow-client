@@ -89,15 +89,19 @@ const TeamScreen = ({}: Props) => {
           ItemSeparatorComponent={() => <View className="h-[18px]" />}
           contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
         />
-        {isPostsHidden && <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />}
-        <View className="absolute h-full justify-center items-center w-full transform translate-y-[-20px]" pointerEvents="box-none">
-          <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
-          <View className="mt-[24px]">
-            <Button size="mid" customStyle={{ width: 170 }} icon={<CameraIcon height={24} width={24} />}>
-              내 일상 공유하기
-            </Button>
-          </View>
-        </View>
+        {isPostsHidden && (
+          <>
+            <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />
+            <View className="absolute h-full justify-center items-center w-full transform translate-y-[-20px]" pointerEvents="box-none">
+              <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
+              <View className="mt-[24px]">
+                <Button size="mid" customStyle={{ width: 170 }} icon={<CameraIcon height={24} width={24} />}>
+                  내 일상 공유하기
+                </Button>
+              </View>
+            </View>
+          </>
+        )}
       </View>
       <TeamHeader title="아줌마들의 우정은 디질때까지" />
     </>

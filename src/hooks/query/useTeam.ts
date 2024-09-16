@@ -3,7 +3,7 @@ import { deleteOne, getAll, postAccept, postInvite, postOne, UpdateOne, updateOn
 import { useMutation, useQuery } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 
-export const useGetAll = () => {
+export const useGetAllTeam = () => {
   const { data, isError, isLoading } = useQuery<Team[]>({
     queryKey: ['all', 'team'],
     queryFn: getAll,
@@ -12,7 +12,7 @@ export const useGetAll = () => {
   return { data, isError, isLoading };
 };
 
-export const useDeleteOne = () => {
+export const useDeleteOneTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const deleteTeamMutation = useMutation({
@@ -28,7 +28,7 @@ export const useDeleteOne = () => {
   return { deleteTeamMutation };
 };
 
-export const useUpdateOne = () => {
+export const useUpdateOneTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const updateTeamMutation = useMutation({
@@ -44,7 +44,7 @@ export const useUpdateOne = () => {
   return { updateTeamMutation };
 };
 
-export const usePostOne = () => {
+export const usePostOneTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const createTeamMutation = useMutation({
@@ -60,7 +60,7 @@ export const usePostOne = () => {
   return { createTeamMutation };
 };
 
-export const usePostInvite = () => {
+export const useInviteTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const inviteTeamMutation = useMutation({
@@ -76,7 +76,7 @@ export const usePostInvite = () => {
   return { inviteTeamMutation };
 };
 
-export const usePostAccept = () => {
+export const useAcceptTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const acceptTeamMutation = useMutation({

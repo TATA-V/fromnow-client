@@ -8,7 +8,7 @@ export interface UpdateOne {
 
 export const getAll = async () => {
   const res = await instance.get('/api/diary/overview');
-  return res.data;
+  return res.data.data;
 };
 
 export const deleteOne = async (diaryId: number) => {

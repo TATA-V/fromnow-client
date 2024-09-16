@@ -10,11 +10,11 @@ export const getAll = async (data: GetAll) => {
   const { diaryId, date } = data;
   const query = new URLSearchParams({ date });
   const res = await instance.get(`/api/board/diaries/${diaryId}?${query}`);
-  return res.data;
+  return res.data.data;
 };
 
-export const postOne = async (body: CreateBoard) => {
-  const { diaryId, uploadPhotos, createDiaryDto } = body;
+export const postOne = async (data: CreateBoard) => {
+  const { diaryId, uploadPhotos, createDiaryDto } = data;
 
   const formData = new FormData();
   uploadPhotos.forEach((image, idx) => {

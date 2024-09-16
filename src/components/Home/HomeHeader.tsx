@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
-import SearchIcon from '@assets/icons/search.svg';
+import SearchIcon from '@assets/icons/SearchIcon';
 import BellIcon from '@assets/icons/bell.svg';
 import useNavi from '@hooks/useNavi';
 

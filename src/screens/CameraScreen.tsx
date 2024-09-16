@@ -19,10 +19,8 @@ const CameraScreen = () => {
   const toggleCameraType = () => setIsFrontCamera(!isFrontCamera);
 
   const takePicture = async () => {
-    console.log('1');
     if (!cameraRef.current) return;
     const { uri } = await cameraRef.current.capture();
-    console.log('2');
 
     ImageCropPicker.openCropper({
       path: uri,

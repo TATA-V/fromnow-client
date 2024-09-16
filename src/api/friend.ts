@@ -2,7 +2,7 @@ import { instance } from '@api/axiosInstance';
 
 export const getSearchFriend = async () => {
   const res = await instance.get('/api/friend/search');
-  return res.data;
+  return res.data.data;
 };
 
 export const postFriendRequest = async (sentProfileName: string) => {

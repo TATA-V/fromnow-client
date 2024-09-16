@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Linking } from 'react-native';
 import useNavi from '@hooks/useNavi';
+import { getStorage } from '@utils/storage';
 
 interface Props {
   children: ReactNode;
@@ -35,6 +36,11 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
   };
 
   useEffect(() => {
+    getStorage('access').then(access => {
+      if (access) return;
+      navigation.navigate('SignIn');
+    });
+
     // 앱이 처음 시작됐을 때
     Linking.getInitialURL().then(url => {
       navigateByDeepLink({ url });
