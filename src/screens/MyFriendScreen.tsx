@@ -24,7 +24,7 @@ const MyFriendScreen = () => {
       return;
     }
     setData(myFriendRqData);
-  }, [isAllFriend]);
+  }, [isAllFriend, myFriendData, myFriendRqData]);
 
   if (isLoadingMyFriend || isLoadingFriendRq) return <MiniLoading />;
 
@@ -39,10 +39,7 @@ const MyFriendScreen = () => {
             <Text className={`${isAllFriend ? 'text-white' : 'text-black500'} font-PTDSemiBold text-sm`}>모든 친구</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              console.log('test');
-              setIsAllFriend(false);
-            }}
+            onPress={() => setIsAllFriend(false)}
             style={styles.button}
             className={`${isAllFriend ? 'bg-white' : 'bg-black900'} rounded-full w-full h-full flex justify-center items-center`}>
             <Text className={`${!isAllFriend ? 'text-white' : 'text-black500'} font-PTDSemiBold text-sm`}>받은 친구 요청</Text>

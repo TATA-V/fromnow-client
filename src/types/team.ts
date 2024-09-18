@@ -1,15 +1,10 @@
-export enum DiaryType {
-  PERSONAL = 'PERSONAL',
-  SHARE = 'SHARE',
-}
-
 export interface Team {
   id: number;
   title: string;
-  diaryType: DiaryType;
+  photoUrls: string[];
 }
 
 export interface TeamInvite {
   diaryId: number;
-  diaryType: DiaryType;
+  profileName: string;
 }

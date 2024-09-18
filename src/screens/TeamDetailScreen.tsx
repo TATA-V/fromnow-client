@@ -11,7 +11,7 @@ interface Props {
 const TeamDetailScreen = ({}: Props) => {
   const { route } = useCurrentRoute();
   console.log('teamId:', route.params.teamId);
-  console.log('postDate:', route.params.postDate);
+  console.log('date:', route.params.date);
 
   return (
     <>

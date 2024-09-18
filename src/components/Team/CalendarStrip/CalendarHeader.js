@@ -4,8 +4,6 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import moment from 'moment-modification-rn';
 
 import styles from './Calendar.style.js';
-import LeftArrowIcon from './icons/LeftArrowIcon';
-import RightArrowIcon from './icons/RightArrowIcon';
 
 class CalendarHeader extends Component {
   static propTypes = {
@@ -77,32 +75,22 @@ class CalendarHeader extends Component {
       }
       return true;
     }
-    const enabledLeft = isEnabled(controlDateLeft, weekStartDate, weekEndDate);
-    const enabledRight = isEnabled(controlDateRight, weekStartDate, weekEndDate);
+    // const enabledLeft = isEnabled(controlDateLeft, weekStartDate, weekEndDate);
+    // const enabledRight = isEnabled(controlDateRight, weekStartDate, weekEndDate);
 
     return (
       <View className="items-center">
-        <View className="flex flex-row">
-          <TouchableOpacity disabled={!enabledLeft} onPress={onLeftPress} className="justify-center p-[10px]">
-            <LeftArrowIcon color={enabledLeft ? '#1C1C1E' : '#D9D9DC'} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={onHeaderSelected && onHeaderSelected.bind(this, { weekStartDate, weekEndDate })}
-            disabled={!onHeaderSelected}
-            style={calendarHeaderContainerStyle}>
-            <Text
-              className="font-PTDSemiBold text-base text-black"
-              style={[styles.calendarHeader, { fontSize: fontSize }, calendarHeaderStyle]}
-              allowFontScaling={allowHeaderTextScaling}>
-              {_headerText}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity disabled={!enabledRight} onPress={onRightPress} className="justify-center p-[10px]">
-            <RightArrowIcon color={enabledRight ? '#1C1C1E' : '#D9D9DC'} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={onHeaderSelected && onHeaderSelected.bind(this, { weekStartDate, weekEndDate })}
+          disabled={!onHeaderSelected}
+          style={calendarHeaderContainerStyle}>
+          <Text
+            className="font-PTDSemiBold text-base text-black"
+            style={[styles.calendarHeader, { fontSize: fontSize }, calendarHeaderStyle]}
+            allowFontScaling={allowHeaderTextScaling}>
+            {_headerText}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }

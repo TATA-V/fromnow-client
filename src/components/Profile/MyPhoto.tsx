@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
-import profilePng from '@assets/png/profile.png';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import { useUpdatePhoto } from '@hooks/query';
 
-const MyPhoto = () => {
+interface Props {
+  photoUrl: string;
+}
+
+const MyPhoto = ({ photoUrl }: Props) => {
   const [image, setImage] = useState<ImageType>();
   const { updatePhotoMutation } = useUpdatePhoto();
 
@@ -21,7 +24,7 @@ const MyPhoto = () => {
 
   return (
     <TouchableOpacity onPress={pickImage}>
-      <Image source={image ? { uri: image.path } : profilePng} className="w-[160px] h-[160px] rounded-[56px] border-[1px] border-black200" />
+      <Image source={{ uri: photoUrl }} className="w-[160px] h-[160px] rounded-[56px] border-[1px] border-black200" />
     </TouchableOpacity>
   );
 };

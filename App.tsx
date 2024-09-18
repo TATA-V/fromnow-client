@@ -10,6 +10,7 @@ import { AnimatePresence, MotiView } from 'moti';
 import { StyleSheet } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import '@components/BottomSheet/sheets';
+import { linking } from './deeplinkConfig';
 
 import RQProvider from '@components/provider/RQProvider';
 import ToastNotiProvider from '@components/provider/ToastProvider';
@@ -38,6 +39,7 @@ import TeamDetailScreen from './src/screens/TeamDetailScreen';
 import TeamFriendAddScreen from './src/screens/TeamFriendAddScreen';
 import CameraScreen from './src/screens/CameraScreen';
 import PostEditScreen from './src/screens/PostEditScreen';
+import TeamCreateScreen from './src/screens/TeamCreateScreen';
 
 function App() {
   const [showLottie, setShowLottie] = useState(true);
@@ -82,7 +84,7 @@ function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <RQProvider>
         <ToastNotiProvider>
-          <NavigationContainer>
+          <NavigationContainer linking={linking}>
             <SheetProvider>
               <SAVProvider isDarkMode={isDarkModeStatusBar}>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
@@ -137,8 +139,9 @@ function App() {
                   <Stack.Screen name="TeamDetail" options={{ headerShown: false }}>
                     {props => <TeamDetailScreen {...props} paramName="TeamDetail" />}
                   </Stack.Screen>
+                  <Stack.Screen name="TeamCreate" component={TeamCreateScreen} options={{ header: () => <DefaultHeader title="모임 생성하기" /> }} />
                   <Stack.Screen name="PostEdit" options={{ header: () => <DefaultHeader title="일상 기록하기" /> }}>
-                    {props => <PostEditScreen {...props} paramName="TeamDetail" />}
+                    {props => <PostEditScreen {...props} paramName="PostEdit" />}
                   </Stack.Screen>
                   <Stack.Screen
                     name="Search"

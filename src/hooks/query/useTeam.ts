@@ -48,7 +48,7 @@ export const usePostOneTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const createTeamMutation = useMutation({
-    mutationFn: ({ title, diaryType }: Omit<Team, 'id'>) => postOne({ title, diaryType }),
+    mutationFn: postOne,
     onSuccess: () => {
       successToast('새로운 다이어리가 생성되었습니다.');
     },
@@ -64,7 +64,7 @@ export const useInviteTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const inviteTeamMutation = useMutation({
-    mutationFn: ({ diaryId, diaryType }: TeamInvite) => postInvite({ diaryId, diaryType }),
+    mutationFn: ({ diaryId, profileName }: TeamInvite) => postInvite({ diaryId, profileName }),
     onSuccess: () => {
       successToast('초대 성공!');
     },

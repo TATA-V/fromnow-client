@@ -42,7 +42,7 @@ function DayComponent({ date, state, marking }) {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, postDate: date.dateString })}
+      onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, date: date.dateString })}
       className="h-[98px] items-center w-full">
       <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
       <ImageCards imgs={['1', '2', '3']} />

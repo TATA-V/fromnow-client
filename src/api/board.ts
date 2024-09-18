@@ -17,12 +17,10 @@ export const postOne = async (data: CreateBoard) => {
   const { diaryId, uploadPhotos, createDiaryDto } = data;
 
   const formData = new FormData();
-  uploadPhotos.forEach((image, idx) => {
-    formData.append(`uploadPhotos[${idx}]`, {
-      uri: image.path,
-      type: image.mime,
-      name: image.path.split('/').pop(),
-    });
+  formData.append('uploadPhotos', {
+    uri: uploadPhotos.path,
+    type: uploadPhotos.mime,
+    name: uploadPhotos.path.split('/').pop(),
   });
   formData.append('createDiaryDto', JSON.stringify(createDiaryDto));
 

@@ -24,6 +24,7 @@
 		8CE9D58C1E2E49D9BCD23FD9 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB358F536D1D443D94D2CC6D /* BootSplash.storyboard */; };
 		9613E904E8174892AC5D4737 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D157447F70414E4F94CF3126 /* Pretendard-Medium.otf */; };
 		BB7D83F4E91844269D82DF6C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BFBD7F26C124193A2BD1AFA /* Colors.xcassets */; };
+		C3CA7B342C9ADB80007B6748 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3CA7B332C9ADB80007B6748 /* GoogleService-Info.plist */; };
 		C4D994E9DA8144E5820AE2A1 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D44985F804657828546FA /* Pretendard-ExtraBold.otf */; };
 		CD5BB19B8262434FBCEB4A48 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DF4D0D6757704D20BD58C24B /* Pretendard-SemiBold.otf */; };
 		F0DDE4E99CCB44C2906E8964 /* UhBeemysenBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3FC76A404E84CD8802AE7D8 /* UhBeemysenBold.ttf */; };
@@ -64,6 +65,7 @@
 		867162E083FD4237A4C79EAB /* UhBeemysen.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = UhBeemysen.ttf; path = ../src/assets/fonts/uhbee/UhBeemysen.ttf; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-fromnow-fromnowTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fromnow-fromnowTests.release.xcconfig"; path = "Target Support Files/Pods-fromnow-fromnowTests/Pods-fromnow-fromnowTests.release.xcconfig"; sourceTree = "<group>"; };
 		B3DFFCEF36014A02A07FFD3A /* Pretendard-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Thin.otf"; path = "../src/assets/fonts/pretendard/Pretendard-Thin.otf"; sourceTree = "<group>"; };
+		C3CA7B332C9ADB80007B6748 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C881B01B92AD4AF7AE631669 /* Pretendard-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.otf"; path = "../src/assets/fonts/pretendard/Pretendard-Light.otf"; sourceTree = "<group>"; };
 		D157447F70414E4F94CF3126 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../src/assets/fonts/pretendard/Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		DF4D0D6757704D20BD58C24B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../src/assets/fonts/pretendard/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		13B07FAE1A68108700A75B9A /* fromnow */ = {
 			isa = PBXGroup;
 			children = (
+				C3CA7B332C9ADB80007B6748 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -299,6 +302,7 @@
 				69350D6C3F784E63A01A54E9 /* Pretendard-Light.otf in Resources */,
 				9613E904E8174892AC5D4737 /* Pretendard-Medium.otf in Resources */,
 				30360E3AE4B945CA8F3759D6 /* Pretendard-Regular.otf in Resources */,
+				C3CA7B342C9ADB80007B6748 /* GoogleService-Info.plist in Resources */,
 				CD5BB19B8262434FBCEB4A48 /* Pretendard-SemiBold.otf in Resources */,
 				7F90FAB288BE4EFFB2430E5A /* Pretendard-Thin.otf in Resources */,
 				589C7C4F62824EBE8528FC56 /* UhBeemysen.ttf in Resources */,
@@ -646,10 +650,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -721,10 +722,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

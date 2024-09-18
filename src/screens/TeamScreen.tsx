@@ -55,7 +55,7 @@ const TeamScreen = ({}: Props) => {
           calendarStrip={{ height: 94 }}
           dateNumberStyle={{ color: '#573333', fontFamily: 'Pretendard-SemiBold', fontSize: 14 }}
           dateNameStyle={{ color: '#1C1C1E', fontFamily: 'Pretendard-SemiBold', fontSize: 12 }}
-          calendarHeaderContainerStyle={{ height: 44, justifyContent: 'center', alignItems: 'center' }}
+          calendarHeaderContainerStyle={{ height: 0 }}
           leftSelector={[]}
           rightSelector={[]}
           scrollable={true}

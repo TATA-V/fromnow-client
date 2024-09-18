@@ -1,6 +1,11 @@
 import { instance } from '@api/axiosInstance';
 import { Image as ImageType } from 'react-native-image-crop-picker';
 
+export const getOne = async () => {
+  const res = await instance.get('/api/my/profile');
+  return res.data.data;
+};
+
 export const updateNickname = async (profileName: string) => {
   const res = await instance.post(`/api/member/profileName`, { profileName });
   return res;

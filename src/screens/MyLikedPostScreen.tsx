@@ -23,7 +23,7 @@ const MyLikedPostScreen = () => {
       )}
       {data.length === 0 && (
         <View className="h-full justify-center transform translate-y-[-66px]">
-          <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요!`} />
+          <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요`} />
         </View>
       )}
     </View>

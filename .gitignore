@@ -3,6 +3,7 @@
 .DS_Store
 .env
 google-services.json
+GoogleService-Info.plist
 dist/
 
 # Xcode

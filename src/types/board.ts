@@ -12,6 +12,6 @@ export interface Board {
 
 export interface CreateBoard {
   diaryId: number;
-  uploadPhotos: ImageType[];
+  uploadPhotos: ImageType;
   createDiaryDto: Omit<Team, 'id'>;
 }

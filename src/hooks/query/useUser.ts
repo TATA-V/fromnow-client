@@ -1,18 +1,35 @@
-import { getAllMyFriend, getAllMyFriendRequest, getAllMyLikedPost, getAllMyTeamRequest, updateNickname, updatePhoto } from '@api/user';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { getAllMyFriend, getAllMyFriendRequest, getAllMyLikedPost, getAllMyTeamRequest, getOne, updateNickname, updatePhoto } from '@api/user';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import { MyLikedPost, MyFriend, MyFriendRequest, MyTeamRequest } from '@clientTypes/user';
+import { MyLikedPost, MyFriend, MyFriendRequest, MyTeamRequest, MyProfile } from '@clientTypes/user';
+import { Dispatch, SetStateAction } from 'react';
 
-export const useUpdateNickname = () => {
+export const getMyProfile = () => {
+  const { data, isError, isLoading } = useQuery<MyProfile>({
+    queryKey: ['my', 'profile'],
+    queryFn: getOne,
+  });
+
+  return { data, isError, isLoading };
+};
+
+export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>) => {
+  const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
 
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
-    onSuccess: () => {
+    onSuccess: res => {
+      queryClient.setQueryData(['my', 'profile'], (prev: MyProfile) => {
+        // !!!!! 응답 데이터도 바뀐 유저 데이터 받아야함
+        console.log('res:', res.data);
+        console.log('res.config.data:', res.config.data.profileName);
+      });
+      setNickname && setNickname('test');
       if (route.name === 'SignupNickname') {
         successToast('별명 설정 완료!');
         navigation.navigate('SignupPhoto');
@@ -26,6 +43,7 @@ export const useUpdateNickname = () => {
         return;
       }
       errorToast('별명 변경에 실패했습니다.');
+      errorToast('error.message');
     },
   });
 
@@ -42,7 +60,7 @@ export const useUpdatePhoto = () => {
   const updatePhotoMutation = useMutation({
     mutationFn: updatePhoto,
     onSuccess: () => {
-      if (route.name === 'Photo') {
+      if (route.name === 'SignupPhoto') {
         navigation.navigate('Home');
         successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
         return;

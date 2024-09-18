@@ -10,6 +10,9 @@ import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import FadeIn from '@components/common/FadeIn';
+import useNavi from '@hooks/useNavi';
+import { useGetAllTeam } from '@hooks/query';
+import MiniLoading from '@components/common/MiniLoading';
 
 export interface Team {
   id: number;
@@ -35,10 +38,14 @@ const HomeScreen = () => {
   ]);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
   const GRID_SIZE = 2;
+  const { navigation } = useNavi();
+
+  // const { data, isLoading } = useGetAllTeam();
+  // console.log('data:', data);
 
   const onGridOrderChange: DraggableGridProps['onOrderChange'] = orderedIds => {
-    const updateTeamList = orderedIds.map(id => teamList.find(team => team.id === Number(id)));
-    console.log('updateTeamList', updateTeamList);
+    // const updateTeamList = orderedIds.map(id => teamList.find(team => team.id === Number(id)));
+    // console.log('updateTeamList', updateTeamList);
   };
 
   const randomRotate = [
@@ -49,6 +56,8 @@ const HomeScreen = () => {
     const randomIndex = Math.floor(Math.random() * randomRotate.length);
     return randomRotate[randomIndex];
   };
+
+  // if (isLoading) return <MiniLoading />;
 
   return (
     <View className="bg-black100 flex-1">
@@ -86,7 +95,7 @@ const HomeScreen = () => {
             </DraggableGrid>
           </DndProvider>
           <View className="w-full items-center pt-[18px]">
-            <Button size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
+            <Button onPress={() => navigation.navigate('TeamCreate')} size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
               모임 생성하기
             </Button>
           </View>

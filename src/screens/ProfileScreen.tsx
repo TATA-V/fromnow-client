@@ -11,9 +11,12 @@ import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
 import { removeStorage } from '@utils/storage';
 import MyNickname from '@components/Profile/MyNickname';
+import { getMyProfile } from '@hooks/query';
+import MiniLoading from '@components/common/MiniLoading';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
+  const { data, isLoading } = getMyProfile();
 
   const navigateToScreen = (target: string) => {
     navigation.navigate(target);
@@ -40,11 +43,13 @@ const ProfileScreen = () => {
     },
   ];
 
+  if (isLoading) return <MiniLoading />;
+
   return (
     <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }}>
       <View className="h-[220px] flex items-center justify-center">
-        <MyPhoto />
-        <MyNickname />
+        <MyPhoto photoUrl={data.photoUrl} />
+        <MyNickname profileName={data.profileName} />
       </View>
       {list.map(({ icon, label, section, submenu, onPress }, key) => (
         <View key={key} className="h-[98px] pt-[12px]">

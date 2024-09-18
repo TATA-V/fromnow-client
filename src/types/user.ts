@@ -1,3 +1,8 @@
+export interface MyProfile {
+  profileName: string;
+  photoUrl: string;
+}
+
 export interface MyLikedPost {
   boardId: number;
   createdDate: string;

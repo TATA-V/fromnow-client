@@ -23,8 +23,8 @@ export const updateOne = async (data: UpdateOne) => {
   return res;
 };
 
-export const postOne = async (body: Omit<Team, 'id'>) => {
-  const res = await instance.post('/api/diary', body);
+export const postOne = async (title: string) => {
+  const res = await instance.post('/api/diary', { title });
   return res;
 };
 
