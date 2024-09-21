@@ -14,6 +14,8 @@ function RQProvider({ children }: Props) {
           retryOnMount: true,
           refetchOnReconnect: false,
           retry: false,
+          staleTime: 1000 * 60 * 10,
+          gcTime: 1000 * 60 * 15,
         },
       },
     }),

@@ -13,7 +13,7 @@ interface Props extends Team {
   color: string;
 }
 
-const TeamFolder = ({ isNew, color, id, title, users }: Props) => {
+const TeamFolder = ({ isNew, color, id, title, users = [] }: Props) => {
   const [colors, setColors] = useState<string[]>([]);
   const { navigation } = useNavi();
 
@@ -42,10 +42,7 @@ const TeamFolder = ({ isNew, color, id, title, users }: Props) => {
   }, [color]);
 
   return (
-    <Pressable
-      onPress={() => navigation.navigate('Team', { id })}
-      // className={`relative ${isActive ? 'opacity-70' : 'opacity-100'}`}>
-      className="relative">
+    <Pressable onPress={() => navigation.navigate('Team', { id })} className="relative">
       <Svg width={162} height={162} viewBox="0 0 162 162" fill="none">
         <Path
           fill={colors[0]}

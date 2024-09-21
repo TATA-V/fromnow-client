@@ -37,7 +37,7 @@ const Input = ({ mode, placeholder, editable = true, search, value, setValue, on
         tempColor = ['border-black900', 'bg-white', 'text-black900', '#1C1C1E'];
         break;
       case 'error':
-        tempColor = ['border-error', 'bg-white', 'text-fnRed', '#F04438'];
+        tempColor = ['border-fnRed', 'bg-white', 'text-fnRed', '#F04438'];
         break;
       case 'trust':
         tempColor = ['border-success', 'bg-white', 'text-success', '#12B76A'];

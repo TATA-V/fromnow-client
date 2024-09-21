@@ -5,6 +5,7 @@ import moment from 'moment-modification-rn';
 import useNavi from '@hooks/useNavi';
 import { MotiView } from 'moti';
 import useToast from '@hooks/useToast';
+import { Easing } from 'react-native-reanimated';
 
 const Timer = () => {
   const totalDuration = moment.duration(5, 'minutes');
@@ -47,24 +48,34 @@ const Timer = () => {
         <View>
           <View
             style={{ width: `${100 - progressPercentage}%` }}
-            className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-0 left-0 h-[20px] rounded-[8px] justify-center`}
-          />
-          <Text className={`${shouldAnimate ? 'text-white' : 'text-black900'} absolute left-0 text-sm font-PTDSemiBold pl-[6px]`}>
-            {formattedTime}
-          </Text>
-        </View>
-        <MotiView
-          animate={{ right: `${progressPercentage - 3}%` }}
-          transition={{
-            type: 'timing',
-            duration: 500,
-          }}
-          className="absolute h-full justify-center">
-          <View className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} rounded-[14px] w-[36px] h-[36px] flex justify-center items-center`}>
-            <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
+            className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} h-full rounded-[8px] justify-center relative`}>
+            {!shouldAnimate && (
+              <View
+                className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-[-8px] right-[-16px]
+              rounded-[14px] w-[36px] h-[36px] flex justify-center items-center`}>
+                <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
+              </View>
+            )}
+            {shouldAnimate && (
+              <MotiView
+                from={{ rotate: '-20deg' }}
+                animate={{ rotate: '20deg' }}
+                transition={{
+                  type: 'timing',
+                  duration: 100,
+                  loop: true,
+                  repeatReverse: true,
+                  easing: Easing.inOut(Easing.ease),
+                }}
+                className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-[-8px] right-[-16px]
+                rounded-[14px] w-[36px] h-[36px] flex justify-center items-center`}>
+                <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
+              </MotiView>
+            )}
           </View>
-        </MotiView>
+        </View>
       </View>
+      <Text className={`${shouldAnimate ? 'text-white' : 'text-black900'} text-sm font-PTDSemiBold pl-[6px] mt-2`}>{formattedTime}</Text>
     </View>
   );
 };

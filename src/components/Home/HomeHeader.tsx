@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import SearchIcon from '@assets/icons/SearchIcon';
+import PenIcon from '@assets/icons/PenIcon';
 import BellIcon from '@assets/icons/bell.svg';
+import CheckIcon from '@assets/icons/check.svg';
 import useNavi from '@hooks/useNavi';
 
-const HomeHeader = () => {
+interface Props {
+  isEdit: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+}
+
+const HomeHeader = ({ isEdit, setIsEdit }: Props) => {
   const { navigation } = useNavi();
 
   return (
@@ -15,13 +22,14 @@ const HomeHeader = () => {
           <Logo />
         </View>
       </View>
-      <View className="w-[84px] h-[48px] flex flex-row justify-between px-3 items-center">
+      <View className="h-[48px] flex flex-row px-3 space-x-[12px] items-center">
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <SearchIcon />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Notify')}>
           <BellIcon />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => setIsEdit(!isEdit)}>{isEdit ? <CheckIcon /> : <PenIcon size={24} color="#1C1C1E" />}</TouchableOpacity>
       </View>
     </View>
   );

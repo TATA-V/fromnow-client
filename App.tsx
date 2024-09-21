@@ -69,6 +69,7 @@ function App() {
           tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
           tabBarShown: false,
+          contentStyle: { backgroundColor: '#fff' },
         })}>
         <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Profile" component={ProfileScreen} options={{ header: () => <ProfileHeader /> }} />

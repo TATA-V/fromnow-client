@@ -24,7 +24,7 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const getFCMToken = async () => {
       const token = await messaging().getToken();
       // 서버에 토큰 보내줘야 함
-      console.log('token:', token);
+      // console.log('token:', token);
     };
     getFCMToken();
 

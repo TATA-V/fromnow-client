@@ -25,17 +25,17 @@ const DialogModal = ({ open, setOpen, title, description, confirm }: Props) => {
           from={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: open ? 1 : 0, scale: open ? 1 : 0.9 }}
           transition={{ type: 'timing', duration: 300 }}
-          className="w-[300px] p-5 bg-white rounded-2xl">
-          {title && <Text className="font-PTDBold text-lg mb-3 text-black900">{title}</Text>}
-          <Text className="text-black text-sm font-PTDLight">{description}</Text>
-          <View className="flex-row justify-between">
+          className="w-[279px] p-4 bg-white rounded-[24px] items-center">
+          {title && <Text className="font-PTDSemiBold text-lg mb-[3px] text-black900 mt-4">{title}</Text>}
+          <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>
+          <View className="flex-row w-full justify-between mt-[24px]">
             <TouchableOpacity
               onPress={() => setOpen(false)}
-              className="mt-7 w-[122px] border-[1px] border-[#E4E5EA] rounded-xl h-12 justify-center items-center">
-              <Text className="font-semibold text-base text-black900 font-PTDSemiBold">취소</Text>
+              className="w-[121.5px] border-[1px] border-[#E4E5EA] rounded-xl h-[40px] justify-center items-center">
+              <Text className="font-semibold text-sm text-black900 font-PTDSemiBold">취소</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={confirmClick} className="mt-7 w-[122px] bg-[#509EEF] rounded-xl h-12 justify-center items-center">
-              <Text className="text-white font-semibold text-base font-PTDSemiBold">확인</Text>
+            <TouchableOpacity onPress={confirmClick} className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
+              <Text className="text-white font-semibold text-sm font-PTDSemiBold">확인</Text>
             </TouchableOpacity>
           </View>
         </MotiView>

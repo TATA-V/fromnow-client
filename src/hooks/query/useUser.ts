@@ -25,9 +25,8 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
     mutationFn: updateNickname,
     onSuccess: res => {
       queryClient.setQueryData(['my', 'profile'], (prev: MyProfile) => {
-        // !!!!! 응답 데이터도 바뀐 유저 데이터 받아야함
+        // !!!!! 응답 데이터로 바뀐 유저 데이터 받아야함
         console.log('res:', res.data);
-        console.log('res.config.data:', res.config.data.profileName);
       });
       setNickname && setNickname('test');
       if (route.name === 'SignupNickname') {

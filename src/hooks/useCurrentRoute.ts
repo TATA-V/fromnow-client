@@ -1,7 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isWeb } from '@utils/deviceInfo';
 
 const useCurrentRoute = () => {
-  const route = useRoute<RouteProp<any>>();
+  const route = isWeb ? undefined : useRoute<RouteProp<any>>();
 
   return {
     route,

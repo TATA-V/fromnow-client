@@ -25,11 +25,11 @@ const ConfirmModal = ({ open, setOpen, title, description, confirm }: Props) => 
           from={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: open ? 1 : 0, scale: open ? 1 : 0.9 }}
           transition={{ type: 'timing', duration: 300 }}
-          className="w-[300px] p-5 bg-white rounded-2xl">
-          {title && <Text className="font-PTDBold text-lg mb-3 text-[#FA8482]">{title}</Text>}
-          <Text className="text-black900 text-sm font-PTDLight">{description}</Text>
-          <TouchableOpacity onPress={confirmClick} className="mt-7 w-full bg-[#FA8482] rounded-xl h-12 justify-center items-center">
-            <Text className="text-white text-base font-PTDSemiBold">확인</Text>
+          className="w-[279px] p-4 bg-white rounded-[24px] items-center">
+          {title && <Text className="font-PTDSemiBold text-lg mb-[3px] text-black900 mt-4">{title}</Text>}
+          <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>
+          <TouchableOpacity onPress={confirmClick} className="mt-[24px] w-full bg-black900 rounded-xl h-[40px] justify-center items-center">
+            <Text className="text-white text-sm font-PTDSemiBold">확인</Text>
           </TouchableOpacity>
         </MotiView>
       </Pressable>
