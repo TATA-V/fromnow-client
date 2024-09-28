@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-interface ModalState {
+export interface ModalState {
   type: 'confirm' | 'dialog';
   open: boolean;
   title?: string;
@@ -43,11 +43,7 @@ const ModalManager = ({ children }: Props) => {
   return (
     <ModalContext.Provider value={{ showModal, hideModal }}>
       {children}
-      {modalState.type === 'confirm' ? (
-        <ConfirmModal open={modalState.open} title={modalState.title} description={modalState.description} confirm={modalState.confirm} />
-      ) : (
-        <DialogModal open={modalState.open} title={modalState.title} description={modalState.description} confirm={modalState.confirm} />
-      )}
+      {modalState.type === 'confirm' ? <ConfirmModal {...modalState} /> : <DialogModal {...modalState} />}
     </ModalContext.Provider>
   );
 };
