@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Image, TextInput, Text, Alert } from 'react-native';
+import { View, Image, TextInput, Text } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { SheetManager } from 'react-native-actions-sheet';
 import Button from '@components/common/Button';
+import { useModal } from '@components/Modal/ModalManager';
 
 interface Props {
   paramName: string;
@@ -12,13 +13,13 @@ const BoardEditScreen = ({}: Props) => {
   const [content, setContent] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const { route } = useCurrentRoute();
-  console.log('file:', route.params.file);
+  const { showModal } = useModal();
 
   const changeContent = (text: string) => {
     if (text.length <= 500) {
       setContent(text);
     } else {
-      Alert.alert('경고', '글자 수가 500자를 초과했습니다.');
+      showModal({ type: 'confirm', title: '경고', description: '글자 수가 500자를 초과했습니다.' });
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Share } from 'react-native';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
@@ -10,17 +10,17 @@ import ShareIcon from '@assets/icons/ShareIcon';
 import TrashIcon from '@assets/icons/trash.svg';
 import { CLIENT_URL } from '@env';
 import useNavi from '@hooks/useNavi';
-import DialogModal from '@components/common/DialogModal';
+import { useModal } from '@components/Modal/ModalManager';
+import { useDeleteOneTeam } from '@hooks/query';
 
 interface Props {
   paramName: string;
 }
 
 const TeamSettingScreen = ({}: Props) => {
-  const [openModal, setOpenModal] = useState(false);
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
-  console.log('route:', route.params.id);
+  const { showModal } = useModal();
 
   const friendList = [
     { profile: profilePng, nickname: '채순 (나)', isFriend: true },
@@ -43,6 +43,19 @@ const TeamSettingScreen = ({}: Props) => {
     { profile: profilePng, nickname: '민혁', isFriend: false },
   ];
 
+  const { deleteTeamMutation } = useDeleteOneTeam();
+  const deleteTeam = () => {
+    const confirmDeleteTeam = () => {
+      deleteTeamMutation.mutate(route.params.id);
+    };
+    showModal({
+      type: 'dialog',
+      title: '모임 삭제',
+      description: '모임을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
+      confirm: confirmDeleteTeam,
+    });
+  };
+
   const settingList = [
     { icon: <PenIcon size={24} />, title: '모임정보 수정하기', onPress: () => navigation.navigate('TeamEdit', { id: route.params.id }) },
     {
@@ -50,10 +63,8 @@ const TeamSettingScreen = ({}: Props) => {
       title: '초대링크 공유하기',
       onPress: async () => await Share.share({ message: `${CLIENT_URL}TeamSetting?id=${route.params.id}` }),
     },
-    { icon: <TrashIcon />, title: '모임 삭제하기', onPress: () => setOpenModal(true) },
+    { icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam },
   ];
-
-  const deleteTeam = () => {};
 
   return (
     <>
@@ -86,13 +97,6 @@ const TeamSettingScreen = ({}: Props) => {
         </View>
       </ScrollView>
       <TeamSettingHeader title="아줌마들의 우정은 디질때까지" dayCount={20} />
-      <DialogModal
-        title="모임 삭제"
-        description={`모임을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.`}
-        open={openModal}
-        setOpen={setOpenModal}
-        confirm={deleteTeam}
-      />
     </>
   );
 };

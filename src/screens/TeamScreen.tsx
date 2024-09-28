@@ -128,7 +128,7 @@ const TeamScreen = ({}: Props) => {
         )}
         {data && data.length === 0 && (
           <View className="pt-[60px]">
-            <AvatarSadMsg message={`아직 아무도 글을\n작성하지 않았어요`} />
+            <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />
           </View>
         )}
       </View>

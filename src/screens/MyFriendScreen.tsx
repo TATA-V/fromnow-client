@@ -1,35 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, RefreshControl } from 'react-native';
 import FriendItem from '@components/common/FriendItem';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import Button from '@components/common/Button';
 import MiniLoading from '@components/common/MiniLoading';
 import SearchIcon from '@assets/icons/SearchIcon';
-import { useGetAllMyFriend, useGetAllMyFriendRequest } from '@hooks/query';
+import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey } from '@hooks/query';
 import { MyFriend } from '@clientTypes/user';
 import useNavi from '@hooks/useNavi';
+import useRefresh from '@hooks/useRefresh';
 
 const { width } = Dimensions.get('window');
 
 const MyFriendScreen = () => {
   const [isAllFriend, setIsAllFriend] = useState(true);
-  // const [data, setData] = useState([]);
   const { navigation } = useNavi();
 
   const { data: myFriendData, isLoading: isLoadingMyFriend } = useGetAllMyFriend();
   const { data: myFriendRqData, isLoading: isLoadingFriendRq } = useGetAllMyFriendRequest();
-  const data: MyFriend[] = isAllFriend ? myFriendData : myFriendRqData;
-
-  console.log('myFriendData:', myFriendData);
-  console.log('myFriendRqData:', myFriendRqData);
-
-  // useEffect(() => {
-  //   if (isAllFriend) {
-  //     setData(myFriendData);
-  //     return;
-  //   }
-  //   setData(myFriendRqData);
-  // }, [isAllFriend, myFriendData, myFriendRqData]);
+  let data: MyFriend[] = isAllFriend ? myFriendData : myFriendRqData;
+  let queryKey = isAllFriend ? useKey([QUERY_KEY.MY, 'friends']) : useKey([QUERY_KEY.MY, 'friend', 'request']);
+  const { refreshing, onRefresh } = useRefresh({ queryKey });
 
   if (isLoadingMyFriend || isLoadingFriendRq) return <MiniLoading />;
 
@@ -52,7 +43,10 @@ const MyFriendScreen = () => {
         </View>
       </View>
       {data?.length > 0 && (
-        <ScrollView className="px-4 pt-[4px]" contentContainerStyle={{ paddingBottom: 30 }}>
+        <ScrollView
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          className="px-4 pt-[4px]"
+          contentContainerStyle={{ paddingBottom: 30 }}>
           <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden">
             {data.map((friend, idx) => (
               <FriendItem key={idx} {...friend} />

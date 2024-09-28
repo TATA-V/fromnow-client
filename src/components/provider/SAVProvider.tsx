@@ -6,6 +6,7 @@ import { getStorage } from '@utils/storage';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
+import ModalManager from '@components/Modal/ModalManager';
 
 interface Props {
   children: ReactNode;
@@ -72,10 +73,12 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 w-full">
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#1C1C1E' : '#fff'} />
-      {children}
-    </SafeAreaView>
+    <ModalManager>
+      <SafeAreaView className="flex-1 w-full">
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#1C1C1E' : '#fff'} />
+        {children}
+      </SafeAreaView>
+    </ModalManager>
   );
 }
 

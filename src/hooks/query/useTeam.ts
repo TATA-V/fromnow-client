@@ -16,13 +16,18 @@ export const useGetAllTeam = () => {
 
 export const useDeleteOneTeam = () => {
   const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
+  const queryClient = useQueryClient();
 
   const deleteTeamMutation = useMutation({
     mutationFn: deleteOne,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: useKey(['all', QUERY_KEY.TEAM]) });
+      navigation.navigate('Home');
       successToast('다이어리를 삭제했습니다.');
     },
-    onError: () => {
+    onError: error => {
+      console.error('Error deleting team:', error);
       errorToast('다이어리 삭제에 실패했습니다.');
     },
   });

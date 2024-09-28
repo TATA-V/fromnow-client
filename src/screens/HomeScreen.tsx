@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
 // import DndTeamList from '@components/Home/DndTeamList';
