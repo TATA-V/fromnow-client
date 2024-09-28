@@ -2,11 +2,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Board, CreateBoard } from '@clientTypes/board';
 import { GetAll, getAll, postDisLike, postLike, postOne } from '@api/board';
 import useToast from '@hooks/useToast';
+import { QUERY_KEY, useKey } from '@hooks/query';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const { data, isError, isLoading } = useQuery<Board[]>({
-    queryKey: ['all', 'board'],
+    queryKey: useKey(['all', QUERY_KEY.BOARD, boardData.date]),
     queryFn: () => getAll(boardData),
+    staleTime: 0,
+    gcTime: 0,
   });
 
   return { data, isError, isLoading };

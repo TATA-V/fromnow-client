@@ -3,19 +3,28 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import { MyLikedPost, MyFriend, MyFriendRequest, MyTeamRequest, MyProfile } from '@clientTypes/user';
+import { MyLikedPost, MyFriend, MyTeamRequest, MyProfile } from '@clientTypes/user';
 import { Dispatch, SetStateAction } from 'react';
+import { QUERY_KEY, useKey } from '@hooks/query';
+import useUserStore from '@store/useUserStore';
 
-export const getMyProfile = () => {
+export const useGetMyProfile = () => {
+  const setName = useUserStore(state => state.setName);
+  const { navigation } = useNavi();
   const { data, isError, isLoading } = useQuery<MyProfile>({
-    queryKey: ['my', 'profile'],
+    queryKey: useKey([QUERY_KEY.MY, 'profile']),
     queryFn: getOne,
   });
+  if (isError) {
+    navigation.navigate('SignIn');
+  }
+  data && setName(data.profileName);
 
   return { data, isError, isLoading };
 };
 
 export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>) => {
+  const setName = useUserStore(state => state.setName);
   const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
@@ -24,11 +33,11 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
     onSuccess: res => {
-      queryClient.setQueryData(['my', 'profile'], (prev: MyProfile) => {
-        // !!!!! 응답 데이터로 바뀐 유저 데이터 받아야함
-        console.log('res:', res.data);
+      queryClient.setQueryData([QUERY_KEY.MY, 'profile'], (prev: MyProfile) => {
+        return { ...prev, profileName: res.data.profileName };
       });
-      setNickname && setNickname('test');
+      setNickname && setNickname(res.data.profileName);
+      setName(res.data.profileName);
       if (route.name === 'SignupNickname') {
         successToast('별명 설정 완료!');
         navigation.navigate('SignupPhoto');
@@ -52,18 +61,23 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
 };
 
 export const useUpdatePhoto = () => {
+  const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
 
   const updatePhotoMutation = useMutation({
     mutationFn: updatePhoto,
-    onSuccess: () => {
+    onSuccess: res => {
       if (route.name === 'SignupPhoto') {
-        navigation.navigate('Home');
+        navigation.navigate('Home', { refresh: true });
         successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
         return;
       }
+      queryClient.setQueryData([QUERY_KEY.MY, 'profile'], (prev: MyProfile) => {
+        return { ...prev, photoUrl: res.data.photoUrl };
+      });
+      queryClient.invalidateQueries({ queryKey: useKey(['all', 'team']) });
       successToast('이미지 수정 완료!');
     },
     onError: () => {
@@ -78,7 +92,7 @@ export const useUpdatePhoto = () => {
 
 export const useGetAllMyLikedPost = () => {
   const { data, isError, isLoading } = useQuery<MyLikedPost[]>({
-    queryKey: ['my', 'liked', 'posts'],
+    queryKey: useKey([QUERY_KEY.MY, 'liked', 'posts']),
     queryFn: getAllMyLikedPost,
   });
 
@@ -87,7 +101,7 @@ export const useGetAllMyLikedPost = () => {
 
 export const useGetAllMyFriend = () => {
   const { data, isError, isLoading } = useQuery<MyFriend[]>({
-    queryKey: ['my', 'friends'],
+    queryKey: useKey([QUERY_KEY.MY, 'friends']),
     queryFn: getAllMyFriend,
   });
 
@@ -95,8 +109,8 @@ export const useGetAllMyFriend = () => {
 };
 
 export const useGetAllMyFriendRequest = () => {
-  const { data, isError, isLoading } = useQuery<MyFriendRequest[]>({
-    queryKey: ['my', 'friend', 'request'],
+  const { data, isError, isLoading } = useQuery<MyFriend[]>({
+    queryKey: useKey([QUERY_KEY.MY, 'friend', 'request']),
     queryFn: getAllMyFriendRequest,
   });
 
@@ -105,7 +119,7 @@ export const useGetAllMyFriendRequest = () => {
 
 export const useGetAllMyTeamRequest = () => {
   const { data, isError, isLoading } = useQuery<MyTeamRequest[]>({
-    queryKey: ['my', 'team', 'request'],
+    queryKey: useKey([QUERY_KEY.MY, 'team', 'request']),
     queryFn: getAllMyTeamRequest,
   });
 

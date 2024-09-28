@@ -8,7 +8,7 @@ export const getOne = async () => {
 
 export const updateNickname = async (profileName: string) => {
   const res = await instance.post(`/api/member/profileName`, { profileName });
-  return res;
+  return res.data;
 };
 
 export const updatePhoto = async (image: ImageType) => {
@@ -23,7 +23,7 @@ export const updatePhoto = async (image: ImageType) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  return res;
+  return res.data;
 };
 
 export const getAllMyLikedPost = async () => {

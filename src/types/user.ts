@@ -16,6 +16,7 @@ export interface MyFriend {
   memberId: number;
   profileName: string;
   profilePhotoUrl: string;
+  friend: boolean;
 }
 
 export interface MyFriendRequest {

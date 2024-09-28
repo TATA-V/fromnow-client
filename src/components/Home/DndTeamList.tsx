@@ -1,5 +1,4 @@
 import React from 'react';
-import { Team } from '@screens/HomeScreen';
 import PlusIcon from '@assets/icons/PlusIcon';
 import useNavi from '@hooks/useNavi';
 import TeamFolder, { Color } from '@components/common/TeamFolder';
@@ -8,6 +7,8 @@ import { DndProvider, Draggable, DraggableGrid, DraggableGridProps } from '@mgcr
 import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
 import Button from '@components/common/Button';
+import FadeIn from '@components/common/FadeIn';
+import { Team } from '@clientTypes/team';
 
 interface Props {
   teamList: Team[];
@@ -21,6 +22,7 @@ function DndTeamList({ teamList, colors }: Props) {
   const onGridOrderChange: DraggableGridProps['onOrderChange'] = orderedIds => {
     // const updateTeamList = orderedIds.map(id => teamList.find(team => team.id === Number(id)));
     // console.log('updateTeamList', updateTeamList);
+    console.log('orderedIds', orderedIds);
   };
 
   const randomRotate = [
@@ -56,7 +58,9 @@ function DndTeamList({ teamList, colors }: Props) {
                       loop: true,
                       repeatReverse: true,
                     }}>
-                    <TeamFolder {...item} color={colors[idx % colors.length]} />
+                    <FadeIn>
+                      <TeamFolder {...item} color={colors[idx % colors.length]} />
+                    </FadeIn>
                   </MotiView>
                 </Draggable>
               );
@@ -64,9 +68,11 @@ function DndTeamList({ teamList, colors }: Props) {
           </DraggableGrid>
         </DndProvider>
         <View className="w-full items-center pt-[18px]">
-          <Button onPress={() => navigation.navigate('TeamCreate')} size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
-            모임 생성하기
-          </Button>
+          <FadeIn>
+            <Button onPress={() => navigation.navigate('TeamCreate')} size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
+              모임 생성하기
+            </Button>
+          </FadeIn>
         </View>
       </View>
     </ScrollView>

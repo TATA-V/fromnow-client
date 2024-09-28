@@ -11,17 +11,20 @@ import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
 import { removeStorage } from '@utils/storage';
 import MyNickname from '@components/Profile/MyNickname';
-import { getMyProfile } from '@hooks/query';
+import { useGetMyProfile } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
-  const { data, isLoading } = getMyProfile();
+  const { data, isLoading } = useGetMyProfile();
+  const queryClient = useQueryClient();
 
   const navigateToScreen = (target: string) => {
     navigation.navigate(target);
   };
   const logoutUser = async () => {
+    queryClient.clear();
     await removeStorage('access');
     navigation.navigate('SignIn');
   };
@@ -43,10 +46,15 @@ const ProfileScreen = () => {
     },
   ];
 
-  if (isLoading) return <MiniLoading />;
+  if (isLoading)
+    return (
+      <View className="flex-1 bg-white">
+        <MiniLoading />
+      </View>
+    );
 
   return (
-    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }}>
+    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }} showsVerticalScrollIndicator={false}>
       <View className="h-[220px] flex items-center justify-center">
         <MyPhoto photoUrl={data.photoUrl} />
         <MyNickname profileName={data.profileName} />

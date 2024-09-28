@@ -10,9 +10,11 @@ import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
 import AvatarHappyMsg from '@components/common/AvatarHappyMsg';
 import Button from '@components/common/Button';
-import { StyleSheet } from 'react-native';
 import CameraIcon from '@assets/icons/CameraIcon';
 import blurPng from '@assets/png/blur.png';
+import { useGetAllBoard } from '@hooks/query';
+import MiniLoading from '@components/common/MiniLoading';
+import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import 'moment-modification-rn/locale/ko';
 moment.locale('ko');
 
@@ -26,7 +28,8 @@ const TeamScreen = ({}: Props) => {
   const lastOffsetY = useRef<number>(0);
 
   const { route } = useCurrentRoute();
-  console.log('route:', route.params.id);
+  const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
+  const { data, isLoading } = useGetAllBoard({ diaryId: route.params.id, date: currentDate });
 
   const scrollPosts = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (isPostsHidden) return;
@@ -39,6 +42,8 @@ const TeamScreen = ({}: Props) => {
     }
     lastOffsetY.current = currentOffsetY;
   };
+
+  if (isLoading) return <MiniLoading />;
 
   return (
     <>
@@ -64,10 +69,14 @@ const TeamScreen = ({}: Props) => {
           onWeekChanged={(start, end) => console.log(start, end)}
           minDate={moment('2024-09-01')}
           maxDate={moment().add(4, 'days')}
-          dayComponent={({ date, selected, onDateSelected }) => (
+          dayComponent={({ date, onDateSelected }) => (
             <Pressable
-              onPress={() => onDateSelected(date)}
-              className={`${selected && 'bg-black200'} relative items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
+              onPress={() => {
+                onDateSelected(date);
+                setCurrentDate(moment(date).format('YYYY-MM-DD'));
+              }}
+              className={`${moment(date).format('YYYY-MM-DD') === currentDate && 'bg-black200'} relative
+              items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
               <View className="w-[36px] h-[36px] rounded-[12px] bg-black900 flex justify-center items-center">
                 <Text className="text-white text-[14px] font-PTDSemiBold">{date.date()}</Text>
               </View>
@@ -79,30 +88,41 @@ const TeamScreen = ({}: Props) => {
           )}
         />
       </MotiView>
+
       <View className="relative flex-1 bg-black100">
-        <FlatList
-          onScroll={scrollPosts}
-          data={[...Array(20)]}
-          keyExtractor={(_, idx) => idx.toString()}
-          renderItem={({ item, index }) => <PostItem key={index} />}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View className="h-[18px]" />}
-          contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
-        />
-        {isPostsHidden && (
+        {data.length > 0 && (
           <>
-            <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />
-            <View className="absolute h-full justify-center items-center w-full transform translate-y-[-20px]" pointerEvents="box-none">
-              <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
-              <View className="mt-[24px]">
-                <Button size="mid" customStyle={{ width: 170 }} icon={<CameraIcon height={24} width={24} />}>
-                  내 일상 공유하기
-                </Button>
-              </View>
-            </View>
+            <FlatList
+              onScroll={scrollPosts}
+              data={[...Array(20)]}
+              keyExtractor={(_, idx) => idx.toString()}
+              renderItem={({ item, index }) => <PostItem key={index} />}
+              showsVerticalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View className="h-[18px]" />}
+              contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
+            />
+            {isPostsHidden && (
+              <>
+                <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />
+                <View className="absolute h-full justify-center items-center w-full transform translate-y-[-20px]" pointerEvents="box-none">
+                  <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
+                  <View className="mt-[24px]">
+                    <Button size="mid" customStyle={{ width: 170 }} icon={<CameraIcon height={24} width={24} />}>
+                      내 일상 공유하기
+                    </Button>
+                  </View>
+                </View>
+              </>
+            )}
           </>
         )}
+        {data.length === 0 && (
+          <View className="pt-[60px]">
+            <AvatarSadMsg message={`아직 아무도 글을\n작성하지 않았어요`} />
+          </View>
+        )}
       </View>
+
       <TeamHeader title="아줌마들의 우정은 디질때까지" />
     </>
   );

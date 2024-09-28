@@ -6,25 +6,30 @@ import Button from '@components/common/Button';
 import MiniLoading from '@components/common/MiniLoading';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { useGetAllMyFriend, useGetAllMyFriendRequest } from '@hooks/query';
+import { MyFriend } from '@clientTypes/user';
 import useNavi from '@hooks/useNavi';
 
 const { width } = Dimensions.get('window');
 
 const MyFriendScreen = () => {
   const [isAllFriend, setIsAllFriend] = useState(true);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const { navigation } = useNavi();
 
   const { data: myFriendData, isLoading: isLoadingMyFriend } = useGetAllMyFriend();
   const { data: myFriendRqData, isLoading: isLoadingFriendRq } = useGetAllMyFriendRequest();
+  const data: MyFriend[] = isAllFriend ? myFriendData : myFriendRqData;
 
-  useEffect(() => {
-    if (isAllFriend) {
-      setData(myFriendData);
-      return;
-    }
-    setData(myFriendRqData);
-  }, [isAllFriend, myFriendData, myFriendRqData]);
+  console.log('myFriendData:', myFriendData);
+  console.log('myFriendRqData:', myFriendRqData);
+
+  // useEffect(() => {
+  //   if (isAllFriend) {
+  //     setData(myFriendData);
+  //     return;
+  //   }
+  //   setData(myFriendRqData);
+  // }, [isAllFriend, myFriendData, myFriendRqData]);
 
   if (isLoadingMyFriend || isLoadingFriendRq) return <MiniLoading />;
 
@@ -49,8 +54,8 @@ const MyFriendScreen = () => {
       {data?.length > 0 && (
         <ScrollView className="px-4 pt-[4px]" contentContainerStyle={{ paddingBottom: 30 }}>
           <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden">
-            {[...Array(20)].map((_, idx) => (
-              <FriendItem key={idx} isFriend={isAllFriend} />
+            {data.map((friend, idx) => (
+              <FriendItem key={idx} {...friend} />
             ))}
           </View>
         </ScrollView>

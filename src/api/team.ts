@@ -1,4 +1,4 @@
-import { Team, TeamInvite } from '@clientTypes/team';
+import { TeamInvite } from '@clientTypes/team';
 import { instance } from '@api/axiosInstance';
 
 export interface UpdateOne {
@@ -25,7 +25,7 @@ export const updateOne = async (data: UpdateOne) => {
 
 export const postOne = async (title: string) => {
   const res = await instance.post('/api/diary', { title });
-  return res;
+  return res.data;
 };
 
 export const postInvite = async (body: TeamInvite) => {

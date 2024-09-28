@@ -1,7 +1,8 @@
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
-import { EventDetail } from '@notifee/react-native';
+import notifee, { EventDetail } from '@notifee/react-native';
 
 export const clientNotiMessage = (message: FirebaseMessagingTypes.RemoteMessage) => {
+  console.log('message:', message);
   const { data } = message;
   console.log('noti data:', data);
 
@@ -10,6 +11,11 @@ export const clientNotiMessage = (message: FirebaseMessagingTypes.RemoteMessage)
   //   body: data.content.toString(),
   //   data: data,
   // });
+  return notifee.displayNotification({
+    title: '타이틀',
+    body: '내용 설명',
+    // data: data,
+  });
 };
 
 export const clientNotiClick = async (detail: EventDetail) => {

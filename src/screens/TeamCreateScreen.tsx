@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { usePostOneTeam } from '@hooks/query';
 import useNavi from '@hooks/useNavi';

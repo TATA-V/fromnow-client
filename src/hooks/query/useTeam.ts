@@ -1,11 +1,13 @@
 import { Team, TeamInvite } from '@clientTypes/team';
 import { deleteOne, getAll, postAccept, postInvite, postOne, UpdateOne, updateOne } from '@api/team';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
+import useNavi from '@hooks/useNavi';
+import { QUERY_KEY, useKey } from '@hooks/query';
 
 export const useGetAllTeam = () => {
   const { data, isError, isLoading } = useQuery<Team[]>({
-    queryKey: ['all', 'team'],
+    queryKey: useKey(['all', QUERY_KEY.TEAM]),
     queryFn: getAll,
   });
 
@@ -30,6 +32,7 @@ export const useDeleteOneTeam = () => {
 
 export const useUpdateOneTeam = () => {
   const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
 
   const updateTeamMutation = useMutation({
     mutationFn: ({ diaryId, newTitle }: UpdateOne) => updateOne({ diaryId, newTitle }),
@@ -45,11 +48,15 @@ export const useUpdateOneTeam = () => {
 };
 
 export const usePostOneTeam = () => {
+  const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
 
   const createTeamMutation = useMutation({
     mutationFn: postOne,
-    onSuccess: () => {
+    onSuccess: res => {
+      queryClient.setQueryData(['all', QUERY_KEY.TEAM], (prev: Team[]) => {
+        return [res.data, ...prev];
+      });
       successToast('새로운 다이어리가 생성되었습니다.');
     },
     onError: () => {

@@ -3,8 +3,8 @@ import { Text, View, Image, Pressable } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import PlusIcon from '@assets/icons/PlusIcon';
 import Badge from '@components/common/Badge';
-import { Team } from '@screens/HomeScreen';
 import useNavi from '@hooks/useNavi';
+import { Team } from '@clientTypes/team';
 
 export type Color = 'pink' | 'yellow' | 'blue' | 'green' | 'gray';
 
@@ -13,7 +13,7 @@ interface Props extends Team {
   color: string;
 }
 
-const TeamFolder = ({ isNew, color, id, title, users = [] }: Props) => {
+const TeamFolder = ({ isNew, color, id, title, photoUrls = [] }: Props) => {
   const [colors, setColors] = useState<string[]>([]);
   const { navigation } = useNavi();
 
@@ -56,17 +56,22 @@ const TeamFolder = ({ isNew, color, id, title, users = [] }: Props) => {
       </Svg>
       <View className="absolute top-[54px] w-full h-full items-center">
         <View className="flex flex-row">
-          {users.slice(0, 2).map((img, idx) => (
-            <Image
-              key={idx}
-              source={img}
-              className={`${idx === 0 ? 'ml-0' : 'ml-[-12px]'} w-[48px] h-[48px] rounded-2xl border-[1px] border-black200`}
-            />
-          ))}
-          <View className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200 flex flex-row bg-white justify-center items-center ml-[-12px]">
-            <PlusIcon size={18} color="#B3B4B9" />
-            <Text className="text-black500 font-PTDLight text-[20px]">{users.length - 2}</Text>
-          </View>
+          {Array.isArray(photoUrls) &&
+            photoUrls
+              .slice(0, 2)
+              .map((img, idx) => (
+                <Image
+                  key={idx}
+                  source={{ uri: img }}
+                  className={`${idx === 0 ? 'ml-0' : 'ml-[-12px]'} w-[48px] h-[48px] rounded-2xl border-[1px] border-black200`}
+                />
+              ))}
+          {photoUrls.length > 2 && (
+            <View className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200 flex flex-row bg-white justify-center items-center ml-[-12px]">
+              <PlusIcon size={18} color="#B3B4B9" />
+              <Text className="text-black500 font-PTDLight text-[20px]">{photoUrls.length - 2}</Text>
+            </View>
+          )}
         </View>
         <Text numberOfLines={1} ellipsizeMode="tail" className="max-w-[130px] font-UhBee text-[20px] mt-4">
           {title}

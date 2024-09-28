@@ -11,14 +11,14 @@ export const useSignInSocial = () => {
 
   const signInMutation = useMutation({
     mutationFn: ({ path, token }: GetOne) => getOne({ path, token }),
-    onSuccess: res => {
+    onSuccess: async res => {
       const access = res.headers.authorization;
-      setStorage('access', access);
+      await setStorage('access', access);
       if (res.data.message === '새로 회원가입하는 유저입니다!') {
         SheetManager.show('signup-policy');
         return;
       }
-      navigation.navigate('Home');
+      navigation.navigate('Home', { refresh: true });
     },
     onError: error => {
       console.log('signin error:', error);

@@ -1,51 +1,45 @@
-import React, { useState } from 'react';
-import { ImageSourcePropType, View } from 'react-native';
-import profilePng from '@assets/png/profile.png';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
-import DndTeamList from '@components/Home/DndTeamList';
+// import DndTeamList from '@components/Home/DndTeamList';
 import TeamList from '@components/Home/TeamList';
-import FadeIn from '@components/common/FadeIn';
-
-export interface Team {
-  id: number;
-  title: string;
-  users: string[] | ImageSourcePropType[];
-}
+import MiniLoading from '@components/common/MiniLoading';
+import TeamNotFound from '@components/Home/TeamNotFound';
+import { useGetAllTeam } from '@hooks/query';
+import useCurrentRoute from '@hooks/useCurrentRoute';
+import useUserStore from '@store/useUserStore';
+import { getOne } from '@api/user';
 
 const HomeScreen = () => {
   const [isEdit, setIsEdit] = useState(false);
-
-  const [teamList, setTeamList] = useState<Team[]>([
-    { id: 1, title: '아줌마들의 우정을 디질때까지', users: [profilePng, profilePng] },
-    { id: 2, title: '무한도전 재밌어요', users: [profilePng, profilePng] },
-    { id: 3, title: '냥대 뉴진스ㅋ', users: [profilePng, profilePng] },
-    { id: 4, title: '회사 가기 싫잔아요', users: [profilePng, profilePng] },
-    //
-    { id: 5, title: '아줌마들의 우정을 디질때까지', users: [profilePng, profilePng] },
-    { id: 6, title: '무한도전 재밌어요', users: [profilePng, profilePng] },
-    { id: 7, title: '냥대 뉴진스ㅋ', users: [profilePng, profilePng] },
-    { id: 8, title: '회사 가기 싫잔아요', users: [profilePng, profilePng] },
-    { id: 9, title: '아줌마들의 우정을 디질때까지', users: [profilePng, profilePng] },
-    { id: 10, title: '무한도전 재밌어요', users: [profilePng, profilePng] },
-    { id: 11, title: '냥대 뉴진스ㅋ', users: [profilePng, profilePng] },
-    { id: 12, title: '회사 가기 싫잔아요', users: [profilePng, profilePng] },
-  ]);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
 
-  // const { data, isLoading } = useGetAllTeam();
-  // console.log('data:', data);
+  const { data, isLoading } = useGetAllTeam();
 
-  // if (isLoading) return <MiniLoading />;
+  // 로그인시에 응답데이터로 profileName 달라고해야 함 그래야 여기서 한번 더 요청을 안함
+  const { route } = useCurrentRoute();
+  const setName = useUserStore(state => state.setName);
+  useEffect(() => {
+    if (route.params && route.params.refresh) {
+      getOne().then(res => {
+        setName(res.profileName);
+      });
+    }
+  }, [route.params]);
+
+  if (isLoading) return <MiniLoading />;
 
   return (
-    <View className="bg-black100 flex-1">
-      <HomeHeader isEdit={isEdit} setIsEdit={setIsEdit} />
-      {isEdit && <DndTeamList teamList={teamList} colors={colors} />}
-      {!isEdit && <TeamList teamList={teamList} colors={colors} />}
-      {/* 모임이 하나도 없다면 */}
-      {/* <TeamNotFound /> */}
-    </View>
+    <>
+      <View className="bg-black100 flex-1">
+        <HomeHeader isEdit={isEdit} setIsEdit={setIsEdit} />
+        {/* {isEdit && <DndTeamList teamList={data} colors={colors} />} */}
+        {/* {!isEdit && <TeamList teamList={data} colors={colors} />} */}
+        <TeamList teamList={data} colors={colors} />
+        {data?.length === 0 && <TeamNotFound />}
+      </View>
+    </>
   );
 };
 

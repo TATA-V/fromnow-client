@@ -3,9 +3,7 @@ import { View, Text } from 'react-native';
 import AlarmIcon from '@assets/icons/AlarmIcon';
 import moment from 'moment-modification-rn';
 import useNavi from '@hooks/useNavi';
-import { MotiView } from 'moti';
 import useToast from '@hooks/useToast';
-import { Easing } from 'react-native-reanimated';
 
 const Timer = () => {
   const totalDuration = moment.duration(5, 'minutes');
@@ -18,7 +16,7 @@ const Timer = () => {
     setTime(totalDuration);
     interval = setInterval(() => {
       setTime(prev => {
-        const newTime = prev.clone().subtract(1, 'seconds');
+        const newTime = prev.clone().subtract(5, 'seconds');
         if (newTime.asSeconds() <= 0) {
           clearInterval(interval!);
           navigation.navigate('Bottom', { screen: 'Home' });
@@ -49,29 +47,11 @@ const Timer = () => {
           <View
             style={{ width: `${100 - progressPercentage}%` }}
             className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} h-full rounded-[8px] justify-center relative`}>
-            {!shouldAnimate && (
-              <View
-                className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-[-8px] right-[-16px]
+            <View
+              className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-[-8px] right-[-16px]
               rounded-[14px] w-[36px] h-[36px] flex justify-center items-center`}>
-                <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
-              </View>
-            )}
-            {shouldAnimate && (
-              <MotiView
-                from={{ rotate: '-20deg' }}
-                animate={{ rotate: '20deg' }}
-                transition={{
-                  type: 'timing',
-                  duration: 100,
-                  loop: true,
-                  repeatReverse: true,
-                  easing: Easing.inOut(Easing.ease),
-                }}
-                className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-[-8px] right-[-16px]
-                rounded-[14px] w-[36px] h-[36px] flex justify-center items-center`}>
-                <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
-              </MotiView>
-            )}
+              <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
+            </View>
           </View>
         </View>
       </View>

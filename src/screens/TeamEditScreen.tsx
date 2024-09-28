@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import InputField from '@components/common/InputField';
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
+import { useUpdateOneTeam } from '@hooks/query';
 
 interface Form {
   teamName: string;
@@ -15,9 +16,8 @@ interface Props {
 }
 
 const TeamEditScreen = ({}: Props) => {
-  const { navigation } = useNavi();
   const { route } = useCurrentRoute();
-  console.log('route:', route.params.id);
+  const { updateTeamMutation } = useUpdateOneTeam();
 
   const {
     control,
@@ -29,7 +29,8 @@ const TeamEditScreen = ({}: Props) => {
     const { teamName } = data;
     console.log('teamName:', teamName);
     if (errors.teamName) return;
-    navigation.navigate('TeamSetting', { id: route.params.id });
+    updateTeamMutation.mutate({ diaryId: route.params.id, newTitle: teamName });
+    // navigation.navigate('TeamSetting', { id: route.params.id });
   });
 
   return (

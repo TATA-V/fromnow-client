@@ -8,7 +8,7 @@ interface Props {
 }
 
 const MyPhoto = ({ photoUrl }: Props) => {
-  const [image, setImage] = useState<ImageType>();
+  // const [image, setImage] = useState<ImageType>();
   const { updatePhotoMutation } = useUpdatePhoto();
 
   const pickImage = async () => {
@@ -17,7 +17,7 @@ const MyPhoto = ({ photoUrl }: Props) => {
       height: 300,
       cropping: true,
     }).then(item => {
-      setImage(item);
+      // setImage(item);
       updatePhotoMutation.mutate(item);
     });
   };

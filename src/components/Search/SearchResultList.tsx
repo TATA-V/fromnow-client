@@ -1,13 +1,18 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 import FriendItem from '@components/common/FriendItem';
+import { SearchFriend } from '@clientTypes/friend';
 
-const SearchResultList = () => {
+interface Props {
+  searchList: SearchFriend[];
+}
+
+const SearchResultList = ({ searchList }: Props) => {
   return (
-    <ScrollView className="px-4" contentContainerStyle={{ paddingBottom: 25 }}>
+    <ScrollView contentContainerStyle={{ paddingBottom: 25 }} showsVerticalScrollIndicator={false}>
       <View className="border-[1px] border-black200 bg-white rounded-2xl my-[4px]">
-        {[...Array(20)].map((_, idx) => (
-          <FriendItem key={idx} isFriend />
+        {searchList.map((data, idx) => (
+          <FriendItem key={idx} {...data} />
         ))}
       </View>
     </ScrollView>

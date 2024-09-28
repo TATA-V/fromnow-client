@@ -6,9 +6,10 @@ import { getStorage, removeStorage, setStorage } from '@utils/storage';
 interface Props {
   history: string[];
   setHistory: Dispatch<SetStateAction<string[]>>;
+  recentSearchClick: (title: string) => void;
 }
 
-const RecentSearches = ({ history, setHistory }: Props) => {
+const RecentSearches = ({ history, setHistory, recentSearchClick }: Props) => {
   const [autoSave, setAutoSave] = useState<boolean>(true);
 
   useEffect(() => {
@@ -58,7 +59,9 @@ const RecentSearches = ({ history, setHistory }: Props) => {
       </View>
       <View className="flex flex-row flex-wrap">
         {history.map((title, idx) => (
-          <HistoryChip key={idx} title={title} removeOne={removeOne} />
+          <TouchableOpacity key={idx} onPress={() => recentSearchClick(title)}>
+            <HistoryChip title={title} removeOne={removeOne} />
+          </TouchableOpacity>
         ))}
         {history.length === 0 && (
           <View className="py-4 w-full items-center">

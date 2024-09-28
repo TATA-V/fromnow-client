@@ -16,7 +16,7 @@ const HomeHeader = ({ isEdit, setIsEdit }: Props) => {
   const { navigation } = useNavi();
 
   return (
-    <View className="bg-black100 h-[66px] w-full flex flex-row px-[8px] items-center justify-between">
+    <View className="bg-black100 h-[66px] w-full flex flex-row px-[8px] items-center justify-between z-10">
       <View className="px-[10px] w-[112px] h-38px">
         <View className="w-[92px] h-[18px]">
           <Logo />
