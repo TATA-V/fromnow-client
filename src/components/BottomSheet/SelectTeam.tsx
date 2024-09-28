@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 import SelectTeamItem from '@components/PostEdit/SelectTeamItem';
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
+import { useGetAllTeam } from '@hooks/query';
+import MiniLoading from '@components/common/MiniLoading';
+import { Image as ImageType } from 'react-native-image-crop-picker';
+import { Team } from '@clientTypes/team';
 
-const SelectTeam = () => {
+interface Props {
+  payload?: {
+    file: ImageType;
+  };
+}
+
+const SelectTeam = ({ payload }: Props) => {
+  const [teams, setTeams] = useState<(Team & { isSharing: boolean })[]>([]);
   const { navigation } = useNavi();
+  const { data, isLoading } = useGetAllTeam();
+
+  useEffect(() => {
+    if (!data) return;
+    const updateTeams = data.map((item: Team) => ({ ...item, isSharing: false }));
+    setTeams(updateTeams);
+  }, [data]);
+
+  const toggleSharing = (id: number) => {
+    setTeams(prev => prev.map(team => (team.id === id ? { ...team, isSharing: !team.isSharing } : team)));
+  };
 
   const confirmTeamSelection = () => {
     navigation.navigate('Home');
@@ -20,6 +42,8 @@ const SelectTeam = () => {
       SheetManager.hide('select-team');
     }
   };
+
+  if (isLoading) return <MiniLoading />;
 
   return (
     <ActionSheet containerStyle={styles.container}>
@@ -36,9 +60,9 @@ const SelectTeam = () => {
             <Text className="text-black900 text-base font-PTDSemiBold">보여줄 모임 선택하기</Text>
           </View>
           <FlatList
-            data={[...Array(20)]}
+            data={teams}
             keyExtractor={(_, key) => key.toString()}
-            renderItem={({ item, index }) => <SelectTeamItem key={index} isSharing={false} />}
+            renderItem={({ item, index }) => <SelectTeamItem key={index} {...item} toggleSharing={toggleSharing} />}
             ItemSeparatorComponent={() => <View className="h-[10px]" />}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingVertical: 4 }}

@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-calendars/src/calendar-list/item.js b/node_modules/react-native-calendars/src/calendar-list/item.js
-index 0e5be76..b4605c7 100644
+index 0e5be76..08f1ab8 100644
 --- a/node_modules/react-native-calendars/src/calendar-list/item.js
 +++ b/node_modules/react-native-calendars/src/calendar-list/item.js
 @@ -1,5 +1,6 @@
@@ -15,7 +15,7 @@ index 0e5be76..b4605c7 100644
      }, [onPressArrowRight, scrollToMonth]);
      if (!visible) {
 -        return (<Text style={textStyle}>{dateString}</Text>);
-+        return (<View style={[textStyle,{alignSelf:'center',justifyContent:'center'}]}><LoadingLottie customStyle={{ width: 130, height: 130 }} /></View>)
++        return (<View style={[textStyle,{alignItems:'center',justifyContent:'center'}]}><LoadingLottie customStyle={{ width: 130, height: 130 }} /></View>)
      }
      return (<Calendar hideArrows={true} hideExtraDays={true} {...calendarProps} current={dateString} style={calendarStyle} headerStyle={horizontal ? headerStyle : undefined} disableMonthChange onPressArrowLeft={horizontal ? _onPressArrowLeft : onPressArrowLeft} onPressArrowRight={horizontal ? _onPressArrowRight : onPressArrowRight}/>);
  });

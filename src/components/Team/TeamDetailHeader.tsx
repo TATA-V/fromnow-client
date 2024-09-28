@@ -13,7 +13,7 @@ const TeamDetailHeader = ({ title }: Props) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={{ top: insets.top }} className="absolute px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
+    <View style={{ top: insets.top }} className="absolute px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between z-10">
       <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
         <LeftArrowIcon />
       </TouchableOpacity>

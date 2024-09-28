@@ -26,8 +26,7 @@ const CameraScreen = () => {
       path: uri,
       mediaType: 'photo',
     }).then(image => {
-      console.log('Edited image:', image);
-      navigation.navigate('PostEdit', { file: image });
+      navigation.navigate('BoardEdit', { file: image });
     });
   };
 

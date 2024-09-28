@@ -1,21 +1,25 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
-import PostItem from '@components/common/PostItem';
+import { FlatList, View, RefreshControl } from 'react-native';
+import BoardItem from '@components/common/BoardItem';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import MiniLoading from '@components/common/MiniLoading';
-import { useGetAllMyLikedPost } from '@hooks/query';
+import { useGetAllMyLikedPost, useKey, QUERY_KEY } from '@hooks/query';
+import useRefresh from '@hooks/useRefresh';
 
-const MyLikedPostScreen = () => {
+const MyLikedBoardScreen = () => {
   const { data, isLoading } = useGetAllMyLikedPost();
+  const { refreshing, onRefresh } = useRefresh({ queryKey: useKey([QUERY_KEY.MY, 'liked', 'posts']) });
+
   if (isLoading) return <MiniLoading />;
 
   return (
     <View className="flex-1 bg-black100">
       {data.length > 0 && (
         <FlatList
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           data={data}
           keyExtractor={(_, idx) => idx.toString()}
-          renderItem={({ item, index }) => <PostItem key={index} />}
+          renderItem={({ item, index }) => <BoardItem key={index} />}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View className="h-[18px]" />}
           contentContainerStyle={{ paddingTop: 8, paddingBottom: 30, paddingHorizontal: 16 }}
@@ -30,4 +34,4 @@ const MyLikedPostScreen = () => {
   );
 };
 
-export default MyLikedPostScreen;
+export default MyLikedBoardScreen;

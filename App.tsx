@@ -34,11 +34,11 @@ import TeamScreen from './src/screens/TeamScreen';
 import TeamCalendarScreen from './src/screens/TeamCalendarScreen';
 import TeamSettingScreen from './src/screens/TeamSettingScreen';
 import TeamEditScreen from './src/screens/TeamEditScreen';
-import MyLikedPostScreen from './src/screens/MyLikedPostScreen';
+import MyLikedBoardScreen from './src/screens/MyLikedBoardScreen';
 import TeamDetailScreen from './src/screens/TeamDetailScreen';
 import TeamFriendAddScreen from './src/screens/TeamFriendAddScreen';
 import CameraScreen from './src/screens/CameraScreen';
-import PostEditScreen from './src/screens/PostEditScreen';
+import BoardEditScreen from './src/screens/BoardEditScreen';
 import TeamCreateScreen from './src/screens/TeamCreateScreen';
 
 function App() {
@@ -113,8 +113,8 @@ function App() {
                     options={{ header: () => <DefaultHeader title="받은 모임 요청" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
                   <Stack.Screen
-                    name="MyLikedPost"
-                    component={MyLikedPostScreen}
+                    name="MyLikedBoard"
+                    component={MyLikedBoardScreen}
                     options={{ header: () => <DefaultHeader title="좋아요 누른 일상" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
                   <Stack.Screen name="Team" options={{ headerShown: false }}>
@@ -141,8 +141,8 @@ function App() {
                     {props => <TeamDetailScreen {...props} paramName="TeamDetail" />}
                   </Stack.Screen>
                   <Stack.Screen name="TeamCreate" component={TeamCreateScreen} options={{ header: () => <DefaultHeader title="모임 생성하기" /> }} />
-                  <Stack.Screen name="PostEdit" options={{ header: () => <DefaultHeader title="일상 기록하기" /> }}>
-                    {props => <PostEditScreen {...props} paramName="PostEdit" />}
+                  <Stack.Screen name="BoardEdit" options={{ header: () => <DefaultHeader title="일상 기록하기" /> }}>
+                    {props => <BoardEditScreen {...props} paramName="BoardEdit" />}
                   </Stack.Screen>
                   <Stack.Screen
                     name="Search"

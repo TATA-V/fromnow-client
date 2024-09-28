@@ -8,7 +8,7 @@ interface Props {
   paramName: string;
 }
 
-const PostEditScreen = ({}: Props) => {
+const BoardEditScreen = ({}: Props) => {
   const [content, setContent] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const { route } = useCurrentRoute();
@@ -23,7 +23,7 @@ const PostEditScreen = ({}: Props) => {
   };
 
   const selectTeamToShow = () => {
-    SheetManager.show('select-team');
+    SheetManager.show('select-team', { payload: { file: route.params.file } });
   };
 
   return (
@@ -59,4 +59,4 @@ const PostEditScreen = ({}: Props) => {
   );
 };
 
-export default PostEditScreen;
+export default BoardEditScreen;

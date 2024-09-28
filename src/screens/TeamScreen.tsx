@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { View, FlatList, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native';
+import { View, FlatList, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image, RefreshControl } from 'react-native';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import PostItem from '@components/common/PostItem';
+import BoardItem from '@components/common/BoardItem';
 import CalendarStrip from '@components/Team/CalendarStrip/CalendarStrip';
 import Badge from '@components/common/Badge';
 import moment from 'moment-modification-rn';
@@ -12,9 +12,10 @@ import AvatarHappyMsg from '@components/common/AvatarHappyMsg';
 import Button from '@components/common/Button';
 import CameraIcon from '@assets/icons/CameraIcon';
 import blurPng from '@assets/png/blur.png';
-import { useGetAllBoard } from '@hooks/query';
+import { QUERY_KEY, useGetAllBoard, useKey } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
+import useRefresh from '@hooks/useRefresh';
 import 'moment-modification-rn/locale/ko';
 moment.locale('ko');
 
@@ -31,6 +32,8 @@ const TeamScreen = ({}: Props) => {
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
   const { data, isLoading } = useGetAllBoard({ diaryId: route.params.id, date: currentDate });
 
+  const { refreshing, onRefresh } = useRefresh({ queryKey: useKey(['all', QUERY_KEY.BOARD, currentDate]) });
+
   const scrollPosts = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (isPostsHidden) return;
     const currentOffsetY = e.nativeEvent.contentOffset.y;
@@ -42,8 +45,6 @@ const TeamScreen = ({}: Props) => {
     }
     lastOffsetY.current = currentOffsetY;
   };
-
-  if (isLoading) return <MiniLoading />;
 
   return (
     <>
@@ -65,10 +66,13 @@ const TeamScreen = ({}: Props) => {
           rightSelector={[]}
           scrollable={true}
           scrollerPaging={true}
-          onDateSelected={date => console.log('dateSelected', date)}
+          onDateSelected={date => {
+            setCurrentDate(moment(date).format('YYYY-MM-DD'));
+          }}
           onWeekChanged={(start, end) => console.log(start, end)}
           minDate={moment('2024-09-01')}
           maxDate={moment().add(4, 'days')}
+          selectedDate={moment(currentDate)}
           dayComponent={({ date, onDateSelected }) => (
             <Pressable
               onPress={() => {
@@ -88,15 +92,21 @@ const TeamScreen = ({}: Props) => {
           )}
         />
       </MotiView>
+      {isLoading && (
+        <View className="pt-[60px] bg-black100">
+          <MiniLoading />
+        </View>
+      )}
 
       <View className="relative flex-1 bg-black100">
-        {data.length > 0 && (
+        {data && data.length > 0 && (
           <>
             <FlatList
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               onScroll={scrollPosts}
               data={[...Array(20)]}
               keyExtractor={(_, idx) => idx.toString()}
-              renderItem={({ item, index }) => <PostItem key={index} />}
+              renderItem={({ item, index }) => <BoardItem key={index} />}
               showsVerticalScrollIndicator={false}
               ItemSeparatorComponent={() => <View className="h-[18px]" />}
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
@@ -116,7 +126,7 @@ const TeamScreen = ({}: Props) => {
             )}
           </>
         )}
-        {data.length === 0 && (
+        {data && data.length === 0 && (
           <View className="pt-[60px]">
             <AvatarSadMsg message={`아직 아무도 글을\n작성하지 않았어요`} />
           </View>

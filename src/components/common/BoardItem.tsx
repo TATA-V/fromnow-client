@@ -4,7 +4,7 @@ import profilePng from '@assets/png/profile.png';
 import postJpg from '@assets/jpg/post.jpg';
 import HeartIcon from '@assets/icons/heart.svg';
 
-const PostItem = () => {
+const BoardItem = () => {
   return (
     <View className="space-y-3 p-4 bg-white border-[1px] border-black200 rounded-3xl">
       <View className="flex flex-row space-x-[8px] h-[36px] items-center">
@@ -34,4 +34,4 @@ const PostItem = () => {
   );
 };
 
-export default PostItem;
+export default BoardItem;

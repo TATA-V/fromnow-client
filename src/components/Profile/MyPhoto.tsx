@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
-import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import { useUpdatePhoto } from '@hooks/query';
 
 interface Props {
@@ -8,7 +8,6 @@ interface Props {
 }
 
 const MyPhoto = ({ photoUrl }: Props) => {
-  // const [image, setImage] = useState<ImageType>();
   const { updatePhotoMutation } = useUpdatePhoto();
 
   const pickImage = async () => {
@@ -17,7 +16,6 @@ const MyPhoto = ({ photoUrl }: Props) => {
       height: 300,
       cropping: true,
     }).then(item => {
-      // setImage(item);
       updatePhotoMutation.mutate(item);
     });
   };

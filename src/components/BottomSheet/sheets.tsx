@@ -1,4 +1,5 @@
 import { registerSheet, ActionSheetProps } from 'react-native-actions-sheet';
+import { Image as ImageType } from 'react-native-image-crop-picker';
 import SignupPolicy from './SignupPolicy';
 import SelectTeam from './SelectTeam';
 
@@ -10,7 +11,9 @@ type SheetDefinition = ActionSheetProps;
 declare module 'react-native-actions-sheet' {
   interface Sheets {
     'signup-policy': SheetDefinition;
-    'select-team': SheetDefinition;
+    'select-team': {
+      show(sheetId: string, options?: { payload?: ImageType; onClose?: (data: unknown) => void; context?: string }): void;
+    };
   }
 }
 
