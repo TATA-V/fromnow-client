@@ -6,15 +6,38 @@ import HomeIcon from '@assets/icons/HomeIcon';
 import PeopleIcon from '@assets/icons/PeopleIcon';
 import TooltipTailIcon from '@assets/icons/tooltip-tail.svg';
 import { AnimatePresence, MotiView } from 'moti';
+import { useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEY, useKey } from '@hooks/query';
+import { Team } from '@clientTypes/team';
+import { useModal } from '@components/Modal';
 
 const { width } = Dimensions.get('window');
 
 const BottomTabBar = ({ state, descriptors, navigation }: any) => {
-  const [showBubble, setShowBubble] = useState(true);
+  // const [showBubble, setShowBubble] = useState(true);
   // 말풍선은 새로운 일상이 생겼을 때 + 내가 글을 작성하지 않았을 때만 뜬다.
+
+  const queryClient = useQueryClient();
+  const { showModal } = useModal();
+
+  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+  const teamList: Team[] = queryClient.getQueryData(myTeamsKey);
 
   const navigateToScreen = (target: string) => {
     navigation.navigate(target);
+  };
+
+  const clickCamera = () => {
+    if (teamList && teamList.length === 0) {
+      showModal({
+        type: 'confirm',
+        title: '모임 생성',
+        description: '아직 생성된 모임이 없어요.\n지금 바로 새로운 모임을 만들어 보세요!',
+        confirm: () => navigation.navigate('TeamCreate'),
+      });
+      return;
+    }
+    navigation.navigate('Camera');
   };
 
   return (
@@ -33,10 +56,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
         </TouchableOpacity>
       </View>
       <View style={styles.camera} className="absolute h-full justify-center">
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Camera')}
-          style={styles.button}
-          className={`rounded-full bg-black900 flex justify-center items-center`}>
+        <TouchableOpacity onPress={clickCamera} style={styles.button} className={`rounded-full bg-black900 flex justify-center items-center`}>
           <CameraIcon width={width * 0.068} height={width * 0.068} />
         </TouchableOpacity>
       </View>

@@ -1,17 +1,19 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import ConfirmModal from '@components/Modal/ConfirmModal';
 import DialogModal from '@components/Modal/DialogModal';
+import MissionModal from '@components/Modal/MissionModal';
 
 interface Props {
   children: ReactNode;
 }
 
 export interface ModalState {
-  type: 'confirm' | 'dialog';
+  type: 'confirm' | 'dialog' | 'mission';
   open: boolean;
   title?: string;
   description: string;
   confirm?: () => void;
+  missionImg?: string;
 }
 interface ModalContextType {
   showModal: (modalData: Omit<ModalState, 'open'>) => void;
@@ -32,8 +34,8 @@ const ModalManager = ({ children }: Props) => {
     description: '',
   });
 
-  const showModal = ({ type, title, description, confirm }: Omit<ModalState, 'open'>) => {
-    setModalState({ type, open: true, title, description, confirm });
+  const showModal = (props: Omit<ModalState, 'open'>) => {
+    setModalState({ ...props, open: true });
   };
 
   const hideModal = () => {
@@ -43,7 +45,9 @@ const ModalManager = ({ children }: Props) => {
   return (
     <ModalContext.Provider value={{ showModal, hideModal }}>
       {children}
-      {modalState.type === 'confirm' ? <ConfirmModal {...modalState} /> : <DialogModal {...modalState} />}
+      {modalState.type === 'confirm' && <ConfirmModal {...modalState} />}
+      {modalState.type === 'dialog' && <DialogModal {...modalState} />}
+      {modalState.type === 'mission' && <MissionModal {...modalState} />}
     </ModalContext.Provider>
   );
 };

@@ -12,7 +12,7 @@ declare module 'react-native-actions-sheet' {
   interface Sheets {
     'signup-policy': SheetDefinition;
     'select-team': {
-      show(sheetId: string, options?: { payload?: ImageType; onClose?: (data: unknown) => void; context?: string }): void;
+      show(sheetId: string, options?: { payload?: { file: ImageType; content: string }; onClose?: (data: unknown) => void; context?: string }): void;
     };
   }
 }

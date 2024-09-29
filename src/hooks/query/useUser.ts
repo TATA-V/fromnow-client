@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import { MyLikedPost, MyFriend, MyTeamRequest, MyProfile } from '@clientTypes/user';
+import { MyLikedPost, Friend, MyTeamRequest, MyProfile } from '@clientTypes/user';
 import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
@@ -11,8 +11,10 @@ import useUserStore from '@store/useUserStore';
 export const useGetMyProfile = () => {
   const setName = useUserStore(state => state.setName);
   const { navigation } = useNavi();
+  const queryKey = useKey([QUERY_KEY.MY, 'profile']);
+
   const { data, isError, isLoading } = useQuery<MyProfile>({
-    queryKey: useKey([QUERY_KEY.MY, 'profile']),
+    queryKey,
     queryFn: getOne,
   });
   if (isError) {
@@ -65,6 +67,8 @@ export const useUpdatePhoto = () => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
+  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+  const myProfileKey = useKey([QUERY_KEY.MY, 'profile']);
 
   const updatePhotoMutation = useMutation({
     mutationFn: updatePhoto,
@@ -74,10 +78,10 @@ export const useUpdatePhoto = () => {
         successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
         return;
       }
-      queryClient.setQueryData([QUERY_KEY.MY, 'profile'], (prev: MyProfile) => {
+      queryClient.setQueryData(myProfileKey, (prev: MyProfile) => {
         return { ...prev, photoUrl: res.data.photoUrl };
       });
-      queryClient.invalidateQueries({ queryKey: useKey(['all', 'team']) });
+      queryClient.invalidateQueries({ queryKey: myTeamsKey });
       successToast('이미지 수정 완료!');
     },
     onError: () => {
@@ -91,8 +95,9 @@ export const useUpdatePhoto = () => {
 };
 
 export const useGetAllMyLikedPost = () => {
+  const queryKey = useKey([QUERY_KEY.MY, 'liked', 'posts']);
   const { data, isError, isLoading } = useQuery<MyLikedPost[]>({
-    queryKey: useKey([QUERY_KEY.MY, 'liked', 'posts']),
+    queryKey,
     queryFn: getAllMyLikedPost,
   });
 
@@ -100,8 +105,9 @@ export const useGetAllMyLikedPost = () => {
 };
 
 export const useGetAllMyFriend = () => {
-  const { data, isError, isLoading } = useQuery<MyFriend[]>({
-    queryKey: useKey([QUERY_KEY.MY, 'friends']),
+  const queryKey = useKey([QUERY_KEY.MY, 'friends']);
+  const { data, isError, isLoading } = useQuery<Friend[]>({
+    queryKey,
     queryFn: getAllMyFriend,
   });
 
@@ -109,8 +115,9 @@ export const useGetAllMyFriend = () => {
 };
 
 export const useGetAllMyFriendRequest = () => {
-  const { data, isError, isLoading } = useQuery<MyFriend[]>({
-    queryKey: useKey([QUERY_KEY.MY, 'friend', 'request']),
+  const queryKey = useKey([QUERY_KEY.MY, 'friend', 'request']);
+  const { data, isError, isLoading } = useQuery<Friend[]>({
+    queryKey,
     queryFn: getAllMyFriendRequest,
   });
 
@@ -118,8 +125,9 @@ export const useGetAllMyFriendRequest = () => {
 };
 
 export const useGetAllMyTeamRequest = () => {
+  const queryKey = useKey([QUERY_KEY.MY, 'team', 'request']);
   const { data, isError, isLoading } = useQuery<MyTeamRequest[]>({
-    queryKey: useKey([QUERY_KEY.MY, 'team', 'request']),
+    queryKey,
     queryFn: getAllMyTeamRequest,
   });
 

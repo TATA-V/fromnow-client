@@ -6,7 +6,7 @@ import Button from '@components/common/Button';
 import MiniLoading from '@components/common/MiniLoading';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey } from '@hooks/query';
-import { MyFriend } from '@clientTypes/user';
+import { Friend } from '@clientTypes/user';
 import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
 
@@ -18,7 +18,7 @@ const MyFriendScreen = () => {
 
   const { data: myFriendData, isLoading: isLoadingMyFriend } = useGetAllMyFriend();
   const { data: myFriendRqData, isLoading: isLoadingFriendRq } = useGetAllMyFriendRequest();
-  let data: MyFriend[] = isAllFriend ? myFriendData : myFriendRqData;
+  let data: Friend[] = isAllFriend ? myFriendData : myFriendRqData;
   let queryKey = isAllFriend ? useKey([QUERY_KEY.MY, 'friends']) : useKey([QUERY_KEY.MY, 'friend', 'request']);
   const { refreshing, onRefresh } = useRefresh({ queryKey });
 

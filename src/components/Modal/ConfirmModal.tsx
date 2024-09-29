@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { MotiView } from 'moti';
-import { useModal, ModalState } from '@components/Modal/ModalManager';
+import { useModal, ModalState } from '@components/Modal';
 
 const ConfirmModal = ({ open, title, description, confirm }: ModalState) => {
   const { hideModal } = useModal();

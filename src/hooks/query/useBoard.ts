@@ -5,8 +5,9 @@ import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 
 export const useGetAllBoard = (boardData: GetAll) => {
+  const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.date]);
   const { data, isError, isLoading } = useQuery<Board[]>({
-    queryKey: useKey(['all', QUERY_KEY.BOARD, boardData.date]),
+    queryKey,
     queryFn: () => getAll(boardData),
     staleTime: 0,
     gcTime: 0,
@@ -19,12 +20,13 @@ export const usePostOneBoard = () => {
   const { successToast, errorToast } = useToast();
 
   const createBoardMutation = useMutation({
-    mutationFn: ({ diaryId, uploadPhotos, createDiaryDto }: CreateBoard) => postOne({ diaryId, uploadPhotos, createDiaryDto }),
+    mutationFn: ({ uploadPhotos, chooseDiaryDto }: CreateBoard) => postOne({ uploadPhotos, chooseDiaryDto }),
     onSuccess: () => {
-      successToast('게시글 작성이 완료되었습니다.');
+      successToast('게시글 작성 완료!');
     },
-    onError: () => {
-      errorToast('게시글 작성에 실채했습니다.');
+    onError: error => {
+      console.log('error:', error);
+      errorToast('게시글 작성에 실패했습니다.');
     },
   });
 

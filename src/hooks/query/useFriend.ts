@@ -1,12 +1,13 @@
 import { deleteFriend, getSearchFriend, postFriendAccept, postFriendRequest } from '@api/friend';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { SearchFriend } from '@clientTypes/friend';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
+import { Friend } from '@clientTypes/user';
 
 export const useGetSearchFriend = (profileName: string, options = {}) => {
-  const { data, isError, isLoading } = useQuery<SearchFriend[]>({
-    queryKey: useKey(['search', QUERY_KEY.FRIEND, profileName]),
+  const queryKey = useKey(['search', QUERY_KEY.FRIEND, profileName]);
+  const { data, isError, isLoading } = useQuery<Friend[]>({
+    queryKey,
     queryFn: () => getSearchFriend(profileName),
     staleTime: 0,
     gcTime: 0,
@@ -34,10 +35,15 @@ export const usePostFriendRequest = () => {
 
 export const usePostFriendAccept = () => {
   const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const myFriendReqKey = useKey([QUERY_KEY.MY, 'friend', 'request']);
+  const myFriendsKey = useKey([QUERY_KEY.MY, 'friends']);
 
-  const friendRequestMutation = useMutation({
+  const friendAcceptMutation = useMutation({
     mutationFn: postFriendAccept,
-    onSuccess: () => {
+    onSuccess: res => {
+      queryClient.invalidateQueries({ queryKey: myFriendReqKey });
+      queryClient.setQueryData(myFriendsKey, (prev: Friend[]) => [{ ...res.data, friend: true }, ...prev]);
       successToast('친구 수락 완료!');
     },
     onError: () => {
@@ -45,16 +51,18 @@ export const usePostFriendAccept = () => {
     },
   });
 
-  return { friendRequestMutation };
+  return { friendAcceptMutation };
 };
 
 export const useDeleteFriend = () => {
   const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const myFriendsKey = useKey([QUERY_KEY.MY, 'friends']);
 
   const friendDeleteMutation = useMutation({
     mutationFn: deleteFriend,
-    onSuccess: res => {
-      console.log('res.data', res.data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: myFriendsKey });
       successToast('친구가 삭제되었습니다.');
     },
     onError: () => {

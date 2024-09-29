@@ -6,8 +6,9 @@ import useNavi from '@hooks/useNavi';
 import { QUERY_KEY, useKey } from '@hooks/query';
 
 export const useGetAllTeam = () => {
+  const queryKey = useKey(['all', QUERY_KEY.TEAM]);
   const { data, isError, isLoading } = useQuery<Team[]>({
-    queryKey: useKey(['all', QUERY_KEY.TEAM]),
+    queryKey,
     queryFn: getAll,
   });
 
@@ -18,11 +19,12 @@ export const useDeleteOneTeam = () => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const queryClient = useQueryClient();
+  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const deleteTeamMutation = useMutation({
     mutationFn: deleteOne,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: useKey(['all', QUERY_KEY.TEAM]) });
+      queryClient.invalidateQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
       successToast('다이어리를 삭제했습니다.');
     },
@@ -37,7 +39,6 @@ export const useDeleteOneTeam = () => {
 
 export const useUpdateOneTeam = () => {
   const { successToast, errorToast } = useToast();
-  const { navigation } = useNavi();
 
   const updateTeamMutation = useMutation({
     mutationFn: ({ diaryId, newTitle }: UpdateOne) => updateOne({ diaryId, newTitle }),
@@ -55,12 +56,14 @@ export const useUpdateOneTeam = () => {
 export const usePostOneTeam = () => {
   const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
+  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const createTeamMutation = useMutation({
     mutationFn: postOne,
     onSuccess: res => {
-      queryClient.setQueryData(['all', QUERY_KEY.TEAM], (prev: Team[]) => {
-        return [res.data, ...prev];
+      const newTeam = { ...res.data, photoUrls: [res.data.photoUrls] };
+      queryClient.setQueryData(myTeamsKey, (prev: Team[]) => {
+        return [newTeam, ...prev];
       });
       successToast('새로운 다이어리가 생성되었습니다.');
     },

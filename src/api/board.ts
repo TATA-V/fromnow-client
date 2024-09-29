@@ -14,7 +14,7 @@ export const getAll = async (data: GetAll) => {
 };
 
 export const postOne = async (data: CreateBoard) => {
-  const { diaryId, uploadPhotos, createDiaryDto } = data;
+  const { uploadPhotos, chooseDiaryDto } = data;
 
   const formData = new FormData();
   formData.append('uploadPhotos', {
@@ -22,9 +22,14 @@ export const postOne = async (data: CreateBoard) => {
     type: uploadPhotos.mime,
     name: uploadPhotos.path.split('/').pop(),
   });
-  formData.append('createDiaryDto', JSON.stringify(createDiaryDto));
+  const jsonChooseDiary = JSON.stringify(chooseDiaryDto);
+  const chooseDiaryBlob = new Blob([jsonChooseDiary], {
+    type: 'application/json',
+    lastModified: Date.now(),
+  });
+  formData.append('chooseDiaryDto', chooseDiaryBlob);
 
-  const res = await instance.post(`/api/board/diaries/${diaryId}`, formData, {
+  const res = await instance.post('/api/board/diaries', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

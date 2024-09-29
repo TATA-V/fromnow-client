@@ -5,9 +5,9 @@ const useRefresh = ({ queryKey }: { queryKey: string[] }) => {
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
-  const onRefresh = useCallback(async () => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
-    await queryClient.invalidateQueries({ queryKey });
+    queryClient.invalidateQueries({ queryKey });
     setRefreshing(false);
   }, []);
 

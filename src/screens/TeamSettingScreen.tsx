@@ -10,7 +10,7 @@ import ShareIcon from '@assets/icons/ShareIcon';
 import TrashIcon from '@assets/icons/trash.svg';
 import { CLIENT_URL } from '@env';
 import useNavi from '@hooks/useNavi';
-import { useModal } from '@components/Modal/ModalManager';
+import { useModal } from '@components/Modal';
 import { useDeleteOneTeam } from '@hooks/query';
 
 interface Props {

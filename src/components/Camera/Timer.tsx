@@ -4,12 +4,14 @@ import AlarmIcon from '@assets/icons/AlarmIcon';
 import moment from 'moment-modification-rn';
 import useNavi from '@hooks/useNavi';
 import useToast from '@hooks/useToast';
+import { useModal } from '@components/Modal';
 
 const Timer = () => {
   const totalDuration = moment.duration(5, 'minutes');
   const [time, setTime] = useState(totalDuration);
   const { navigation } = useNavi();
   const { warnToast } = useToast();
+  const { hideModal } = useModal();
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -19,7 +21,8 @@ const Timer = () => {
         const newTime = prev.clone().subtract(5, 'seconds');
         if (newTime.asSeconds() <= 0) {
           clearInterval(interval!);
-          navigation.navigate('Bottom', { screen: 'Home' });
+          hideModal();
+          navigation.navigate('Home');
           warnToast('⏰시간이 다 되었어요! 다시 촬영해보세요', { duration: 5000 });
           return moment.duration(0);
         }

@@ -12,7 +12,7 @@ export interface MyLikedPost {
   content: string;
 }
 
-export interface MyFriend {
+export interface Friend {
   memberId: number;
   profileName: string;
   profilePhotoUrl: string;

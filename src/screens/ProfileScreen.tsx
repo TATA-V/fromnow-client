@@ -26,6 +26,7 @@ const ProfileScreen = () => {
   const logoutUser = async () => {
     queryClient.clear();
     await removeStorage('access');
+    await removeStorage('searchHistory');
     navigation.navigate('SignIn');
   };
 

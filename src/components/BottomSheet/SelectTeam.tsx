@@ -5,7 +5,7 @@ import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-g
 import SelectTeamItem from '@components/PostEdit/SelectTeamItem';
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
-import { useGetAllTeam } from '@hooks/query';
+import { useGetAllTeam, usePostOneBoard } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import { Image as ImageType } from 'react-native-image-crop-picker';
 import { Team } from '@clientTypes/team';
@@ -13,6 +13,7 @@ import { Team } from '@clientTypes/team';
 interface Props {
   payload?: {
     file: ImageType;
+    content: string;
   };
 }
 
@@ -20,6 +21,7 @@ const SelectTeam = ({ payload }: Props) => {
   const [teams, setTeams] = useState<(Team & { isSharing: boolean })[]>([]);
   const { navigation } = useNavi();
   const { data, isLoading } = useGetAllTeam();
+  const { createBoardMutation } = usePostOneBoard();
 
   useEffect(() => {
     if (!data) return;
@@ -32,6 +34,14 @@ const SelectTeam = ({ payload }: Props) => {
   };
 
   const confirmTeamSelection = () => {
+    const diaryIds = teams.reduce((acc, team) => {
+      if (team.isSharing) {
+        acc.push(team.id);
+      }
+      return acc;
+    }, []);
+    const chooseDiaryDto = { content: payload.content, diaryIds };
+    createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto });
     navigation.navigate('Home');
     SheetManager.hide('select-team');
   };

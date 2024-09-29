@@ -1,13 +1,13 @@
 import React from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import FriendItem from '@components/common/FriendItem';
-import { SearchFriend } from '@clientTypes/friend';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useRefresh from '@hooks/useRefresh';
+import { Friend } from '@clientTypes/user';
 
 interface Props {
   search: string;
-  searchList: SearchFriend[];
+  searchList: Friend[];
 }
 
 const SearchResultList = ({ search, searchList }: Props) => {
@@ -20,7 +20,7 @@ const SearchResultList = ({ search, searchList }: Props) => {
       showsVerticalScrollIndicator={false}>
       <View className="border-[1px] border-black200 bg-white rounded-2xl my-[4px]">
         {searchList.map((data, idx) => (
-          <FriendItem key={idx} {...data} />
+          <FriendItem key={idx} {...data} isFriendReq />
         ))}
       </View>
     </ScrollView>

@@ -13,10 +13,10 @@ export const postFriendRequest = async (sentProfileName: string) => {
 
 export const postFriendAccept = async (acceptMemberId: number) => {
   const res = await instance.post('/api/friend/accept', { acceptMemberId });
-  return res;
+  return res.data;
 };
 
-export const deleteFriend = async (deleteId: string) => {
+export const deleteFriend = async (deleteId: number) => {
   const res = await instance.delete('/api/friend/delete', { data: { deleteId } });
   return res.data;
 };

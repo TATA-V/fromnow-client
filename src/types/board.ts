@@ -1,4 +1,3 @@
-import { Team } from './team';
 import { Image as ImageType } from 'react-native-image-crop-picker';
 
 export interface Board {
@@ -10,8 +9,12 @@ export interface Board {
   content: string;
 }
 
+export interface ChooseDiaryDto {
+  content: string;
+  diaryIds: number[];
+}
+
 export interface CreateBoard {
-  diaryId: number;
   uploadPhotos: ImageType;
-  createDiaryDto: Omit<Team, 'id'>;
+  chooseDiaryDto: ChooseDiaryDto;
 }

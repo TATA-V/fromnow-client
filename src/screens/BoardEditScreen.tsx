@@ -3,7 +3,7 @@ import { View, Image, TextInput, Text } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { SheetManager } from 'react-native-actions-sheet';
 import Button from '@components/common/Button';
-import { useModal } from '@components/Modal/ModalManager';
+import { useModal } from '@components/Modal';
 
 interface Props {
   paramName: string;
@@ -24,7 +24,7 @@ const BoardEditScreen = ({}: Props) => {
   };
 
   const selectTeamToShow = () => {
-    SheetManager.show('select-team', { payload: { file: route.params.file } });
+    SheetManager.show('select-team', { payload: { file: route.params.file, content } });
   };
 
   return (
