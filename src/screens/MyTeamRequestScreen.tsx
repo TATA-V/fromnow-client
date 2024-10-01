@@ -25,9 +25,11 @@ const MyTeamRequestScreen = () => {
         </ScrollView>
       )}
       {data.length === 0 && (
-        <View className="w-full h-full justify-center items-center transfrom translate-y-[-66px]" pointerEvents="box-none">
-          <AvatarSadMsg message={`이런! 아직 받은\n모임 요청이 없어요`} />
-        </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View className="w-full h-full justify-center items-center transfrom translate-y-[-66px]" pointerEvents="box-none">
+            <AvatarSadMsg message={`이런! 아직 받은\n모임 요청이 없어요`} />
+          </View>
+        </ScrollView>
       )}
     </View>
   );

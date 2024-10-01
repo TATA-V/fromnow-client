@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, FlatList, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image, RefreshControl } from 'react-native';
+import { View, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image, RefreshControl, ScrollView } from 'react-native';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import BoardItem from '@components/common/BoardItem';
@@ -16,6 +16,7 @@ import { QUERY_KEY, useGetAllBoard, useKey } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
+import { FlashList } from '@shopify/flash-list';
 import 'moment-modification-rn/locale/ko';
 moment.locale('ko');
 
@@ -32,7 +33,8 @@ const TeamScreen = ({}: Props) => {
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
   const { data, isLoading } = useGetAllBoard({ diaryId: route.params.id, date: currentDate });
 
-  const { refreshing, onRefresh } = useRefresh({ queryKey: useKey(['all', QUERY_KEY.BOARD, currentDate]) });
+  const boardsKey = useKey(['all', QUERY_KEY.BOARD, currentDate]);
+  const { refreshing, onRefresh } = useRefresh({ queryKey: boardsKey });
 
   const scrollPosts = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (isPostsHidden) return;
@@ -101,15 +103,18 @@ const TeamScreen = ({}: Props) => {
       <View className="relative flex-1 bg-black100">
         {data && data.length > 0 && (
           <>
-            <FlatList
+            <FlashList
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               onScroll={scrollPosts}
               data={[...Array(20)]}
               keyExtractor={(_, idx) => idx.toString()}
-              renderItem={({ item, index }) => <BoardItem key={index} />}
+              renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
               showsVerticalScrollIndicator={false}
               ItemSeparatorComponent={() => <View className="h-[18px]" />}
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
+              initialScrollIndex={0}
+              estimatedItemSize={600}
+              estimatedFirstItemOffset={16}
             />
             {isPostsHidden && (
               <>
@@ -126,10 +131,12 @@ const TeamScreen = ({}: Props) => {
             )}
           </>
         )}
-        {data && data.length === 0 && (
-          <View className="pt-[60px]">
-            <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />
-          </View>
+        {(!data || data?.length === 0) && !isLoading && (
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+            <View className="pt-[60px]">
+              <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />
+            </View>
+          </ScrollView>
         )}
       </View>
 

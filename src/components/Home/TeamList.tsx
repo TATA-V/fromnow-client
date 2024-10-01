@@ -29,7 +29,6 @@ function TeamList({ teamList, colors }: Props) {
         )}
         ItemSeparatorComponent={() => <View style={{ width: 18, height: 18 }} />}
         contentContainerStyle={{
-          position: 'relative',
           paddingHorizontal: 18,
           paddingTop: 16,
           paddingBottom: 6,
@@ -45,6 +44,8 @@ function TeamList({ teamList, colors }: Props) {
           </FadeIn>
         }
         numColumns={2}
+        initialScrollIndex={0}
+        horizontal={false}
       />
     </View>
   );

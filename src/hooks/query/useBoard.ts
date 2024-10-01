@@ -3,6 +3,8 @@ import { Board, CreateBoard } from '@clientTypes/board';
 import { GetAll, getAll, postDisLike, postLike, postOne } from '@api/board';
 import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
+import useNavi from '@hooks/useNavi';
+import { SheetManager } from 'react-native-actions-sheet';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.date]);
@@ -18,14 +20,16 @@ export const useGetAllBoard = (boardData: GetAll) => {
 
 export const usePostOneBoard = () => {
   const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
 
   const createBoardMutation = useMutation({
     mutationFn: ({ uploadPhotos, chooseDiaryDto }: CreateBoard) => postOne({ uploadPhotos, chooseDiaryDto }),
     onSuccess: () => {
+      navigation.navigate('Home');
+      SheetManager.hide('select-team');
       successToast('게시글 작성 완료!');
     },
-    onError: error => {
-      console.log('error:', error);
+    onError: () => {
       errorToast('게시글 작성에 실패했습니다.');
     },
   });

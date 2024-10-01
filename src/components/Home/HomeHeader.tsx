@@ -7,13 +7,12 @@ import BellIcon from '@assets/icons/bell.svg';
 import CheckIcon from '@assets/icons/check.svg';
 import useNavi from '@hooks/useNavi';
 
-// interface Props {
-//   isEdit: boolean;
-//   setIsEdit: Dispatch<SetStateAction<boolean>>;
-// }
+interface Props {
+  isEdit: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+}
 
-// const HomeHeader = ({ isEdit, setIsEdit }: Props) => {
-const HomeHeader = () => {
+const HomeHeader = ({ isEdit, setIsEdit }: Props) => {
   const { navigation } = useNavi();
 
   return (
@@ -30,7 +29,7 @@ const HomeHeader = () => {
         <TouchableOpacity onPress={() => navigation.navigate('Notify')}>
           <BellIcon />
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={() => setIsEdit(!isEdit)}>{isEdit ? <CheckIcon /> : <PenIcon size={24} color="#1C1C1E" />}</TouchableOpacity> */}
+        <TouchableOpacity onPress={() => setIsEdit(!isEdit)}>{isEdit ? <CheckIcon /> : <PenIcon size={24} color="#1C1C1E" />}</TouchableOpacity>
       </View>
     </View>
   );

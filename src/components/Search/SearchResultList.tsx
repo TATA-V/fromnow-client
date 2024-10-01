@@ -11,7 +11,8 @@ interface Props {
 }
 
 const SearchResultList = ({ search, searchList }: Props) => {
-  const { refreshing, onRefresh } = useRefresh({ queryKey: useKey(['search', QUERY_KEY.FRIEND, search]) });
+  const searchKey = useKey(['search', QUERY_KEY.FRIEND, search]);
+  const { refreshing, onRefresh } = useRefresh({ queryKey: searchKey });
 
   return (
     <ScrollView

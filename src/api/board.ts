@@ -1,5 +1,6 @@
 import { CreateBoard } from '@clientTypes/board';
 import { instance } from '@api/axiosInstance';
+import RNFS from 'react-native-fs';
 
 export interface GetAll {
   diaryId: number;
@@ -22,12 +23,11 @@ export const postOne = async (data: CreateBoard) => {
     type: uploadPhotos.mime,
     name: uploadPhotos.path.split('/').pop(),
   });
-  const jsonChooseDiary = JSON.stringify(chooseDiaryDto);
-  const chooseDiaryBlob = new Blob([jsonChooseDiary], {
-    type: 'application/json',
-    lastModified: Date.now(),
-  });
-  formData.append('chooseDiaryDto', chooseDiaryBlob);
+  const jsonString = JSON.stringify(chooseDiaryDto);
+  const fileName = 'dto.json';
+  const filePath = `${RNFS.TemporaryDirectoryPath}/${fileName}`;
+  await RNFS.writeFile(filePath, jsonString, 'utf8');
+  formData.append('chooseDiaryDto', { uri: `file://${filePath}`, type: 'application/json', name: fileName });
 
   const res = await instance.post('/api/board/diaries', formData, {
     headers: {

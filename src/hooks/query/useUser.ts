@@ -119,6 +119,8 @@ export const useGetAllMyFriendRequest = () => {
   const { data, isError, isLoading } = useQuery<Friend[]>({
     queryKey,
     queryFn: getAllMyFriendRequest,
+    staleTime: 0,
+    gcTime: 1000 * 60,
   });
 
   return { data, isError, isLoading };

@@ -55,14 +55,16 @@ const MyFriendScreen = () => {
         </ScrollView>
       )}
       {data?.length === 0 && (
-        <View className="w-full h-full justify-center items-center transfrom translate-y-[-136px]" pointerEvents="box-none">
-          <AvatarSadMsg message={isAllFriend ? `아직 친구가 없어요\n새로운 친구를 찾아보세요!` : `이런! 아직 받은\n친구 요청이 없어요`} />
-          <View className="mt-[24px]">
-            <Button onPress={() => navigation.navigate('Search')} size="mid" icon={<SearchIcon color="#fff" size={24} />}>
-              친구 찾아보기
-            </Button>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <View className="w-full h-full justify-center items-center transfrom translate-y-[-136px]" pointerEvents="box-none">
+            <AvatarSadMsg message={isAllFriend ? `아직 친구가 없어요\n새로운 친구를 찾아보세요!` : `아직 받은\n친구 요청이 없어요`} />
+            <View className="mt-[24px]">
+              <Button onPress={() => navigation.navigate('Search')} size="mid" icon={<SearchIcon color="#fff" size={24} />}>
+                친구 찾아보기
+              </Button>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       )}
     </View>
   );
