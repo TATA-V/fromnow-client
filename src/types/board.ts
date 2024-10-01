@@ -5,7 +5,7 @@ export interface Board {
   createdDate: string;
   profilePhotoUrl: string;
   profileName: string;
-  contentPhotoUrl: string[];
+  contentPhotoUrl: string;
   content: string;
 }
 
