@@ -18,7 +18,7 @@ const Timer = () => {
     setTime(totalDuration);
     interval = setInterval(() => {
       setTime(prev => {
-        const newTime = prev.clone().subtract(5, 'seconds');
+        const newTime = prev.clone().subtract(1, 'seconds');
         if (newTime.asSeconds() <= 0) {
           clearInterval(interval!);
           hideModal();

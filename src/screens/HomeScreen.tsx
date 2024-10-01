@@ -20,10 +20,10 @@ const HomeScreen = () => {
     <>
       <View className="bg-black100 flex-1">
         <HomeHeader isEdit={isEdit} setIsEdit={setIsEdit} />
-        {isEdit && <DndTeamList teamList={data} colors={colors} />}
-        {!isEdit && <TeamList teamList={data} colors={colors} />}
+        {isEdit && data && <DndTeamList teamList={data} colors={colors} />}
+        {!isEdit && data && <TeamList teamList={data} colors={colors} />}
         {/* <TeamList teamList={data} colors={colors} /> */}
-        {data?.length === 0 && !isLoading && <TeamNotFound />}
+        {data?.length === 0 && <TeamNotFound />}
       </View>
     </>
   );

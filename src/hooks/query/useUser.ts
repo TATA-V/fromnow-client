@@ -9,9 +9,8 @@ import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
 
 export const useGetMyProfile = () => {
-  const setName = useUserStore(state => state.setName);
-  const { navigation } = useNavi();
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
+  const { navigation } = useNavi();
 
   const { data, isError, isLoading } = useQuery<MyProfile>({
     queryKey,
@@ -20,7 +19,6 @@ export const useGetMyProfile = () => {
   if (isError) {
     navigation.navigate('SignIn');
   }
-  data && setName(data.profileName);
 
   return { data, isError, isLoading };
 };
