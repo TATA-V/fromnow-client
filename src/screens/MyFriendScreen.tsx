@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, RefreshControl } from 'react-native';
+import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, RefreshControl, FlatList } from 'react-native';
 import FriendItem from '@components/common/FriendItem';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import Button from '@components/common/Button';
@@ -9,6 +9,8 @@ import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey } from '
 import { Friend } from '@clientTypes/user';
 import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
+import DeleteButton from '@components/common/SwipeableAction';
+import { Swipeable } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
 
@@ -21,6 +23,10 @@ const MyFriendScreen = () => {
   let data: Friend[] = isAllFriend ? myFriendData : myFriendRqData;
   let queryKey = isAllFriend ? useKey([QUERY_KEY.MY, 'friends']) : useKey([QUERY_KEY.MY, 'friend', 'request']);
   const { refreshing, onRefresh } = useRefresh({ queryKey });
+
+  const deleteFriendReq = (id: number) => {
+    console.log(id);
+  };
 
   if (isLoadingMyFriend || isLoadingFriendRq) return <MiniLoading />;
 
@@ -43,16 +49,22 @@ const MyFriendScreen = () => {
         </View>
       </View>
       {data?.length > 0 && (
-        <ScrollView
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          className="px-4 pt-[4px]"
-          contentContainerStyle={{ paddingBottom: 30 }}>
-          <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden">
-            {data.map((friend, idx) => (
-              <FriendItem key={idx} {...friend} />
-            ))}
-          </View>
-        </ScrollView>
+        <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden mx-4 mb-[97px] mt-[4px]">
+          <FlatList
+            data={data}
+            keyExtractor={friend => friend.memberId.toString()}
+            renderItem={({ item }) => (
+              <Swipeable
+                key={item.memberId}
+                enabled={!isAllFriend}
+                renderRightActions={() => <DeleteButton id={item.memberId} onDelete={deleteFriendReq} />}>
+                <FriendItem {...item} />
+              </Swipeable>
+            )}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       )}
       {data?.length === 0 && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>

@@ -8,7 +8,6 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
   console.log('title:', title);
   console.log('body:', body);
 
-  // 알림 채널 생성
   const channelId = await notifee.createChannel({
     id: 'default222', // data에 id값 가져와서 넣기
     name: '기본 알림 채널',
