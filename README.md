@@ -1,4 +1,4 @@
-`React-Native` `Typescript` `TanStack-Query` `Axios` `React-Hook-Form` `Storybook` `TailwindCSS` `Moti` `Vercel` `Firebase(FCM)`
+`React-Native` `Typescript` `TanStack-Query` `Zustand` `Storybook` `TailwindCSS` `Moti` `Axios` `React-Hook-Form` `Vercel` `Firebase(FCM)`
 
 🔗 _**<a href="https://fromnow-storybook.vercel.app">storybook deploy link</a>**_
 

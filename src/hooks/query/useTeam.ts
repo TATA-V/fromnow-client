@@ -39,13 +39,18 @@ export const useDeleteOneTeam = () => {
 
 export const useUpdateOneTeam = () => {
   const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
+  const queryClient = useQueryClient();
+  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const updateTeamMutation = useMutation({
     mutationFn: ({ diaryId, newTitle }: UpdateOne) => updateOne({ diaryId, newTitle }),
-    onSuccess: () => {
+    onSuccess: res => {
+      navigation.navigate('Team', { id: res.data.diaryId });
+      queryClient.invalidateQueries({ queryKey: myTeamsKey });
       successToast('다이어리 이름을 수정했습니다.');
     },
-    onError: () => {
+    onError: error => {
       errorToast('다이어리 이름 수정에 실패했습니다.');
     },
   });

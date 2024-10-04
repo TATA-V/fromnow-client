@@ -61,7 +61,7 @@ const TeamSettingScreen = ({}: Props) => {
     {
       icon: <ShareIcon size={24} color="#E4E5EA" />,
       title: '초대링크 공유하기',
-      onPress: async () => await Share.share({ message: `${CLIENT_URL}TeamSetting?id=${route.params.id}` }),
+      onPress: async () => await Share.share({ message: `${CLIENT_URL}TeamSetting/${route.params.id}` }),
     },
     { icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam },
   ];

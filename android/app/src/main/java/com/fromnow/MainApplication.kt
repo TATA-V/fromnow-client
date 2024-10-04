@@ -1,6 +1,7 @@
 package com.fromnow
 
 import android.app.Application
+import androidx.annotation.RequiresApi
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost

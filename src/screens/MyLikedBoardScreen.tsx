@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, RefreshControl } from 'react-native';
+import { View, RefreshControl, ScrollView } from 'react-native';
 import BoardItem from '@components/common/BoardItem';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import MiniLoading from '@components/common/MiniLoading';
@@ -31,9 +31,12 @@ const MyLikedBoardScreen = () => {
         />
       )}
       {data.length === 0 && (
-        <View className="h-full justify-center transform translate-y-[-66px]">
-          <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요`} />
-        </View>
+        // <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <View className="h-full justify-center transform translate-y-[-66px]">
+            <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요`} />
+          </View>
+        </ScrollView>
       )}
     </View>
   );

@@ -4,7 +4,6 @@ import useCurrentRoute from '@hooks/useCurrentRoute';
 import { useForm } from 'react-hook-form';
 import InputField from '@components/common/InputField';
 import Button from '@components/common/Button';
-import useNavi from '@hooks/useNavi';
 import { useUpdateOneTeam } from '@hooks/query';
 
 interface Form {
@@ -27,10 +26,8 @@ const TeamEditScreen = ({}: Props) => {
 
   const onSubmit = handleSubmit(async data => {
     const { teamName } = data;
-    console.log('teamName:', teamName);
     if (errors.teamName) return;
     updateTeamMutation.mutate({ diaryId: route.params.id, newTitle: teamName });
-    // navigation.navigate('TeamSetting', { id: route.params.id });
   });
 
   return (

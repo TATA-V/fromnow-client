@@ -18,9 +18,8 @@ export const deleteOne = async (diaryId: number) => {
 
 export const updateOne = async (data: UpdateOne) => {
   const { diaryId, newTitle } = data;
-  const query = new URLSearchParams({ diaryId: diaryId.toString() });
-  const res = instance.put(`api/diary?${query}`, { newTitle });
-  return res;
+  const res = await instance.put(`api/diary/${diaryId}`, { newTitle });
+  return res.data;
 };
 
 export const postOne = async (title: string) => {

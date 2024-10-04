@@ -25,7 +25,7 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const getFCMToken = async () => {
       const token = await messaging().getToken();
       // 서버에 토큰 보내줘야 함
-      // console.log('token:', token);
+      console.log('token:', token);
     };
     getFCMToken();
 
@@ -34,11 +34,15 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
       const initial: FirebaseMessagingTypes.RemoteMessage | null = await messaging().getInitialNotification();
       if (!initial) return;
       const { data } = initial;
-      console.log('data:', data);
       // deep link 경로이동 해줘야함
       // Linking.openURL()
     };
     initialNotification();
+
+    const requestNotifeePermission = async () => {
+      await notifee.requestPermission();
+    };
+    requestNotifeePermission();
 
     // Foreground 알림
     const unsubscribe = messaging().onMessage(clientNotiMessage);
@@ -47,11 +51,9 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const foregroundEventListener = notifee.onForegroundEvent(async ({ type, detail }) => {
       if (type === EventType.PRESS) {
         await clientNotiClick(detail);
-      }
-    });
-    notifee.onBackgroundEvent(async ({ type, detail }) => {
-      if (type === EventType.PRESS) {
-        await clientNotiClick(detail);
+      } else if (type === EventType.DISMISSED) {
+        notifee.cancelNotification(detail.notification.id);
+        notifee.cancelDisplayedNotification(detail.notification.id);
       }
     });
 
@@ -59,10 +61,6 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const requestUserPermission = async () => {
       const authStatus = await messaging().requestPermission({ providesAppNotificationSettings: true });
       const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-      if (enabled) {
-        console.log('Authorization status:', authStatus);
-      }
     };
     requestUserPermission();
 
