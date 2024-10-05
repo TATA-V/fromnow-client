@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import Svg, { Path } from 'react-native-svg';
 
 interface Props {
+  size?: number;
   color?: string;
 }
 
-const RightArrowIcon = ({ color = '#1C1C1E' }: Props) => {
+const RightArrowIcon = ({ size = 24, color = '#1C1C1E' }: Props) => {
   return (
-    <Svg viewBox="0 0 24 24" width={24} height={24} fill="none">
+    <Svg viewBox="0 0 24 24" width={size} height={size} fill="none">
       <Path
         fill={color}
         fillRule="evenodd"

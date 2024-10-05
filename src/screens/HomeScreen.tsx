@@ -7,14 +7,23 @@ import TeamList from '@components/Home/TeamList';
 import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
+import useNavi from '@hooks/useNavi';
+import { removeStorage } from '@utils/storage';
 
 const HomeScreen = () => {
   const [isEdit, setIsEdit] = useState(false);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
+  const { navigation } = useNavi();
 
-  const { data, isLoading } = useGetAllTeam();
+  const { data, isLoading, isError } = useGetAllTeam();
 
   if (isLoading) return <MiniLoading />;
+  if (isError) {
+    removeStorage('access').then(() => {
+      navigation.navigate('SignIn');
+    });
+    return;
+  }
 
   return (
     <>

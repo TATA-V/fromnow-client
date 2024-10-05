@@ -22,8 +22,7 @@ export const useSignInSocial = () => {
         SheetManager.show('signup-policy');
         return;
       }
-      profileName && navigation.navigate('Home', { refresh: true });
-      !profileName && navigation.navigate('Botton', { screen: 'Home', refresh: true });
+      navigation.navigate('Bottom', { screen: 'Home', refresh: true });
     },
     onError: error => {
       errorToast(`로그인에 실패했습니다: ${error}`);

@@ -8,7 +8,7 @@ interface Props {
   color?: string;
 }
 
-const Badge = ({ width = 36, height = 37, bgColor = '#1C1C1E', color = '#fff' }: Props) => {
+const Badge = ({ width = 36, height = 36, bgColor = '#1C1C1E', color = '#fff' }: Props) => {
   return (
     <Svg width={width} height={height} fill="none" viewBox="0 0 36 37">
       <Path

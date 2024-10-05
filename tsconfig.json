@@ -15,6 +15,7 @@
       "@utils/*": ["utils/*"],
       "@store/*": ["store/*"],
       "@clientTypes/*": ["types/*"],
+      "@const/*": ["const/*"],
       "@api/*": ["api/*"],
     },
   },

@@ -79,7 +79,7 @@ const TeamFolder = ({ isNew, color, id, title, photoUrls = [] }: Props) => {
       </View>
       {isNew && (
         <View className="absolute top-0 left-0">
-          <Badge />
+          <Badge color="F04438" />
         </View>
       )}
     </Pressable>

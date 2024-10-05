@@ -17,6 +17,7 @@ module.exports = {
           '@utils': './src/utils',
           '@store': './src/store',
           '@clientTypes': './src/types',
+          '@const': './src/const',
           '@api': './src/api',
         },
         extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],

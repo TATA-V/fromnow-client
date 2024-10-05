@@ -20,6 +20,8 @@ import BottomTabBar from '@components/BottomNavi/BottomTabBar';
 import SplashLottie from '@components/Lottie/SplashLottie';
 import DefaultHeader from '@components/common/DefaultHeader';
 import ProfileHeader from '@components/Profile/ProfileHeader';
+import PolicyHeader from '@components/Policy/PolicyHeader';
+import NotifyHeader from '@components/Notify/NotifyHeader';
 
 import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -40,6 +42,8 @@ import TeamFriendAddScreen from './src/screens/TeamFriendAddScreen';
 import CameraScreen from './src/screens/CameraScreen';
 import BoardEditScreen from './src/screens/BoardEditScreen';
 import TeamCreateScreen from './src/screens/TeamCreateScreen';
+import PrivacyPolicyScreen from './src/screens/PrivacyPolicyScreen';
+import ServicePolicyScreen from './src/screens/ServicePolicyScreen';
 
 function App() {
   const [showLottie, setShowLottie] = useState(true);
@@ -149,7 +153,17 @@ function App() {
                     component={SearchScreen}
                     options={{ headerShown: false, contentStyle: { backgroundColor: '#FBFBFD' } }}
                   />
-                  <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <DefaultHeader title="알림" /> }} />
+                  <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <NotifyHeader title="알림" /> }} />
+                  <Stack.Screen
+                    name="PrivacyPolicy"
+                    component={PrivacyPolicyScreen}
+                    options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}
+                  />
+                  <Stack.Screen
+                    name="ServicePolicy"
+                    component={ServicePolicyScreen}
+                    options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}
+                  />
                 </Stack.Navigator>
                 <AnimatePresence>
                   {showLottie && (

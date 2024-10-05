@@ -31,7 +31,6 @@ const MyLikedBoardScreen = () => {
         />
       )}
       {data.length === 0 && (
-        // <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="h-full justify-center transform translate-y-[-66px]">
             <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요`} />

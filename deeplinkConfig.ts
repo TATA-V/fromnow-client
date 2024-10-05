@@ -24,6 +24,8 @@ export const linking: LinkingOptions<RootStackParamList> = {
       PostEdit: 'post-edit/:file',
       Search: 'search',
       Notify: 'notify',
+      PrivacyPolicy: 'privacy-policy',
+      ServicePolicy: 'service-policy',
     },
   },
   async getInitialURL() {
@@ -52,4 +54,6 @@ type RootStackParamList = {
   PostEdit: { file: string };
   Search: string;
   Notify: string;
+  PrivacyPolicy: string;
+  ServicePolicy: string;
 };

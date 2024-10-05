@@ -11,7 +11,6 @@ interface Form {
 }
 
 const TeamCreateScreen = () => {
-  const { navigation } = useNavi();
   const { createTeamMutation } = usePostOneTeam();
 
   const {
@@ -24,7 +23,6 @@ const TeamCreateScreen = () => {
     const { title } = data;
     if (errors.title) return;
     createTeamMutation.mutate(title);
-    navigation.navigate('Home');
   });
 
   return (

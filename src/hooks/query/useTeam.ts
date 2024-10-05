@@ -61,15 +61,17 @@ export const useUpdateOneTeam = () => {
 export const usePostOneTeam = () => {
   const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const createTeamMutation = useMutation({
     mutationFn: postOne,
     onSuccess: res => {
-      const newTeam = { ...res.data, photoUrls: [res.data.photoUrls] };
+      const newTeam = { ...res.data, photoUrls: [res.data.photoUrls], isNew: true };
       queryClient.setQueryData(myTeamsKey, (prev: Team[]) => {
         return [newTeam, ...prev];
       });
+      navigation.navigate('Home');
       successToast('새로운 다이어리가 생성되었습니다.');
     },
     onError: () => {

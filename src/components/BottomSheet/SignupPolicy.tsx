@@ -1,67 +1,82 @@
-import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import CheckLineIcon from '@assets/icons/checkLine.svg';
 import CheckFillIcon from '@assets/icons/checkFill.svg';
+import RightArrowIcon from '@assets/icons/RightArrowIcon';
+import usePolicyStore from '@store/usePolicyStore';
 
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
 
-const SignupPolicy = () => {
-  const [isChecked, setIsChecked] = useState({
-    all: false,
-    serviceAgree: false,
-    personalInfo: false,
-    ageConfirm: false,
-  });
-  const { navigation } = useNavi();
+interface PolicyList {
+  name: string;
+  path?: string;
+  content: string;
+}
 
-  const list = [
-    { name: 'serviceAgree', content: '[필수] 서비스 이용에 동의합니다' },
-    { name: 'personalInfo', content: '[필수] 개인정보 수집 및 이용에 동의합니다' },
+const SignupPolicy = () => {
+  const { navigation } = useNavi();
+  const policyState = usePolicyStore(state => state);
+  const { all, privacyPolicy, servicePolicy, ageConfirm, animated, setIsChecked, reset } = policyState;
+
+  const list: PolicyList[] = [
+    { name: 'privacyPolicy', path: 'PrivacyPolicy', content: '[필수] 서비스 이용에 동의합니다' },
+    { name: 'servicePolicy', path: 'ServicePolicy', content: '[필수] 개인정보 수집 및 이용에 동의합니다' },
     { name: 'ageConfirm', content: '[필수] 만 14세 이상입니다' },
   ];
 
   const toggleCheck = (value: string) => {
-    setIsChecked(prev => {
-      const newChecked = { ...prev, [value]: !prev[value] };
-      const allChecked = Object.values(newChecked).every(Boolean);
-      return { ...newChecked, all: allChecked };
-    });
+    const newChecked = { ...policyState, [value]: !policyState[value] };
+    const allChecked = Object.values(newChecked).every(Boolean);
+    setIsChecked({ ...newChecked, all: allChecked });
   };
   const toggleAllTerms = () => {
-    const check = !isChecked.all ? true : false;
-    setIsChecked({ all: !isChecked.all, serviceAgree: check, personalInfo: check, ageConfirm: check });
+    const check = !all ? true : false;
+    setIsChecked({ all: !all, privacyPolicy: check, servicePolicy: check, ageConfirm: check });
   };
 
   const agreeAndContinue = () => {
     SheetManager.hide('signup-policy');
     navigation.navigate('SignupNickname');
+    reset();
+  };
+
+  const clickContent = (item: PolicyList) => {
+    if (item.path) {
+      navigation.navigate(item.path);
+      SheetManager.hide('signup-policy');
+      return;
+    }
+    toggleCheck(item.name);
   };
 
   return (
-    <ActionSheet containerStyle={styles.container}>
+    <ActionSheet containerStyle={styles.container} animated={animated} onClose={reset}>
       <View className="w-full justify-center items-center h-[66px]">
         <Text className="text-black900 text-base font-PTDSemiBold">약관 동의</Text>
       </View>
       <View className="flex flex-row h-[52px] items-center">
         <Pressable onPress={toggleAllTerms} className="flex flex-row items-center">
-          {isChecked.all ? <CheckFillIcon /> : <CheckLineIcon />}
+          {all ? <CheckFillIcon /> : <CheckLineIcon />}
           <Text className="text-black900 text-sm font-PTDSemiBold ml-1">전체 약관에 동의합니다</Text>
         </Pressable>
       </View>
       <View className="h-[124px] flex flex-col justify-around">
         {list.map((item, idx) => (
-          <View key={idx}>
-            <Pressable onPress={() => toggleCheck(item.name)} className="flex flex-row items-center">
-              {isChecked[item.name] ? <CheckFillIcon /> : <CheckLineIcon />}
+          <View key={idx} className="flex-row items-center">
+            <TouchableOpacity onPress={() => toggleCheck(item.name)} className="flex flex-row items-center">
+              {policyState[item.name] ? <CheckFillIcon /> : <CheckLineIcon />}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => clickContent(item)} className="flex-row items-center w-full justify-between pr-4">
               <Text className="text-black900 text-sm font-PTDLight ml-1">{item.content}</Text>
-            </Pressable>
+              {item.name !== 'ageConfirm' && <RightArrowIcon size={16} color="#1C1C1E" />}
+            </TouchableOpacity>
           </View>
         ))}
       </View>
       <View className="h-[80px] flex justify-center">
-        <Button disabled={!(isChecked.ageConfirm && isChecked.personalInfo && isChecked.serviceAgree)} onPress={agreeAndContinue}>
+        <Button disabled={!(ageConfirm && servicePolicy && privacyPolicy)} onPress={agreeAndContinue}>
           가입 완료
         </Button>
       </View>
@@ -76,5 +91,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
+    opacity: 1,
   },
 });
