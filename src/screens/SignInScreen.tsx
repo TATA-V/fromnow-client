@@ -8,6 +8,7 @@ import KakaoSignInBtn from '@components/SignIn/KakaoSignInBtn';
 
 const SignInScreen = () => {
   const { animated } = usePolicyStore(state => state);
+
   return (
     <>
       <View className="h-screen flex flex-col justify-between">
