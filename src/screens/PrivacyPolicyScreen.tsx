@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import usePolicyStore from '@store/usePolicyStore';
 import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
@@ -19,9 +19,9 @@ const PrivacyPolicyScreen = () => {
   };
 
   return (
-    <ScrollView className="px-4 space-y-[8px]" showsVerticalScrollIndicator={false}>
+    <ScrollView className="px-4" showsVerticalScrollIndicator={false}>
       <PolicyContent policyData={privacyPolicyData} />
-      <View className="pb-4 pt-[38px]">
+      <View className="pb-4 pt-[46px]">
         <Button onPress={onConfirm}>확인</Button>
       </View>
     </ScrollView>

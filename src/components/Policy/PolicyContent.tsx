@@ -12,7 +12,7 @@ interface Props {
 
 const PolicyContent = ({ policyData }: Props) => {
   return (
-    <>
+    <View className="space-y-[8px]">
       {policyData.map((item, index) => (
         <View key={index} className="space-y-[8px]">
           {item.title && <Text className="text-sm text-black900 font-PTDSemiBold">{item.title}</Text>}
@@ -27,7 +27,7 @@ const PolicyContent = ({ policyData }: Props) => {
           }
         </View>
       ))}
-    </>
+    </View>
   );
 };
 

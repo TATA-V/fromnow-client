@@ -21,8 +21,8 @@ const SignupPolicy = () => {
   const { all, privacyPolicy, servicePolicy, ageConfirm, animated, setIsChecked, reset } = policyState;
 
   const list: PolicyList[] = [
-    { name: 'privacyPolicy', path: 'PrivacyPolicy', content: '[필수] 서비스 이용에 동의합니다' },
-    { name: 'servicePolicy', path: 'ServicePolicy', content: '[필수] 개인정보 수집 및 이용에 동의합니다' },
+    { name: 'servicePolicy', path: 'ServicePolicy', content: '[필수] 서비스 이용에 동의합니다' },
+    { name: 'privacyPolicy', path: 'PrivacyPolicy', content: '[필수] 개인정보 수집 및 이용에 동의합니다' },
     { name: 'ageConfirm', content: '[필수] 만 14세 이상입니다' },
   ];
 

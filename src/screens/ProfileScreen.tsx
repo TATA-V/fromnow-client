@@ -19,6 +19,7 @@ const ProfileScreen = () => {
   const { navigation } = useNavi();
   const { data, isLoading } = useGetMyProfile();
   const queryClient = useQueryClient();
+  console.log('data:', data);
 
   const navigateToScreen = (target: string) => {
     navigation.navigate(target);

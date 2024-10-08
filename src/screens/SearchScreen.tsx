@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
+import useToast from '@hooks/useToast';
+import { getStorage, setStorage } from '@utils/storage';
+import { useGetSearchFriend } from '@hooks/query';
 import RecentSearches from '@components/Search/RecentSearches';
 import SearchHeader from '@components/Search/SearchHeader';
 import SearchNotFound from '@components/Search/SearchNotFound';
 import SearchResultList from '@components/Search/SearchResultList';
-import { getStorage, setStorage } from '@utils/storage';
 import MiniLoading from '@components/common/MiniLoading';
-import { useGetSearchFriend } from '@hooks/query';
-import useToast from '@hooks/useToast';
+import DismissKeyboard from '@components/common/DismissKeyboard';
 
 const SearchScreen = () => {
   const [search, setSearch] = useState('');
@@ -69,14 +70,16 @@ const SearchScreen = () => {
     );
 
   return (
-    <>
-      <View className="pt-[66px] px-4">
-        {!hasSearched && <RecentSearches recentSearchClick={recentSearchClick} history={history} setHistory={setHistory} />}
-        {hasSearched && data && <SearchResultList searchList={data} search={submitSearch.trim()} />}
-        {hasSearched && !data && <SearchNotFound />}
+    <DismissKeyboard>
+      <View className="flex-1">
+        <View className="pt-[66px] px-4">
+          {!hasSearched && <RecentSearches recentSearchClick={recentSearchClick} history={history} setHistory={setHistory} />}
+          {hasSearched && data && <SearchResultList searchList={data} search={submitSearch.trim()} />}
+          {hasSearched && !data && <SearchNotFound />}
+        </View>
+        <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
       </View>
-      <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
-    </>
+    </DismissKeyboard>
   );
 };
 
