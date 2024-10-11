@@ -7,6 +7,14 @@ export interface Board {
   profileName: string;
   contentPhotoUrl: string;
   content: string;
+  likes: number;
+  liked: boolean;
+}
+
+export interface AllBoard {
+  read: boolean;
+  write: boolean;
+  boardOverViewResponseDtoList: Board[];
 }
 
 export interface ChooseDiaryDto {

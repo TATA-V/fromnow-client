@@ -27,7 +27,13 @@ instance.interceptors.request.use(
 );
 
 const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
-  const res = await instance.get('/api/jwt/access-token');
+  const res = await axios.get(`${BASE_URL}/api/jwt/access-token`, {
+    timeout: 5000,
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   const access = res.headers.authorization;
   await setStorage('access', access);
   instance.defaults.headers.common['Authorization'] = access;

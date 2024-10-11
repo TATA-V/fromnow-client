@@ -33,9 +33,7 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
     onSuccess: res => {
-      queryClient.setQueryData([QUERY_KEY.MY, 'profile'], (prev: MyProfile) => {
-        return { ...prev, profileName: res.data.profileName };
-      });
+      queryClient.setQueryData([QUERY_KEY.MY, 'profile'], (prev: MyProfile) => ({ ...prev, profileName: res.data.profileName }));
       setNickname && setNickname(res.data.profileName);
       setName(res.data.profileName);
       if (route.name === 'SignupNickname') {

@@ -1,5 +1,6 @@
 import { TeamInvite } from '@clientTypes/team';
 import { instance } from '@api/axiosInstance';
+import { splitDate } from '@utils/formatDate';
 
 export interface UpdateOne {
   diaryId: number;

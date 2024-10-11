@@ -9,11 +9,10 @@ import { Team } from '@clientTypes/team';
 export type Color = 'pink' | 'yellow' | 'blue' | 'green' | 'gray';
 
 interface Props extends Team {
-  isNew?: boolean;
   color: string;
 }
 
-const TeamFolder = ({ isNew, color, id, title, photoUrls = [] }: Props) => {
+const TeamFolder = ({ isNew, color, id, date, title, photoUrls = [] }: Props) => {
   const [colors, setColors] = useState<string[]>([]);
   const { navigation } = useNavi();
 
@@ -42,7 +41,7 @@ const TeamFolder = ({ isNew, color, id, title, photoUrls = [] }: Props) => {
   }, [color]);
 
   return (
-    <Pressable onPress={() => navigation.navigate('Team', { id })} className="relative">
+    <Pressable onPress={() => navigation.navigate('Team', { id, date })} className="relative">
       <Svg width={162} height={162} viewBox="0 0 162 162" fill="none">
         <Path
           fill={colors[0]}

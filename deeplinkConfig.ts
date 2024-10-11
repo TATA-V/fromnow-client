@@ -14,7 +14,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
       MyFriend: 'my-friend',
       MyTeamRequest: 'my-team-request',
       MyLikedPost: 'my-liked-post',
-      Team: 'team/:id',
+      Team: 'team/:id/:date',
       TeamCalendar: 'team-calendar/:id',
       TeamSetting: 'team-setting/:id',
       TeamEdit: 'team-edit/:id',
@@ -44,7 +44,7 @@ type RootStackParamList = {
   MyFriend: string;
   MyTeamRequest: string;
   MyLikedPost: string;
-  Team: { id: string };
+  Team: { id: string; date: string };
   TeamCalendar: { id: string };
   TeamSetting: { id: string };
   TeamEdit: { id: string };

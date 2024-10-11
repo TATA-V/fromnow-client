@@ -1,10 +1,16 @@
 import { CreateBoard } from '@clientTypes/board';
 import { instance } from '@api/axiosInstance';
 import RNFS from 'react-native-fs';
+import { splitDate } from '@utils/formatDate';
+import { Moment } from 'moment-modification-rn';
 
 export interface GetAll {
   diaryId: number;
   date: string;
+}
+export interface GetMonthly {
+  diaryId: number;
+  date: Moment | string;
 }
 
 export const getAll = async (data: GetAll) => {
@@ -37,12 +43,24 @@ export const postOne = async (data: CreateBoard) => {
   return res;
 };
 
-export const postLike = async (diaryId: number) => {
-  const res = await instance.post(`api/board/${diaryId}/like`);
+export const postLike = async (boardId: number) => {
+  const res = await instance.post(`api/board/${boardId}/like`);
   return res;
 };
 
-export const postDisLike = async (diaryId: number) => {
-  const res = await instance.post(`api/board/${diaryId}/dislike`);
+export const postDisLike = async (boardId: number) => {
+  const res = await instance.post(`api/board/${boardId}/dislike`);
   return res;
+};
+
+export const postRead = async (diaryId: number) => {
+  const res = await instance.post(`api/diary/${diaryId}/read`);
+  return res.data.data;
+};
+
+export const getMonthly = async ({ diaryId, date }: GetMonthly) => {
+  const { year, month } = splitDate(date.toString());
+  const query = new URLSearchParams({ year, month });
+  const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/row?${query}`);
+  return res.data.data;
 };

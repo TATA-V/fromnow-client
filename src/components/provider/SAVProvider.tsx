@@ -17,14 +17,13 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
   const { navigation } = useNavi();
 
   useEffect(() => {
-    getStorage('access').then(access => {
-      if (access) return;
-      navigation.navigate('SignIn');
-    });
-
     const getFCMToken = async () => {
+      const access = await getStorage('access');
+      if (!access) {
+        navigation.navigate('SignIn');
+        return;
+      }
       const token = await messaging().getToken();
-      // 서버에 토큰 보내줘야 함
       console.log('token:', token);
     };
     getFCMToken();

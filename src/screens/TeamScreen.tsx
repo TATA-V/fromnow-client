@@ -1,23 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image, RefreshControl, ScrollView } from 'react-native';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import BoardItem from '@components/common/BoardItem';
 import CalendarStrip from '@components/Team/CalendarStrip/CalendarStrip';
 import Badge from '@components/common/Badge';
-import moment from 'moment-modification-rn';
+import moment, { Moment } from 'moment-modification-rn';
 import { MotiView } from 'moti';
 import { Easing } from 'react-native-reanimated';
 import AvatarHappyMsg from '@components/common/AvatarHappyMsg';
 import Button from '@components/common/Button';
 import CameraIcon from '@assets/icons/CameraIcon';
 import blurPng from '@assets/png/blur.png';
-import { QUERY_KEY, useGetAllBoard, useKey } from '@hooks/query';
+import { QUERY_KEY, useGetAllBoard, useKey, useReadBoard, useRowInfiniteBoard } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
+import useNavi from '@hooks/useNavi';
+import { formatDate } from '@utils/formatDate';
+import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
 import 'moment-modification-rn/locale/ko';
+import { useScrollDirection } from '@hooks/useScrollDirection';
 moment.locale('ko');
 
 interface Props {
@@ -25,33 +29,50 @@ interface Props {
 }
 
 const TeamScreen = ({}: Props) => {
-  const [isScrollUp, setIsScrollUp] = useState(true);
-  const [isPostsHidden, setIsPostsHidden] = useState(true);
-  const lastOffsetY = useRef<number>(0);
+  const [week, setWeek] = useState<Moment | string>(moment().format());
+  const { navigation } = useNavi();
+  const { isScrollUp, scrollList } = useScrollDirection();
 
   const { route } = useCurrentRoute();
+  const diaryId = route.params.id;
+  const teamDate = route.params.date;
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
-  const { data, isLoading } = useGetAllBoard({ diaryId: route.params.id, date: currentDate });
+  const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
+  const { data: calendarData, fetchPreviousPage } = useRowInfiniteBoard({ diaryId });
+  console.log('data:', data?.boardOverViewResponseDtoList);
+
+  // 읽음 처리
+  const { readBoardMutation } = useReadBoard();
+  useEffect(() => {
+    if (!data?.write || data?.read) return;
+    readBoardMutation.mutate(diaryId);
+  }, [data, diaryId, readBoardMutation]);
 
   const boardsKey = useKey(['all', QUERY_KEY.BOARD, currentDate]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardsKey });
 
-  const scrollPosts = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    if (isPostsHidden) return;
-    const currentOffsetY = e.nativeEvent.contentOffset.y;
-    if (currentOffsetY > lastOffsetY.current && currentOffsetY > 0) {
-      setIsScrollUp(false);
-    }
-    if (currentOffsetY < lastOffsetY.current || currentOffsetY === 0) {
-      setIsScrollUp(true);
-    }
-    lastOffsetY.current = currentOffsetY;
+  const onWeekChanged = async (start: Moment, _) => {
+    if (moment(start).format('YYYY-MM') === moment(week).format('YYYY-MM')) return;
+    setWeek(start);
+    const result = await fetchPreviousPage();
+    console.log('result:', result);
   };
+
+  const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
+  useEffect(() => {
+    if (!calendarData) return;
+    const mappedData = calendarData?.pages[0].reduce((acc: CalendarRowMap, item: CalendarRow) => {
+      const format = formatDate(item.date);
+      acc[format] = item;
+      return acc;
+    }, {});
+    setCalendarMap(prev => ({ ...prev, ...mappedData }));
+  }, [calendarData]);
 
   return (
     <>
       <MotiView
-        animate={{ translateY: isScrollUp ? 0 : -138, height: isScrollUp ? 138 : 0 }}
+        animate={{ translateY: isScrollUp ? 0 : -94, height: isScrollUp ? 94 : 0, backgroundColor: '#FBFBFD' }}
         transition={{
           type: 'timing',
           duration: 300,
@@ -59,7 +80,7 @@ const TeamScreen = ({}: Props) => {
         }}
         className="bg-white mt-[66px]">
         <CalendarStrip
-          style={{ height: 138, backgroundColor: '#fff' }}
+          style={{ height: 94, backgroundColor: '#fff' }}
           calendarStrip={{ height: 94 }}
           dateNumberStyle={{ color: '#573333', fontFamily: 'Pretendard-SemiBold', fontSize: 14 }}
           dateNameStyle={{ color: '#1C1C1E', fontFamily: 'Pretendard-SemiBold', fontSize: 12 }}
@@ -71,27 +92,37 @@ const TeamScreen = ({}: Props) => {
           onDateSelected={date => {
             setCurrentDate(moment(date).format('YYYY-MM-DD'));
           }}
-          onWeekChanged={(start, end) => console.log(start, end)}
-          minDate={moment('2024-09-01')}
+          onWeekChanged={onWeekChanged}
+          minDate={formatDate() === moment(teamDate).toString() ? moment(teamDate) : moment(teamDate).subtract('4', 'days')}
           maxDate={moment().add(4, 'days')}
           selectedDate={moment(currentDate)}
-          dayComponent={({ date, onDateSelected }) => (
-            <Pressable
-              onPress={() => {
-                onDateSelected(date);
-                setCurrentDate(moment(date).format('YYYY-MM-DD'));
-              }}
-              className={`${moment(date).format('YYYY-MM-DD') === currentDate && 'bg-black200'} relative
-              items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
-              <View className="w-[36px] h-[36px] rounded-[12px] bg-black900 flex justify-center items-center">
-                <Text className="text-white text-[14px] font-PTDSemiBold">{date.date()}</Text>
-              </View>
-              <Text className="text-black900 text-[12x] font-PTDSemiBold">{date.format('ddd')}</Text>
-              <View className="absolute top-[-5px] left-[1px]">
-                <Badge width={24} height={24} bgColor={'#F04438'} />
-              </View>
-            </Pressable>
-          )}
+          dayComponent={({ date, onDateSelected }) => {
+            const format = formatDate(date.toISOString());
+            const dayData = calendarMap[format];
+            console.log('dayData:', dayData);
+
+            return (
+              <Pressable
+                onPress={() => {
+                  onDateSelected(date);
+                  setCurrentDate(moment(date).format('YYYY-MM-DD'));
+                }}
+                className={`${moment(date).format('YYYY-MM-DD') === currentDate && 'bg-black200'} relative
+                items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
+                <View
+                  className={`${dayData?.hasPosts ? 'bg-black900' : 'bg-black300'}
+                  w-[36px] h-[36px] rounded-[12px] flex justify-center items-center`}>
+                  <Text className="text-white text-[14px] font-PTDSemiBold">{date.date()}</Text>
+                </View>
+                <Text className={`${dayData?.hasPosts ? 'text-black900' : 'text-black300'} text-[12x] font-PTDSemiBold`}>{date.format('ddd')}</Text>
+                {dayData?.new && (
+                  <View className="absolute top-[-5px] left-[1px]">
+                    <Badge width={24} height={24} bgColor={'#F04438'} />
+                  </View>
+                )}
+              </Pressable>
+            );
+          }}
         />
       </MotiView>
       {isLoading && (
@@ -101,12 +132,12 @@ const TeamScreen = ({}: Props) => {
       )}
 
       <View className="relative flex-1 bg-black100">
-        {data && data.length > 0 && (
+        {data && data.boardOverViewResponseDtoList.length > 0 && (
           <>
             <FlashList
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-              onScroll={scrollPosts}
-              data={[...Array(20)]}
+              onScroll={scrollList}
+              data={data.boardOverViewResponseDtoList}
               keyExtractor={(_, idx) => idx.toString()}
               renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
               showsVerticalScrollIndicator={false}
@@ -114,24 +145,29 @@ const TeamScreen = ({}: Props) => {
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
               initialScrollIndex={0}
               estimatedItemSize={600}
-              estimatedFirstItemOffset={16}
             />
-            {isPostsHidden && (
+            {data && data.boardOverViewResponseDtoList.length > 0 && !data.write && (
               <>
                 <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />
-                <View className="absolute h-full justify-center items-center w-full transform translate-y-[-20px]" pointerEvents="box-none">
+                <View className="absolute h-full justify-center items-center w-full transform translate-y-[-50px]" pointerEvents="box-none">
                   <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
                   <View className="mt-[24px]">
-                    <Button size="mid" customStyle={{ width: 170 }} icon={<CameraIcon height={24} width={24} />}>
-                      내 일상 공유하기
-                    </Button>
+                    {formatDate() === formatDate(data[0].createdDate) && (
+                      <Button
+                        onPress={() => navigation.navigate('Camera')}
+                        size="mid"
+                        customStyle={{ width: 170 }}
+                        icon={<CameraIcon height={24} width={24} />}>
+                        내 일상 공유하기
+                      </Button>
+                    )}
                   </View>
                 </View>
               </>
             )}
           </>
         )}
-        {(!data || data?.length === 0) && !isLoading && (
+        {(!data || data?.boardOverViewResponseDtoList.length === 0) && !isLoading && (
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className="pt-[60px]">
               <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />

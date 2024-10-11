@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import CircleDangerIcon from '@assets/icons/circleDanger.svg';
 import CircleCheckIcon from '@assets/icons/circleCheck.svg';
@@ -17,57 +17,52 @@ interface Props {
   onSubmitEditing?: () => void;
 }
 
-const Input = ({ mode, placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
-  const initialColor = editable
-    ? ['border-black900', 'bg-white', 'text-black900', '#1C1C1E']
-    : ['border-black200', 'bg-black200', 'text-black300', ''];
-
-  const [color, setColor] = useState<string[]>(initialColor);
+const Input = ({ mode = 'black', placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
-  const applyCustomStyles = isFocused || !editable || mode === 'error' || mode === 'trust';
 
-  useEffect(() => {
+  const color = useMemo(() => {
     if (!editable) {
-      setColor(['border-black200', 'bg-black200', 'text-black300', '']);
-      return;
+      return ['border-black200', 'bg-black200', 'text-black300', ''];
     }
-    let tempColor: string[] = [];
+
     switch (mode) {
       case 'black':
-        tempColor = ['border-black900', 'bg-white', 'text-black900', '#1C1C1E'];
-        break;
+        return ['border-black900', 'bg-white', 'text-black900', '#1C1C1E'];
       case 'error':
-        tempColor = ['border-fnRed', 'bg-white', 'text-fnRed', '#F04438'];
-        break;
+        return ['border-fnRed', 'bg-white', 'text-fnRed', '#F04438'];
       case 'trust':
-        tempColor = ['border-success', 'bg-white', 'text-success', '#12B76A'];
-        break;
+        return ['border-success', 'bg-white', 'text-success', '#12B76A'];
       case 'gray':
-        tempColor = ['border-success', 'bg-white', 'text-success', '#1C1C1E'];
-        break;
+        return ['border-black300', 'bg-white', 'text-black900', '#1C1C1E'];
       default:
-        tempColor = ['border-black900', 'bg-white', 'text-black900', '#1C1C1E'];
+        return ['border-black900', 'bg-white', 'text-black900', '#1C1C1E'];
     }
-    setColor(tempColor);
-  }, [mode]);
+  }, [mode, editable]);
+
+  const inputClassName = useMemo(() => {
+    const baseClasses = 'font-PTDLight text-sm h-[49px] w-full rounded-2xl border-[1px]';
+    const paddingClasses = search ? 'pl-[48px]' : 'pl-5';
+    const focusClasses = `${isFocused ? color.join(' ') : 'border-black200 bg-white text-black900'}`;
+    return `${baseClasses} ${focusClasses} ${paddingClasses} pr-5 transition-[border-color,color] duration-300 ease-in-out`;
+  }, [isFocused, color, search]);
 
   return (
     <View className="relative w-full">
       <TextInput
         value={value}
         onChangeText={setValue}
-        className={`${applyCustomStyles ? color.slice(0, -1).join(' ') : 'border-black200 bg-white text-black900'}
-            font-PTDLight text-sm focus:outline-none h-[49px] w-full rounded-2xl border-[1px]
-            ${search ? 'pl-[48px]' : 'pl-5'} pr-5 transition-[border-color,color] duration-300 ease-in-out`}
+        className={inputClassName}
         placeholder={placeholder}
         editable={editable}
         placeholderTextColor="#E4E5EA"
-        cursorColor={color[color.length - 1] || '#1C1C1E'}
-        selectionColor={color[color.length - 1] || '#1C1C1E'}
-        // prettier-ignore
-        onFocus={() => { if (!editable) return; setIsFocused(true); }}
-        // prettier-ignore
-        onBlur={() => { if (!editable) return;  setIsFocused(false); }}
+        cursorColor={color[3] || '#1C1C1E'}
+        selectionColor={color[3] || '#1C1C1E'}
+        onFocus={() => {
+          if (editable) setIsFocused(true);
+        }}
+        onBlur={() => {
+          if (editable) setIsFocused(false);
+        }}
         multiline={false}
         returnKeyType="next"
         onSubmitEditing={onSubmitEditing}

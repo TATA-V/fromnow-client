@@ -36,7 +36,7 @@ const TeamDetailScreen = ({}: Props) => {
 
   return (
     <>
-      {data && data.length > 0 && (
+      {data && data.boardOverViewResponseDtoList.length > 0 && (
         <View className="pt-[74px]">
           <FlashList
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -53,7 +53,7 @@ const TeamDetailScreen = ({}: Props) => {
         </View>
       )}
       <TeamDetailHeader title={formattedDate} />
-      {(!data || data?.length === 0) && !isLoading && (
+      {(!data || data?.boardOverViewResponseDtoList.length === 0) && !isLoading && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="h-full justify-center mt-[-66px]">
             <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />

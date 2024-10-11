@@ -2,6 +2,7 @@ import { instance } from '@api/axiosInstance';
 
 export const getSearchFriend = async (profileName: string) => {
   const query = new URLSearchParams({ profileName });
+  console.log('profileName:', profileName);
   const res = await instance.get(`/api/friend/search?${query}`);
   return res.data.data;
 };

@@ -2,6 +2,7 @@ export interface Team {
   id: number;
   title: string;
   photoUrls: string[];
+  date: string;
   isNew?: boolean;
 }
 

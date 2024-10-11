@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { Text, TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
 
 type Color = 'black' | 'white' | 'yellow';
@@ -14,39 +14,28 @@ interface Props {
 }
 
 const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon, customStyle, children }: Props) => {
-  const [btnSize, setBtnSize] = useState<string[]>([]);
-  const [btnColor, setBtnColor] = useState<string[]>([]);
-
-  useEffect(() => {
-    let tempSize: string[] = [];
+  const btnSize = useMemo(() => {
     switch (size) {
       case 'big':
-        tempSize = ['w-full', 'h-[48px]', 'rounded-2xl'];
-        break;
+        return ['w-full', 'h-[48px]', 'rounded-2xl'];
       case 'mid':
-        tempSize = ['w-[172px]', 'h-[48px]', 'rounded-2xl'];
-        break;
+        return ['w-[172px]', 'h-[48px]', 'rounded-2xl'];
       case 'small':
-        tempSize = ['px-[15.5px]', 'h-[48px]', 'rounded-xl'];
-        break;
+        return ['px-[15.5px]', 'h-[48px]', 'rounded-xl'];
       default:
-        tempSize = ['w-full', 'h-[48px]', 'rounded-2xl'];
+        return ['w-full', 'h-[48px]', 'rounded-2xl'];
     }
-    setBtnSize(tempSize);
+  }, [size]);
 
-    let tempColor: string[] = [];
+  const btnColor = useMemo(() => {
     if (color === 'yellow') {
-      setBtnColor(['border-kakao', 'bg-kakao', 'text-kakaoTxt']);
-      return;
+      return ['border-kakao', 'bg-kakao', 'text-kakaoTxt'];
     }
     if (disabled) {
-      tempColor = color === 'black' ? ['border-black300', 'bg-black200', 'text-black500'] : ['border-black300', 'bg-white', 'text-black300'];
+      return color === 'black' ? ['border-black300', 'bg-black200', 'text-black500'] : ['border-black300', 'bg-white', 'text-black300'];
     }
-    if (!disabled) {
-      tempColor = color === 'black' ? ['border-black900', 'bg-black900', 'text-white'] : ['border-black200', 'bg-white', 'text-black900'];
-    }
-    setBtnColor(tempColor);
-  }, [size, color, disabled]);
+    return color === 'black' ? ['border-black900', 'bg-black900', 'text-white'] : ['border-black200', 'bg-white', 'text-black900'];
+  }, [color, disabled]);
 
   return (
     <TouchableOpacity

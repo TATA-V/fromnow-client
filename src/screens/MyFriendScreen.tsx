@@ -28,7 +28,12 @@ const MyFriendScreen = () => {
     console.log(id);
   };
 
-  if (isLoadingMyFriend || isLoadingFriendRq) return <MiniLoading />;
+  if (isLoadingMyFriend || isLoadingFriendRq)
+    return (
+      <View className="flex-1 bg-[#F8F8FB]">
+        <MiniLoading />
+      </View>
+    );
 
   return (
     <View className="flex-1 bg-black100">
