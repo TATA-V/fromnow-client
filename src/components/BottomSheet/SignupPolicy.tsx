@@ -44,7 +44,7 @@ const SignupPolicy = () => {
 
   const clickContent = (item: PolicyList) => {
     if (item.path) {
-      navigation.navigate(item.path);
+      navigation.navigate(item.path, { showSignupPolicy: true });
       SheetManager.hide('signup-policy');
       return;
     }
@@ -52,7 +52,7 @@ const SignupPolicy = () => {
   };
 
   return (
-    <ActionSheet containerStyle={styles.container} animated={animated} onClose={reset}>
+    <ActionSheet containerStyle={styles.container} animated={animated}>
       <View className="w-full justify-center items-center h-[66px]">
         <Text className="text-black900 text-base font-PTDSemiBold">약관 동의</Text>
       </View>

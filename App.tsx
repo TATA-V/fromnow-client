@@ -154,16 +154,12 @@ function App() {
                     options={{ headerShown: false, contentStyle: { backgroundColor: '#FBFBFD' } }}
                   />
                   <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <NotifyHeader title="알림" /> }} />
-                  <Stack.Screen
-                    name="PrivacyPolicy"
-                    component={PrivacyPolicyScreen}
-                    options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}
-                  />
-                  <Stack.Screen
-                    name="ServicePolicy"
-                    component={ServicePolicyScreen}
-                    options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}
-                  />
+                  <Stack.Screen name="PrivacyPolicy" options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}>
+                    {props => <PrivacyPolicyScreen {...props} paramName="PrivacyPolicy" />}
+                  </Stack.Screen>
+                  <Stack.Screen name="ServicePolicy" options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}>
+                    {props => <ServicePolicyScreen {...props} paramName="ServicePolicy" />}
+                  </Stack.Screen>
                 </Stack.Navigator>
                 <AnimatePresence>
                   {showLottie && (

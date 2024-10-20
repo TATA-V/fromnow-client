@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface UserStoreState {
+interface UserStore {
   name: string;
   setName: (name: string) => void;
   reset: () => void;
 }
 
-const useUserStore = create<UserStoreState>(set => ({
+const useUserStore = create<UserStore>(set => ({
   name: '',
   setName: (name: string) => set({ name }),
   reset: () => set({ name: '' }),

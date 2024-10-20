@@ -11,7 +11,12 @@ const MyTeamRequestScreen = () => {
   const [isAllTeam, setIsAllTeam] = useState(true);
   const { data, isLoading } = useGetAllMyTeamRequest();
 
-  if (isLoading) return <MiniLoading />;
+  if (isLoading)
+    return (
+      <View className="flex-1 bg-[#FBFBFD]">
+        <MiniLoading />
+      </View>
+    );
 
   return (
     <View className="flex-1 bg-black100">

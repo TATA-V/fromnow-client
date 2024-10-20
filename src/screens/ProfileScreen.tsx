@@ -19,10 +19,9 @@ const ProfileScreen = () => {
   const { navigation } = useNavi();
   const { data, isLoading } = useGetMyProfile();
   const queryClient = useQueryClient();
-  console.log('data:', data);
 
-  const navigateToScreen = (target: string) => {
-    navigation.navigate(target);
+  const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
+    navigation.navigate(target, { ...options });
   };
   const logoutUser = async () => {
     queryClient.clear();
@@ -40,20 +39,19 @@ const ProfileScreen = () => {
       icon: <PeoplePolicyIcon />,
       label: '개인정보처리방침',
       section: '고객 센터',
-      onPress: () => {},
+      onPress: () => navigateToScreen('PrivacyPolicy', { showSignupPolicy: false }),
       submenu: [
-        { icon: <DocumentIcon />, label: '이용약관', onPress: () => {} },
+        {
+          icon: <DocumentIcon />,
+          label: '이용약관',
+          onPress: () => navigateToScreen('ServicePolicy', { showSignupPolicy: false }),
+        },
         { icon: <CcIcon />, label: '사업자 정보', onPress: () => {} },
       ],
     },
   ];
 
-  if (isLoading)
-    return (
-      <View className="flex-1 bg-white">
-        <MiniLoading />
-      </View>
-    );
+  if (isLoading) return <MiniLoading />;
 
   return (
     <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }} showsVerticalScrollIndicator={false}>

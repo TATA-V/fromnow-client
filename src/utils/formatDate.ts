@@ -6,8 +6,8 @@ export const splitDate = (dateString: string | Moment) => {
   const date = moment(dateString);
 
   const year = date.format('YYYY').toString();
-  const month = date.format('MM').toString();
-  const day = date.format('DD').toString();
+  const month = parseInt(date.format('MM'), 10).toString();
+  const day = parseInt(date.format('DD'), 10).toString();
 
   return { year, month, day };
 };

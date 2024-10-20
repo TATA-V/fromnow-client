@@ -12,6 +12,10 @@ export interface GetMonthly {
   diaryId: number;
   date: Moment | string;
 }
+export interface PostRead {
+  diaryId: number;
+  date: Moment | string;
+}
 
 export const getAll = async (data: GetAll) => {
   const { diaryId, date } = data;
@@ -53,14 +57,18 @@ export const postDisLike = async (boardId: number) => {
   return res;
 };
 
-export const postRead = async (diaryId: number) => {
-  const res = await instance.post(`api/diary/${diaryId}/read`);
+export const postRead = async ({ diaryId, date }: PostRead) => {
+  const { year, month, day } = splitDate(date);
+  const res = await instance.post(`api/diary/${diaryId}/read`, { year, month, day });
   return res.data.data;
 };
 
 export const getMonthly = async ({ diaryId, date }: GetMonthly) => {
+  console.log('diaryId:', diaryId);
+  console.log('date:', date);
   const { year, month } = splitDate(date.toString());
   const query = new URLSearchParams({ year, month });
   const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/row?${query}`);
+  console.log('getMonthly:', res.data.data);
   return res.data.data;
 };

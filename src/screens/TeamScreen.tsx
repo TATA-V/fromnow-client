@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, NativeSyntheticEvent, NativeScrollEvent, Image, RefreshControl, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Pressable, Image, RefreshControl, ScrollView } from 'react-native';
 import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import BoardItem from '@components/common/BoardItem';
@@ -22,6 +22,7 @@ import { formatDate } from '@utils/formatDate';
 import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
 import 'moment-modification-rn/locale/ko';
 import { useScrollDirection } from '@hooks/useScrollDirection';
+import useSelectedTeamStore from '@store/useSelectedTeamStore';
 moment.locale('ko');
 
 interface Props {
@@ -32,21 +33,24 @@ const TeamScreen = ({}: Props) => {
   const [week, setWeek] = useState<Moment | string>(moment().format());
   const { navigation } = useNavi();
   const { isScrollUp, scrollList } = useScrollDirection();
+  const { date: teamDate, title } = useSelectedTeamStore();
 
   const { route } = useCurrentRoute();
   const diaryId = route.params.id;
-  const teamDate = route.params.date;
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
   const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
   const { data: calendarData, fetchPreviousPage } = useRowInfiniteBoard({ diaryId });
-  console.log('data:', data?.boardOverViewResponseDtoList);
+  const boards = data?.boardOverViewResponseDtoList;
 
   // 읽음 처리
   const { readBoardMutation } = useReadBoard();
   useEffect(() => {
-    if (!data?.write || data?.read) return;
-    readBoardMutation.mutate(diaryId);
-  }, [data, diaryId, readBoardMutation]);
+    if (!data || data.blur || data.read) return;
+    const hasNewPosts = boards.length !== 0;
+    if (hasNewPosts) {
+      readBoardMutation.mutate({ diaryId, date: currentDate });
+    }
+  }, [data?.blur, data?.read, boards, diaryId, currentDate]);
 
   const boardsKey = useKey(['all', QUERY_KEY.BOARD, currentDate]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardsKey });
@@ -54,8 +58,7 @@ const TeamScreen = ({}: Props) => {
   const onWeekChanged = async (start: Moment, _) => {
     if (moment(start).format('YYYY-MM') === moment(week).format('YYYY-MM')) return;
     setWeek(start);
-    const result = await fetchPreviousPage();
-    console.log('result:', result);
+    await fetchPreviousPage();
   };
 
   const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
@@ -66,8 +69,18 @@ const TeamScreen = ({}: Props) => {
       acc[format] = item;
       return acc;
     }, {});
-    setCalendarMap(prev => ({ ...prev, ...mappedData }));
+    setCalendarMap(prev => {
+      if (JSON.stringify(prev) === JSON.stringify(mappedData)) {
+        return prev;
+      }
+      return { ...prev, ...mappedData };
+    });
   }, [calendarData]);
+
+  const onDateSelected = async (date: Moment) => {
+    const format = formatDate(date);
+    setCurrentDate(format);
+  };
 
   return (
     <>
@@ -89,9 +102,7 @@ const TeamScreen = ({}: Props) => {
           rightSelector={[]}
           scrollable={true}
           scrollerPaging={true}
-          onDateSelected={date => {
-            setCurrentDate(moment(date).format('YYYY-MM-DD'));
-          }}
+          onDateSelected={onDateSelected}
           onWeekChanged={onWeekChanged}
           minDate={formatDate() === moment(teamDate).toString() ? moment(teamDate) : moment(teamDate).subtract('4', 'days')}
           maxDate={moment().add(4, 'days')}
@@ -99,7 +110,6 @@ const TeamScreen = ({}: Props) => {
           dayComponent={({ date, onDateSelected }) => {
             const format = formatDate(date.toISOString());
             const dayData = calendarMap[format];
-            console.log('dayData:', dayData);
 
             return (
               <Pressable
@@ -132,12 +142,12 @@ const TeamScreen = ({}: Props) => {
       )}
 
       <View className="relative flex-1 bg-black100">
-        {data && data.boardOverViewResponseDtoList.length > 0 && (
+        {data && boards.length > 0 && (
           <>
             <FlashList
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               onScroll={scrollList}
-              data={data.boardOverViewResponseDtoList}
+              data={boards}
               keyExtractor={(_, idx) => idx.toString()}
               renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
               showsVerticalScrollIndicator={false}
@@ -146,13 +156,13 @@ const TeamScreen = ({}: Props) => {
               initialScrollIndex={0}
               estimatedItemSize={600}
             />
-            {data && data.boardOverViewResponseDtoList.length > 0 && !data.write && (
+            {data && boards.length > 0 && data.blur && (
               <>
                 <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />
                 <View className="absolute h-full justify-center items-center w-full transform translate-y-[-50px]" pointerEvents="box-none">
                   <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
                   <View className="mt-[24px]">
-                    {formatDate() === formatDate(data[0].createdDate) && (
+                    {formatDate() === formatDate(data[0]?.createdDate) && (
                       <Button
                         onPress={() => navigation.navigate('Camera')}
                         size="mid"
@@ -176,7 +186,7 @@ const TeamScreen = ({}: Props) => {
         )}
       </View>
 
-      <TeamHeader title="아줌마들의 우정은 디질때까지" />
+      <TeamHeader title={title} />
     </>
   );
 };

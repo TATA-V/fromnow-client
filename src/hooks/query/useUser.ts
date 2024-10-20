@@ -1,12 +1,13 @@
-import { getAllMyFriend, getAllMyFriendRequest, getAllMyLikedPost, getAllMyTeamRequest, getOne, updateNickname, updatePhoto } from '@api/user';
+import { getAllMyFriend, getAllMyFriendRequest, getAllMyLikedBoard, getAllMyTeamRequest, getOne, updateNickname, updatePhoto } from '@api/user';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import { MyLikedPost, Friend, MyTeamRequest, MyProfile } from '@clientTypes/user';
+import { Friend, MyTeamRequest, MyProfile } from '@clientTypes/user';
 import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
+import { Board } from '@clientTypes/board';
 
 export const useGetMyProfile = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
@@ -29,11 +30,12 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
+  const myProfileKey = useKey([QUERY_KEY.MY, 'profile']);
 
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
     onSuccess: res => {
-      queryClient.setQueryData([QUERY_KEY.MY, 'profile'], (prev: MyProfile) => ({ ...prev, profileName: res.data.profileName }));
+      queryClient.setQueryData(myProfileKey, (prev: MyProfile) => ({ ...prev, profileName: res.data.profileName }));
       setNickname && setNickname(res.data.profileName);
       setName(res.data.profileName);
       if (route.name === 'SignupNickname') {
@@ -90,11 +92,11 @@ export const useUpdatePhoto = () => {
   };
 };
 
-export const useGetAllMyLikedPost = () => {
+export const useGetAllMyLikedBoard = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'liked', 'posts']);
-  const { data, isError, isLoading } = useQuery<MyLikedPost[]>({
+  const { data, isError, isLoading } = useQuery<Board[]>({
     queryKey,
-    queryFn: getAllMyLikedPost,
+    queryFn: getAllMyLikedBoard,
   });
 
   return { data, isError, isLoading };
@@ -116,7 +118,7 @@ export const useGetAllMyFriendRequest = () => {
     queryKey,
     queryFn: getAllMyFriendRequest,
     staleTime: 0,
-    gcTime: 1000 * 60,
+    gcTime: 0,
   });
 
   return { data, isError, isLoading };

@@ -13,19 +13,19 @@ export const linking: LinkingOptions<RootStackParamList> = {
       SignupPhoto: 'signup-photo',
       MyFriend: 'my-friend',
       MyTeamRequest: 'my-team-request',
-      MyLikedPost: 'my-liked-post',
-      Team: 'team/:id/:date',
+      MyLikedBoard: 'my-liked-board',
+      Team: 'team/:id/',
       TeamCalendar: 'team-calendar/:id',
       TeamSetting: 'team-setting/:id',
       TeamEdit: 'team-edit/:id',
       TeamFriendAdd: 'team-friend-add/:id',
       TeamDetail: 'team-detail/:teamId/:date',
       TeamCreate: 'team-create',
-      PostEdit: 'post-edit/:file',
+      BoardEdit: 'board-edit/:file',
       Search: 'search',
       Notify: 'notify',
-      PrivacyPolicy: 'privacy-policy',
-      ServicePolicy: 'service-policy',
+      PrivacyPolicy: 'privacy-policy/:showSignupPolicy',
+      ServicePolicy: 'service-policy/:showSignupPolicy',
     },
   },
   async getInitialURL() {
@@ -43,17 +43,17 @@ type RootStackParamList = {
   SignupPhoto: string;
   MyFriend: string;
   MyTeamRequest: string;
-  MyLikedPost: string;
-  Team: { id: string; date: string };
+  MyLikedBoard: string;
+  Team: { id: string };
   TeamCalendar: { id: string };
   TeamSetting: { id: string };
   TeamEdit: { id: string };
   TeamFriendAdd: { id: string };
   TeamDetail: { teamId: string; date: string };
   TeamCreate: string;
-  PostEdit: { file: string };
+  BoardEdit: { file: string };
   Search: string;
   Notify: string;
-  PrivacyPolicy: string;
-  ServicePolicy: string;
+  PrivacyPolicy: { showSignupPolicy: boolean };
+  ServicePolicy: { showSignupPolicy: boolean };
 };

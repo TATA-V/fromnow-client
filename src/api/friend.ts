@@ -12,6 +12,11 @@ export const postFriendRequest = async (sentProfileName: string) => {
   return res;
 };
 
+export const postFriendReject = async (rejectedMemberId: number) => {
+  const res = await instance.post('/api/friend/reject', { rejectedMemberId });
+  return res.data;
+};
+
 export const postFriendAccept = async (acceptMemberId: number) => {
   const res = await instance.post('/api/friend/accept', { acceptMemberId });
   return res.data;

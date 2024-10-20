@@ -43,7 +43,6 @@ const GoogleSignInBtn = () => {
         }
       } else {
         errorToast(`구글 로그인과 관련 없는 오류가 발생했습니다: ${error}`);
-        console.log('error:', error);
       }
     }
   };

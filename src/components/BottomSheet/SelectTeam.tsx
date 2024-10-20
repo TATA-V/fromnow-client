@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
-import SelectTeamItem from '@components/PostEdit/SelectTeamItem';
+import SelectTeamItem from '@components/BoardEdit/SelectTeamItem';
 import Button from '@components/common/Button';
 import { useGetAllTeam, usePostOneBoard } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';

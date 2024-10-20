@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { useDeleteFriend, usePostFriendAccept, usePostFriendRequest } from '@hooks/query';
 import { Friend } from '@clientTypes/user';
+import { useModal } from '@components/Modal';
 
 interface Props extends Friend {
   isFriendReq?: boolean;
@@ -12,10 +13,14 @@ const FriendItem = (props: Props) => {
   const { friendAcceptMutation } = usePostFriendAccept();
   const { friendDeleteMutation } = useDeleteFriend();
   const { friendRequestMutation } = usePostFriendRequest();
+  const { showModal } = useModal();
 
   const updateFriend = () => {
     if (friend) {
-      friendDeleteMutation.mutate(memberId);
+      const confirm = () => {
+        friendDeleteMutation.mutate(memberId);
+      };
+      showModal({ type: 'dialog', title: '친구 삭제', description: `정말로 ${profileName}님을 삭제하시겠습니까?`, confirm });
       return;
     }
     if (isFriendReq) {

@@ -13,7 +13,7 @@ export interface Board {
 
 export interface AllBoard {
   read: boolean;
-  write: boolean;
+  blur: boolean;
   boardOverViewResponseDtoList: Board[];
 }
 

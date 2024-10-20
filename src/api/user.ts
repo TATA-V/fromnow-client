@@ -26,7 +26,7 @@ export const updatePhoto = async (image: ImageType) => {
   return res.data;
 };
 
-export const getAllMyLikedPost = async () => {
+export const getAllMyLikedBoard = async () => {
   const res = await instance.get('/api/my/likes');
   return res.data.data;
 };

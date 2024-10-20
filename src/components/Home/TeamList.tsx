@@ -16,7 +16,7 @@ function TeamList({ teamList, colors }: Props) {
   const { navigation } = useNavi();
 
   return (
-    <View className="flex w-full items-center flex-1">
+    <View className={`${teamList.length !== 1 && 'items-center'} flex w-full flex-1`}>
       <FlatList
         data={teamList}
         keyExtractor={team => team.id.toString()}

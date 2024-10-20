@@ -5,7 +5,7 @@ import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import Button from '@components/common/Button';
 import MiniLoading from '@components/common/MiniLoading';
 import SearchIcon from '@assets/icons/SearchIcon';
-import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey } from '@hooks/query';
+import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePostFriendReject } from '@hooks/query';
 import { Friend } from '@clientTypes/user';
 import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
@@ -24,8 +24,10 @@ const MyFriendScreen = () => {
   let queryKey = isAllFriend ? useKey([QUERY_KEY.MY, 'friends']) : useKey([QUERY_KEY.MY, 'friend', 'request']);
   const { refreshing, onRefresh } = useRefresh({ queryKey });
 
+  const { friendRequestMutation } = usePostFriendReject();
+
   const deleteFriendReq = (id: number) => {
-    console.log(id);
+    friendRequestMutation.mutate(id);
   };
 
   if (isLoadingMyFriend || isLoadingFriendRq)

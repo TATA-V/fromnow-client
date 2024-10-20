@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AllBoard, CreateBoard } from '@clientTypes/board';
-import { GetAll, getAll, GetMonthly, getMonthly, postDisLike, postLike, postOne, postRead } from '@api/board';
+import { GetAll, getAll, GetMonthly, getMonthly, postDisLike, postLike, postOne, PostRead, postRead } from '@api/board';
 import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useNavi from '@hooks/useNavi';
@@ -73,8 +73,9 @@ export const useDisLikeBoard = () => {
 export const useReadBoard = () => {
   const queryClient = useQueryClient();
   const boardKey = useKey([QUERY_KEY.BOARD]);
+
   const readBoardMutation = useMutation({
-    mutationFn: postRead,
+    mutationFn: ({ diaryId, date }: PostRead) => postRead({ diaryId, date }),
     onSuccess: res => {
       const { diaryId, date } = res;
       const allBoardKey = [...boardKey, 'all', diaryId, date];

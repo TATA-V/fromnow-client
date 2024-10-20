@@ -3,16 +3,21 @@ import { View, RefreshControl, ScrollView } from 'react-native';
 import BoardItem from '@components/common/BoardItem';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import MiniLoading from '@components/common/MiniLoading';
-import { useGetAllMyLikedPost, useKey, QUERY_KEY } from '@hooks/query';
+import { useGetAllMyLikedBoard, useKey, QUERY_KEY } from '@hooks/query';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
 
 const MyLikedBoardScreen = () => {
-  const { data, isLoading } = useGetAllMyLikedPost();
+  const { data, isLoading } = useGetAllMyLikedBoard();
   const myLikedPostsKey = useKey([QUERY_KEY.MY, 'liked', 'posts']);
   const { refreshing, onRefresh } = useRefresh({ queryKey: myLikedPostsKey });
 
-  if (isLoading) return <MiniLoading />;
+  if (isLoading)
+    return (
+      <View className="flex-1 bg-[#FBFBFD]">
+        <MiniLoading />
+      </View>
+    );
 
   return (
     <View className="flex-1 bg-black100">

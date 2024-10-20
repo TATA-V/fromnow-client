@@ -60,8 +60,16 @@ const TeamCalendarList = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const onVisibleMonthsChange = (months: { dateString: string }[]) => {
+    // months 배열의 첫 번째 요소가 가장 먼저 보이는 달
+    const visibleMonth = months[0];
+    const yearMonth = moment(visibleMonth.dateString).format('YYYY년 M월');
+    console.log('현재 보이는 달:', yearMonth);
+  };
+
   return (
     <CalendarList
+      onVisibleMonthsChange={onVisibleMonthsChange}
       dayComponent={DayComponent}
       calendarHeight={600}
       pastScrollRange={10} // 과거 달력

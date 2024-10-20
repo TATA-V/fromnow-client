@@ -24,8 +24,8 @@ const initial: Policy & { animated: boolean } = {
 
 const usePolicyStore = create<PolicyStore>(set => ({
   ...initial,
-  setIsChecked: values => set(prev => ({ ...prev, ...values })),
-  setAnimated: value => set(prev => ({ ...prev, animated: value })),
+  setIsChecked: (values: Partial<Policy>) => set(prev => ({ ...prev, ...values })),
+  setAnimated: (value: boolean) => set(prev => ({ ...prev, animated: value })),
   reset: () => set(prev => ({ ...prev, ...initial })),
 }));
 

@@ -3,15 +3,6 @@ export interface MyProfile {
   photoUrl: string;
 }
 
-export interface MyLikedPost {
-  boardId: number;
-  createdDate: string;
-  profilePhotoUrl: string;
-  profileName: string;
-  contentPhotoUrl: string[];
-  content: string;
-}
-
 export interface Friend {
   memberId: number;
   profileName: string;

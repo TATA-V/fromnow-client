@@ -16,7 +16,7 @@ const FriendItem = ({ profile, nickname, isFriend }: Props) => {
       </View>
       <TouchableOpacity
         className={`${isFriend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
-        h-9 px-[12.5px] flex justify-center items-center rounded-xl`}>
+        h-9 w-[74px] flex justify-center items-center rounded-xl`}>
         <Text className={`${isFriend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isFriend ? '친구' : '친구추가'}</Text>
       </TouchableOpacity>
     </View>

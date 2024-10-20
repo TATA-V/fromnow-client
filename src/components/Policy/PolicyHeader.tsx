@@ -4,6 +4,7 @@ import XIcon from '@assets/icons/x.svg';
 import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
 import usePolicyStore from '@store/usePolicyStore';
+import useCurrentRoute from '@hooks/useCurrentRoute';
 
 interface Props {
   title: string;
@@ -12,9 +13,12 @@ interface Props {
 const PolicyHeader = ({ title }: Props) => {
   const { navigation } = useNavi();
   const setAnimated = usePolicyStore(state => state.setAnimated);
+  const { route } = useCurrentRoute();
+  const showSignupPolicy = route.params.showSignupPolicy;
 
   const goBack = () => {
     navigation.goBack();
+    if (!showSignupPolicy) return;
     setAnimated(false);
     SheetManager.show('signup-policy');
   };

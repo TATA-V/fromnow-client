@@ -1,5 +1,5 @@
-import { deleteFriend, getSearchFriend, postFriendAccept, postFriendRequest } from '@api/friend';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deleteFriend, getSearchFriend, postFriendAccept, postFriendReject, postFriendRequest } from '@api/friend';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { Friend } from '@clientTypes/user';
@@ -33,6 +33,25 @@ export const usePostFriendRequest = () => {
   return { friendRequestMutation };
 };
 
+export const usePostFriendReject = () => {
+  const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const myFriendReqKey = useKey([QUERY_KEY.MY, 'friend', 'request']);
+
+  const friendRequestMutation = useMutation({
+    mutationFn: postFriendReject,
+    onSuccess: () => {
+      successToast('친구 요청 삭제 완료');
+      queryClient.invalidateQueries({ queryKey: myFriendReqKey });
+    },
+    onError: () => {
+      errorToast('친구 요청 삭제에 실패했습니다.');
+    },
+  });
+
+  return { friendRequestMutation };
+};
+
 export const usePostFriendAccept = () => {
   const { successToast, errorToast } = useToast();
   const queryClient = useQueryClient();
@@ -43,7 +62,7 @@ export const usePostFriendAccept = () => {
     mutationFn: postFriendAccept,
     onSuccess: res => {
       queryClient.invalidateQueries({ queryKey: myFriendReqKey });
-      queryClient.setQueryData(myFriendsKey, (prev: Friend[]) => [{ ...res.data, friend: true }, ...prev]);
+      queryClient.setQueryData(myFriendsKey, (prev: Friend[]) => [{ ...res.data, friend: true, profilePhotoUrl: res.data.photoUrl }, ...prev]);
       successToast('친구 수락 완료!');
     },
     onError: () => {

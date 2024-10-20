@@ -19,6 +19,7 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
   useEffect(() => {
     const getFCMToken = async () => {
       const access = await getStorage('access');
+      console.log('access:', access);
       if (!access) {
         navigation.navigate('SignIn');
         return;
