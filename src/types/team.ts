@@ -2,11 +2,20 @@ export interface Team {
   id: number;
   title: string;
   photoUrls: string[];
-  date: string;
+  createdAt: string;
+  recivedAt: string;
   isNew?: boolean;
 }
 
 export interface TeamInvite {
   diaryId: number;
+  profileNames: string[];
+}
+
+export interface TeamMenu {
+  memberId: number;
   profileName: string;
+  photoUrl: string;
+  owner: boolean;
+  friend: boolean;
 }

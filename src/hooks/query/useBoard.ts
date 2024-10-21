@@ -6,6 +6,7 @@ import { QUERY_KEY, useKey } from '@hooks/query';
 import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
 import moment from 'moment-modification-rn';
+import { Dispatch, SetStateAction } from 'react';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
@@ -13,7 +14,7 @@ export const useGetAllBoard = (boardData: GetAll) => {
     queryKey,
     queryFn: () => getAll(boardData),
     staleTime: 0,
-    gcTime: 0,
+    gcTime: 5 * 60 * 1000,
   });
 
   return { data, isError, isLoading };
@@ -38,13 +39,18 @@ export const usePostOneBoard = () => {
   return { createBoardMutation };
 };
 
-export const useLikeBoard = () => {
+export const useLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => {
   const { successToast, errorToast } = useToast();
 
   const likeBoardMutation = useMutation({
     mutationFn: postLike,
     onSuccess: () => {
       successToast('좋아요 완료!');
+      setLikes &&
+        setLikes(prev => {
+          console.log(prev);
+          return prev + 1;
+        });
     },
     onError: () => {
       errorToast('좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요.');
@@ -54,13 +60,18 @@ export const useLikeBoard = () => {
   return { likeBoardMutation };
 };
 
-export const useDisLikeBoard = () => {
+export const useDisLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => {
   const { successToast, errorToast } = useToast();
 
   const disLikeBoardMutation = useMutation({
     mutationFn: postDisLike,
     onSuccess: () => {
       successToast('좋아요를 취소했습니다.');
+      setLikes &&
+        setLikes(prev => {
+          console.log('dislike', prev);
+          return prev !== 0 ? prev - 1 : 0;
+        });
     },
     onError: () => {
       errorToast('좋아요 취소에 실패했습니다. 잠시 후 다시 시도해 주세요.');

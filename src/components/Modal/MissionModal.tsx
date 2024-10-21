@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image, Modal, Pressable } from 'react-native';
+import { Text, Image, Modal, View } from 'react-native';
 import { MotiView } from 'moti';
 import Button from '@components/common/Button';
 import { ModalState, useModal } from '@components/Modal';
@@ -15,7 +15,7 @@ const MissionModal = ({ open, title, description, confirm, missionImg }: ModalSt
 
   return (
     <Modal transparent visible={open} animationType="fade" onRequestClose={hideModal}>
-      <Pressable className="flex-1 justify-center items-center bg-black/50">
+      <View className="flex-1 justify-center items-center bg-black/50">
         <MotiView
           from={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: open ? 1 : 0, scale: open ? 1 : 0.9 }}
@@ -28,7 +28,7 @@ const MissionModal = ({ open, title, description, confirm, missionImg }: ModalSt
             촬영 시작!
           </Button>
         </MotiView>
-      </Pressable>
+      </View>
     </Modal>
   );
 };

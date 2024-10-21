@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, Modal, Pressable, View } from 'react-native';
+import { Text, TouchableOpacity, Modal, View } from 'react-native';
 import { MotiView } from 'moti';
 import { useModal, ModalState } from '@components/Modal';
 
@@ -15,13 +15,14 @@ const DialogModal = ({ open, title, description, confirm }: ModalState) => {
 
   return (
     <Modal transparent visible={open} animationType="fade" onRequestClose={hideModal}>
-      <Pressable onPress={hideModal} className="flex-1 justify-center items-center bg-black/50">
+      <View onTouchEnd={hideModal} className="flex-1 justify-center items-center bg-black/50">
         <MotiView
+          onTouchEnd={e => e.stopPropagation()}
           from={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: open ? 1 : 0, scale: open ? 1 : 0.9 }}
           transition={{ type: 'timing', duration: 300 }}
           className="w-[279px] p-4 bg-white rounded-[24px] items-center">
-          {title && <Text className="font-PTDSemiBold text-lg mb-[3px] text-black900 mt-2">{title}</Text>}
+          {title && <Text className="font-PTDSemiBold text-lg mb-2 text-black900 mt-2">{title}</Text>}
           <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>
           <View className="flex-row w-full justify-between mt-[24px]">
             <TouchableOpacity
@@ -34,7 +35,7 @@ const DialogModal = ({ open, title, description, confirm }: ModalState) => {
             </TouchableOpacity>
           </View>
         </MotiView>
-      </Pressable>
+      </View>
     </Modal>
   );
 };

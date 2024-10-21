@@ -1,5 +1,5 @@
 export interface CalendarRow {
-  new: number;
+  new: boolean;
   hasPosts: boolean;
   date: string;
 }

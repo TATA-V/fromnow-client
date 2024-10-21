@@ -7,6 +7,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
+import { postFCM } from '@api/user';
 
 interface Props {
   children: ReactNode;
@@ -25,7 +26,8 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
         return;
       }
       const token = await messaging().getToken();
-      console.log('token:', token);
+      const res = await postFCM(token);
+      console.log('token:', res);
     };
     getFCMToken();
 

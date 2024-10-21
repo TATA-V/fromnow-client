@@ -6,6 +6,7 @@ import Button from '@components/common/Button';
 import { Team } from '@clientTypes/team';
 import useNavi from '@hooks/useNavi';
 import FadeIn from '@components/common/FadeIn';
+import { isTablet } from '@utils/deviceInfo';
 
 interface Props {
   teamList: Team[];
@@ -14,6 +15,7 @@ interface Props {
 
 function TeamList({ teamList, colors }: Props) {
   const { navigation } = useNavi();
+  const numColumns = isTablet ? 4 : 2;
 
   return (
     <View className={`${teamList.length !== 1 && 'items-center'} flex w-full flex-1`}>
@@ -43,7 +45,7 @@ function TeamList({ teamList, colors }: Props) {
             </View>
           </FadeIn>
         }
-        numColumns={2}
+        numColumns={numColumns}
         initialScrollIndex={0}
         horizontal={false}
       />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
 import DndTeamList from '@components/Home/DndTeamList';
@@ -19,7 +19,7 @@ const HomeScreen = () => {
 
   if (isLoading)
     return (
-      <View className="flex-1 bg-white">
+      <View className="flex-1 bg-white pt-16">
         <MiniLoading />
       </View>
     );

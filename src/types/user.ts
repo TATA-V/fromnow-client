@@ -3,13 +3,6 @@ export interface MyProfile {
   photoUrl: string;
 }
 
-export interface Friend {
-  memberId: number;
-  profileName: string;
-  profilePhotoUrl: string;
-  friend: boolean;
-}
-
 export interface MyFriendRequest {
   memberId: number;
   profileName: string;

@@ -6,7 +6,7 @@ import Button from '@components/common/Button';
 import MiniLoading from '@components/common/MiniLoading';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePostFriendReject } from '@hooks/query';
-import { Friend } from '@clientTypes/user';
+import { Friend } from '@clientTypes/friend';
 import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
 import DeleteButton from '@components/common/SwipeableAction';

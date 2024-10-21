@@ -51,7 +51,12 @@ const ProfileScreen = () => {
     },
   ];
 
-  if (isLoading) return <MiniLoading />;
+  if (isLoading)
+    return (
+      <View className="flex-1 bg-white pt-16">
+        <MiniLoading />
+      </View>
+    );
 
   return (
     <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }} showsVerticalScrollIndicator={false}>

@@ -27,7 +27,7 @@ const Photo = ({ image, setImage }: Props) => {
           <AvatarHappy />
         </View>
       )}
-      {image && <Image source={{ uri: image.path }} className="w-full h-full object-cover rounded-[60px]" />}
+      {image && image.path && <Image source={{ uri: image.path }} className="w-full h-full object-cover rounded-[60px]" />}
       <TouchableOpacity
         onPress={pickImage}
         className="absolute -bottom-[10.5] -right-[10.5] bg-black900 w-[56px] h-[56px] flex justify-center items-center rounded-[20px]">

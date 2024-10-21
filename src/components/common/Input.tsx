@@ -8,6 +8,7 @@ import SearchIcon from '@assets/icons/SearchIcon';
 type Mode = 'black' | 'error' | 'trust' | 'gray';
 
 interface Props {
+  autoFocus?: boolean;
   mode?: Mode;
   placeholder?: string;
   editable?: boolean;
@@ -17,7 +18,7 @@ interface Props {
   onSubmitEditing?: () => void;
 }
 
-const Input = ({ mode = 'black', placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
+const Input = ({ autoFocus = false, mode = 'black', placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const color = useMemo(() => {
@@ -49,6 +50,7 @@ const Input = ({ mode = 'black', placeholder, editable = true, search, value, se
   return (
     <View className="relative w-full">
       <TextInput
+        autoFocus={autoFocus}
         value={value}
         onChangeText={setValue}
         className={inputClassName}

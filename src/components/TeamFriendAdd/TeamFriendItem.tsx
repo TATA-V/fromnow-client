@@ -1,26 +1,37 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
-import profilePng from '@assets/png/profile.png';
+import { TeamFriend } from '@clientTypes/friend';
 
-interface Props {
+interface Props extends TeamFriend {
   index: number;
   length: number;
-  isTeam: boolean;
+  setProfileNames: Dispatch<SetStateAction<string[]>>;
 }
 
-const TeamFriendItem = ({ index, length, isTeam }: Props) => {
+const TeamFriendItem = (props: Props) => {
+  const { setProfileNames, profileName, profilePhotoUrl, team, index, length } = props;
+  const [isFriend, setIsFriend] = useState(team);
+
+  const addTeam = () => {
+    if (isFriend) setProfileNames(prev => prev.filter(name => name !== profileName));
+    else setProfileNames(prev => [...prev, profileName]);
+
+    setIsFriend(!isFriend);
+  };
+
   return (
     <View
       className={`${index === 0 && 'border-t-[1px] rounded-t-2xl'} ${index === length - 1 && 'border-b-[1px] rounded-b-2xl'}
       h-[60px] bg-white w-full flex flex-row justify-between items-center px-4 border-r-[1px] border-l-[1px] border-black200`}>
       <View className="flex flex-row gap-2 items-center">
-        <Image source={profilePng} className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200" />
-        <Text className="text-black900 font-PTDLight text-sm">채순</Text>
+        <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200" />
+        <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>
       <TouchableOpacity
-        className={`${isTeam ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
+        onPress={addTeam}
+        className={`${isFriend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
         h-9 w-[74px] flex justify-center items-center rounded-xl`}>
-        <Text className={`${isTeam ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isTeam ? '모임' : '모임추가'}</Text>
+        <Text className={`${isFriend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isFriend ? '모임' : '모임추가'}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -34,5 +34,10 @@ export const postInvite = async (body: TeamInvite) => {
 
 export const postAccept = async (diaryId: number) => {
   const res = await instance.post('api/diary/accept', { diaryId });
-  return res;
+  return res.data;
+};
+
+export const getMenu = async (diaryId: number) => {
+  const res = await instance.get(`/api/diary/${diaryId}/menu`);
+  return res.data.data;
 };

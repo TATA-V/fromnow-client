@@ -2,8 +2,10 @@ import { Moment } from 'moment-modification-rn';
 import { create } from 'zustand';
 
 interface SelectedTeam {
+  id: number;
   title: string;
-  date: Moment | string;
+  createdAt: Moment | string;
+  recivedAt: Moment | string;
 }
 
 interface SelectedTeamStore extends SelectedTeam {
@@ -11,8 +13,10 @@ interface SelectedTeamStore extends SelectedTeam {
 }
 
 const initial: SelectedTeam = {
+  id: 0,
   title: '',
-  date: '',
+  createdAt: '',
+  recivedAt: '',
 };
 
 const useSelectedTeamStore = create<SelectedTeamStore>(set => ({

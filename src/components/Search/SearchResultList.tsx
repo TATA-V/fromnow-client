@@ -3,7 +3,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import FriendItem from '@components/common/FriendItem';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useRefresh from '@hooks/useRefresh';
-import { Friend } from '@clientTypes/user';
+import { Friend } from '@clientTypes/friend';
 
 interface Props {
   search: string;

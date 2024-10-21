@@ -1,5 +1,5 @@
-import { Team, TeamInvite } from '@clientTypes/team';
-import { deleteOne, getAll, postAccept, postInvite, postOne, UpdateOne, updateOne } from '@api/team';
+import { Team, TeamInvite, TeamMenu } from '@clientTypes/team';
+import { deleteOne, getAll, getMenu, postAccept, postInvite, postOne, UpdateOne, updateOne } from '@api/team';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
@@ -15,7 +15,7 @@ export const useGetAllTeam = () => {
   return { data, isError, isLoading };
 };
 
-export const useDeleteOneTeam = () => {
+export const useDeleteOneTeam = (close?: () => void) => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const queryClient = useQueryClient();
@@ -27,6 +27,7 @@ export const useDeleteOneTeam = () => {
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
       successToast('다이어리를 삭제했습니다.');
+      close && close();
     },
     onError: error => {
       console.error('Error deleting team:', error);
@@ -62,12 +63,12 @@ export const usePostOneTeam = () => {
   const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
-  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+  const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const createTeamMutation = useMutation({
     mutationFn: postOne,
     onSuccess: res => {
-      queryClient.setQueryData(myTeamsKey, (prev: Team[]) => {
+      queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
         let update = [...prev];
         const newTeam = { ...res.data, photoUrls: [res.data.photoUrls], isNew: true };
         if (prev[0] && prev[0].isNew) {
@@ -92,7 +93,7 @@ export const useInviteTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const inviteTeamMutation = useMutation({
-    mutationFn: ({ diaryId, profileName }: TeamInvite) => postInvite({ diaryId, profileName }),
+    mutationFn: ({ diaryId, profileNames }: TeamInvite) => postInvite({ diaryId, profileNames }),
     onSuccess: () => {
       successToast('초대 성공!');
     },
@@ -106,11 +107,25 @@ export const useInviteTeam = () => {
 
 export const useAcceptTeam = () => {
   const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
+  const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const acceptTeamMutation = useMutation({
     mutationFn: postAccept,
-    onSuccess: () => {
+    onSuccess: res => {
       successToast('다이어리 초대 수락이 완료되었습니다.');
+      queryClient.invalidateQueries({ queryKey: myTeamReqKey });
+      queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
+        let update = [...prev];
+        const newTeam = { ...res.data, photoUrls: [res.data.photoUrls], isNew: true };
+        if (prev[0] && prev[0].isNew) {
+          update.shift();
+          update.unshift({ ...prev[0], isNew: false });
+        }
+        update.unshift(newTeam);
+        return update;
+      });
     },
     onError: () => {
       errorToast('다이어리 초대 수락에 실패했습니다.');
@@ -118,4 +133,16 @@ export const useAcceptTeam = () => {
   });
 
   return { acceptTeamMutation };
+};
+
+export const useGetTeamMenu = (diaryId: number) => {
+  const queryKey = useKey([QUERY_KEY.TEAM, diaryId, 'menu']);
+  const { data, isError, isLoading } = useQuery<TeamMenu[]>({
+    queryKey,
+    queryFn: () => getMenu(diaryId),
+    staleTime: 0,
+    gcTime: 5 * 60 * 1000,
+  });
+
+  return { data, isError, isLoading };
 };

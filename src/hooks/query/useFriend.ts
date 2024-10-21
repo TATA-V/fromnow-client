@@ -1,8 +1,16 @@
-import { deleteFriend, getSearchFriend, postFriendAccept, postFriendReject, postFriendRequest } from '@api/friend';
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  deleteFriend,
+  getSearchFriend,
+  getSearchTeamFriend,
+  GetSearchTeamFriend,
+  postFriendAccept,
+  postFriendReject,
+  postFriendRequest,
+} from '@api/friend';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
-import { Friend } from '@clientTypes/user';
+import { Friend, TeamFriend } from '@clientTypes/friend';
 
 export const useGetSearchFriend = (profileName: string, options = {}) => {
   const queryKey = useKey(['search', QUERY_KEY.FRIEND, profileName]);
@@ -10,8 +18,21 @@ export const useGetSearchFriend = (profileName: string, options = {}) => {
     queryKey,
     queryFn: () => getSearchFriend(profileName),
     staleTime: 0,
-    gcTime: 0,
+    gcTime: 5 * 60 * 1000,
     ...options,
+  });
+
+  return { data, isError, isLoading };
+};
+
+export const useGetSearchTeamFriend = ({ diaryId, profileName, options }: GetSearchTeamFriend & { options?: Object }) => {
+  const queryKey = useKey(['search', QUERY_KEY.FRIEND, QUERY_KEY.TEAM, profileName]);
+  const { data, isError, isLoading } = useQuery<TeamFriend[]>({
+    queryKey,
+    queryFn: () => getSearchTeamFriend({ diaryId, profileName }),
+    staleTime: 0,
+    gcTime: 5 * 60 * 1000,
+    ...(options || {}),
   });
 
   return { data, isError, isLoading };
@@ -73,15 +94,17 @@ export const usePostFriendAccept = () => {
   return { friendAcceptMutation };
 };
 
-export const useDeleteFriend = () => {
+export const useDeleteFriend = (diaryId?: number) => {
   const { successToast, errorToast } = useToast();
   const queryClient = useQueryClient();
   const myFriendsKey = useKey([QUERY_KEY.MY, 'friends']);
+  const teamMenuKey = useKey([QUERY_KEY.TEAM, diaryId, 'menu']);
 
   const friendDeleteMutation = useMutation({
     mutationFn: deleteFriend,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: myFriendsKey });
+      diaryId && queryClient.invalidateQueries({ queryKey: teamMenuKey });
       successToast('친구가 삭제되었습니다.');
     },
     onError: () => {

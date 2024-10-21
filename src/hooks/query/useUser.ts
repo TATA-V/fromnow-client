@@ -3,7 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import { Friend, MyTeamRequest, MyProfile } from '@clientTypes/user';
+import { MyTeamRequest, MyProfile } from '@clientTypes/user';
+import { Friend } from '@clientTypes/friend';
 import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
@@ -118,7 +119,7 @@ export const useGetAllMyFriendRequest = () => {
     queryKey,
     queryFn: getAllMyFriendRequest,
     staleTime: 0,
-    gcTime: 0,
+    gcTime: 5 * 60 * 1000,
   });
 
   return { data, isError, isLoading };

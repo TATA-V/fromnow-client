@@ -6,11 +6,12 @@ import { formatTime } from '@utils/formatDate';
 import { useDisLikeBoard, useLikeBoard } from '@hooks/query';
 
 const BoardItem = (props: Board) => {
-  const { boardId, createdDate, profilePhotoUrl, profileName, contentPhotoUrl, content, likes, liked } = props;
-  const { likeBoardMutation } = useLikeBoard();
-  const { disLikeBoardMutation } = useDisLikeBoard();
+  const { boardId, createdDate, profilePhotoUrl, profileName, contentPhotoUrl, content, likes: initialLikes, liked } = props;
   const [heart, setHeart] = useState(liked);
+  const [likes, setLikes] = useState(initialLikes);
 
+  const { likeBoardMutation } = useLikeBoard(setLikes);
+  const { disLikeBoardMutation } = useDisLikeBoard(setLikes);
   const toggleLike = () => {
     if (heart) {
       disLikeBoardMutation.mutate(boardId);

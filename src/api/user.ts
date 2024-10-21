@@ -45,3 +45,8 @@ export const getAllMyTeamRequest = async () => {
   const res = await instance.get('/api/my/diary/requests/received');
   return res.data.data;
 };
+
+export const postFCM = async (fcmToken: string) => {
+  const res = await instance.post('/api/member/fcm', { fcmToken });
+  return res.data.data;
+};

@@ -16,7 +16,7 @@ interface Props extends Team {
 
 const { width } = Dimensions.get('window');
 
-const TeamFolder = ({ isNew, color, id, date, title, photoUrls = [] }: Props) => {
+const TeamFolder = ({ isNew, color, id, createdAt, recivedAt, title, photoUrls = [] }: Props) => {
   const { setTeam } = useSelectedTeamStore();
   const { navigation } = useNavi();
   const numColumns = isTablet ? 4 : 2;
@@ -46,7 +46,7 @@ const TeamFolder = ({ isNew, color, id, date, title, photoUrls = [] }: Props) =>
 
   const clickTeam = () => {
     navigation.navigate('Team', { id });
-    setTeam({ title, date });
+    setTeam({ id, title, createdAt, recivedAt });
   };
 
   return (
@@ -70,10 +70,10 @@ const TeamFolder = ({ isNew, color, id, date, title, photoUrls = [] }: Props) =>
                 .slice(0, 2)
                 .map((img, idx) => (
                   <Image
-                    style={{ width: imageSize, height: imageSize }}
+                    style={{ width: imageSize, height: imageSize, marginLeft: idx === 0 ? 0 : -(imageSize / 4) }}
                     key={idx}
                     source={{ uri: img }}
-                    className={`${idx === 0 ? 'ml-0' : 'ml-[-12px]'} rounded-2xl border-[1px] border-black200`}
+                    className="rounded-2xl border-[1px] border-black200"
                   />
                 ))}
             {photoUrls.length > 2 && (

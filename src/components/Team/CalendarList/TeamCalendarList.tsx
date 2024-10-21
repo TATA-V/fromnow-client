@@ -65,6 +65,7 @@ const TeamCalendarList = () => {
     const visibleMonth = months[0];
     const yearMonth = moment(visibleMonth.dateString).format('YYYY년 M월');
     console.log('현재 보이는 달:', yearMonth);
+    console.log('months:', months);
   };
 
   return (

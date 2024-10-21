@@ -8,7 +8,6 @@ import AvatarSadMsg from '@components/common/AvatarSadMsg';
 const { width } = Dimensions.get('window');
 
 const MyTeamRequestScreen = () => {
-  const [isAllTeam, setIsAllTeam] = useState(true);
   const { data, isLoading } = useGetAllMyTeamRequest();
 
   if (isLoading)
@@ -21,10 +20,10 @@ const MyTeamRequestScreen = () => {
   return (
     <View className="flex-1 bg-black100">
       {data.length > 0 && (
-        <ScrollView className="px-4 pt-[4px]" contentContainerStyle={{ paddingBottom: 30 }}>
+        <ScrollView className="px-4 pt-[4px]" contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
           <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden">
-            {[...Array(20)].map((_, idx) => (
-              <TeamItem key={idx} isTeam={isAllTeam} />
+            {data.map((item, idx) => (
+              <TeamItem key={idx} {...item} />
             ))}
           </View>
         </ScrollView>

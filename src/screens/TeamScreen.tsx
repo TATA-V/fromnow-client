@@ -23,6 +23,7 @@ import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
 import 'moment-modification-rn/locale/ko';
 import { useScrollDirection } from '@hooks/useScrollDirection';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
+import { getMonthly } from '@api/board';
 moment.locale('ko');
 
 interface Props {
@@ -33,7 +34,7 @@ const TeamScreen = ({}: Props) => {
   const [week, setWeek] = useState<Moment | string>(moment().format());
   const { navigation } = useNavi();
   const { isScrollUp, scrollList } = useScrollDirection();
-  const { date: teamDate, title } = useSelectedTeamStore();
+  const { recivedAt: teamDate, title } = useSelectedTeamStore();
 
   const { route } = useCurrentRoute();
   const diaryId = route.params.id;
@@ -41,6 +42,18 @@ const TeamScreen = ({}: Props) => {
   const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
   const { data: calendarData, fetchPreviousPage } = useRowInfiniteBoard({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
+  console.log('calendarData:', calendarData?.pages.flat());
+  console.log('data?.blur', data?.blur);
+  console.log('data?.read', data?.read);
+
+  // 테스트
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getMonthly({ diaryId, date: currentDate });
+      console.log('getMonthly:', res);
+    };
+    fetch();
+  }, []);
 
   // 읽음 처리
   const { readBoardMutation } = useReadBoard();
@@ -76,6 +89,13 @@ const TeamScreen = ({}: Props) => {
       return { ...prev, ...mappedData };
     });
   }, [calendarData]);
+  useEffect(() => {
+    let dayData = calendarMap[currentDate];
+    if (!data?.blur && data?.read && dayData?.new) {
+      dayData.new = false;
+      setCalendarMap(prev => ({ ...prev, dayData }));
+    }
+  }, [data?.blur, data?.read, boards, currentDate, calendarMap]);
 
   const onDateSelected = async (date: Moment) => {
     const format = formatDate(date);

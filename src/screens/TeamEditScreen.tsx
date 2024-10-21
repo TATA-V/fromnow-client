@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import InputField from '@components/common/InputField';
 import Button from '@components/common/Button';
 import { useUpdateOneTeam } from '@hooks/query';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import DismissKeyboard from '@components/common/DismissKeyboard';
 
@@ -20,7 +19,6 @@ interface Props {
 const TeamEditScreen = ({}: Props) => {
   const { route } = useCurrentRoute();
   const { updateTeamMutation } = useUpdateOneTeam();
-  const insets = useSafeAreaInsets();
 
   const {
     control,

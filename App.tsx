@@ -10,6 +10,7 @@ import { AnimatePresence, MotiView } from 'moti';
 import { StyleSheet } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import '@components/BottomSheet/sheets';
+import { navigationRef } from '@utils/rootNavigation';
 import { linking } from './deeplinkConfig';
 
 import RQProvider from '@components/provider/RQProvider';
@@ -34,7 +35,6 @@ import MyTeamRequestScreen from './src/screens/MyTeamRequestScreen';
 import NotifyScreen from './src/screens/NotifyScreen';
 import TeamScreen from './src/screens/TeamScreen';
 import TeamCalendarScreen from './src/screens/TeamCalendarScreen';
-import TeamSettingScreen from './src/screens/TeamSettingScreen';
 import TeamEditScreen from './src/screens/TeamEditScreen';
 import MyLikedBoardScreen from './src/screens/MyLikedBoardScreen';
 import TeamDetailScreen from './src/screens/TeamDetailScreen';
@@ -89,7 +89,7 @@ function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <RQProvider>
         <ToastNotiProvider>
-          <NavigationContainer linking={linking}>
+          <NavigationContainer ref={navigationRef} linking={linking}>
             <SheetProvider>
               <SAVProvider isDarkMode={isDarkModeStatusBar}>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
@@ -99,7 +99,7 @@ function App() {
                   <Stack.Screen
                     name="SignupNickname"
                     component={SignupNicknameScreen}
-                    options={{ header: () => <DefaultHeader title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
+                    options={{ header: () => <DefaultHeader isSignup={true} title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
                   />
                   <Stack.Screen
                     name="SignupPhoto"
@@ -126,9 +126,6 @@ function App() {
                   </Stack.Screen>
                   <Stack.Screen name="TeamCalendar" options={{ headerShown: false }}>
                     {props => <TeamCalendarScreen {...props} paramName="TeamCalendar" />}
-                  </Stack.Screen>
-                  <Stack.Screen name="TeamSetting" options={{ headerShown: false }}>
-                    {props => <TeamSettingScreen {...props} paramName="TeamSetting" />}
                   </Stack.Screen>
                   <Stack.Screen name="TeamEdit" options={{ header: () => <DefaultHeader title="모임정보 수정하기" /> }}>
                     {props => <TeamEditScreen {...props} paramName="TeamEdit" />}
