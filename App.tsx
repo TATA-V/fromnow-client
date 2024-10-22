@@ -23,6 +23,7 @@ import DefaultHeader from '@components/common/DefaultHeader';
 import ProfileHeader from '@components/Profile/ProfileHeader';
 import PolicyHeader from '@components/Policy/PolicyHeader';
 import NotifyHeader from '@components/Notify/NotifyHeader';
+import TeamHeader from '@components/Team/TeamHeader';
 
 import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -121,12 +122,10 @@ function App() {
                     component={MyLikedBoardScreen}
                     options={{ header: () => <DefaultHeader title="좋아요 누른 일상" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                   />
-                  <Stack.Screen name="Team" options={{ headerShown: false }}>
+                  <Stack.Screen name="Team" options={{ header: () => <TeamHeader /> }}>
                     {props => <TeamScreen {...props} paramName="Team" />}
                   </Stack.Screen>
-                  <Stack.Screen name="TeamCalendar" options={{ headerShown: false }}>
-                    {props => <TeamCalendarScreen {...props} paramName="TeamCalendar" />}
-                  </Stack.Screen>
+                  <Stack.Screen name="TeamCalendar" component={TeamCalendarScreen} options={{ header: () => <TeamHeader /> }} />
                   <Stack.Screen name="TeamEdit" options={{ header: () => <DefaultHeader title="모임정보 수정하기" /> }}>
                     {props => <TeamEditScreen {...props} paramName="TeamEdit" />}
                   </Stack.Screen>

@@ -15,16 +15,16 @@ const ImageCards = ({ imgs }: Props) => {
 
   return (
     <View className="relative">
-      {oneImg && <Image source={postJpg} className="mt-[5px] w-[33px] h-[44px] rounded-[8px]" resizeMode="cover" />}
+      {oneImg && <Image source={{ uri: imgs[0] }} className="mt-[5px] w-[33px] h-[44px] rounded-[8px]" resizeMode="cover" />}
       {twoImg && (
         <>
           <Image
-            source={postJpg}
+            source={{ uri: imgs[0] }}
             className="mt-[5px] w-[33px] h-[44px] rounded-[8px] transfrom rotate-[-15deg] translate-x-[-2px]"
             resizeMode="cover"
           />
           <Image
-            source={postJpg2}
+            source={{ uri: imgs[1] }}
             className="absolute top-[10px] left-[2px] mt-[5px] w-[33px] h-[44px] rounded-[8px] transfrom rotate-[15deg]"
             resizeMode="cover"
           />
@@ -33,17 +33,17 @@ const ImageCards = ({ imgs }: Props) => {
       {threeImg && (
         <>
           <Image
-            source={postJpg}
+            source={{ uri: imgs[0] }}
             className="mt-[5px] w-[33px] h-[44px] rounded-[8px] transfrom rotate-[-15deg] translate-x-[-2px]"
             resizeMode="cover"
           />
           <Image
-            source={postJpg2}
+            source={{ uri: imgs[1] }}
             className="absolute top-[5px] left-[2px] mt-[5px] w-[33px] h-[44px] rounded-[8px] transfrom rotate-[3deg]"
             resizeMode="cover"
           />
           <Image
-            source={postJpg3}
+            source={{ uri: imgs[2] }}
             className="absolute top-[10px] left-[2px] mt-[5px] w-[33px] h-[44px] rounded-[8px] transfrom rotate-[15deg]"
             resizeMode="cover"
           />

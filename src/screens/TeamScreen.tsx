@@ -12,7 +12,7 @@ import AvatarHappyMsg from '@components/common/AvatarHappyMsg';
 import Button from '@components/common/Button';
 import CameraIcon from '@assets/icons/CameraIcon';
 import blurPng from '@assets/png/blur.png';
-import { QUERY_KEY, useGetAllBoard, useKey, useReadBoard, useRowInfiniteBoard } from '@hooks/query';
+import { QUERY_KEY, useGetAllBoard, useKey, useReadBoard, useRowInfiniteCalendar } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
@@ -23,7 +23,7 @@ import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
 import 'moment-modification-rn/locale/ko';
 import { useScrollDirection } from '@hooks/useScrollDirection';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
-import { getMonthly } from '@api/board';
+import { getRowInfiniteCalendar } from '@api/board';
 moment.locale('ko');
 
 interface Props {
@@ -39,17 +39,19 @@ const TeamScreen = ({}: Props) => {
   const { route } = useCurrentRoute();
   const diaryId = route.params.id;
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
-  const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
-  const { data: calendarData, fetchPreviousPage } = useRowInfiniteBoard({ diaryId });
+  const { data, isLoading, isError, error } = useGetAllBoard({ diaryId, date: currentDate });
+  const { data: calendarData, fetchPreviousPage } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
   console.log('calendarData:', calendarData?.pages.flat());
   console.log('data?.blur', data?.blur);
   console.log('data?.read', data?.read);
+  data && console.log('data:', data);
+  isError && console.log('error:', error);
 
   // 테스트
   useEffect(() => {
     const fetch = async () => {
-      const res = await getMonthly({ diaryId, date: currentDate });
+      const res = await getRowInfiniteCalendar({ diaryId, date: currentDate });
       console.log('getMonthly:', res);
     };
     fetch();
@@ -86,7 +88,7 @@ const TeamScreen = ({}: Props) => {
       if (JSON.stringify(prev) === JSON.stringify(mappedData)) {
         return prev;
       }
-      return { ...prev, ...mappedData };
+      return { ...mappedData, ...prev };
     });
   }, [calendarData]);
   useEffect(() => {
@@ -111,7 +113,7 @@ const TeamScreen = ({}: Props) => {
           duration: 300,
           easing: Easing.inOut(Easing.ease),
         }}
-        className="bg-white mt-[66px]">
+        className="bg-white">
         <CalendarStrip
           style={{ height: 94, backgroundColor: '#fff' }}
           calendarStrip={{ height: 94 }}
@@ -205,8 +207,6 @@ const TeamScreen = ({}: Props) => {
           </ScrollView>
         )}
       </View>
-
-      <TeamHeader title={title} />
     </>
   );
 };

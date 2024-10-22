@@ -7,6 +7,8 @@ import Timer from '@components/Camera/Timer';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import useNavi from '@hooks/useNavi';
 import { useModal } from '@components/Modal';
+import { cameraAccessible } from '@utils/cameraAccessible';
+import useToast from '@hooks/useToast';
 
 const CameraScreen = () => {
   const [isFrontCamera, setIsFrontCamera] = useState(false);
@@ -14,6 +16,8 @@ const CameraScreen = () => {
   const cameraRef = useRef<Camera | null>(null);
   const { navigation } = useNavi();
   const { showModal } = useModal();
+  const { warnToast } = useToast();
+  const { accessible } = cameraAccessible();
 
   const toggleCameraType = () => setIsFrontCamera(!isFrontCamera);
 
@@ -31,8 +35,15 @@ const CameraScreen = () => {
   };
 
   useEffect(() => {
+    // accessible && isTimer && showModal({ type: 'mission', title: '오늘의 미션!', description: '브이 포즈를 하고 셀카를 찍어보세요' });
     isTimer && showModal({ type: 'mission', title: '오늘의 미션!', description: '브이 포즈를 하고 셀카를 찍어보세요' });
   }, [isTimer]);
+
+  // useEffect(() => {
+  //   if (accessible) return;
+  //   warnToast('지정된 시간에만 카메라에 접근할 수 있어요.');
+  //   navigation.navigate('Home');
+  // }, []);
 
   return (
     <>

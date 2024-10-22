@@ -21,7 +21,7 @@ const MyLikedBoardScreen = () => {
 
   return (
     <View className="flex-1 bg-black100">
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <FlashList
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           data={data}
@@ -35,7 +35,7 @@ const MyLikedBoardScreen = () => {
           estimatedFirstItemOffset={8}
         />
       )}
-      {data.length === 0 && (
+      {data?.length === 0 && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="h-full justify-center transform translate-y-[-66px]">
             <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요`} />

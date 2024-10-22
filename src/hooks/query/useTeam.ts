@@ -29,8 +29,7 @@ export const useDeleteOneTeam = (close?: () => void) => {
       successToast('다이어리를 삭제했습니다.');
       close && close();
     },
-    onError: error => {
-      console.error('Error deleting team:', error);
+    onError: () => {
       errorToast('다이어리 삭제에 실패했습니다.');
     },
   });
@@ -51,7 +50,7 @@ export const useUpdateOneTeam = () => {
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
       successToast('다이어리 이름을 수정했습니다.');
     },
-    onError: error => {
+    onError: () => {
       errorToast('다이어리 이름 수정에 실패했습니다.');
     },
   });
@@ -140,7 +139,7 @@ export const useGetTeamMenu = (diaryId: number) => {
   const { data, isError, isLoading } = useQuery<TeamMenu[]>({
     queryKey,
     queryFn: () => getMenu(diaryId),
-    staleTime: 0,
+    staleTime: 1000,
     gcTime: 5 * 60 * 1000,
   });
 

@@ -67,7 +67,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   ];
 
   return (
-    <Modal transparent animationType="fade" visible={open} onRequestClose={close}>
+    <Modal transparent visible={open} onRequestClose={close}>
       <MotiView animate={{ opacity: isAnimatingOut ? 0 : 1 }} onTouchEnd={close} className="flex-1 justify-center items-center pl-10 bg-black/50">
         <MotiView
           onTouchEnd={e => e.stopPropagation()}

@@ -2,22 +2,18 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CalendarIcon from '@assets/icons/calendar.svg';
 import MenuIcon from '@assets/icons/menu.svg';
 import GalleryIcon from '@assets/icons/gallery.svg';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import TeamSettingDrawer from '@components/TeamSetting/TeamSettingDrawer';
+import useSelectedTeamStore from '@store/useSelectedTeamStore';
 
-interface Props {
-  title: string;
-}
-
-const TeamHeader = ({ title }: Props) => {
+const TeamHeader = () => {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
-  const insets = useSafeAreaInsets();
   const [openSetting, setOpenSetting] = useState(false);
+  const { title } = useSelectedTeamStore();
 
   const navigateToScreen = (target: string) => {
     navigation.navigate(target, { id: route.params.id });
@@ -25,7 +21,7 @@ const TeamHeader = ({ title }: Props) => {
 
   return (
     <>
-      <View style={{ top: insets.top }} className="absolute px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
+      <View className="px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
         <View className="flex flex-row items-center">
           <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
             <LeftArrowIcon />

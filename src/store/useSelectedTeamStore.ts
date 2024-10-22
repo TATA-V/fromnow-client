@@ -9,7 +9,7 @@ interface SelectedTeam {
 }
 
 interface SelectedTeamStore extends SelectedTeam {
-  setTeam: (values: Partial<SelectedTeam>) => void;
+  setSelectedTeam: (values: Partial<SelectedTeam>) => void;
 }
 
 const initial: SelectedTeam = {
@@ -21,7 +21,7 @@ const initial: SelectedTeam = {
 
 const useSelectedTeamStore = create<SelectedTeamStore>(set => ({
   ...initial,
-  setTeam: (values: Partial<SelectedTeam>) => set(prev => ({ ...prev, ...values })),
+  setSelectedTeam: (values: Partial<SelectedTeam>) => set(prev => ({ ...prev, ...values })),
 }));
 
 export default useSelectedTeamStore;

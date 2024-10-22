@@ -55,6 +55,8 @@ instance.interceptors.response.use(
 
     if (status === 401 && config._retry && data.data === 'REFRESH_TOKEN_EXPIRED') {
       await removeStorage('access');
+      await removeStorage('name');
+      await removeStorage('searchHistory');
       Alert.alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
       RootNavi.navigate('SignIn');
     }

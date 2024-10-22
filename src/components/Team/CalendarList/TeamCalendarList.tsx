@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment-modification-rn';
 import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
-import { Theme } from 'react-native-calendars/src/types';
+import { DateData, DayState, Theme } from 'react-native-calendars/src/types';
 import ImageCards from '@components/Team/CalendarList/ImageCards';
 import * as holidays from '@utils/holidays';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import useNavi from '@hooks/useNavi';
+import useSelectedTeamStore from '@store/useSelectedTeamStore';
+import { useColCalendar } from '@hooks/query';
+import { formatDate } from '@utils/formatDate';
+import { CalendarCol, CalendarColMap } from '@clientTypes/calendar';
+import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 
 LocaleConfig.locales.fr = {
   monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
@@ -17,12 +22,20 @@ LocaleConfig.locales.fr = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
-function DayComponent({ date, state, marking }) {
+interface DayComponentProps {
+  calendarMap: CalendarColMap;
+  date?: DateData;
+  state?: DayState;
+  marking?: MarkingProps;
+}
+
+function DayComponent({ calendarMap, date, state, marking }: DayComponentProps) {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
   const momentDate = moment(date.dateString);
   const isSaturday = momentDate.day() === 6;
   const isSunday = momentDate.day() === 0;
+  const dayData = calendarMap[date.dateString];
 
   let isHoliday = false;
   const year = date.dateString.split('-')[0];
@@ -45,35 +58,51 @@ function DayComponent({ date, state, marking }) {
       onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, date: date.dateString })}
       className="h-[98px] items-center w-full">
       <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
-      <ImageCards imgs={['1', '2', '3']} />
+      {dayData && !dayData.blur && dayData.photoUrls.length > 0 && <ImageCards imgs={dayData.photoUrls} />}
     </TouchableOpacity>
   );
 }
 
 const TeamCalendarList = () => {
-  const [loading, setLoading] = useState(true);
+  const { id: diaryId, recivedAt } = useSelectedTeamStore();
+  const startDate = moment(recivedAt);
+  const currentDate = moment();
+  const monthsDiff = currentDate.diff(startDate, 'months');
+  const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
+  const [visibleMonth, setVisibleMonth] = useState(moment().format('YYYY-MM-DD'));
+  const [fetchMonth, setFetchMonth] = useState(moment().format('YYYY-MM-DD'));
+  const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth });
+
+  const onVisibleMonthsChange = async (months: { dateString: string }[]) => {
+    const newVisibleMonth = months[0].dateString;
+    if (newVisibleMonth === visibleMonth) return;
+    setVisibleMonth(newVisibleMonth);
+
+    if (calendarMap[newVisibleMonth]) return;
+    setFetchMonth(newVisibleMonth);
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const onVisibleMonthsChange = (months: { dateString: string }[]) => {
-    // months 배열의 첫 번째 요소가 가장 먼저 보이는 달
-    const visibleMonth = months[0];
-    const yearMonth = moment(visibleMonth.dateString).format('YYYY년 M월');
-    console.log('현재 보이는 달:', yearMonth);
-    console.log('months:', months);
-  };
+    if (!calendarData) return;
+    const mappedData = calendarData?.reduce((acc: CalendarColMap, item: CalendarCol) => {
+      const format = formatDate(item.date);
+      acc[format] = item;
+      return acc;
+    }, {});
+    setCalendarMap(prev => {
+      if (JSON.stringify(prev) === JSON.stringify(mappedData)) {
+        return prev;
+      }
+      return { ...mappedData, ...prev };
+    });
+  }, [calendarData]);
 
   return (
     <CalendarList
       onVisibleMonthsChange={onVisibleMonthsChange}
-      dayComponent={DayComponent}
+      dayComponent={dayProps => <DayComponent {...dayProps} calendarMap={calendarMap} />}
       calendarHeight={600}
-      pastScrollRange={10} // 과거 달력
+      pastScrollRange={monthsDiff}
       futureScrollRange={0}
       calendarStyle={{ paddingTop: 30, paddingBottom: 30 }}
       theme={
@@ -109,7 +138,7 @@ const TeamCalendarList = () => {
               color: '#B3B4B9',
               fontSize: 20,
               fontFamily: 'UhBeemysen',
-              diplay: 'flex',
+              display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               lineHeight: 50,

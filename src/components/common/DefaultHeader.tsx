@@ -16,6 +16,8 @@ const DefaultHeader = ({ title, isSignup, customStyle }: Props) => {
   const goBack = async () => {
     if (isSignup) {
       await removeStorage('access');
+      await removeStorage('name');
+      await removeStorage('searchHistory');
     }
     navigation.goBack();
   };

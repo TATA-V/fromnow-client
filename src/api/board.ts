@@ -8,7 +8,7 @@ export interface GetAll {
   diaryId: number;
   date: string;
 }
-export interface GetMonthly {
+export interface RowColCalendar {
   diaryId: number;
   date: Moment | string;
 }
@@ -63,9 +63,16 @@ export const postRead = async ({ diaryId, date }: PostRead) => {
   return res.data.data;
 };
 
-export const getMonthly = async ({ diaryId, date }: GetMonthly) => {
+export const getRowInfiniteCalendar = async ({ diaryId, date }: RowColCalendar) => {
   const { year, month } = splitDate(date.toString());
   const query = new URLSearchParams({ year, month });
   const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/row?${query}`);
+  return res.data.data;
+};
+
+export const getColCalendar = async ({ diaryId, date }: RowColCalendar) => {
+  const { year, month } = splitDate(date.toString());
+  const query = new URLSearchParams({ year, month, num: '2' });
+  const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/col?${query}`);
   return res.data.data;
 };

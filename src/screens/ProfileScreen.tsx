@@ -26,6 +26,7 @@ const ProfileScreen = () => {
   const logoutUser = async () => {
     queryClient.clear();
     await removeStorage('access');
+    await removeStorage('name');
     await removeStorage('searchHistory');
     navigation.navigate('SignIn');
   };
@@ -46,7 +47,7 @@ const ProfileScreen = () => {
           label: '이용약관',
           onPress: () => navigateToScreen('ServicePolicy', { showSignupPolicy: false }),
         },
-        { icon: <CcIcon />, label: '사업자 정보', onPress: () => {} },
+        // { icon: <CcIcon />, label: '사업자 정보', onPress: () => {} },
       ],
     },
   ];
@@ -59,7 +60,7 @@ const ProfileScreen = () => {
     );
 
   return (
-    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 235 }} showsVerticalScrollIndicator={false}>
+    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 135 }} showsVerticalScrollIndicator={false}>
       <View className="h-[220px] flex items-center justify-center">
         <MyPhoto photoUrl={data.photoUrl} />
         <MyNickname profileName={data.profileName} />

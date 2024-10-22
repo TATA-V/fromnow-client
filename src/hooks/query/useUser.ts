@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
 import { Board } from '@clientTypes/board';
+import { setStorage } from '@utils/storage';
 
 export const useGetMyProfile = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
@@ -35,10 +36,12 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
 
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
-    onSuccess: res => {
-      queryClient.setQueryData(myProfileKey, (prev: MyProfile) => ({ ...prev, profileName: res.data.profileName }));
-      setNickname && setNickname(res.data.profileName);
-      setName(res.data.profileName);
+    onSuccess: async res => {
+      const name = res.data.profileName;
+      queryClient.setQueryData(myProfileKey, (prev: MyProfile) => ({ ...prev, profileName: name }));
+      setNickname && setNickname(name);
+      setName(name);
+      await setStorage('name', name);
       if (route.name === 'SignupNickname') {
         successToast('별명 설정 완료!');
         navigation.navigate('SignupPhoto');
@@ -118,7 +121,7 @@ export const useGetAllMyFriendRequest = () => {
   const { data, isError, isLoading } = useQuery<Friend[]>({
     queryKey,
     queryFn: getAllMyFriendRequest,
-    staleTime: 0,
+    staleTime: 1000,
     gcTime: 5 * 60 * 1000,
   });
 

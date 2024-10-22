@@ -10,6 +10,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { Team } from '@clientTypes/team';
 import { useModal } from '@components/Modal';
+import moment from 'moment-modification-rn';
+import { cameraAccessible } from '@utils/cameraAccessible';
 
 const { width } = Dimensions.get('window');
 
@@ -19,6 +21,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
 
   const queryClient = useQueryClient();
   const { showModal } = useModal();
+  const { accessible } = cameraAccessible();
 
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
   const teamList: Team[] = queryClient.getQueryData(myTeamsKey);
@@ -37,6 +40,14 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
       });
       return;
     }
+    // if (!accessible) {
+    //   showModal({
+    //     type: 'confirm',
+    //     title: '⚠️ 카메라 접근 불가 ⚠️',
+    //     description: '오후 2시부터 2시 5분,\n오후 7시부터 7시 5분 사이에만\n카메라에 접근할 수 있어요.',
+    //   });
+    //   return;
+    // }
     navigation.navigate('Camera');
   };
 

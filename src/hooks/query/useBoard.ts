@@ -1,23 +1,37 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AllBoard, CreateBoard } from '@clientTypes/board';
-import { GetAll, getAll, GetMonthly, getMonthly, postDisLike, postLike, postOne, PostRead, postRead } from '@api/board';
+import {
+  GetAll,
+  getAll,
+  getColCalendar,
+  getRowInfiniteCalendar,
+  RowColCalendar,
+  postDisLike,
+  postLike,
+  postOne,
+  PostRead,
+  postRead,
+} from '@api/board';
 import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
 import moment from 'moment-modification-rn';
 import { Dispatch, SetStateAction } from 'react';
+import { CalendarCol } from '@clientTypes/calendar';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
-  const { data, isError, isLoading } = useQuery<AllBoard>({
+  const { data, isError, error, isLoading } = useQuery<AllBoard>({
     queryKey,
     queryFn: () => getAll(boardData),
-    staleTime: 0,
+    staleTime: 1000,
     gcTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 
-  return { data, isError, isLoading };
+  return { data, isError, error, isLoading };
 };
 
 export const usePostOneBoard = () => {
@@ -49,6 +63,7 @@ export const useLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => {
       setLikes &&
         setLikes(prev => {
           console.log(prev);
+          console.log(prev + 1);
           return prev + 1;
         });
     },
@@ -70,6 +85,7 @@ export const useDisLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => 
       setLikes &&
         setLikes(prev => {
           console.log('dislike', prev);
+          console.log('dislike', prev - 1);
           return prev !== 0 ? prev - 1 : 0;
         });
     },
@@ -98,22 +114,32 @@ export const useReadBoard = () => {
   return { readBoardMutation };
 };
 
-export const useRowInfiniteBoard = ({ diaryId }: Omit<GetMonthly, 'date'>) => {
+export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryId'>) => {
   const queryKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
   const { data, isLoading, isError, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey,
     initialPageParam: { diaryId, date: moment().format() },
-    queryFn: async ({ pageParam }) => getMonthly({ diaryId: pageParam.diaryId, date: pageParam.date }),
+    queryFn: async ({ pageParam }) => getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
     getNextPageParam: () => ({ diaryId, date: moment().add(1, 'months').toISOString() }),
     getPreviousPageParam: firstPage => {
       const prevDate = moment(firstPage[0].date).subtract(1, 'month').toISOString();
       return { diaryId, date: prevDate };
     },
-    staleTime: 0,
-    gcTime: 0,
+    staleTime: 1000,
+    gcTime: 5 * 60 * 1000,
   });
 
   return { data, isLoading, isError, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };
 };
 
-export const useColumnInfiniteBoard = () => {};
+export const useColCalendar = ({ diaryId, date }: RowColCalendar) => {
+  const queryKey = useKey(['col', QUERY_KEY.BOARD, diaryId, date]);
+  const { data, isError, error, isLoading } = useQuery<CalendarCol[]>({
+    queryKey,
+    queryFn: () => getColCalendar({ diaryId, date }),
+    staleTime: 1000,
+    gcTime: 5 * 60 * 1000,
+  });
+
+  return { data, isError, error, isLoading };
+};

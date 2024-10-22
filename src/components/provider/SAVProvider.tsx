@@ -7,6 +7,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
+import useUserStore from '@store/useUserStore';
 import { postFCM } from '@api/user';
 
 interface Props {
@@ -15,16 +16,19 @@ interface Props {
 }
 
 function SAVProvider({ children, isDarkMode = false }: Props) {
+  const setName = useUserStore(state => state.setName);
   const { navigation } = useNavi();
 
   useEffect(() => {
     const getFCMToken = async () => {
       const access = await getStorage('access');
+      const name = await getStorage('name');
       console.log('access:', access);
       if (!access) {
         navigation.navigate('SignIn');
         return;
       }
+      name && setName(name);
       const token = await messaging().getToken();
       const res = await postFCM(token);
       console.log('token:', res);

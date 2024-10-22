@@ -17,7 +17,7 @@ interface Props extends Team {
 const { width } = Dimensions.get('window');
 
 const TeamFolder = ({ isNew, color, id, createdAt, recivedAt, title, photoUrls = [] }: Props) => {
-  const { setTeam } = useSelectedTeamStore();
+  const { setSelectedTeam } = useSelectedTeamStore();
   const { navigation } = useNavi();
   const numColumns = isTablet ? 4 : 2;
   const teamFolderSize = (width - 18 - 32) / numColumns;
@@ -46,7 +46,7 @@ const TeamFolder = ({ isNew, color, id, createdAt, recivedAt, title, photoUrls =
 
   const clickTeam = () => {
     navigation.navigate('Team', { id });
-    setTeam({ id, title, createdAt, recivedAt });
+    setSelectedTeam({ id, title, createdAt, recivedAt });
   };
 
   return (
