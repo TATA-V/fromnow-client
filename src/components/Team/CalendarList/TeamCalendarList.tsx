@@ -4,7 +4,6 @@ import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { DateData, DayState, Theme } from 'react-native-calendars/src/types';
 import ImageCards from '@components/Team/CalendarList/ImageCards';
-import * as holidays from '@utils/holidays';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import useNavi from '@hooks/useNavi';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
@@ -12,6 +11,7 @@ import { useColCalendar } from '@hooks/query';
 import { formatDate } from '@utils/formatDate';
 import { CalendarCol, CalendarColMap } from '@clientTypes/calendar';
 import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
+import { isHolidayForDate } from '@utils/isHolidayForDate';
 
 LocaleConfig.locales.fr = {
   monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
@@ -32,30 +32,18 @@ interface DayComponentProps {
 function DayComponent({ calendarMap, date, state, marking }: DayComponentProps) {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
-  const momentDate = moment(date.dateString);
+  const dateString = date.dateString;
+  const momentDate = moment(dateString);
   const isSaturday = momentDate.day() === 6;
   const isSunday = momentDate.day() === 0;
-  const dayData = calendarMap[date.dateString];
-
-  let isHoliday = false;
-  const year = date.dateString.split('-')[0];
-  switch (year) {
-    case '2024':
-      isHoliday = holidays.holidays2024.includes(date.dateString);
-      break;
-    case '2025':
-      isHoliday = holidays.holidays2025.includes(date.dateString);
-      break;
-    default:
-      isHoliday = false;
-      break;
-  }
+  const dayData = calendarMap[dateString];
+  const { isHoliday } = isHolidayForDate({ dateString });
 
   const textColor = isSaturday ? 'text-fnBlue' : isSunday || isHoliday ? 'text-fnPink' : 'text-black900';
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, date: date.dateString })}
+      onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, date: dateString })}
       className="h-[98px] items-center w-full">
       <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
       {dayData && !dayData.blur && dayData.photoUrls.length > 0 && <ImageCards imgs={dayData.photoUrls} />}
@@ -69,17 +57,21 @@ const TeamCalendarList = () => {
   const currentDate = moment();
   const monthsDiff = currentDate.diff(startDate, 'months');
   const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
-  const [visibleMonth, setVisibleMonth] = useState(moment().format('YYYY-MM-DD'));
   const [fetchMonth, setFetchMonth] = useState(moment().format('YYYY-MM-DD'));
   const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth });
 
   const onVisibleMonthsChange = async (months: { dateString: string }[]) => {
     const newVisibleMonth = months[0].dateString;
-    if (newVisibleMonth === visibleMonth) return;
-    setVisibleMonth(newVisibleMonth);
 
-    if (calendarMap[newVisibleMonth]) return;
-    setFetchMonth(newVisibleMonth);
+    if (!calendarMap[newVisibleMonth]) {
+      setFetchMonth(newVisibleMonth);
+      return;
+    }
+
+    // 달력이 여러 개일 때 화면에 보이는 달력은 2개임. months[0]은 화면에서 크게 보이는 주요 달력을 의미함. 위쪽에 조금 보이는 달력은 포함되지 않음. 그래서 이전 달력도 불러올 거임
+    const nextMonth = moment(newVisibleMonth).add(1, 'months').format('YYYY-MM-DD');
+    if (calendarMap[nextMonth]) return;
+    setFetchMonth(nextMonth);
   };
 
   useEffect(() => {

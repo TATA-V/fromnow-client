@@ -132,14 +132,15 @@ export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryI
   return { data, isLoading, isError, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };
 };
 
+// useInfiniteQuery를 사용하지 않은 이유: 1월부터 10월까지의 달력이 있고, 현재 10월일 때 천천히 스크롤하지 않고 빠르게 올리면 3월 달력이 바로 나타남
 export const useColCalendar = ({ diaryId, date }: RowColCalendar) => {
   const queryKey = useKey(['col', QUERY_KEY.BOARD, diaryId, date]);
-  const { data, isError, error, isLoading } = useQuery<CalendarCol[]>({
+  const { data, isError, isLoading } = useQuery<CalendarCol[]>({
     queryKey,
     queryFn: () => getColCalendar({ diaryId, date }),
     staleTime: 1000,
     gcTime: 5 * 60 * 1000,
   });
 
-  return { data, isError, error, isLoading };
+  return { data, isError, isLoading };
 };

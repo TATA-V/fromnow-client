@@ -27,7 +27,7 @@ const HomeHeader = () => {
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <SearchIcon />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Notify')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Notice')}>
           <BellIcon />
         </TouchableOpacity>
         {/* <TouchableOpacity onPress={() => setIsEdit(!isEdit)}>{isEdit ? <CheckIcon /> : <PenIcon size={24} color="#1C1C1E" />}</TouchableOpacity> */}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, Image, RefreshControl, ScrollView } from 'react-native';
-import TeamHeader from '@components/Team/TeamHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import BoardItem from '@components/common/BoardItem';
 import CalendarStrip from '@components/Team/CalendarStrip/CalendarStrip';
@@ -34,11 +33,12 @@ const TeamScreen = ({}: Props) => {
   const [week, setWeek] = useState<Moment | string>(moment().format());
   const { navigation } = useNavi();
   const { isScrollUp, scrollList } = useScrollDirection();
-  const { recivedAt: teamDate, title } = useSelectedTeamStore();
+  const { recivedAt: teamDate, targetDate } = useSelectedTeamStore();
 
   const { route } = useCurrentRoute();
   const diaryId = route.params.id;
-  const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
+  const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
+  const [currentDate, setCurrentDate] = useState(targetDate);
   const { data, isLoading, isError, error } = useGetAllBoard({ diaryId, date: currentDate });
   const { data: calendarData, fetchPreviousPage } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
@@ -71,12 +71,13 @@ const TeamScreen = ({}: Props) => {
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardsKey });
 
   const onWeekChanged = async (start: Moment, _) => {
-    if (moment(start).format('YYYY-MM') === moment(week).format('YYYY-MM')) return;
+    const startYearMonth = moment(start).format('YYYY-MM');
+    if (startYearMonth === moment(week).format('YYYY-MM')) return;
     setWeek(start);
+    if (calendarMap[`${startYearMonth}-01`]) return;
     await fetchPreviousPage();
   };
 
-  const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
   useEffect(() => {
     if (!calendarData) return;
     const mappedData = calendarData?.pages[0].reduce((acc: CalendarRowMap, item: CalendarRow) => {

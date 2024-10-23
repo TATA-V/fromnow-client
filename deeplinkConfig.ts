@@ -11,10 +11,10 @@ export const linking: LinkingOptions<RootStackParamList> = {
       Camera: 'camera',
       SignupNickname: 'signup-nickname',
       SignupPhoto: 'signup-photo',
-      MyFriend: 'my-friend',
+      MyFriend: 'my-friend/:req',
       MyTeamRequest: 'my-team-request',
       MyLikedBoard: 'my-liked-board',
-      Team: 'team/:id/',
+      Team: 'team/:id',
       TeamCalendar: 'team-calendar',
       TeamEdit: 'team-edit/:id',
       TeamFriendAdd: 'team-friend-add/:id',
@@ -22,7 +22,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
       TeamCreate: 'team-create',
       BoardEdit: 'board-edit/:file',
       Search: 'search',
-      Notify: 'notify',
+      Notice: 'notice',
       PrivacyPolicy: 'privacy-policy/:showSignupPolicy',
       ServicePolicy: 'service-policy/:showSignupPolicy',
     },
@@ -40,7 +40,7 @@ type RootStackParamList = {
   Camera: string;
   SignupNickname: string;
   SignupPhoto: string;
-  MyFriend: string;
+  MyFriend: { req?: string };
   MyTeamRequest: string;
   MyLikedBoard: string;
   Team: { id: string };
@@ -51,7 +51,7 @@ type RootStackParamList = {
   TeamCreate: string;
   BoardEdit: { file: string };
   Search: string;
-  Notify: string;
+  Notice: string;
   PrivacyPolicy: { showSignupPolicy: boolean };
   ServicePolicy: { showSignupPolicy: boolean };
 };

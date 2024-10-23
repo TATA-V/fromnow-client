@@ -15,7 +15,6 @@ const Timer = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    setTime(totalDuration);
     interval = setInterval(() => {
       setTime(prev => {
         const newTime = prev.clone().subtract(1, 'seconds');

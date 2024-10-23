@@ -1,14 +1,15 @@
 import React, { ReactNode, useEffect } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
-import { Linking } from 'react-native';
 import useNavi from '@hooks/useNavi';
-import { getStorage } from '@utils/storage';
+import { getStorage, setStorage } from '@utils/storage';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
-import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
+import { clientNotiClick, clientNotiMessage, Notice } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
 import useUserStore from '@store/useUserStore';
 import { postFCM } from '@api/user';
+import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
+import { deepLinkByNoticeLink } from '@utils/linkHandler';
 
 interface Props {
   children: ReactNode;
@@ -17,6 +18,7 @@ interface Props {
 
 function SAVProvider({ children, isDarkMode = false }: Props) {
   const setName = useUserStore(state => state.setName);
+  const setSelectedTeam = useSelectedTeamStore(state => state.setSelectedTeam);
   const { navigation } = useNavi();
 
   useEffect(() => {
@@ -39,9 +41,24 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const initialNotification = async () => {
       const initial: FirebaseMessagingTypes.RemoteMessage | null = await messaging().getInitialNotification();
       if (!initial) return;
-      const { data } = initial;
-      // deep link 경로이동 해줘야함
-      // Linking.openURL()
+      const { notification, data } = initial;
+      const { title: noticeTitle, body } = notification;
+      const { link, team } = data;
+      if (team) {
+        const { id, title, createdAt, recivedAt, targetDate } = team as SelectedTeam;
+        setSelectedTeam({ id, title, createdAt, recivedAt, targetDate });
+      }
+      const newNotice = {
+        id: '',
+        imgUrl: '',
+        link: '',
+        content: body,
+      };
+      let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
+      noticeStorage.unshift(newNotice);
+      await setStorage('notice', JSON.stringify(noticeStorage));
+
+      link && deepLinkByNoticeLink(link.toString());
     };
     initialNotification();
 
@@ -55,6 +72,14 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
 
     // Noti(클라이언트 알림 클릭시)
     const foregroundEventListener = notifee.onForegroundEvent(async ({ type, detail }) => {
+      if (type === EventType.PRESS) {
+        await clientNotiClick(detail);
+      } else if (type === EventType.DISMISSED) {
+        notifee.cancelNotification(detail.notification.id);
+        notifee.cancelDisplayedNotification(detail.notification.id);
+      }
+    });
+    notifee.onBackgroundEvent(async ({ type, detail }) => {
       if (type === EventType.PRESS) {
         await clientNotiClick(detail);
       } else if (type === EventType.DISMISSED) {

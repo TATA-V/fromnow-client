@@ -22,7 +22,6 @@ import SplashLottie from '@components/Lottie/SplashLottie';
 import DefaultHeader from '@components/common/DefaultHeader';
 import ProfileHeader from '@components/Profile/ProfileHeader';
 import PolicyHeader from '@components/Policy/PolicyHeader';
-import NotifyHeader from '@components/Notify/NotifyHeader';
 import TeamHeader from '@components/Team/TeamHeader';
 
 import HomeScreen from './src/screens/HomeScreen';
@@ -33,7 +32,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import MyFriendScreen from './src/screens/MyFriendScreen';
 import MyTeamRequestScreen from './src/screens/MyTeamRequestScreen';
-import NotifyScreen from './src/screens/NotifyScreen';
+import NoticeScreen from './src/screens/NoticeScreen';
 import TeamScreen from './src/screens/TeamScreen';
 import TeamCalendarScreen from './src/screens/TeamCalendarScreen';
 import TeamEditScreen from './src/screens/TeamEditScreen';
@@ -109,9 +108,9 @@ function App() {
                   />
                   <Stack.Screen
                     name="MyFriend"
-                    component={MyFriendScreen}
-                    options={{ header: () => <DefaultHeader title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
-                  />
+                    options={{ header: () => <DefaultHeader title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}>
+                    {props => <MyFriendScreen {...props} paramName="MyFriend" />}
+                  </Stack.Screen>
                   <Stack.Screen
                     name="MyTeamRequest"
                     component={MyTeamRequestScreen}
@@ -149,7 +148,7 @@ function App() {
                     component={SearchScreen}
                     options={{ headerShown: false, contentStyle: { backgroundColor: '#FBFBFD' } }}
                   />
-                  <Stack.Screen name="Notify" component={NotifyScreen} options={{ header: () => <NotifyHeader title="알림" /> }} />
+                  <Stack.Screen name="Notice" component={NoticeScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="PrivacyPolicy" options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}>
                     {props => <PrivacyPolicyScreen {...props} paramName="PrivacyPolicy" />}
                   </Stack.Screen>

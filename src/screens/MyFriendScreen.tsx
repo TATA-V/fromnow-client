@@ -11,12 +11,19 @@ import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
 import DeleteButton from '@components/common/SwipeableAction';
 import { Swipeable } from 'react-native-gesture-handler';
+import useCurrentRoute from '@hooks/useCurrentRoute';
+
+interface Props {
+  paramName: string;
+}
 
 const { width } = Dimensions.get('window');
 
-const MyFriendScreen = () => {
-  const [isAllFriend, setIsAllFriend] = useState(true);
+const MyFriendScreen = ({}: Props) => {
   const { navigation } = useNavi();
+  const { route } = useCurrentRoute();
+  const isReq = route.params.req;
+  const [isAllFriend, setIsAllFriend] = useState(isReq ? false : true);
 
   const { data: myFriendData, isLoading: isLoadingMyFriend } = useGetAllMyFriend();
   const { data: myFriendRqData, isLoading: isLoadingFriendRq } = useGetAllMyFriendRequest();
