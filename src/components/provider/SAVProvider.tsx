@@ -6,6 +6,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import { clientNotiClick, clientNotiMessage, Notice } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
+import ToastModalManager from '@components/Modal/ToastModalManager';
 import useUserStore from '@store/useUserStore';
 import { postFCM } from '@api/user';
 import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
@@ -102,12 +103,14 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
   }, []);
 
   return (
-    <ModalManager>
-      <SafeAreaView className="flex-1 w-full">
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#1C1C1E' : '#fff'} />
-        {children}
-      </SafeAreaView>
-    </ModalManager>
+    <ToastModalManager>
+      <ModalManager>
+        <SafeAreaView className="flex-1 w-full">
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#1C1C1E' : '#fff'} />
+          {children}
+        </SafeAreaView>
+      </ModalManager>
+    </ToastModalManager>
   );
 }
 

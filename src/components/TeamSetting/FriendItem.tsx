@@ -10,8 +10,8 @@ const FriendItem = (props: TeamMenu) => {
   const { memberId, profileName, photoUrl, owner, friend } = props;
   const diaryId = useSelectedTeamStore(state => state.id);
   const name = useUserStore(state => state.name);
-  const { friendDeleteMutation } = useDeleteFriend(diaryId);
-  const { friendRequestMutation } = usePostFriendRequest();
+  const { friendDeleteMutation } = useDeleteFriend(diaryId, true);
+  const { friendRequestMutation } = usePostFriendRequest(true);
   const { showModal } = useModal();
 
   const updateFriend = () => {

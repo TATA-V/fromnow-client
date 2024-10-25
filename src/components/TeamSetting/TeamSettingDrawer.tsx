@@ -36,7 +36,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
     setOpen(false);
   };
 
-  const { deleteTeamMutation } = useDeleteOneTeam(close);
+  const { deleteTeamMutation } = useDeleteOneTeam(close, true);
   const deleteTeam = () => {
     const confirmDeleteTeam = () => {
       deleteTeamMutation.mutate(route.params.id);

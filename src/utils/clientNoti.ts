@@ -55,7 +55,7 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
 
 export const clientNotiClick = async (detail: EventDetail) => {
   const data = detail.notification?.data || {};
-  const { id: noticeId, link, team } = data;
+  const { id: noticeId, path, team } = data;
 
   if (team) {
     const { id, title, createdAt, recivedAt, targetDate } = team as SelectedTeam;
@@ -65,5 +65,5 @@ export const clientNotiClick = async (detail: EventDetail) => {
   noticeId && (noticeStorage = noticeStorage.filter(item => item.id !== noticeId));
   await setStorage('notice', JSON.stringify(noticeStorage));
 
-  link && (await deepLinkByPath(link.toString()));
+  path && (await deepLinkByPath(path.toString()));
 };

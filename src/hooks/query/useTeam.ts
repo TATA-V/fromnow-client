@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import { QUERY_KEY, useKey } from '@hooks/query';
+import { useToastModal } from '@components/Modal';
 
 export const useGetAllTeam = () => {
   const queryKey = useKey(['all', QUERY_KEY.TEAM]);
@@ -15,8 +16,9 @@ export const useGetAllTeam = () => {
   return { data, isError, isLoading };
 };
 
-export const useDeleteOneTeam = (close?: () => void) => {
+export const useDeleteOneTeam = (close?: () => void, toastModal?: boolean) => {
   const { successToast, errorToast } = useToast();
+  const { showToastModal } = useToastModal();
   const { navigation } = useNavi();
   const queryClient = useQueryClient();
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
@@ -26,11 +28,11 @@ export const useDeleteOneTeam = (close?: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
-      successToast('다이어리를 삭제했습니다.');
+      toastModal ? showToastModal({ type: 'success', message: '다이어리를 삭제했습니다.' }) : successToast('다이어리를 삭제했습니다.');
       close && close();
     },
     onError: () => {
-      errorToast('다이어리 삭제에 실패했습니다.');
+      toastModal ? showToastModal({ type: 'error', message: '다이어리 삭제에 실패했습니다.' }) : errorToast('다이어리 삭제에 실패했습니다.');
     },
   });
 
