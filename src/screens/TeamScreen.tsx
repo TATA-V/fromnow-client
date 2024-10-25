@@ -42,17 +42,17 @@ const TeamScreen = ({}: Props) => {
   const { data, isLoading, isError, error } = useGetAllBoard({ diaryId, date: currentDate });
   const { data: calendarData, fetchPreviousPage } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
-  console.log('calendarData:', calendarData?.pages.flat());
-  console.log('data?.blur', data?.blur);
-  console.log('data?.read', data?.read);
-  data && console.log('data:', data);
+  // console.log('calendarData:', calendarData?.pages.flat());
+  // console.log('data?.blur', data?.blur);
+  // console.log('data?.read', data?.read);
+  // data && console.log('data:', data);
   isError && console.log('error:', error);
 
   // 테스트
   useEffect(() => {
     const fetch = async () => {
       const res = await getRowInfiniteCalendar({ diaryId, date: currentDate });
-      console.log('getMonthly:', res);
+      // console.log('getMonthly:', res);
     };
     fetch();
   }, []);
@@ -172,7 +172,7 @@ const TeamScreen = ({}: Props) => {
               onScroll={scrollList}
               data={boards}
               keyExtractor={(_, idx) => idx.toString()}
-              renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
+              renderItem={({ item, index }) => <BoardItem diaryId={diaryId} date={currentDate} key={index} {...item} />}
               showsVerticalScrollIndicator={false}
               ItemSeparatorComponent={() => <View className="h-[18px]" />}
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}

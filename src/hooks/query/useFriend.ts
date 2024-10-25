@@ -38,7 +38,7 @@ export const useGetSearchTeamFriend = ({ diaryId, profileName, options }: GetSea
   return { data, isError, isLoading };
 };
 
-export const usePostFriendRequest = () => {
+export const usePostFriendRequest = (toastModal?: boolean) => {
   const { successToast, errorToast } = useToast();
 
   const friendRequestMutation = useMutation({
@@ -94,7 +94,7 @@ export const usePostFriendAccept = () => {
   return { friendAcceptMutation };
 };
 
-export const useDeleteFriend = (diaryId?: number) => {
+export const useDeleteFriend = (diaryId?: number, toastModal?: boolean) => {
   const { successToast, errorToast } = useToast();
   const queryClient = useQueryClient();
   const myFriendsKey = useKey([QUERY_KEY.MY, 'friends']);

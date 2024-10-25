@@ -9,7 +9,7 @@ import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
-import { removeStorage } from '@utils/storage';
+import { removeStorageAll } from '@utils/storage';
 import MyNickname from '@components/Profile/MyNickname';
 import { useGetMyProfile } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
@@ -25,9 +25,7 @@ const ProfileScreen = () => {
   };
   const logoutUser = async () => {
     queryClient.clear();
-    await removeStorage('access');
-    await removeStorage('name');
-    await removeStorage('searchHistory');
+    await removeStorageAll();
     navigation.navigate('SignIn');
   };
 

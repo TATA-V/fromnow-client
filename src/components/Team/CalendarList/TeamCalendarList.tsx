@@ -58,20 +58,24 @@ const TeamCalendarList = () => {
   const monthsDiff = currentDate.diff(startDate, 'months');
   const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
   const [fetchMonth, setFetchMonth] = useState(moment().format('YYYY-MM-DD'));
-  const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth });
+  const [numOfCalendars, setNumOfCalendars] = useState(monthsDiff === 0 ? 1 : 2);
+  const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth, num: numOfCalendars });
 
+  // 달력이 여러 개일 때 화면에 보이는 달력은 2개임. months[0]은 화면에서 크게 보이는 주요 달력을 의미함. 위쪽에 조금 보이는 달력은 포함되지 않음. 그래서 이전 달력도 불러올 거임
   const onVisibleMonthsChange = async (months: { dateString: string }[]) => {
     const newVisibleMonth = months[0].dateString;
+    const nextMonth = moment(newVisibleMonth).add(1, 'months').format('YYYY-MM-DD');
+    const secondNextMonth = moment(newVisibleMonth).add(2, 'months').format('YYYY-MM-DD');
 
     if (!calendarMap[newVisibleMonth]) {
       setFetchMonth(newVisibleMonth);
+      setNumOfCalendars(calendarMap[nextMonth] ? 1 : 2);
       return;
     }
 
-    // 달력이 여러 개일 때 화면에 보이는 달력은 2개임. months[0]은 화면에서 크게 보이는 주요 달력을 의미함. 위쪽에 조금 보이는 달력은 포함되지 않음. 그래서 이전 달력도 불러올 거임
-    const nextMonth = moment(newVisibleMonth).add(1, 'months').format('YYYY-MM-DD');
     if (calendarMap[nextMonth]) return;
     setFetchMonth(nextMonth);
+    setNumOfCalendars(calendarMap[secondNextMonth] ? 1 : 2);
   };
 
   useEffect(() => {

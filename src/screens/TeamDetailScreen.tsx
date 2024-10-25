@@ -18,10 +18,13 @@ interface Props {
 
 const TeamDetailScreen = ({}: Props) => {
   const { route } = useCurrentRoute();
-  const { data, isLoading } = useGetAllBoard({ diaryId: route.params.teamId, date: route.params.date });
-  const boardKey = useKey(['all', QUERY_KEY.BOARD, route.params.date]);
+  const date = route.params.date;
+  const diaryId = route.params.teamId;
+  const { data, isLoading } = useGetAllBoard({ diaryId, date });
+  const boardKey = useKey(['all', QUERY_KEY.BOARD, date]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardKey });
-  const formattedDate = moment(route.params.date).format('YYYY년 MM월 DD일 dddd');
+  const formattedDate = moment(date).format('YYYY년 MM월 DD일 dddd');
+  const boards = data?.boardOverViewResponseDtoList;
 
   if (isLoading) {
     return (
@@ -36,13 +39,13 @@ const TeamDetailScreen = ({}: Props) => {
 
   return (
     <>
-      {data && data.boardOverViewResponseDtoList.length > 0 && (
-        <View className="pt-[74px]">
+      {data && boards.length > 0 && (
+        <View className="pt-[74px] flex-1">
           <FlashList
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            data={[...Array(20)]}
+            data={boards}
             keyExtractor={(_, idx) => idx.toString()}
-            renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
+            renderItem={({ item, index }) => <BoardItem diaryId={diaryId} date={date} key={index} {...item} />}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View className="h-[18px]" />}
             contentContainerStyle={{ paddingTop: 8, paddingBottom: 30, paddingHorizontal: 16 }}
@@ -53,7 +56,7 @@ const TeamDetailScreen = ({}: Props) => {
         </View>
       )}
       <TeamDetailHeader title={formattedDate} />
-      {(!data || data?.boardOverViewResponseDtoList.length === 0) && !isLoading && (
+      {(!data || boards.length === 0) && !isLoading && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="h-full justify-center mt-[-66px]">
             <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />

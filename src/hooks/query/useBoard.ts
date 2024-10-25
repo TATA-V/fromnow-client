@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AllBoard, CreateBoard } from '@clientTypes/board';
+import { AllBoard, Board, CreateBoard, LikeDislikeParams } from '@clientTypes/board';
 import {
   GetAll,
   getAll,
@@ -17,8 +17,9 @@ import { QUERY_KEY, useKey } from '@hooks/query';
 import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
 import moment from 'moment-modification-rn';
-import { Dispatch, SetStateAction } from 'react';
 import { CalendarCol } from '@clientTypes/calendar';
+import { formatDate } from '@utils/formatDate';
+import { Team } from '@clientTypes/team';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
@@ -27,8 +28,6 @@ export const useGetAllBoard = (boardData: GetAll) => {
     queryFn: () => getAll(boardData),
     staleTime: 1000,
     gcTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: true,
-    refetchOnMount: 'always',
   });
 
   return { data, isError, error, isLoading };
@@ -53,19 +52,20 @@ export const usePostOneBoard = () => {
   return { createBoardMutation };
 };
 
-export const useLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => {
+export const useLikeBoard = ({ diaryId, boardId, date }: LikeDislikeParams) => {
+  const format = formatDate(date);
+  const boardsKey = useKey(['all', QUERY_KEY.BOARD, diaryId, format]);
   const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
 
   const likeBoardMutation = useMutation({
     mutationFn: postLike,
     onSuccess: () => {
       successToast('좋아요 완료!');
-      setLikes &&
-        setLikes(prev => {
-          console.log(prev);
-          console.log(prev + 1);
-          return prev + 1;
-        });
+      queryClient.setQueryData(boardsKey, (prev: AllBoard) => {
+        const update = prev.boardOverViewResponseDtoList.map(v => (v.boardId === boardId ? { ...v, liked: true, likes: v.likes + 1 } : v));
+        return { ...prev, boardOverViewResponseDtoList: update };
+      });
     },
     onError: () => {
       errorToast('좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요.');
@@ -75,19 +75,20 @@ export const useLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => {
   return { likeBoardMutation };
 };
 
-export const useDisLikeBoard = (setLikes?: Dispatch<SetStateAction<number>>) => {
+export const useDisLikeBoard = ({ diaryId, boardId, date }: LikeDislikeParams) => {
+  const format = formatDate(date);
+  const boardsKey = useKey(['all', QUERY_KEY.BOARD, diaryId, format]);
   const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
 
   const disLikeBoardMutation = useMutation({
     mutationFn: postDisLike,
     onSuccess: () => {
       successToast('좋아요를 취소했습니다.');
-      setLikes &&
-        setLikes(prev => {
-          console.log('dislike', prev);
-          console.log('dislike', prev - 1);
-          return prev !== 0 ? prev - 1 : 0;
-        });
+      queryClient.setQueryData(boardsKey, (prev: AllBoard) => {
+        const update = prev.boardOverViewResponseDtoList.map(v => (v.boardId === boardId ? { ...v, liked: false, likes: v.likes - 1 } : v));
+        return { ...prev, boardOverViewResponseDtoList: update };
+      });
     },
     onError: () => {
       errorToast('좋아요 취소에 실패했습니다. 잠시 후 다시 시도해 주세요.');
@@ -133,11 +134,11 @@ export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryI
 };
 
 // useInfiniteQuery를 사용하지 않은 이유: 1월부터 10월까지의 달력이 있고, 현재 10월일 때 천천히 스크롤하지 않고 빠르게 올리면 3월 달력이 바로 나타남
-export const useColCalendar = ({ diaryId, date }: RowColCalendar) => {
+export const useColCalendar = ({ diaryId, date, num = 2 }: RowColCalendar) => {
   const queryKey = useKey(['col', QUERY_KEY.BOARD, diaryId, date]);
   const { data, isError, isLoading } = useQuery<CalendarCol[]>({
     queryKey,
-    queryFn: () => getColCalendar({ diaryId, date }),
+    queryFn: () => getColCalendar({ diaryId, date, num }),
     staleTime: 1000,
     gcTime: 5 * 60 * 1000,
   });

@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { View, Text, Image } from 'react-native';
 import thumbnailPng from '@assets/png/thumbnail.png';
 import { Notice } from '@utils/clientNoti';
-import { navigateByNoticeLink } from '@utils/linkHandler';
+import { navigateByPath } from '@utils/pathHandler';
 import { getStorage, setStorage } from '@utils/storage';
 
 interface Props extends Notice {
@@ -10,7 +10,7 @@ interface Props extends Notice {
 }
 
 const NoticeItem = (props: Props) => {
-  const { id, imgUrl, link, content, setNoticeList } = props;
+  const { id, imgUrl, path, content, setNoticeList } = props;
 
   const clickNotice = async () => {
     let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
@@ -18,7 +18,7 @@ const NoticeItem = (props: Props) => {
     await setStorage('notice', JSON.stringify(noticeStorage));
     setNoticeList(noticeStorage);
 
-    navigateByNoticeLink(link);
+    navigateByPath(path);
   };
 
   return (

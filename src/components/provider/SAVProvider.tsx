@@ -9,7 +9,7 @@ import ModalManager from '@components/Modal/ModalManager';
 import useUserStore from '@store/useUserStore';
 import { postFCM } from '@api/user';
 import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
-import { deepLinkByNoticeLink } from '@utils/linkHandler';
+import { deepLinkByPath } from '@utils/pathHandler';
 
 interface Props {
   children: ReactNode;
@@ -41,24 +41,24 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const initialNotification = async () => {
       const initial: FirebaseMessagingTypes.RemoteMessage | null = await messaging().getInitialNotification();
       if (!initial) return;
-      const { notification, data } = initial;
-      const { title: noticeTitle, body } = notification;
-      const { link, team } = data;
+      const { data } = initial;
+      const { body, path, imgUrl, team } = data;
+      const noticeId = data?.id?.toString() || new Date().getTime().toString();
       if (team) {
         const { id, title, createdAt, recivedAt, targetDate } = team as SelectedTeam;
         setSelectedTeam({ id, title, createdAt, recivedAt, targetDate });
       }
       const newNotice = {
-        id: '',
-        imgUrl: '',
-        link: '',
-        content: body,
+        id: noticeId,
+        imgUrl: imgUrl?.toString(),
+        path: path?.toString(),
+        content: body?.toString(),
       };
       let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
       noticeStorage.unshift(newNotice);
       await setStorage('notice', JSON.stringify(noticeStorage));
 
-      link && deepLinkByNoticeLink(link.toString());
+      path && deepLinkByPath(path.toString());
     };
     initialNotification();
 

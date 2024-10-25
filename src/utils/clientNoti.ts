@@ -1,39 +1,34 @@
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import notifee, { EventDetail, AndroidImportance } from '@notifee/react-native';
-import { navigateByNoticeLink } from '@utils/linkHandler';
+import { deepLinkByPath } from '@utils/pathHandler';
 import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
 import { getStorage, setStorage } from '@utils/storage';
 
 export interface Notice {
   id: string | number;
   imgUrl: string;
-  link: string;
+  path: string;
   content: string;
 }
 
 export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMessage) => {
-  if (!message.notification) return;
-  const { body, title } = message.notification;
   const data = message.data;
-  console.log('message:', message);
-  console.log('title:', title);
-  console.log('body:', body);
+  const { title, body, id, path, imgUrl } = data;
   console.log('data:', data);
-  const noticeId = data?.id?.toString() || new Date().getTime().toString();
+  const noticeId = id?.toString() || new Date().getTime().toString();
   console.log('noticeId:', noticeId);
 
   const channelId = await notifee.createChannel({
     id: noticeId,
-    name: '기본 알림 채널',
+    name: title.toString(),
     importance: AndroidImportance.HIGH,
     sound: 'sound',
   });
   const newNotice = {
     id: noticeId,
-    imgUrl:
-      'https://firebasestorage.googleapis.com/v0/b/fromnow-34d51.appspot.com/o/thumbnail.png?alt=media&token=9eb7a5e3-cff9-47d5-9cc3-ba5d54766c15',
-    link: 'Profile',
-    content: body,
+    imgUrl: imgUrl?.toString(),
+    path: path?.toString(),
+    content: body?.toString(),
   };
   let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
   noticeStorage.unshift(newNotice);
@@ -42,8 +37,6 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
   return notifee.displayNotification({
     id: noticeId,
     data,
-    title,
-    body,
     android: {
       channelId,
       smallIcon: 'ic_notification',
@@ -72,5 +65,5 @@ export const clientNotiClick = async (detail: EventDetail) => {
   noticeId && (noticeStorage = noticeStorage.filter(item => item.id !== noticeId));
   await setStorage('notice', JSON.stringify(noticeStorage));
 
-  link && navigateByNoticeLink(link.toString());
+  link && (await deepLinkByPath(link.toString()));
 };

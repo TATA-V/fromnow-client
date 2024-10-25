@@ -2,22 +2,26 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
-import { removeStorage } from '@utils/storage';
+import { removeStorageAll } from '@utils/storage';
+import { navigateByPath } from '@utils/pathHandler';
 
 interface Props {
   title: string;
+  path?: string;
   isSignup?: boolean;
   customStyle?: StyleProp<ViewStyle>;
 }
 
-const DefaultHeader = ({ title, isSignup, customStyle }: Props) => {
+const DefaultHeader = ({ title, path, isSignup, customStyle }: Props) => {
   const { navigation } = useNavi();
 
   const goBack = async () => {
+    if (path) {
+      navigateByPath(path);
+      return;
+    }
     if (isSignup) {
-      await removeStorage('access');
-      await removeStorage('name');
-      await removeStorage('searchHistory');
+      await removeStorageAll();
     }
     navigation.goBack();
   };

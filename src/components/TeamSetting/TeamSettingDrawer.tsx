@@ -101,7 +101,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
                   onPress={onPress}
                   key={index}
                   className={`flex-row space-x-[6px] h-[48px] items-center border-t-[1px] border-black100
-                    ${index === settingList.length - 1 && 'border-b-[1px]'}`}>
+                  ${index === settingList.length - 1 && 'border-b-[1px]'}`}>
                   {icon}
                   <Text className="text-black700 text-sm font-PTDLight">{title}</Text>
                 </TouchableOpacity>

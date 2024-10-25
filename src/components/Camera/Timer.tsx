@@ -5,16 +5,21 @@ import moment from 'moment-modification-rn';
 import useNavi from '@hooks/useNavi';
 import useToast from '@hooks/useToast';
 import { useModal } from '@components/Modal';
+import { cameraAccessible } from '@utils/cameraAccessible';
 
 const Timer = () => {
-  const totalDuration = moment.duration(5, 'minutes');
+  const currentMinutes = moment().minute();
+  const currentMilliseconds = currentMinutes * 60 * 1000;
+  const totalDuration = moment.duration(300000 - currentMilliseconds, 'milliseconds');
   const [time, setTime] = useState(totalDuration);
   const { navigation } = useNavi();
   const { warnToast } = useToast();
   const { hideModal } = useModal();
+  const { accessible } = cameraAccessible();
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
+    if (!accessible) return;
     interval = setInterval(() => {
       setTime(prev => {
         const newTime = prev.clone().subtract(1, 'seconds');

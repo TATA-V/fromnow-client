@@ -6,7 +6,7 @@ import DeleteButton from '@components/common/SwipeableAction';
 import { Notice } from '@utils/clientNoti';
 import { getStorage, setStorage } from '@utils/storage';
 import NoticeHeader from '@components/Notify/NoticeHeader';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 
 const NoticeScreen = () => {
@@ -21,7 +21,6 @@ const NoticeScreen = () => {
   }, []);
 
   const deleteNoti = async (id: string | number) => {
-    console.log('id:', id);
     let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
     noticeStorage = noticeStorage.filter(item => item.id !== id);
     setNoticeList(noticeStorage);

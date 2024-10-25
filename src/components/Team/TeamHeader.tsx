@@ -19,11 +19,19 @@ const TeamHeader = () => {
     navigation.navigate(target, { id: route.params.id });
   };
 
+  const goBack = () => {
+    if (route.name === 'Team') {
+      navigation.navigate('Home');
+      return;
+    }
+    navigation.goBack();
+  };
+
   return (
     <>
       <View className="px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
         <View className="flex flex-row items-center">
-          <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
+          <TouchableOpacity onPress={goBack} className="w-[44px] h-[44px] p-[10px]">
             <LeftArrowIcon />
           </TouchableOpacity>
           <Text className="text-black900 text-base font-PTDSemiBold ml-[4px]">{title}</Text>

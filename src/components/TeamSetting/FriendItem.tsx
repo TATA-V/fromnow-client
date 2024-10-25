@@ -13,7 +13,6 @@ const FriendItem = (props: TeamMenu) => {
   const { friendDeleteMutation } = useDeleteFriend(diaryId);
   const { friendRequestMutation } = usePostFriendRequest();
   const { showModal } = useModal();
-  console.log('name:', name);
 
   const updateFriend = () => {
     if (friend) {

@@ -24,3 +24,11 @@ export const removeStorage = async (key: string) => {
     console.error('Error removing Storage:', error);
   }
 };
+
+export const removeStorageAll = async () => {
+  try {
+    await AsyncStorage.clear();
+  } catch (error) {
+    console.error('Error clear Storage:', error);
+  }
+};

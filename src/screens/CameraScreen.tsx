@@ -35,15 +35,14 @@ const CameraScreen = () => {
   };
 
   useEffect(() => {
-    // accessible && isTimer && showModal({ type: 'mission', title: '오늘의 미션!', description: '브이 포즈를 하고 셀카를 찍어보세요' });
-    isTimer && showModal({ type: 'mission', title: '오늘의 미션!', description: '브이 포즈를 하고 셀카를 찍어보세요' });
+    accessible && isTimer && showModal({ type: 'mission', title: '오늘의 미션!', description: '브이 포즈를 하고 셀카를 찍어보세요' });
   }, [isTimer]);
 
-  // useEffect(() => {
-  //   if (accessible) return;
-  //   warnToast('지정된 시간에만 카메라에 접근할 수 있어요.');
-  //   navigation.navigate('Home');
-  // }, []);
+  useEffect(() => {
+    if (accessible) return;
+    warnToast('지정된 시간에만 카메라에 접근할 수 있어요.');
+    navigation.navigate('Home');
+  }, []);
 
   return (
     <>
