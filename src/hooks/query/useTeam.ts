@@ -98,7 +98,8 @@ export const useInviteTeam = () => {
     onSuccess: () => {
       successToast('초대 성공!');
     },
-    onError: () => {
+    onError: error => {
+      console.log(error);
       errorToast('초대에 실패했습니다.');
     },
   });

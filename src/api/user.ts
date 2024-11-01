@@ -11,13 +11,17 @@ export const updateNickname = async (profileName: string) => {
   return res.data;
 };
 
-export const updatePhoto = async (image: ImageType) => {
+export const updatePhoto = async (image: ImageType | null) => {
   const formData = new FormData();
-  formData.append('uploadPhoto', {
-    uri: image.path,
-    type: image.mime,
-    name: image.path.split('/').pop(),
-  });
+  if (image) {
+    formData.append('uploadPhoto', {
+      uri: image.path,
+      type: image.mime,
+      name: image.path.split('/').pop(),
+    });
+  } else {
+    formData.append('uploadPhoto', null);
+  }
   const res = await instance.post(`/api/member/photo`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',

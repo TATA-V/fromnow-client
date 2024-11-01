@@ -8,7 +8,7 @@ import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
 import useNavi from '@hooks/useNavi';
-import { removeStorage } from '@utils/storage';
+import { removeStorageAll } from '@utils/storage';
 
 const HomeScreen = () => {
   // const [isEdit, setIsEdit] = useState(false);
@@ -24,7 +24,7 @@ const HomeScreen = () => {
       </View>
     );
   if (isError) {
-    removeStorage('access').then(() => {
+    removeStorageAll().then(() => {
       navigation.navigate('SignIn');
     });
     return;

@@ -42,7 +42,6 @@ const TeamScreen = ({}: Props) => {
   const { data, isLoading, isError, error } = useGetAllBoard({ diaryId, date: currentDate });
   const { data: calendarData, fetchPreviousPage } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
-  // console.log('calendarData:', calendarData?.pages.flat());
   // console.log('data?.blur', data?.blur);
   // console.log('data?.read', data?.read);
   // data && console.log('data:', data);

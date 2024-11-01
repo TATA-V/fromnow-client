@@ -1,16 +1,14 @@
 import React, { ReactNode, useEffect } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import useNavi from '@hooks/useNavi';
-import { getStorage, setStorage } from '@utils/storage';
-import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
-import { clientNotiClick, clientNotiMessage, Notice } from '@utils/clientNoti';
+import { getStorage } from '@utils/storage';
+import messaging from '@react-native-firebase/messaging';
+import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
 import ToastModalManager from '@components/Modal/ToastModalManager';
 import useUserStore from '@store/useUserStore';
 import { postFCM } from '@api/user';
-import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
-import { deepLinkByPath } from '@utils/pathHandler';
 
 interface Props {
   children: ReactNode;
@@ -19,7 +17,6 @@ interface Props {
 
 function SAVProvider({ children, isDarkMode = false }: Props) {
   const setName = useUserStore(state => state.setName);
-  const setSelectedTeam = useSelectedTeamStore(state => state.setSelectedTeam);
   const { navigation } = useNavi();
 
   useEffect(() => {
@@ -37,31 +34,6 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
       console.log('token:', res);
     };
     getFCMToken();
-
-    // Quit 알림
-    const initialNotification = async () => {
-      const initial: FirebaseMessagingTypes.RemoteMessage | null = await messaging().getInitialNotification();
-      if (!initial) return;
-      const { data } = initial;
-      const { body, path, imgUrl, team } = data;
-      const noticeId = data?.id?.toString() || new Date().getTime().toString();
-      if (team) {
-        const { id, title, createdAt, recivedAt, targetDate } = team as SelectedTeam;
-        setSelectedTeam({ id, title, createdAt, recivedAt, targetDate });
-      }
-      const newNotice = {
-        id: noticeId,
-        imgUrl: imgUrl?.toString(),
-        path: path?.toString(),
-        content: body?.toString(),
-      };
-      let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
-      noticeStorage.unshift(newNotice);
-      await setStorage('notice', JSON.stringify(noticeStorage));
-
-      path && deepLinkByPath(path.toString());
-    };
-    initialNotification();
 
     const requestNotifeePermission = async () => {
       await notifee.requestPermission();

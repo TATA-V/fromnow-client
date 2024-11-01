@@ -20,7 +20,7 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
 
   const channelId = await notifee.createChannel({
     id: noticeId,
-    name: title.toString(),
+    name: title?.toString(),
     importance: AndroidImportance.HIGH,
     sound: 'sound',
   });
@@ -37,6 +37,8 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
   return notifee.displayNotification({
     id: noticeId,
     data,
+    body: body?.toString(),
+    title: title?.toString(),
     android: {
       channelId,
       smallIcon: 'ic_notification',

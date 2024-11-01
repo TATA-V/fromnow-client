@@ -12,4 +12,5 @@ export interface MyFriendRequest {
 export interface MyTeamRequest {
   diaryTitle: string;
   diaryId: number;
+  photoUrls: string[];
 }

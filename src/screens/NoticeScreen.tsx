@@ -6,7 +6,7 @@ import DeleteButton from '@components/common/SwipeableAction';
 import { Notice } from '@utils/clientNoti';
 import { getStorage, setStorage } from '@utils/storage';
 import NoticeHeader from '@components/Notify/NoticeHeader';
-import { View } from 'react-native';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 
 const NoticeScreen = () => {
@@ -28,10 +28,19 @@ const NoticeScreen = () => {
   };
   const resetNoticeList = () => setNoticeList([]);
 
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
+    setNoticeList(noticeStorage);
+    setRefreshing(false);
+  };
+
   return (
     <>
       {noticeList.length > 0 && (
         <FlashList
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           data={noticeList}
           keyExtractor={(_, idx) => idx.toString()}
           renderItem={({ item, index }) => (
@@ -47,9 +56,12 @@ const NoticeScreen = () => {
         />
       )}
       {noticeList.length === 0 && (
-        <View className="h-full justify-center transform translate-y-[-66px]">
+        <ScrollView
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          contentContainerStyle={{ height: '100%', justifyContent: 'center', transform: [{ translateY: -66 }] }}
+          showsVerticalScrollIndicator={false}>
           <AvatarSadMsg message={`최근 알림이 없습니다.`} />
-        </View>
+        </ScrollView>
       )}
       <NoticeHeader title="알림" resetNoticeList={resetNoticeList} />
     </>

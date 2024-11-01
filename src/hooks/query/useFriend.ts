@@ -48,7 +48,8 @@ export const usePostFriendRequest = (toastModal?: boolean) => {
     onSuccess: () => {
       toastModal ? showToastModal({ type: 'success', message: '친구 요청 완료!' }) : successToast('친구 요청 완료!');
     },
-    onError: () => {
+    onError: error => {
+      console.log(error);
       toastModal ? showToastModal({ type: 'error', message: '친구 요청에 실패했습니다.' }) : errorToast('친구 요청에 실패했습니다.');
     },
   });

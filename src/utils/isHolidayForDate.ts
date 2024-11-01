@@ -1,4 +1,4 @@
-import * as holidays from '@utils/holidays';
+import * as holidays from '@const/holidays';
 
 export const isHolidayForDate = ({ dateString }: { dateString: string }) => {
   const year = dateString.split('-')[0];

@@ -16,15 +16,15 @@ const FriendItem = (props: Props) => {
   const { showModal } = useModal();
 
   const updateFriend = () => {
+    if (isFriendReq) {
+      friendRequestMutation.mutate(profileName);
+      return;
+    }
     if (friend) {
       const confirm = () => {
         friendDeleteMutation.mutate(memberId);
       };
       showModal({ type: 'dialog', title: '친구 삭제', description: `정말로 ${profileName} 님을 삭제하시겠습니까?`, confirm });
-      return;
-    }
-    if (isFriendReq) {
-      friendRequestMutation.mutate(profileName);
       return;
     }
     friendAcceptMutation.mutate(memberId);

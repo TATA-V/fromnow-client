@@ -15,10 +15,8 @@ const SignupPhotoScreen = () => {
   const { updatePhotoMutation } = useUpdatePhoto();
 
   const startFromNow = () => {
-    if (image) {
-      updatePhotoMutation.mutate(image);
-      return;
-    }
+    const optionalImage = image ? image : null;
+    updatePhotoMutation.mutate(optionalImage);
     navigation.navigate('Home');
     successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
   };

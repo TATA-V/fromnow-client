@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "npx react-native run-android",
+    "second-android": "npx react-native run-android --deviceId=\"emulator-5554\"",
     "ios": "npx react-native run-ios --simulator=\"iPhone 15 Pro\"",
     "lint": "eslint .",
     "start": "react-native start",

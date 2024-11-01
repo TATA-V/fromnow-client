@@ -1,7 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
-const useRefresh = ({ queryKey }: { queryKey: string[] }) => {
+interface UseRefresh {
+  queryKey: string[];
+  isNotice?: boolean;
+}
+
+const useRefresh = ({ queryKey, isNotice }: UseRefresh) => {
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
 

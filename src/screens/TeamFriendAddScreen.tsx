@@ -50,6 +50,7 @@ const TeamFriendAddScreen = ({}: Props) => {
   const { inviteTeamMutation } = useInviteTeam();
   const addUserToTeam = () => {
     if (profileNames.length === 0) return;
+    console.log('addUserToTeam');
     inviteTeamMutation.mutate({ diaryId: teamId, profileNames });
   };
 

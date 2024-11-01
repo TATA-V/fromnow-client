@@ -77,7 +77,9 @@ const TeamFolder = ({ isNew, color, id, createdAt, recivedAt, title, photoUrls =
                   />
                 ))}
             {photoUrls.length > 2 && (
-              <View className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200 flex flex-row bg-white justify-center items-center ml-[-12px]">
+              <View
+                style={{ width: imageSize, height: imageSize }}
+                className="rounded-2xl border-[1px] border-black200 flex flex-row bg-white justify-center items-center ml-[-12px]">
                 <PlusIcon size={plusIconSize} color="#B3B4B9" />
                 <Text style={{ fontSize: fontSize }} className="text-black500 font-PTDLight">
                   {photoUrls.length - 2}
