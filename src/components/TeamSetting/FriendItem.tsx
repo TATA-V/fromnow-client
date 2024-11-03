@@ -31,7 +31,7 @@ const FriendItem = (props: TeamMenu) => {
         <Image source={{ uri: photoUrl }} className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200 justify-center items-center" />
         <Text className="text-black900 text-sm font-PTDLight">{profileName}</Text>
       </View>
-      {(!owner || name !== profileName) && (
+      {name !== profileName && (
         <TouchableOpacity
           onPress={updateFriend}
           className={`${friend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}

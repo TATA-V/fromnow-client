@@ -3,10 +3,9 @@ import { useQueryClient } from '@tanstack/react-query';
 
 interface UseRefresh {
   queryKey: string[];
-  isNotice?: boolean;
 }
 
-const useRefresh = ({ queryKey, isNotice }: UseRefresh) => {
+const useRefresh = ({ queryKey }: UseRefresh) => {
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
 

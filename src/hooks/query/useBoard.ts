@@ -123,7 +123,7 @@ export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryI
     queryFn: async ({ pageParam }) => getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
     getNextPageParam: () => ({ diaryId, date: moment().add(1, 'months').toISOString() }),
     getPreviousPageParam: firstPage => {
-      const prevDate = moment(firstPage[0].date).subtract(1, 'month').toISOString();
+      const prevDate = moment(firstPage[0]?.date).subtract(1, 'month').toISOString();
       return { diaryId, date: prevDate };
     },
     staleTime: 1000,

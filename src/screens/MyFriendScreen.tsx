@@ -9,7 +9,7 @@ import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePost
 import { Friend } from '@clientTypes/friend';
 import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
-import DeleteButton from '@components/common/SwipeableAction';
+import DeleteButton from '@components/common/DeleteButton';
 import { Swipeable } from 'react-native-gesture-handler';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 

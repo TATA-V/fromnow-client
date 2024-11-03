@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NoticeItem from '@components/Notify/NoticeItem';
 import { FlashList } from '@shopify/flash-list';
 import { Swipeable } from 'react-native-gesture-handler';
-import DeleteButton from '@components/common/SwipeableAction';
+import DeleteButton from '@components/common/DeleteButton';
 import { Notice } from '@utils/clientNoti';
 import { getStorage, setStorage } from '@utils/storage';
 import NoticeHeader from '@components/Notify/NoticeHeader';

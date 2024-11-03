@@ -41,3 +41,8 @@ export const getMenu = async (diaryId: number) => {
   const res = await instance.get(`/api/diary/${diaryId}/menu`);
   return res.data.data;
 };
+
+export const postTeamReject = async (rejectDiaryId: number) => {
+  const res = await instance.post('/api/diary/reject', { rejectDiaryId });
+  return res.data;
+};

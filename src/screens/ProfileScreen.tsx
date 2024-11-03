@@ -60,8 +60,8 @@ const ProfileScreen = () => {
   return (
     <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 135 }} showsVerticalScrollIndicator={false}>
       <View className="h-[220px] flex items-center justify-center">
-        <MyPhoto photoUrl={data.photoUrl} />
-        <MyNickname profileName={data.profileName} />
+        <MyPhoto photoUrl={data?.photoUrl} />
+        <MyNickname profileName={data?.profileName} />
       </View>
       {list.map(({ icon, label, section, submenu, onPress }, key) => (
         <View key={key} className="h-[98px] pt-[12px]">

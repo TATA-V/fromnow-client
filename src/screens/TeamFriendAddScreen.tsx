@@ -50,7 +50,6 @@ const TeamFriendAddScreen = ({}: Props) => {
   const { inviteTeamMutation } = useInviteTeam();
   const addUserToTeam = () => {
     if (profileNames.length === 0) return;
-    console.log('addUserToTeam');
     inviteTeamMutation.mutate({ diaryId: teamId, profileNames });
   };
 
@@ -110,12 +109,12 @@ const TeamFriendAddScreen = ({}: Props) => {
       {hasSearched && (
         <KeyboardAvoiding>
           <View className="absolute bottom-[-5px] pt-1 pb-[20px] px-4 items-center w-full bg-black100">
-            <View className="flex-row space-x-[2px] mb-4">
+            {/* <View className="flex-row space-x-[2px] mb-4">
               <Text className="text-black700 text-[12px] font-PTDLight">친구를 찾을 수 없나요?</Text>
               <TouchableOpacity onPress={async () => await Share.share({ message: `${CLIENT_URL}TeamSetting/${teamId}` })}>
                 <Text className="text-black700 text-[12px] font-PTDSemiBold underline">초대링크 공유하기</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
             <Button onPress={addUserToTeam}>{profileNames.length}명 초대하기</Button>
           </View>
         </KeyboardAvoiding>

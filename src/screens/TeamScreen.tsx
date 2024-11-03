@@ -45,7 +45,7 @@ const TeamScreen = ({}: Props) => {
   // console.log('data?.blur', data?.blur);
   // console.log('data?.read', data?.read);
   // data && console.log('data:', data);
-  isError && console.log('error:', error);
+  isError && console.log('team error:', error);
 
   // 테스트
   useEffect(() => {

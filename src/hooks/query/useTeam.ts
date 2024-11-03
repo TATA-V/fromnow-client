@@ -1,5 +1,5 @@
 import { Team, TeamInvite, TeamMenu } from '@clientTypes/team';
-import { deleteOne, getAll, getMenu, postAccept, postInvite, postOne, UpdateOne, updateOne } from '@api/team';
+import { deleteOne, getAll, getMenu, postAccept, postInvite, postOne, postTeamReject, UpdateOne, updateOne } from '@api/team';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
@@ -99,7 +99,6 @@ export const useInviteTeam = () => {
       successToast('초대 성공!');
     },
     onError: error => {
-      console.log(error);
       errorToast('초대에 실패했습니다.');
     },
   });
@@ -147,4 +146,23 @@ export const useGetTeamMenu = (diaryId: number) => {
   });
 
   return { data, isError, isLoading };
+};
+
+export const usePostTeamReject = () => {
+  const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
+
+  const friendRequestMutation = useMutation({
+    mutationFn: postTeamReject,
+    onSuccess: () => {
+      successToast('모임 요청 삭제 완료');
+      queryClient.invalidateQueries({ queryKey: myTeamReqKey });
+    },
+    onError: () => {
+      errorToast('모임 요청 삭제에 실패했습니다.');
+    },
+  });
+
+  return { friendRequestMutation };
 };

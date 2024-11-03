@@ -11,7 +11,7 @@ export const updateNickname = async (profileName: string) => {
   return res.data;
 };
 
-export const updatePhoto = async (image: ImageType | null) => {
+export const updatePhoto = async (image: ImageType) => {
   const formData = new FormData();
   if (image) {
     formData.append('uploadPhoto', {

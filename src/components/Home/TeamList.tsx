@@ -16,9 +16,10 @@ interface Props {
 function TeamList({ teamList, colors }: Props) {
   const { navigation } = useNavi();
   const numColumns = isTablet ? 4 : 2;
+  const centerList = isTablet ? teamList.length < 4 : teamList.length !== 1;
 
   return (
-    <View className={`${teamList.length !== 1 && 'items-center'} flex w-full flex-1`}>
+    <View className={`${centerList && 'items-center'} flex w-full flex-1`}>
       <FlatList
         data={teamList}
         keyExtractor={team => team.id.toString()}

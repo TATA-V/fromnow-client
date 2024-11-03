@@ -8,7 +8,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
 import ToastModalManager from '@components/Modal/ToastModalManager';
 import useUserStore from '@store/useUserStore';
-import { postFCM } from '@api/user';
+import useGetFCMToken from '@hooks/useGetFCMToken';
 
 interface Props {
   children: ReactNode;
@@ -18,9 +18,10 @@ interface Props {
 function SAVProvider({ children, isDarkMode = false }: Props) {
   const setName = useUserStore(state => state.setName);
   const { navigation } = useNavi();
+  const { getFCMToken } = useGetFCMToken();
 
   useEffect(() => {
-    const getFCMToken = async () => {
+    const initializeUser = async () => {
       const access = await getStorage('access');
       const name = await getStorage('name');
       console.log('access:', access);
@@ -29,30 +30,20 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
         return;
       }
       name && setName(name);
-      const token = await messaging().getToken();
-      const res = await postFCM(token);
-      console.log('token:', res);
+      await getFCMToken();
     };
-    getFCMToken();
+    initializeUser();
 
-    const requestNotifeePermission = async () => {
+    const initializePushNoti = async () => {
       await notifee.requestPermission();
     };
-    requestNotifeePermission();
+    initializePushNoti();
 
     // Foreground 알림
     const unsubscribe = messaging().onMessage(clientNotiMessage);
 
     // Noti(클라이언트 알림 클릭시)
     const foregroundEventListener = notifee.onForegroundEvent(async ({ type, detail }) => {
-      if (type === EventType.PRESS) {
-        await clientNotiClick(detail);
-      } else if (type === EventType.DISMISSED) {
-        notifee.cancelNotification(detail.notification.id);
-        notifee.cancelDisplayedNotification(detail.notification.id);
-      }
-    });
-    notifee.onBackgroundEvent(async ({ type, detail }) => {
       if (type === EventType.PRESS) {
         await clientNotiClick(detail);
       } else if (type === EventType.DISMISSED) {

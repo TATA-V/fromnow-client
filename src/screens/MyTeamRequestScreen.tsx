@@ -1,17 +1,18 @@
 import React from 'react';
-import { ScrollView, View, Dimensions, StyleSheet, RefreshControl } from 'react-native';
+import { ScrollView, View, RefreshControl } from 'react-native';
 import TeamItem from '@components/MyTeam/TeamItem';
-import { QUERY_KEY, useGetAllMyTeamRequest, useKey } from '@hooks/query';
+import { QUERY_KEY, useGetAllMyTeamRequest, useKey, usePostTeamReject } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
-
-const { width } = Dimensions.get('window');
+import DeleteButton from '@components/common/DeleteButton';
+import { Swipeable } from 'react-native-gesture-handler';
 
 const MyTeamRequestScreen = () => {
   const { data, isLoading } = useGetAllMyTeamRequest();
   const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
   const { refreshing, onRefresh } = useRefresh({ queryKey: myTeamReqKey });
+  const { friendRequestMutation } = usePostTeamReject();
 
   if (isLoading)
     return (
@@ -19,6 +20,10 @@ const MyTeamRequestScreen = () => {
         <MiniLoading />
       </View>
     );
+
+  const deleteTeamReq = (diaryId: number) => {
+    friendRequestMutation.mutate(diaryId);
+  };
 
   return (
     <View className="flex-1 bg-black100">
@@ -29,8 +34,10 @@ const MyTeamRequestScreen = () => {
           contentContainerStyle={{ paddingBottom: 30 }}
           showsVerticalScrollIndicator={false}>
           <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden">
-            {data.map((item, idx) => (
-              <TeamItem key={idx} {...item} />
+            {data.map(item => (
+              <Swipeable key={item.diaryId} renderRightActions={() => <DeleteButton id={item.diaryId} onDelete={deleteTeamReq} />}>
+                <TeamItem {...item} />
+              </Swipeable>
             ))}
           </View>
         </ScrollView>
@@ -47,9 +54,3 @@ const MyTeamRequestScreen = () => {
 };
 
 export default MyTeamRequestScreen;
-
-const styles = StyleSheet.create({
-  button: {
-    width: (width - 48 - 12) / 2,
-  },
-});
