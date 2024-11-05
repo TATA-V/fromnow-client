@@ -5,7 +5,6 @@
 #import <React/RCTLinkingManager.h>
 #import <RNCKakaoUser/RNCKakaoUserUtil.h>
 #import "RNBootSplash.h"
-#import "RNFBMessagingModule.h"
 
 @implementation AppDelegate
 

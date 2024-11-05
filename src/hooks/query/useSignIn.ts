@@ -21,8 +21,7 @@ export const useSignInSocial = () => {
       await setStorage('access', access);
       await setStorage('name', profileName);
       profileName && setName(profileName);
-      const fcm = await getFCMToken();
-      console.log('fcm:', fcm);
+      await getFCMToken();
       if (res.data.message === '새로 회원가입하는 유저입니다!') {
         SheetManager.show('signup-policy');
         return;

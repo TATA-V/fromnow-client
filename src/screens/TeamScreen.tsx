@@ -47,15 +47,6 @@ const TeamScreen = ({}: Props) => {
   // data && console.log('data:', data);
   isError && console.log('team error:', error);
 
-  // 테스트
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await getRowInfiniteCalendar({ diaryId, date: currentDate });
-      // console.log('getMonthly:', res);
-    };
-    fetch();
-  }, []);
-
   // 읽음 처리
   const { readBoardMutation } = useReadBoard();
   useEffect(() => {

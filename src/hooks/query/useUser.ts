@@ -13,15 +13,11 @@ import { setStorage } from '@utils/storage';
 
 export const useGetMyProfile = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
-  const { navigation } = useNavi();
 
   const { data, isError, isLoading } = useQuery<MyProfile>({
     queryKey,
     queryFn: getOne,
   });
-  if (isError) {
-    navigation.navigate('SignIn');
-  }
 
   return { data, isError, isLoading };
 };
