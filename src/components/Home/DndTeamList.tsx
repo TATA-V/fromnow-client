@@ -22,7 +22,7 @@ function DndTeamList({ teamList, colors }: Props) {
   const onGridOrderChange: DraggableGridProps['onOrderChange'] = orderedIds => {
     // const updateTeamList = orderedIds.map(id => teamList.find(team => team.id === Number(id)));
     // console.log('updateTeamList', updateTeamList);
-    console.log('orderedIds', orderedIds);
+    // console.log('orderedIds', orderedIds);
   };
 
   const randomRotate = [

@@ -40,14 +40,14 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
       });
       return;
     }
-    // if (!accessible) {
-    //   showModal({
-    //     type: 'confirm',
-    //     title: '⚠️ 카메라 접근 불가 ⚠️',
-    //     description: '오후 2시부터 2시 5분,\n오후 7시부터 7시 5분 사이에만\n카메라에 접근할 수 있어요.',
-    //   });
-    //   return;
-    // }
+    if (!accessible) {
+      showModal({
+        type: 'confirm',
+        title: '⚠️ 카메라 접근 불가 ⚠️',
+        description: '오후 2시부터 2시 5분,\n오후 7시부터 7시 5분 사이에만\n카메라에 접근할 수 있어요.',
+      });
+      return;
+    }
     navigation.navigate('Camera');
   };
 

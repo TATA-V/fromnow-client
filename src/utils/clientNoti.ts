@@ -14,9 +14,7 @@ export interface Notice {
 export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMessage) => {
   const data = message.data;
   const { title, body, id, path, imgUrl } = data;
-  console.log('clientNotiMessage data:', data);
   const noticeId = id?.toString() || new Date().getTime().toString();
-  console.log('noticeId:', noticeId);
 
   const channelId = await notifee.createChannel({
     id: noticeId,
@@ -58,7 +56,6 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
 export const clientNotiClick = async (detail: EventDetail) => {
   const data = detail.notification?.data || {};
   const { id: noticeId, path, team } = data;
-  console.log('clientNotiClick data:', data);
 
   if (team) {
     const { id, title, createdAt, recivedAt, targetDate } = team as SelectedTeam;

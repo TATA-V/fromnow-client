@@ -6,12 +6,14 @@ import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useUserStore from '@store/useUserStore';
 import useGetFCMToken from '@hooks/useGetFCMToken';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useSignInSocial = () => {
   const setName = useUserStore(state => state.setName);
   const { errorToast } = useToast();
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
+  const queryClient = useQueryClient();
 
   const signInMutation = useMutation({
     mutationFn: ({ path, token }: GetOne) => getOne({ path, token }),
@@ -22,6 +24,7 @@ export const useSignInSocial = () => {
       await setStorage('name', profileName);
       profileName && setName(profileName);
       await getFCMToken();
+      await queryClient.invalidateQueries();
       if (res.data.message === '새로 회원가입하는 유저입니다!') {
         SheetManager.show('signup-policy');
         return;

@@ -24,7 +24,6 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     const initializeUser = async () => {
       const access = await getStorage('access');
       const name = await getStorage('name');
-      console.log('access:', access);
       if (!access) {
         navigation.navigate('SignIn');
         return;

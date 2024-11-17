@@ -24,7 +24,7 @@ const ProfileScreen = () => {
     navigation.navigate(target, { ...options });
   };
   const logoutUser = async () => {
-    queryClient.clear();
+    await queryClient.invalidateQueries();
     await removeStorageAll();
     navigation.navigate('SignIn');
   };
@@ -50,18 +50,16 @@ const ProfileScreen = () => {
     },
   ];
 
-  if (isLoading)
-    return (
-      <View className="flex-1 bg-white pt-16">
-        <MiniLoading />
-      </View>
-    );
-
   return (
     <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 135 }} showsVerticalScrollIndicator={false}>
       <View className="h-[220px] flex items-center justify-center">
-        <MyPhoto photoUrl={data?.photoUrl} />
-        <MyNickname profileName={data?.profileName} />
+        {!isLoading && data && (
+          <>
+            <MyPhoto photoUrl={data.photoUrl} />
+            <MyNickname profileName={data.profileName} />
+          </>
+        )}
+        {isLoading && <MiniLoading />}
       </View>
       {list.map(({ icon, label, section, submenu, onPress }, key) => (
         <View key={key} className="h-[98px] pt-[12px]">

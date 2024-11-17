@@ -19,8 +19,10 @@ const HomeScreen = () => {
 
   if (isLoading)
     return (
-      <View className="flex-1 bg-white pt-16">
-        <MiniLoading />
+      <View className="flex-1  h-full justify-center items-center bg-white">
+        <View className="transform translate-y-[-70px]">
+          <MiniLoading />
+        </View>
       </View>
     );
   if (isError) {
@@ -31,16 +33,14 @@ const HomeScreen = () => {
   }
 
   return (
-    <>
-      <View className="bg-black100 flex-1">
-        {/* <HomeHeader isEdit={isEdit} setIsEdit={setIsEdit} />
+    <View className="bg-black100 flex-1">
+      {/* <HomeHeader isEdit={isEdit} setIsEdit={setIsEdit} />
         {isEdit && data && <DndTeamList teamList={data} colors={colors} />}
         {!isEdit && data && <TeamList teamList={data} colors={colors} />} */}
-        <HomeHeader />
-        {data && <TeamList teamList={data} colors={colors} />}
-        {data?.length === 0 && <TeamNotFound />}
-      </View>
-    </>
+      <HomeHeader />
+      {data && <TeamList teamList={data} colors={colors} />}
+      {data?.length === 0 && <TeamNotFound />}
+    </View>
   );
 };
 

@@ -8,11 +8,12 @@ import TeamFriendItem from '@components/TeamFriendAdd/TeamFriendItem';
 import { FlashList } from '@shopify/flash-list';
 import DismissKeyboard from '@components/common/DismissKeyboard';
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
-import { useGetAllMyFriend, useGetSearchTeamFriend, useInviteTeam } from '@hooks/query';
+import { QUERY_KEY, useGetAllMyFriend, useGetSearchTeamFriend, useInviteTeam, useKey } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import { Share } from 'react-native';
 import { CLIENT_URL } from '@env';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   paramName: string;
@@ -48,9 +49,19 @@ const TeamFriendAddScreen = ({}: Props) => {
   }, [searchData]);
 
   const { inviteTeamMutation } = useInviteTeam();
+  const queryClient = useQueryClient();
+  const teamFriendSearchKey = useKey(['search', QUERY_KEY.FRIEND, QUERY_KEY.TEAM, submitSearch.trim()]);
   const addUserToTeam = () => {
     if (profileNames.length === 0) return;
-    inviteTeamMutation.mutate({ diaryId: teamId, profileNames });
+    inviteTeamMutation.mutate(
+      { diaryId: teamId, profileNames },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: teamFriendSearchKey });
+          queryClient.refetchQueries({ queryKey: teamFriendSearchKey });
+        },
+      },
+    );
   };
 
   return (
@@ -98,7 +109,7 @@ const TeamFriendAddScreen = ({}: Props) => {
                 <MiniLoading />
               </View>
             )}
-            {!searchData && hasSearched && (
+            {!searchData && hasSearched && !searchLoading && (
               <View className="pt-[95px]">
                 <AvatarSadMsg message={`친구를 찾지 못했어요 ;(`} />
               </View>

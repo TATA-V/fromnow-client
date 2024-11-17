@@ -10,8 +10,7 @@ import { cameraAccessible } from '@utils/cameraAccessible';
 const Timer = () => {
   const currentMinutes = moment().minute();
   const currentMilliseconds = currentMinutes * 60 * 1000;
-  // const totalDuration = moment.duration(300000 - currentMilliseconds, 'milliseconds');
-  const totalDuration = moment.duration(300000, 'milliseconds');
+  const totalDuration = moment.duration(300000 - currentMilliseconds, 'milliseconds');
   const [time, setTime] = useState(totalDuration);
   const { navigation } = useNavi();
   const { warnToast } = useToast();

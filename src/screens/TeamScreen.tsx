@@ -39,13 +39,12 @@ const TeamScreen = ({}: Props) => {
   const diaryId = route.params.id;
   const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
   const [currentDate, setCurrentDate] = useState(targetDate);
-  const { data, isLoading, isError, error } = useGetAllBoard({ diaryId, date: currentDate });
+  const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
   const { data: calendarData, fetchPreviousPage } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
   // console.log('data?.blur', data?.blur);
   // console.log('data?.read', data?.read);
   // data && console.log('data:', data);
-  isError && console.log('team error:', error);
 
   // 읽음 처리
   const { readBoardMutation } = useReadBoard();

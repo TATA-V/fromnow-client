@@ -6,11 +6,8 @@ const useGetFCMToken = () => {
     try {
       const token = await messaging().getToken();
       const res = await postFCM(token);
-      console.log('fcm:', res);
       return res;
-    } catch (e) {
-      console.log('error fcm', e);
-    }
+    } catch (e) {}
   };
 
   return {
