@@ -9,15 +9,18 @@ import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
-import { removeStorageAll } from '@utils/storage';
+import { getStorage, removeStorageAll } from '@utils/storage';
 import MyNickname from '@components/Profile/MyNickname';
-import { useGetMyProfile } from '@hooks/query';
+import { useDeleteUser, useGetMyProfile } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import { useQueryClient } from '@tanstack/react-query';
+import useUserStore from '@store/useUserStore';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
+  const username = useUserStore(state => state.name);
   const { data, isLoading } = useGetMyProfile();
+  const { deleteUserMutation } = useDeleteUser();
   const queryClient = useQueryClient();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
@@ -28,12 +31,21 @@ const ProfileScreen = () => {
     await removeStorageAll();
     navigation.navigate('SignIn');
   };
+  const removeUser = async () => {
+    deleteUserMutation.mutate(username);
+  };
 
   const list = [
     { icon: <FriendsIcon />, label: '내 친구', section: '친구 관리', onPress: () => navigateToScreen('MyFriend') },
     { icon: <FolderIcon />, label: '받은 모임 요청', section: '모임 관리', onPress: () => navigateToScreen('MyTeamRequest') },
     { icon: <HeartsIcon />, label: '좋아요 누른 일상', section: '일상 관리', onPress: () => navigateToScreen('MyLikedBoard') },
-    { icon: <LogoutIcon />, label: '로그아웃', section: '정보 관리', onPress: logoutUser },
+    {
+      icon: <LogoutIcon />,
+      label: '로그아웃',
+      section: '정보 관리',
+      onPress: logoutUser,
+      submenu: [{ icon: <LogoutIcon />, label: '탈퇴하기', onPress: removeUser }],
+    },
     {
       icon: <PeoplePolicyIcon />,
       label: '개인정보처리방침',
@@ -51,7 +63,7 @@ const ProfileScreen = () => {
   ];
 
   return (
-    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 135 }} showsVerticalScrollIndicator={false}>
+    <ScrollView className="px-4 flex-1 bg-white" contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
       <View className="h-[220px] flex items-center justify-center">
         {!isLoading && data && (
           <>
@@ -62,7 +74,7 @@ const ProfileScreen = () => {
         {isLoading && <MiniLoading />}
       </View>
       {list.map(({ icon, label, section, submenu, onPress }, key) => (
-        <View key={key} className="h-[98px] pt-[12px]">
+        <View key={key} className="pt-[12px]">
           <View className="h-[30px] justify-center">
             <Text className="text-black500 font-PTDSemiBold text-sm">{section}</Text>
           </View>

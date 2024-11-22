@@ -74,8 +74,8 @@ const SearchScreen = () => {
       <View className="flex-1">
         <View className="pt-[66px] px-4">
           {!hasSearched && <RecentSearches recentSearchClick={recentSearchClick} history={history} setHistory={setHistory} />}
-          {hasSearched && data && <SearchResultList searchList={data} search={submitSearch.trim()} />}
-          {hasSearched && !data && <SearchNotFound />}
+          {hasSearched && data && data.length !== 0 && <SearchResultList searchList={data} search={submitSearch.trim()} />}
+          {hasSearched && !data?.length && <SearchNotFound />}
         </View>
         <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
       </View>

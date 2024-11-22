@@ -85,7 +85,7 @@ const TeamFriendAddScreen = ({}: Props) => {
           )}
           <View className="px-4">
             <View className="h-[66px]">
-              <Input onSubmitEditing={findFriends} value={search} setValue={setSearch} search placeholder="친구 검색" autoFocus />
+              <Input onSubmitEditing={findFriends} value={search} setValue={setSearch} search placeholder="친구 검색" focusedOnce />
             </View>
             {searchData && hasSearched && (
               <View className="h-full my-[4px]">

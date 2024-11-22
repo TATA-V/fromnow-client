@@ -33,7 +33,7 @@ const SearchHeader = ({ search, setSearch, onSubmitEditing }: Props) => {
           setValue={setSearch}
           placeholder="친구 별명 등 검색어를 입력해 주세요"
           search
-          autoFocus
+          focusedOnce
         />
       </View>
     </View>

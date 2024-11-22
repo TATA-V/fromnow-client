@@ -19,7 +19,6 @@ import { SheetManager } from 'react-native-actions-sheet';
 import moment from 'moment-modification-rn';
 import { CalendarCol } from '@clientTypes/calendar';
 import { formatDate } from '@utils/formatDate';
-import { Team } from '@clientTypes/team';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);

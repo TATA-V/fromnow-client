@@ -54,3 +54,8 @@ export const postFCM = async (fcmToken: string) => {
   const res = await instance.post('/api/member/fcm', { fcmToken });
   return res.data.data;
 };
+
+export const deleteOne = async (profileName: string) => {
+  const res = await instance.delete('/api/member/withdraw', { data: { profileName } });
+  return res.data.data;
+};

@@ -19,7 +19,7 @@ const InputField = ({ label, name, control, rules, errors, placeholder }: Props)
       <Controller
         control={control}
         rules={rules}
-        render={({ field: { value, onChange } }) => <Input autoFocus placeholder={placeholder} value={value} setValue={onChange} />}
+        render={({ field: { value, onChange } }) => <Input focusedOnce placeholder={placeholder} value={value} setValue={onChange} />}
         name={name}
       />
       {errors[name] && <Text className="error-text mt-3">{typeof errors[name]?.message === 'string' ? errors[name]?.message : ''}</Text>}

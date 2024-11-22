@@ -15,7 +15,7 @@ const HomeScreen = () => {
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
   const { navigation } = useNavi();
 
-  const { data, isLoading, isError } = useGetAllTeam();
+  const { data, isLoading } = useGetAllTeam();
 
   if (isLoading)
     return (
@@ -25,12 +25,6 @@ const HomeScreen = () => {
         </View>
       </View>
     );
-  if (isError) {
-    removeStorageAll().then(() => {
-      navigation.navigate('SignIn');
-    });
-    return;
-  }
 
   return (
     <View className="bg-black100 flex-1">

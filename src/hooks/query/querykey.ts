@@ -5,6 +5,7 @@ export enum QUERY_KEY {
   BOARD = 'board',
   FRIEND = 'friend',
   TEAM = 'team',
+  MISSION = 'mission',
 }
 
 export const useKey = (queryKeys = []) => {

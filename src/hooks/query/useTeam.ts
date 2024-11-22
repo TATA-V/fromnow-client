@@ -8,12 +8,12 @@ import { useToastModal } from '@components/Modal';
 
 export const useGetAllTeam = () => {
   const queryKey = useKey(['all', QUERY_KEY.TEAM]);
-  const { data, isError, isLoading } = useQuery<Team[]>({
+  const { data, isError, error, isLoading } = useQuery<Team[]>({
     queryKey,
     queryFn: getAll,
   });
 
-  return { data, isError, isLoading };
+  return { data, isError, error, isLoading };
 };
 
 export const useDeleteOneTeam = (close?: () => void, toastModal?: boolean) => {

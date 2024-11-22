@@ -1,4 +1,13 @@
-import { getAllMyFriend, getAllMyFriendRequest, getAllMyLikedBoard, getAllMyTeamRequest, getOne, updateNickname, updatePhoto } from '@api/user';
+import {
+  deleteOne,
+  getAllMyFriend,
+  getAllMyFriendRequest,
+  getAllMyLikedBoard,
+  getAllMyTeamRequest,
+  getOne,
+  updateNickname,
+  updatePhoto,
+} from '@api/user';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
@@ -9,7 +18,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
 import { Board } from '@clientTypes/board';
-import { setStorage } from '@utils/storage';
+import { removeStorageAll, setStorage } from '@utils/storage';
 
 export const useGetMyProfile = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
@@ -132,4 +141,25 @@ export const useGetAllMyTeamRequest = () => {
   });
 
   return { data, isError, isLoading };
+};
+
+export const useDeleteUser = () => {
+  const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const { navigation } = useNavi();
+
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteOne,
+    onSuccess: async res => {
+      successToast(`${res.profileName} 님 그동안 이용해 주셔서 감사합니다:)`);
+      await queryClient.invalidateQueries();
+      await removeStorageAll();
+      navigation.navigate('SignIn');
+    },
+    onError: () => {
+      errorToast('계정 삭제에 실패했습니다.');
+    },
+  });
+
+  return { deleteUserMutation };
 };
