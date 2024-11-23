@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import useNavi from '@hooks/useNavi';
-import { getStorage, removeStorageAll } from '@utils/storage';
+import { getStorage } from '@utils/storage';
 import messaging from '@react-native-firebase/messaging';
 import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
@@ -9,7 +9,7 @@ import ModalManager from '@components/Modal/ModalManager';
 import ToastModalManager from '@components/Modal/ToastModalManager';
 import useUserStore from '@store/useUserStore';
 import useGetFCMToken from '@hooks/useGetFCMToken';
-import { useQueryClient } from '@tanstack/react-query';
+import useClearAllUserData from '@hooks/useClearAllUserData';
 
 interface Props {
   children: ReactNode;
@@ -20,19 +20,16 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
   const setName = useUserStore(state => state.setName);
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
-  const queryClient = useQueryClient();
+  const clearAllUserData = useClearAllUserData();
 
   useEffect(() => {
     const initializeUser = async () => {
       const access = await getStorage('access');
-      const name = await getStorage('name');
       if (!access) {
-        await queryClient.invalidateQueries();
-        await removeStorageAll();
+        clearAllUserData();
         navigation.navigate('SignIn');
         return;
       }
-      name && setName(name);
       await getFCMToken();
     };
     initializeUser();

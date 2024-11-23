@@ -3,6 +3,7 @@ import { BASE_URL } from '@env';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { Alert } from 'react-native';
 import * as RootNavi from '@utils/rootNavigation';
+import useUserStore from '@store/useUserStore';
 
 export const instance = axios.create({
   baseURL: `${BASE_URL}`,
@@ -55,6 +56,7 @@ instance.interceptors.response.use(
 
     if (status === 401 && config._retry && data.data === 'REFRESH_TOKEN_EXPIRED') {
       await removeStorageAll();
+      useUserStore.getState().reset();
       Alert.alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
       RootNavi.navigate('SignIn');
     }

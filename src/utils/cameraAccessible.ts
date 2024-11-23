@@ -7,6 +7,5 @@ export const cameraAccessible = () => {
 
   return {
     accessible,
-    currentTime,
   };
 };

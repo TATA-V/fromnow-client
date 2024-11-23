@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import usePolicyStore from '@store/usePolicyStore';
+import useClearAllUserData from '@hooks/useClearAllUserData';
 
 import GoogleSignInBtn from '@components/SignIn/GoogleSignInBtn';
 import KakaoSignInBtn from '@components/SignIn/KakaoSignInBtn';
 
 const SignInScreen = () => {
   const { animated } = usePolicyStore(state => state);
+  const clearAllUserData = useClearAllUserData();
+
+  useEffect(() => {
+    clearAllUserData();
+  }, []);
 
   return (
     <>

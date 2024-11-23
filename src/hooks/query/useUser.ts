@@ -18,7 +18,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
 import { Board } from '@clientTypes/board';
-import { removeStorageAll, setStorage } from '@utils/storage';
+import { setStorage } from '@utils/storage';
+import useClearAllUserData from '@hooks/useClearAllUserData';
 
 export const useGetMyProfile = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
@@ -145,15 +146,14 @@ export const useGetAllMyTeamRequest = () => {
 
 export const useDeleteUser = () => {
   const { successToast, errorToast } = useToast();
-  const queryClient = useQueryClient();
   const { navigation } = useNavi();
+  const clearAllUserData = useClearAllUserData();
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteOne,
     onSuccess: async res => {
       successToast(`${res.profileName} 님 그동안 이용해 주셔서 감사합니다:)`);
-      await queryClient.invalidateQueries();
-      await removeStorageAll();
+      clearAllUserData();
       navigation.navigate('SignIn');
     },
     onError: () => {

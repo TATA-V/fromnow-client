@@ -9,28 +9,26 @@ import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
-import { getStorage, removeStorageAll } from '@utils/storage';
 import MyNickname from '@components/Profile/MyNickname';
 import { useDeleteUser, useGetMyProfile } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
-import { useQueryClient } from '@tanstack/react-query';
 import useUserStore from '@store/useUserStore';
 import { useModal } from '@components/Modal';
+import useClearAllUserData from '@hooks/useClearAllUserData';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
   const username = useUserStore(state => state.name);
   const { data, isLoading } = useGetMyProfile();
   const { deleteUserMutation } = useDeleteUser();
-  const queryClient = useQueryClient();
   const { showModal } = useModal();
+  const clearAllUserData = useClearAllUserData();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
     navigation.navigate(target, { ...options });
   };
   const logoutUser = async () => {
-    await queryClient.invalidateQueries();
-    await removeStorageAll();
+    clearAllUserData();
     navigation.navigate('SignIn');
   };
   const removeUser = () => {

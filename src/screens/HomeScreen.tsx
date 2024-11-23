@@ -7,21 +7,16 @@ import TeamList from '@components/Home/TeamList';
 import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
-import useNavi from '@hooks/useNavi';
-import { removeStorageAll } from '@utils/storage';
-import { cameraAccessible } from '@utils/cameraAccessible';
-import { formatTime } from '@utils/formatDate';
 
 const HomeScreen = () => {
   // const [isEdit, setIsEdit] = useState(false);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
-  const { navigation } = useNavi();
 
   const { data, isLoading } = useGetAllTeam();
 
   if (isLoading)
     return (
-      <View className="flex-1  h-full justify-center items-center bg-white">
+      <View className="flex-1 h-full justify-center items-center bg-white">
         <View className="transform translate-y-[-70px]">
           <MiniLoading />
         </View>
