@@ -23,7 +23,7 @@ const TeamDetailScreen = ({}: Props) => {
   const { data, isLoading } = useGetAllBoard({ diaryId, date });
   const boardKey = useKey(['all', QUERY_KEY.BOARD, date]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardKey });
-  const formattedDate = moment(date).format('YYYY년 MM월 DD일 dddd');
+  const formattedDate = moment(date).utcOffset(9).format('YYYY년 MM월 DD일 dddd');
   const boards = data?.boardOverViewResponseDtoList;
 
   if (isLoading) {

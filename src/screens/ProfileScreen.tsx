@@ -15,6 +15,7 @@ import { useDeleteUser, useGetMyProfile } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import { useQueryClient } from '@tanstack/react-query';
 import useUserStore from '@store/useUserStore';
+import { useModal } from '@components/Modal';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
@@ -22,6 +23,7 @@ const ProfileScreen = () => {
   const { data, isLoading } = useGetMyProfile();
   const { deleteUserMutation } = useDeleteUser();
   const queryClient = useQueryClient();
+  const { showModal } = useModal();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
     navigation.navigate(target, { ...options });
@@ -31,8 +33,13 @@ const ProfileScreen = () => {
     await removeStorageAll();
     navigation.navigate('SignIn');
   };
-  const removeUser = async () => {
-    deleteUserMutation.mutate(username);
+  const removeUser = () => {
+    showModal({
+      type: 'dialog',
+      title: '계정 삭제',
+      description: '계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
+      confirm: () => deleteUserMutation.mutate(username),
+    });
   };
 
   const list = [

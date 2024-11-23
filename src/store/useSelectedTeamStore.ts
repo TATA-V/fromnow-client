@@ -19,7 +19,7 @@ const initial: SelectedTeam = {
   title: '',
   createdAt: '',
   recivedAt: '',
-  targetDate: moment().format('YYYY-MM-DD'),
+  targetDate: moment().utcOffset(9).format('YYYY-MM-DD'),
 };
 
 const useSelectedTeamStore = create<SelectedTeamStore>(set => ({

@@ -33,7 +33,7 @@ function DayComponent({ calendarMap, date, state, marking }: DayComponentProps) 
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
   const dateString = date.dateString;
-  const momentDate = moment(dateString);
+  const momentDate = moment(dateString).utcOffset(9);
   const isSaturday = momentDate.day() === 6;
   const isSunday = momentDate.day() === 0;
   const dayData = calendarMap[dateString];
@@ -53,19 +53,19 @@ function DayComponent({ calendarMap, date, state, marking }: DayComponentProps) 
 
 const TeamCalendarList = () => {
   const { id: diaryId, recivedAt } = useSelectedTeamStore();
-  const startDate = moment(recivedAt);
-  const currentDate = moment();
+  const startDate = moment(recivedAt).utcOffset(9);
+  const currentDate = moment().utcOffset(9);
   const monthsDiff = currentDate.diff(startDate, 'months');
   const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
-  const [fetchMonth, setFetchMonth] = useState(moment().format('YYYY-MM-DD'));
+  const [fetchMonth, setFetchMonth] = useState(moment().utcOffset(9).format('YYYY-MM-DD'));
   const [numOfCalendars, setNumOfCalendars] = useState(monthsDiff === 0 ? 1 : 2);
   const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth, num: numOfCalendars });
 
   // 달력이 여러 개일 때 화면에 보이는 달력은 2개임. months[0]은 화면에서 크게 보이는 주요 달력을 의미함. 위쪽에 조금 보이는 달력은 포함되지 않음. 그래서 이전 달력도 불러올 거임
   const onVisibleMonthsChange = async (months: { dateString: string }[]) => {
     const newVisibleMonth = months[0].dateString;
-    const nextMonth = moment(newVisibleMonth).add(1, 'months').format('YYYY-MM-DD');
-    const secondNextMonth = moment(newVisibleMonth).add(2, 'months').format('YYYY-MM-DD');
+    const nextMonth = moment(newVisibleMonth).utcOffset(9).add(1, 'months').format('YYYY-MM-DD');
+    const secondNextMonth = moment(newVisibleMonth).utcOffset(9).add(2, 'months').format('YYYY-MM-DD');
 
     if (!calendarMap[newVisibleMonth]) {
       setFetchMonth(newVisibleMonth);

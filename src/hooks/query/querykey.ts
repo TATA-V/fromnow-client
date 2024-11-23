@@ -10,5 +10,5 @@ export enum QUERY_KEY {
 
 export const useKey = (queryKeys = []) => {
   const name = useUserStore(state => state.name);
-  return [name, ...queryKeys];
+  return [name || '', ...queryKeys];
 };

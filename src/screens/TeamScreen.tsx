@@ -30,7 +30,7 @@ interface Props {
 }
 
 const TeamScreen = ({}: Props) => {
-  const [week, setWeek] = useState<Moment | string>(moment().format());
+  const [week, setWeek] = useState<Moment | string>(moment().utcOffset(9).format());
   const { navigation } = useNavi();
   const { isScrollUp, scrollList } = useScrollDirection();
   const { recivedAt: teamDate, targetDate } = useSelectedTeamStore();

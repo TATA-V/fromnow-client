@@ -13,7 +13,7 @@ export const splitDate = (dateString: string | Moment) => {
 };
 
 export const formatTime = (dateString: string | Moment) => {
-  return moment(dateString).format('HH:mm:ss');
+  return moment(dateString).utcOffset(9).format('HH:mm:ss');
 };
 
 export const formatDate = (dateString: string | Moment = moment().format()) => {

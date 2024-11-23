@@ -12,9 +12,9 @@ interface Props {
 const TeamSettingHeader = ({ close }: Props) => {
   const insets = useSafeAreaInsets();
   const { title, createdAt } = useSelectedTeamStore(state => state);
-  const startDate = moment(createdAt);
-  const currentDate = moment();
-  const daysShared = currentDate.diff(startDate, 'days') + 1;
+  const startDate = moment(createdAt).utcOffset(9);
+  const currentDate = moment().utcOffset(9);
+  const daysShared = currentDate.utcOffset(9).diff(startDate, 'days') + 1;
 
   return (
     <View style={{ top: insets.top }} className="absolute px-[8px] h-[66px] w-full flex flex-row items-center justify-between bg-white">

@@ -118,11 +118,11 @@ export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryI
   const queryKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
   const { data, isLoading, isError, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey,
-    initialPageParam: { diaryId, date: moment().format() },
+    initialPageParam: { diaryId, date: moment().utcOffset(9).format() },
     queryFn: async ({ pageParam }) => getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
-    getNextPageParam: () => ({ diaryId, date: moment().add(1, 'months').toISOString() }),
+    getNextPageParam: () => ({ diaryId, date: moment().utcOffset(9).add(1, 'months').toISOString() }),
     getPreviousPageParam: firstPage => {
-      const prevDate = moment(firstPage[0]?.date).subtract(1, 'month').toISOString();
+      const prevDate = moment(firstPage[0]?.date).utcOffset(9).subtract(1, 'month').toISOString();
       return { diaryId, date: prevDate };
     },
     staleTime: 1000,
