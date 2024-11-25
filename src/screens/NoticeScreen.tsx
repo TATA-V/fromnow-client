@@ -6,7 +6,7 @@ import DeleteButton from '@components/common/DeleteButton';
 import { Notice } from '@utils/clientNoti';
 import { getStorage, setStorage } from '@utils/storage';
 import NoticeHeader from '@components/Notify/NoticeHeader';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView } from 'react-native';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 
 const NoticeScreen = () => {

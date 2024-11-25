@@ -6,9 +6,8 @@ import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AnimatePresence, MotiView } from 'moti';
-import { StyleSheet, View } from 'react-native';
-import BootSplash from 'react-native-bootsplash';
+import { View } from 'react-native';
+
 import '@components/BottomSheet/sheets';
 import { navigationRef } from '@utils/rootNavigation';
 import { linking } from './deeplinkConfig';
@@ -21,7 +20,6 @@ import SAVProvider from '@components/provider/SAVProvider';
 import MiniLoading from '@components/common/MiniLoading';
 
 import BottomTabBar from '@components/BottomNavi/BottomTabBar';
-import SplashLottie from '@components/Lottie/SplashLottie';
 import DefaultHeader from '@components/common/DefaultHeader';
 import ProfileHeader from '@components/Profile/ProfileHeader';
 import PolicyHeader from '@components/Policy/PolicyHeader';
@@ -47,33 +45,21 @@ import BoardEditScreen from './src/screens/BoardEditScreen';
 import TeamCreateScreen from './src/screens/TeamCreateScreen';
 import PrivacyPolicyScreen from './src/screens/PrivacyPolicyScreen';
 import ServicePolicyScreen from './src/screens/ServicePolicyScreen';
+import SplashScreen from './src/screens/SplashScreen';
+import useAppState from '@store/useAppState';
 
 function App() {
-  const [showLottie, setShowLottie] = useState(true);
-  const [isDarkModeStatusBar, setIsDarkModeStatusBar] = useState(true);
   const [loading, setLoading] = useState(true);
   const { name: username, setName } = useUserStore(state => state);
+  const isFirstEntry = useAppState(state => state.isFirstEntry);
 
   useEffect(() => {
-    const unsubscribe = setTimeout(() => {
-      BootSplash.hide({ fade: false });
-      setShowLottie(false);
-    }, 2000);
-    const unsubscribeDarkMode = setTimeout(() => {
-      setIsDarkModeStatusBar(false);
-    }, 2500);
-
     const loadNameFromStorage = async () => {
       const name = await getStorage('name');
-      name && setName(name);
+      if (name) setName(name);
       setLoading(false);
     };
     loadNameFromStorage();
-
-    return () => {
-      clearTimeout(unsubscribe);
-      clearTimeout(unsubscribeDarkMode);
-    };
   }, []);
 
   if (loading) {
@@ -111,8 +97,9 @@ function App() {
         <ToastNotiProvider>
           <NavigationContainer ref={navigationRef} linking={linking}>
             <SheetProvider>
-              <SAVProvider isDarkMode={isDarkModeStatusBar}>
+              <SAVProvider>
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
+                  {isFirstEntry && <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />}
                   {!username || username === '' ? (
                     <>
                       <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
@@ -193,18 +180,6 @@ function App() {
                     </>
                   )}
                 </Stack.Navigator>
-                <AnimatePresence>
-                  {showLottie && (
-                    <MotiView
-                      style={[StyleSheet.absoluteFill]}
-                      className="bg-black900 flex justify-center items-center"
-                      from={{ opacity: 1 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}>
-                      <SplashLottie customStyle={{ height: 500, width: '100%' }} />
-                    </MotiView>
-                  )}
-                </AnimatePresence>
               </SAVProvider>
             </SheetProvider>
           </NavigationContainer>

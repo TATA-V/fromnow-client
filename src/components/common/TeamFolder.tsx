@@ -16,7 +16,8 @@ interface Props extends Team {
 
 const { width } = Dimensions.get('window');
 
-const TeamFolder = ({ isNew, color, id, createdAt, recivedAt, title, photoUrls = [] }: Props) => {
+const TeamFolder = (props: Props) => {
+  const { isNew, color, id, createdAt, recivedAt, title, photoUrls = [] } = props;
   const { setSelectedTeam } = useSelectedTeamStore();
   const { navigation } = useNavi();
   const numColumns = isTablet ? 4 : 2;

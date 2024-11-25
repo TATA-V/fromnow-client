@@ -22,7 +22,7 @@ const NoticeItem = (props: Props) => {
   };
 
   return (
-    <View onTouchEnd={clickNotice} className="px-4 h-[60px] flex flex-row items-center space-x-[8px]">
+    <View onTouchEnd={clickNotice} className="px-4 h-[60px] flex flex-row items-center space-x-[8px] bg-white">
       <View className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200">
         <Image source={imgUrl ? { uri: imgUrl } : thumbnailPng} className="w-[36px] h-[36px] rounded-xl" resizeMode="cover" />
       </View>

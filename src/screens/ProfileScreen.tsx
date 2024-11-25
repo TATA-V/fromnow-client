@@ -28,7 +28,7 @@ const ProfileScreen = () => {
     navigation.navigate(target, { ...options });
   };
   const logoutUser = async () => {
-    clearAllUserData();
+    await clearAllUserData();
     navigation.navigate('SignIn');
   };
   const removeUser = () => {

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SplashLottie = ({ customStyle }: Props) => {
-  return <LottieView style={customStyle} source={splashJson} autoPlay />;
+  return <LottieView style={customStyle} source={splashJson} autoPlay loop={false} />;
 };
 
 export default SplashLottie;

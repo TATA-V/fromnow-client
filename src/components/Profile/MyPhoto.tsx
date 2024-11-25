@@ -21,8 +21,8 @@ const MyPhoto = ({ photoUrl }: Props) => {
   };
 
   return (
-    <TouchableOpacity onPress={pickImage}>
-      <Image source={{ uri: photoUrl }} className="w-[160px] h-[160px] rounded-[56px] border-[1px] border-black200" />
+    <TouchableOpacity onPress={pickImage} className="rounded-[56px] border-[1px] border-black200 overflow-hidden">
+      <Image source={{ uri: photoUrl }} className="w-[160px] h-[160px]" />
     </TouchableOpacity>
   );
 };

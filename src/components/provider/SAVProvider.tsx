@@ -7,26 +7,25 @@ import { clientNotiClick, clientNotiMessage } from '@utils/clientNoti';
 import notifee, { EventType } from '@notifee/react-native';
 import ModalManager from '@components/Modal/ModalManager';
 import ToastModalManager from '@components/Modal/ToastModalManager';
-import useUserStore from '@store/useUserStore';
 import useGetFCMToken from '@hooks/useGetFCMToken';
 import useClearAllUserData from '@hooks/useClearAllUserData';
+import useAppState from '@store/useAppState';
 
 interface Props {
   children: ReactNode;
-  isDarkMode?: boolean;
 }
 
-function SAVProvider({ children, isDarkMode = false }: Props) {
-  const setName = useUserStore(state => state.setName);
+function SAVProvider({ children }: Props) {
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
   const clearAllUserData = useClearAllUserData();
+  const isFirstEntry = useAppState(state => state.isFirstEntry);
 
   useEffect(() => {
     const initializeUser = async () => {
       const access = await getStorage('access');
       if (!access) {
-        clearAllUserData();
+        await clearAllUserData();
         navigation.navigate('SignIn');
         return;
       }
@@ -62,6 +61,7 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     return () => {
       unsubscribe();
       foregroundEventListener();
+      // clearTimeout(unsubscribeDarkMode);
     };
   }, []);
 
@@ -69,7 +69,7 @@ function SAVProvider({ children, isDarkMode = false }: Props) {
     <ToastModalManager>
       <ModalManager>
         <SafeAreaView className="flex-1 w-full">
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#1C1C1E' : '#fff'} />
+          <StatusBar barStyle={isFirstEntry ? 'light-content' : 'dark-content'} backgroundColor={isFirstEntry ? '#1C1C1E' : '#fff'} />
           {children}
         </SafeAreaView>
       </ModalManager>

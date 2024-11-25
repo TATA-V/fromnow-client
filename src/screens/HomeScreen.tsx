@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
@@ -7,6 +7,7 @@ import TeamList from '@components/Home/TeamList';
 import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
+import { getStorage } from '@utils/storage';
 
 const HomeScreen = () => {
   // const [isEdit, setIsEdit] = useState(false);

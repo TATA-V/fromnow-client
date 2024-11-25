@@ -22,7 +22,8 @@ const CameraScreen = () => {
   const { accessible } = cameraAccessible();
 
   const { data: missionData, isLoading } = useGetMission(formatDate());
-  const mission = missionData[0];
+  console.log(missionData);
+  // const mission = missionData[0];
 
   const toggleCameraType = () => setIsFrontCamera(!isFrontCamera);
 
@@ -40,8 +41,8 @@ const CameraScreen = () => {
   };
 
   useEffect(() => {
-    // accessible && isTimer && showModal({ type: 'mission', title: '오늘의 미션!', description: '브이 포즈를 하고 셀카를 찍어보세요' });
-    isTimer && showModal({ type: 'mission', title: mission.title, description: mission.content, missionImg: mission.missionImg });
+    // accessible && isTimer && showModal({ type: 'mission', title: mission.title, description: mission.content, missionImg: mission.missionImg || '' });
+    // isTimer && showModal({ type: 'mission', title: mission.title, description: mission.content, missionImg: mission.missionImg || '' });
   }, [isTimer]);
 
   // useEffect(() => {
