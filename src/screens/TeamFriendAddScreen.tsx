@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Keyboard, Text, TouchableOpacity } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import Button from '@components/common/Button';
 import Input from '@components/common/Input';
@@ -85,9 +85,16 @@ const TeamFriendAddScreen = ({}: Props) => {
           )}
           <View className="px-4">
             <View className="h-[66px]">
-              <Input onSubmitEditing={findFriends} value={search} setValue={setSearch} search placeholder="친구 검색" focusedOnce />
+              <Input
+                autoFocus={hasSearched ? false : true}
+                onSubmitEditing={findFriends}
+                value={search}
+                setValue={setSearch}
+                search
+                placeholder="친구 검색"
+              />
             </View>
-            {searchData && hasSearched && (
+            {searchData && searchData.length > 0 && hasSearched && (
               <View className="h-full my-[4px]">
                 <FlashList
                   data={searchData}
@@ -109,7 +116,7 @@ const TeamFriendAddScreen = ({}: Props) => {
                 <MiniLoading />
               </View>
             )}
-            {!searchData && hasSearched && !searchLoading && (
+            {(!searchData || searchData.length === 0) && hasSearched && !searchLoading && (
               <View className="pt-[95px]">
                 <AvatarSadMsg message={`친구를 찾지 못했어요 ;(`} />
               </View>

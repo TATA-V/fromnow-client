@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import CircleDangerIcon from '@assets/icons/circleDanger.svg';
 import CircleCheckIcon from '@assets/icons/circleCheck.svg';
@@ -8,7 +8,6 @@ import SearchIcon from '@assets/icons/SearchIcon';
 type Mode = 'black' | 'error' | 'trust' | 'gray';
 
 interface Props {
-  focusedOnce?: boolean;
   autoFocus?: boolean;
   mode?: Mode;
   placeholder?: string;
@@ -19,14 +18,9 @@ interface Props {
   onSubmitEditing?: () => void;
 }
 
-const Input = ({ focusedOnce, autoFocus = false, mode = 'black', placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
+const Input = ({ autoFocus = false, mode = 'black', placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput | null>(null);
-
-  useEffect(() => {
-    if (!inputRef.current || !focusedOnce) return;
-    inputRef.current.focus();
-  }, []);
 
   const color = useMemo(() => {
     if (!editable) {
@@ -57,7 +51,6 @@ const Input = ({ focusedOnce, autoFocus = false, mode = 'black', placeholder, ed
   return (
     <View className="relative w-full">
       <TextInput
-        ref={focusedOnce ? inputRef : undefined}
         autoFocus={autoFocus}
         value={value}
         onChangeText={setValue}

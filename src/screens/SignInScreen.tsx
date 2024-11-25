@@ -3,16 +3,33 @@ import { Text, View } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import usePolicyStore from '@store/usePolicyStore';
 import useClearAllUserData from '@hooks/useClearAllUserData';
+import { getStorage, setStorage } from '@utils/storage';
+import { useModal } from '@components/Modal';
 
 import GoogleSignInBtn from '@components/SignIn/GoogleSignInBtn';
 import KakaoSignInBtn from '@components/SignIn/KakaoSignInBtn';
+import PermissionInfo from '@components/SignIn/PermissionInfo';
 
 const SignInScreen = () => {
   const { animated } = usePolicyStore(state => state);
   const clearAllUserData = useClearAllUserData();
+  const { showModal } = useModal();
 
   useEffect(() => {
-    clearAllUserData();
+    const setupLaunch = async () => {
+      await clearAllUserData();
+      await setStorage('isAutoSave', 'true');
+      const firstLaunch = await getStorage('firstLaunch');
+      if (firstLaunch) return;
+      showModal({
+        type: 'confirm',
+        title: '프롬나우 이용을 위한\n접근 권한 안내',
+        confirm: async () => await setStorage('firstLaunch', 'true'),
+        lockBackdrop: true,
+        children: <PermissionInfo />,
+      });
+    };
+    setupLaunch();
   }, []);
 
   return (

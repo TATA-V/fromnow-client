@@ -31,7 +31,7 @@ export const useSignInSocial = () => {
       }
       navigation.navigate('Bottom', { screen: 'Home', refresh: true });
     },
-    onError: error => {
+    onError: async error => {
       errorToast(`로그인에 실패했습니다: ${error}`);
     },
   });

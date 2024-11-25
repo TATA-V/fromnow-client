@@ -21,9 +21,8 @@ const CameraScreen = () => {
   const { warnToast } = useToast();
   const { accessible } = cameraAccessible();
 
-  const { data: missionData, isLoading } = useGetMission(formatDate());
-  console.log(missionData);
-  // const mission = missionData[0];
+  const { data: mission, isLoading } = useGetMission(formatDate());
+  console.log('mission:', mission);
 
   const toggleCameraType = () => setIsFrontCamera(!isFrontCamera);
 
@@ -41,8 +40,8 @@ const CameraScreen = () => {
   };
 
   useEffect(() => {
-    // accessible && isTimer && showModal({ type: 'mission', title: mission.title, description: mission.content, missionImg: mission.missionImg || '' });
-    // isTimer && showModal({ type: 'mission', title: mission.title, description: mission.content, missionImg: mission.missionImg || '' });
+    // accessible && isTimer && showModal({ type: 'mission', title: mission[0]?.title, description: mission[0]?.content, missionImg: mission[0]?.missionImg });
+    isTimer && showModal({ type: 'mission', title: mission[0]?.title, description: mission[0]?.content, missionImg: mission[0]?.missionImg });
   }, [isTimer]);
 
   // useEffect(() => {

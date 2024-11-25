@@ -2479,14 +2479,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@react-native-async-storage/async-storage@npm:2.0.0"
+"@react-native-async-storage/async-storage@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@react-native-async-storage/async-storage@npm:2.1.0"
   dependencies:
     merge-options: "npm:^3.0.4"
   peerDependencies:
     react-native: ^0.0.0-0 || >=0.65 <1.0
-  checksum: 10c0/e09c93aecd2e0509c8d58fa2435d2aaadc7025910102a8d7ed21b4b6ee74ec680f0b2d9eb1e5f0f5b524b48f4dc868cd12a71452686f88664c3deb35ea83f370
+  checksum: 10c0/76a81a55059e93e256f6e9cf3f33a49d24ba83ce2f88e52343107953a66168c533bb387111a88708247c926297ee93c681c4936bcb66993dba78ea7fb28c9fdf
   languageName: node
   linkType: hard
 
@@ -3771,7 +3771,7 @@ __metadata:
     "@irisjae/recyclerlistview": "npm:^1.0.2"
     "@mgcrea/react-native-dnd": "npm:^2.2.0"
     "@notifee/react-native": "npm:^9.0.2"
-    "@react-native-async-storage/async-storage": "npm:^2.0.0"
+    "@react-native-async-storage/async-storage": "npm:^2.1.0"
     "@react-native-firebase/analytics": "npm:^21.0.0"
     "@react-native-firebase/app": "npm:^21.0.0"
     "@react-native-firebase/crashlytics": "npm:^21.0.0"
@@ -3818,6 +3818,7 @@ __metadata:
     react-native-gesture-handler: "npm:^2.18.1"
     react-native-haptic-feedback: "npm:^2.3.1"
     react-native-image-crop-picker: "npm:^0.41.2"
+    react-native-permissions: "npm:^5.2.0"
     react-native-reanimated: "npm:^3.15.3"
     react-native-safe-area-context: "npm:^4.10.8"
     react-native-screens: "npm:^3.32.0"
@@ -10480,6 +10481,20 @@ __metadata:
   peerDependencies:
     react-native: ">=0.40.0"
   checksum: 10c0/8df9baa7107ce5e6f1f9f84e6a0766e3019c6df3bbc95eb88a4d261065959df81c81dcb566a097ca780f8d745e489bed7e390d4fdfedde207b102080bdce81ad
+  languageName: node
+  linkType: hard
+
+"react-native-permissions@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "react-native-permissions@npm:5.2.0"
+  peerDependencies:
+    react: ">=18.1.0"
+    react-native: ">=0.70.0"
+    react-native-windows: ">=0.70.0"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 10c0/07116106a2920aeee60ba2de3eaae577a9451767bc64405d026df7bf2b43d833f502187e7e6975cb79ebf2c40e329613f6d87ca523000ad3b64fd59e68376997
   languageName: node
   linkType: hard
 

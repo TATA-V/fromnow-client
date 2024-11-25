@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import useToast from '@hooks/useToast';
 import { getStorage, setStorage } from '@utils/storage';
@@ -59,10 +59,15 @@ const SearchScreen = () => {
     await saveHistory(title);
   };
 
+  useEffect(() => {
+    console.log('hasSearched:', hasSearched);
+  }, [hasSearched]);
+
+  const searchHeaderProps = { hasSearched, search, setSearch, onSubmitEditing };
   if (isLoading)
     return (
       <>
-        <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
+        <SearchHeader {...searchHeaderProps} />
         <View className="pt-[66px]">
           <MiniLoading />
         </View>
@@ -77,7 +82,7 @@ const SearchScreen = () => {
           {hasSearched && data && data.length !== 0 && <SearchResultList searchList={data} search={submitSearch.trim()} />}
           {hasSearched && !data?.length && <SearchNotFound />}
         </View>
-        <SearchHeader search={search} setSearch={setSearch} onSubmitEditing={onSubmitEditing} />
+        <SearchHeader {...searchHeaderProps} />
       </View>
     </DismissKeyboard>
   );

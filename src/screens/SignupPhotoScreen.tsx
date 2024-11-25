@@ -16,7 +16,7 @@ const SignupPhotoScreen = () => {
     if (image) {
       updatePhotoMutation.mutate(image);
     }
-    navigation.navigate('Home');
+    navigation.navigate('Bottom', { screen: 'Home', refresh: true });
   };
 
   return (

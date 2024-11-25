@@ -6,12 +6,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Input from '@components/common/Input';
 
 interface Props {
+  hasSearched: boolean;
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
   onSubmitEditing: () => void;
 }
 
-const SearchHeader = ({ search, setSearch, onSubmitEditing }: Props) => {
+const SearchHeader = ({ hasSearched, search, setSearch, onSubmitEditing }: Props) => {
   const { navigation } = useNavi();
   const insets = useSafeAreaInsets();
 
@@ -33,7 +34,7 @@ const SearchHeader = ({ search, setSearch, onSubmitEditing }: Props) => {
           setValue={setSearch}
           placeholder="친구 별명 등 검색어를 입력해 주세요"
           search
-          focusedOnce
+          autoFocus={hasSearched ? false : true}
         />
       </View>
     </View>

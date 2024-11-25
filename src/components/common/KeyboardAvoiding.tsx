@@ -9,7 +9,7 @@ interface Props {
 
 const KeyboardAvoiding = ({ children, offset = 130 }: Props) => {
   return (
-    <KeyboardAvoidingView className="relative" behavior={isIOS ? 'position' : 'height'} keyboardVerticalOffset={offset}>
+    <KeyboardAvoidingView className="relative" behavior={isIOS ? 'padding' : 'height'} keyboardVerticalOffset={offset}>
       {children}
     </KeyboardAvoidingView>
   );

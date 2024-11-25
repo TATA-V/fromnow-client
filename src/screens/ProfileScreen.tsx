@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import MyPhoto from '@components/Profile/MyPhoto';
 import FriendsIcon from '@assets/icons/friends.svg';
-import FolderIcon from '@assets/icons/folder.svg';
+import FolderIcon from '@assets/icons/FolderIcon';
 import HeartsIcon from '@assets/icons/hearts.svg';
 import LogoutIcon from '@assets/icons/logout.svg';
 import PeoplePolicyIcon from '@assets/icons/people-policy.svg';

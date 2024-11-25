@@ -11,9 +11,11 @@ export interface ModalState {
   type: 'confirm' | 'dialog' | 'mission';
   open: boolean;
   title?: string;
-  description: string;
+  description?: string;
   confirm?: () => void;
   missionImg?: string;
+  lockBackdrop?: boolean;
+  children?: ReactNode;
 }
 interface ModalContextType {
   showModal: (modalData: Omit<ModalState, 'open'>) => void;

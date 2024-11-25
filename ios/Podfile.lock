@@ -1349,7 +1349,7 @@ PODS:
     - React-Core
   - RNBootSplash (6.1.3):
     - React-Core
-  - RNCAsyncStorage (2.0.0):
+  - RNCAsyncStorage (2.1.0):
     - React-Core
   - RNCKakaoCore (2.2.6):
     - DoubleConversion
@@ -1473,6 +1473,8 @@ PODS:
     - React-Core
     - RNNotifee/NotifeeCore (= 9.1.0)
   - RNNotifee/NotifeeCore (9.1.0):
+    - React-Core
+  - RNPermissions (5.2.0):
     - React-Core
   - RNReactNativeHapticFeedback (2.3.3):
     - DoubleConversion
@@ -1661,6 +1663,7 @@ DEPENDENCIES:
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1839,6 +1842,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-crop-picker"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReactNativeHapticFeedback:
     :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
@@ -1933,7 +1938,7 @@ SPEC CHECKSUMS:
   ReactCommon: 4a09c7d8a06e93c1e2e988a3b9f3db3d2449f2fc
   ReactNativeCameraKit: 9d46a5d7dd544ca64aa9c03c150d2348faf437eb
   RNBootSplash: 0177d81b7c094bbb9d7af80e77f8694922dae46d
-  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
+  RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
   RNCKakaoCore: edbf5ab8213a578b1787621734099d707588ef6c
   RNCKakaoUser: f45f781cbe7f06cfbbabdf7525af627917927ddf
   RNFBAnalytics: e8219c0955286d0f30e1d7895fce8481fda5208d
@@ -1946,6 +1951,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: 9e68b9bcc3888219357924e32ee563624745647d
   RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
   RNNotifee: abfacfc1bf391aaa3beaa79d540078f17aa11985
+  RNPermissions: a216ca0dccbbeb93da647db9ccb55ff9de944864
   RNReactNativeHapticFeedback: dd1df8ab143dfd0ac79fe483cd08822d7a86fc85
   RNReanimated: 4e3738c07d997c502b5fa407524700dfa8712777
   RNScreens: db442e7b8c7bc8befec2ce057927305ff8598cc8

@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import SearchIcon from '@assets/icons/SearchIcon';
 import PenIcon from '@assets/icons/PenIcon';
-import BellIcon from '@assets/icons/bell.svg';
+import BellIcon from '@assets/icons/BellIcon';
 import CheckIcon from '@assets/icons/check.svg';
 import useNavi from '@hooks/useNavi';
 

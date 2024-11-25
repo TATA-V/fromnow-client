@@ -101,14 +101,7 @@ function App() {
                 <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
                   {isFirstEntry && <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />}
                   {!username || username === '' ? (
-                    <>
-                      <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
-                      <Stack.Screen
-                        name="SignupNickname"
-                        component={SignupNicknameScreen}
-                        options={{ header: () => <DefaultHeader isSignup={true} title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
-                      />
-                    </>
+                    <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
                   ) : (
                     <>
                       <Stack.Screen name="Bottom" component={BottomTabScreen} options={{ headerShown: false }} />
@@ -171,14 +164,19 @@ function App() {
                         options={{ headerShown: false, contentStyle: { backgroundColor: '#FBFBFD' } }}
                       />
                       <Stack.Screen name="Notice" component={NoticeScreen} options={{ headerShown: false }} />
-                      <Stack.Screen name="PrivacyPolicy" options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}>
-                        {props => <PrivacyPolicyScreen {...props} paramName="PrivacyPolicy" />}
-                      </Stack.Screen>
-                      <Stack.Screen name="ServicePolicy" options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}>
-                        {props => <ServicePolicyScreen {...props} paramName="ServicePolicy" />}
-                      </Stack.Screen>
                     </>
                   )}
+                  <Stack.Screen
+                    name="SignupNickname"
+                    component={SignupNicknameScreen}
+                    options={{ header: () => <DefaultHeader isSignup={true} title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
+                  />
+                  <Stack.Screen name="PrivacyPolicy" options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}>
+                    {props => <PrivacyPolicyScreen {...props} paramName="PrivacyPolicy" />}
+                  </Stack.Screen>
+                  <Stack.Screen name="ServicePolicy" options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}>
+                    {props => <ServicePolicyScreen {...props} paramName="ServicePolicy" />}
+                  </Stack.Screen>
                 </Stack.Navigator>
               </SAVProvider>
             </SheetProvider>

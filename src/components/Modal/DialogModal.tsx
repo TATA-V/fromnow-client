@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, Modal, View } from 'react-native';
 import { MotiView } from 'moti';
 import { useModal, ModalState } from '@components/Modal';
 
-const DialogModal = ({ open, title, description, confirm }: ModalState) => {
+const DialogModal = ({ open, title, description, confirm, lockBackdrop }: ModalState) => {
   const { hideModal } = useModal();
 
   const confirmClick = () => {
@@ -15,7 +15,7 @@ const DialogModal = ({ open, title, description, confirm }: ModalState) => {
 
   return (
     <Modal transparent visible={open} animationType="fade" onRequestClose={hideModal}>
-      <View onTouchEnd={hideModal} className="flex-1 justify-center items-center bg-black/50">
+      <View onTouchEnd={lockBackdrop ? undefined : hideModal} className="flex-1 justify-center items-center bg-black/50">
         <MotiView
           onTouchEnd={e => e.stopPropagation()}
           from={{ opacity: 0, scale: 0.9 }}

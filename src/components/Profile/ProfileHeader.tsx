@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import BellIcon from '@assets/icons/bell.svg';
+import BellIcon from '@assets/icons/BellIcon';
 import useNavi from '@hooks/useNavi';
 
 const ProfileHeader = () => {

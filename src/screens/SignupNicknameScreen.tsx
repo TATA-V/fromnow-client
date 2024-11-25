@@ -6,6 +6,7 @@ import Button from '@components/common/Button';
 import { useUpdateNickname } from '@hooks/query';
 import DismissKeyboard from '@components/common/DismissKeyboard';
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
+import { nicknameRegex } from '@const/regex';
 
 interface Form {
   nickname: string;
@@ -41,7 +42,7 @@ const SignupNicknameScreen = () => {
                 control={control}
                 rules={{
                   required: '필수 입력 항목입니다',
-                  pattern: { value: /^[가-힣a-zA-Z0-9]{2,10}$/, message: '2~10자 한/영/숫자로 설정해 주세요' },
+                  pattern: { value: nicknameRegex, message: '2~10자 한/영/숫자로 설정해 주세요' },
                 }}
                 errors={errors}
                 placeholder="당신만의 특별한 별명을 입력해 주세요"

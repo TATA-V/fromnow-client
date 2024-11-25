@@ -4,6 +4,8 @@ export const setStorage = async (key: string, value: string) => {
   if (!key || !value) return;
   try {
     await AsyncStorage.setItem(key, value);
+    const result = await AsyncStorage.getItem(key);
+    return result;
   } catch (error) {}
 };
 
@@ -23,7 +25,8 @@ export const removeStorage = async (key: string) => {
 };
 
 export const removeStorageAll = async () => {
-  try {
-    await AsyncStorage.clear();
-  } catch (error) {}
+  await removeStorage('access');
+  await removeStorage('searchHistory');
+  await removeStorage('isAutoSave');
+  await removeStorage('notice');
 };
