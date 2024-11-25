@@ -20,7 +20,6 @@ const DefaultHeader = ({ title, path, isSignup, customStyle }: Props) => {
       navigateByPath(path);
       return;
     }
-    console.log('isSignup:', isSignup);
     if (isSignup) {
       await removeStorageAll();
     }

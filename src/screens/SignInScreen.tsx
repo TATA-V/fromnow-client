@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import usePolicyStore from '@store/usePolicyStore';
 import useClearAllUserData from '@hooks/useClearAllUserData';
 import { getStorage, setStorage } from '@utils/storage';
+import { checkPermissions } from '@utils/checkPermissions';
+import { allPermissions } from '@const/permissions';
 import { useModal } from '@components/Modal';
 
 import GoogleSignInBtn from '@components/SignIn/GoogleSignInBtn';
@@ -24,7 +26,11 @@ const SignInScreen = () => {
       showModal({
         type: 'confirm',
         title: '프롬나우 이용을 위한\n접근 권한 안내',
-        confirm: async () => await setStorage('firstLaunch', 'true'),
+        confirm: async () => {
+          await setStorage('firstLaunch', 'true');
+          const checkPermission = await checkPermissions(allPermissions);
+          console.log('checkPermission:', checkPermission);
+        },
         lockBackdrop: true,
         children: <PermissionInfo />,
       });

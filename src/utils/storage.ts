@@ -29,4 +29,5 @@ export const removeStorageAll = async () => {
   await removeStorage('searchHistory');
   await removeStorage('isAutoSave');
   await removeStorage('notice');
+  await removeStorage('name');
 };

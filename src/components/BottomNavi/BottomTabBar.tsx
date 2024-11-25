@@ -11,6 +11,9 @@ import { QUERY_KEY, useKey } from '@hooks/query';
 import { Team } from '@clientTypes/team';
 import { useModal } from '@components/Modal';
 import { cameraAccessible } from '@utils/cameraAccessible';
+import { androidPermission, iosPermission } from '@const/permissions';
+import { isIOS } from '@utils/deviceInfo';
+import { checkPremission } from '@utils/checkPermissions';
 
 const { width } = Dimensions.get('window');
 
@@ -29,7 +32,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
     navigation.navigate(target);
   };
 
-  const clickCamera = () => {
+  const clickCamera = async () => {
     if (teamList && teamList.length === 0) {
       showModal({
         type: 'confirm',
@@ -39,6 +42,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
       });
       return;
     }
+
     // if (!accessible) {
     //   showModal({
     //     type: 'confirm',
@@ -47,7 +51,9 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
     //   });
     //   return;
     // }
-    navigation.navigate('Camera');
+
+    const permission = isIOS ? iosPermission.CAMERA : androidPermission.CAMERA;
+    await checkPremission({ permission, target: '카메라', onGranted: () => navigation.navigate('Camera') });
   };
 
   return (

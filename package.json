@@ -11,8 +11,8 @@
     "test": "jest",
     "postinstall": "patch-package",
     "restart": "npx react-native start --reset-cache",
-    "apk": "yarn android --mode release",
-    "aab": "npx react-native build-android --mode=release"
+    "apk": "cd android ./gradlew assembleRelease cd ..",
+    "aab": "cd android ./gradlew bundleReleasecd .."
   },
   "dependencies": {
     "@irisjae/recyclerlistview": "^1.0.2",

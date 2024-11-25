@@ -72,6 +72,8 @@
 	<string>Save photos to your photo gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>AccessPhotoLibrary</string>
+  <key>NSRemindersFullAccessUsageDescription</key>
+  <string>This app notifies you of important schedules</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Black.otf</string>

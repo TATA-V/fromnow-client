@@ -25,7 +25,7 @@ export const useSignInSocial = () => {
       profileName && setName(profileName);
       await getFCMToken();
       await queryClient.invalidateQueries();
-      if (res.data.message === '새로 회원가입하는 유저입니다!') {
+      if (res.data.message === '새로 회원가입하는 유저입니다!' || res.data.data.requiresAdditionalInfo) {
         SheetManager.show('signup-policy');
         return;
       }
