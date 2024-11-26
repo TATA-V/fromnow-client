@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AllBoard, Board, CreateBoard, LikeDislikeParams } from '@clientTypes/board';
+import { AllBoard, CreateBoard } from '@clientTypes/board';
 import {
   GetAll,
   getAll,
@@ -18,7 +18,6 @@ import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
 import moment from 'moment-modification-rn';
 import { CalendarCol } from '@clientTypes/calendar';
-import { formatDate } from '@utils/formatDate';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
@@ -51,43 +50,30 @@ export const usePostOneBoard = () => {
   return { createBoardMutation };
 };
 
-export const useLikeBoard = ({ diaryId, boardId, date }: LikeDislikeParams) => {
-  const format = formatDate(date);
-  const boardsKey = useKey(['all', QUERY_KEY.BOARD, diaryId, format]);
+export const useLikeBoard = () => {
   const { successToast, errorToast } = useToast();
-  const queryClient = useQueryClient();
 
   const likeBoardMutation = useMutation({
     mutationFn: postLike,
     onSuccess: () => {
       successToast('좋아요 완료!');
-      queryClient.setQueryData(boardsKey, (prev: AllBoard) => {
-        const update = prev.boardOverViewResponseDtoList.map(v => (v.boardId === boardId ? { ...v, liked: true, likes: v.likes + 1 } : v));
-        return { ...prev, boardOverViewResponseDtoList: update };
-      });
     },
-    onError: () => {
+    onError: error => {
       errorToast('좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      console.log('useLikeBoard error:', error);
     },
   });
 
   return { likeBoardMutation };
 };
 
-export const useDisLikeBoard = ({ diaryId, boardId, date }: LikeDislikeParams) => {
-  const format = formatDate(date);
-  const boardsKey = useKey(['all', QUERY_KEY.BOARD, diaryId, format]);
+export const useDisLikeBoard = () => {
   const { successToast, errorToast } = useToast();
-  const queryClient = useQueryClient();
 
   const disLikeBoardMutation = useMutation({
     mutationFn: postDisLike,
     onSuccess: () => {
       successToast('좋아요를 취소했습니다.');
-      queryClient.setQueryData(boardsKey, (prev: AllBoard) => {
-        const update = prev.boardOverViewResponseDtoList.map(v => (v.boardId === boardId ? { ...v, liked: false, likes: v.likes - 1 } : v));
-        return { ...prev, boardOverViewResponseDtoList: update };
-      });
     },
     onError: () => {
       errorToast('좋아요 취소에 실패했습니다. 잠시 후 다시 시도해 주세요.');

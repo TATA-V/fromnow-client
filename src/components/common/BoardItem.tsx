@@ -1,27 +1,54 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import HeartIcon from '@assets/icons/HeartIcon';
-import { Board } from '@clientTypes/board';
-import { formatTime } from '@utils/formatDate';
-import { useDisLikeBoard, useLikeBoard } from '@hooks/query';
+import { AllBoard, Board } from '@clientTypes/board';
+import { formatDate, formatTime } from '@utils/formatDate';
+import { QUERY_KEY, useDisLikeBoard, useKey, useLikeBoard } from '@hooks/query';
+import useSelectedTeamStore from '@store/useSelectedTeamStore';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props extends Board {
-  diaryId: number;
-  date: string;
+  isMyLikedBoard?: boolean;
+  date?: string;
 }
 
 const BoardItem = (props: Props) => {
-  const { diaryId, date, boardId, createdDate, profilePhotoUrl, profileName, contentPhotoUrl, content, likes, liked } = props;
+  const { isMyLikedBoard = false, date, boardId, createdDate, profilePhotoUrl, profileName, contentPhotoUrl, content, likes, liked } = props;
+  const diaryId = useSelectedTeamStore(state => state.id);
+  const queryClient = useQueryClient();
+  const format = formatDate(date) || '';
+  const boardsKey = useKey(['all', QUERY_KEY.BOARD, diaryId, format]);
+  const myLikedBoardsKey = useKey([QUERY_KEY.MY, 'liked', 'posts']);
 
-  const { likeBoardMutation } = useLikeBoard({ diaryId, boardId, date });
-  const { disLikeBoardMutation } = useDisLikeBoard({ diaryId, boardId, date });
+  const { likeBoardMutation } = useLikeBoard();
+  const { disLikeBoardMutation } = useDisLikeBoard();
+
+  const updateBoardData = (key: any, changes: Partial<Board>) => {
+    queryClient.setQueryData(key, (prev: AllBoard) => {
+      const updatedList = prev.boardOverViewResponseDtoList.map(v => (v.boardId === boardId ? { ...v, ...changes } : v));
+      return { ...prev, boardOverViewResponseDtoList: updatedList };
+    });
+    queryClient.invalidateQueries({ queryKey: myLikedBoardsKey });
+  };
+
   const toggleLike = () => {
     if (!liked) {
-      likeBoardMutation.mutate(boardId);
+      likeBoardMutation.mutate(boardId, {
+        onSuccess: () => {
+          const targetKey = isMyLikedBoard ? myLikedBoardsKey : boardsKey;
+          updateBoardData(targetKey, { liked: true, likes: likes + 1 });
+        },
+      });
       return;
     }
+
     if (likes <= 0) return;
-    disLikeBoardMutation.mutate(boardId);
+    disLikeBoardMutation.mutate(boardId, {
+      onSuccess: () => {
+        const targetKey = isMyLikedBoard ? myLikedBoardsKey : boardsKey;
+        updateBoardData(targetKey, { liked: false, likes: likes - 1 });
+      },
+    });
   };
 
   return (

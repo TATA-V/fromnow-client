@@ -3,7 +3,6 @@ import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, Refre
 import FriendItem from '@components/common/FriendItem';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import Button from '@components/common/Button';
-import MiniLoading from '@components/common/MiniLoading';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePostFriendReject } from '@hooks/query';
 import { Friend } from '@clientTypes/friend';
@@ -12,6 +11,7 @@ import useRefresh from '@hooks/useRefresh';
 import DeleteButton from '@components/common/DeleteButton';
 import { Swipeable } from 'react-native-gesture-handler';
 import useCurrentRoute from '@hooks/useCurrentRoute';
+import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 
 interface Props {
   paramName: string;
@@ -37,12 +37,7 @@ const MyFriendScreen = ({}: Props) => {
     friendRequestMutation.mutate(id);
   };
 
-  if (isLoadingMyFriend || isLoadingFriendRq)
-    return (
-      <View className="flex-1 bg-[#F8F8FB]">
-        <MiniLoading />
-      </View>
-    );
+  if (isLoadingMyFriend || isLoadingFriendRq) return <FullScreenMiniLoading />;
 
   return (
     <View className="flex-1 bg-black100">
@@ -82,7 +77,7 @@ const MyFriendScreen = ({}: Props) => {
       )}
       {data?.length === 0 && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          <View className="w-full h-full justify-center items-center transfrom translate-y-[-136px]" pointerEvents="box-none">
+          <View className="w-full h-full justify-center items-center transfrom translate-y-[-70px]" pointerEvents="box-none">
             <AvatarSadMsg message={isAllFriend ? `아직 친구가 없어요\n새로운 친구를 찾아보세요!` : `아직 받은\n친구 요청이 없어요`} />
             <View className="mt-[24px]">
               <Button onPress={() => navigation.navigate('Search')} size="mid" icon={<SearchIcon color="#fff" size={24} />}>

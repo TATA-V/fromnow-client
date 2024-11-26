@@ -5,9 +5,6 @@ import Photo from '@components/Signup/Photo';
 import useNavi from '@hooks/useNavi';
 import { useUpdatePhoto } from '@hooks/query';
 import { Image as ImageType } from 'react-native-image-crop-picker';
-import { isIOS } from '@utils/deviceInfo';
-import { androidPermission, iosPermission } from '@const/permissions';
-import { checkPremission } from '@utils/checkPermissions';
 
 const SignupPhotoScreen = () => {
   const [image, setImage] = useState<ImageType>();
@@ -17,12 +14,11 @@ const SignupPhotoScreen = () => {
 
   const startFromNow = async () => {
     if (!image) {
-      navigation.navigate('Bottom', { screen: 'Home', refresh: true });
+      navigation.navigate('Bottom', { screen: 'Home' });
       return;
     }
 
-    const permission = isIOS ? iosPermission.PHOTO : androidPermission.PHOTO;
-    await checkPremission({ permission, target: '앨범', onGranted: () => updatePhotoMutation.mutate(image) });
+    updatePhotoMutation.mutate(image);
   };
 
   return (

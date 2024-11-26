@@ -82,7 +82,7 @@ export const useUpdatePhoto = () => {
     mutationFn: updatePhoto,
     onSuccess: res => {
       if (route.name === 'SignupPhoto') {
-        navigation.navigate('Bottom', { screen: 'Home', refresh: true });
+        navigation.navigate('Bottom', { screen: 'Home' });
         successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
         return;
       }

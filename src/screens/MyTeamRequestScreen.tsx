@@ -2,11 +2,11 @@ import React from 'react';
 import { ScrollView, View, RefreshControl } from 'react-native';
 import TeamItem from '@components/MyTeam/TeamItem';
 import { QUERY_KEY, useGetAllMyTeamRequest, useKey, usePostTeamReject } from '@hooks/query';
-import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
 import DeleteButton from '@components/common/DeleteButton';
 import { Swipeable } from 'react-native-gesture-handler';
+import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 
 const MyTeamRequestScreen = () => {
   const { data, isLoading } = useGetAllMyTeamRequest();
@@ -14,12 +14,7 @@ const MyTeamRequestScreen = () => {
   const { refreshing, onRefresh } = useRefresh({ queryKey: myTeamReqKey });
   const { friendRequestMutation } = usePostTeamReject();
 
-  if (isLoading)
-    return (
-      <View className="flex-1 bg-[#FBFBFD]">
-        <MiniLoading />
-      </View>
-    );
+  if (isLoading) return <FullScreenMiniLoading />;
 
   const deleteTeamReq = (diaryId: number) => {
     friendRequestMutation.mutate(diaryId);
@@ -45,7 +40,7 @@ const MyTeamRequestScreen = () => {
       {data.length === 0 && (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} contentContainerStyle={{ flexGrow: 1 }}>
           <View className="w-full h-full justify-center items-center transfrom translate-y-[-66px]" pointerEvents="box-none">
-            <AvatarSadMsg message={`이런! 아직 받은\n모임 요청이 없어요`} />
+            <AvatarSadMsg message={`아직 받은\n모임 요청이 없어요`} />
           </View>
         </ScrollView>
       )}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
 import DndTeamList from '@components/Home/DndTeamList';
@@ -7,7 +7,7 @@ import TeamList from '@components/Home/TeamList';
 import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
-import { getStorage } from '@utils/storage';
+import RNFS from 'react-native-fs';
 
 const HomeScreen = () => {
   // const [isEdit, setIsEdit] = useState(false);

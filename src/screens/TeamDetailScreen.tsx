@@ -4,12 +4,12 @@ import useCurrentRoute from '@hooks/useCurrentRoute';
 import TeamDetailHeader from '@components/Team/TeamDetailHeader';
 import BoardItem from '@components/common/BoardItem';
 import { QUERY_KEY, useGetAllBoard, useKey } from '@hooks/query';
-import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
 import moment from 'moment-modification-rn';
 import 'moment-modification-rn/locale/ko';
+import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 moment.locale('ko');
 
 interface Props {
@@ -30,9 +30,7 @@ const TeamDetailScreen = ({}: Props) => {
     return (
       <>
         <TeamDetailHeader title={formattedDate} />
-        <View className="pt-[66px]">
-          <MiniLoading />
-        </View>
+        <FullScreenMiniLoading bgColor="#fff" />
       </>
     );
   }
@@ -45,7 +43,7 @@ const TeamDetailScreen = ({}: Props) => {
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             data={boards}
             keyExtractor={(_, idx) => idx.toString()}
-            renderItem={({ item, index }) => <BoardItem diaryId={diaryId} date={date} key={index} {...item} />}
+            renderItem={({ item, index }) => <BoardItem date={date} key={index} {...item} />}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View className="h-[18px]" />}
             contentContainerStyle={{ paddingTop: 8, paddingBottom: 30, paddingHorizontal: 16 }}

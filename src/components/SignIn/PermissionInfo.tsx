@@ -11,7 +11,7 @@ const PermissionInfo = () => {
         <CameraIcon color="#8EB9E6" />
         <View>
           <Text className="text-black900 text-sm font-PTDSemiBold">카메라</Text>
-          <Text className="text-black700 text-sm font-PTDLight pt-[1px]">커뮤니티 이용 시 사진 촬영</Text>
+          <Text className="text-black700 text-sm font-PTDLight pt-[1px]">사진 촬영</Text>
         </View>
       </View>
       <View className="flex-row items-center space-x-4">

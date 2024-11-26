@@ -19,10 +19,10 @@ import { FlashList } from '@shopify/flash-list';
 import useNavi from '@hooks/useNavi';
 import { formatDate } from '@utils/formatDate';
 import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
-import 'moment-modification-rn/locale/ko';
 import { useScrollDirection } from '@hooks/useScrollDirection';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
-import { getRowInfiniteCalendar } from '@api/board';
+import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
+import 'moment-modification-rn/locale/ko';
 moment.locale('ko');
 
 interface Props {
@@ -147,11 +147,7 @@ const TeamScreen = ({}: Props) => {
           }}
         />
       </MotiView>
-      {isLoading && (
-        <View className="pt-[60px] bg-black100">
-          <MiniLoading />
-        </View>
-      )}
+      {isLoading && <FullScreenMiniLoading translateY="0" />}
 
       <View className="relative flex-1 bg-black100">
         {data && boards.length > 0 && (
@@ -161,7 +157,7 @@ const TeamScreen = ({}: Props) => {
               onScroll={scrollList}
               data={boards}
               keyExtractor={(_, idx) => idx.toString()}
-              renderItem={({ item, index }) => <BoardItem diaryId={diaryId} date={currentDate} key={index} {...item} />}
+              renderItem={({ item, index }) => <BoardItem date={currentDate} key={index} {...item} />}
               showsVerticalScrollIndicator={false}
               ItemSeparatorComponent={() => <View className="h-[18px]" />}
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
@@ -191,7 +187,7 @@ const TeamScreen = ({}: Props) => {
         )}
         {(!data || data?.boardOverViewResponseDtoList.length === 0) && !isLoading && (
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <View className="pt-[60px]">
+            <View className="flex justify-center items-center h-full translate-y-[-66px]">
               <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />
             </View>
           </ScrollView>

@@ -9,8 +9,6 @@ import useNavi from '@hooks/useNavi';
 import { useModal } from '@components/Modal';
 import { cameraAccessible } from '@utils/cameraAccessible';
 import useToast from '@hooks/useToast';
-import { useGetMission } from '@hooks/query';
-import { formatDate } from '@utils/formatDate';
 
 const CameraScreen = () => {
   const [isFrontCamera, setIsFrontCamera] = useState(false);
@@ -33,10 +31,17 @@ const CameraScreen = () => {
     ImageCropPicker.openCropper({
       path: uri,
       mediaType: 'photo',
-    }).then(image => {
-      setIsTimer(false);
-      navigation.navigate('BoardEdit', { file: image });
-    });
+      compressImageMaxWidth: 4000,
+      compressImageMaxHeight: 4000,
+      compressImageQuality: 0.8,
+    })
+      .then(image => {
+        setIsTimer(false);
+        navigation.navigate('BoardEdit', { file: image });
+      })
+      .catch(() => {
+        navigation.navigate('Bottom', { screen: 'Home' });
+      });
   };
 
   useEffect(() => {

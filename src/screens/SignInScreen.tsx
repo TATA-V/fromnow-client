@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Logo from '@assets/icons/logo.svg';
 import usePolicyStore from '@store/usePolicyStore';
 import useClearAllUserData from '@hooks/useClearAllUserData';
@@ -28,8 +28,7 @@ const SignInScreen = () => {
         title: '프롬나우 이용을 위한\n접근 권한 안내',
         confirm: async () => {
           await setStorage('firstLaunch', 'true');
-          const checkPermission = await checkPermissions(allPermissions);
-          console.log('checkPermission:', checkPermission);
+          await checkPermissions(allPermissions);
         },
         lockBackdrop: true,
         children: <PermissionInfo />,

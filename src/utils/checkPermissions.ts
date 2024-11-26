@@ -5,12 +5,13 @@ import { isAndroid, isIOS } from '@utils/deviceInfo';
 interface CheckPremission {
   permission: Permission;
   target: string;
-  onGranted: () => void;
+  onGranted?: () => void;
+  onCancel?: () => void;
 }
 
 export const checkPermissions = async (permissions: Permission[]) => {
-  const statuses = await checkMultiple(permissions);
-  const permissionsToRequest = permissions.filter(permission => statuses[permission] !== RESULTS.GRANTED);
+  const status = await checkMultiple(permissions);
+  const permissionsToRequest = permissions.filter(permission => status[permission] !== RESULTS.GRANTED);
   if (permissionsToRequest.length > 0) {
     const requestStatuses = await requestMultiple(permissionsToRequest);
     const allGrantedAfterRequest = permissions.every(permission => requestStatuses[permission] === RESULTS.GRANTED);
@@ -20,18 +21,19 @@ export const checkPermissions = async (permissions: Permission[]) => {
   }
 };
 
-export const checkPremission = async ({ permission, target, onGranted }: CheckPremission) => {
+export const checkPremission = async ({ permission, target, onGranted, onCancel }: CheckPremission) => {
   const status = await check(permission);
   if (status === RESULTS.GRANTED) {
-    onGranted();
+    onGranted && onGranted();
     return;
   }
   if (status === RESULTS.DENIED) {
     const requestStatus = await request(permission);
     if (requestStatus === RESULTS.GRANTED) {
-      onGranted();
+      onGranted && onGranted();
       return;
     } else {
+      onCancel && onCancel();
       if (isIOS) {
         Alert.alert('권한 거부', `${target} 권한이 거부되었습니다. 설정에서 권한을 변경해주세요.`, [
           { text: '설정으로 가기', onPress: () => Linking.openSettings() },
@@ -44,9 +46,11 @@ export const checkPremission = async ({ permission, target, onGranted }: CheckPr
           { text: '취소', style: 'cancel' },
         ]);
       }
+      return;
     }
   }
   if (status === RESULTS.BLOCKED) {
+    onCancel && onCancel();
     if (isIOS) {
       Alert.alert('권한 차단됨', `${target} 권한이 차단되었습니다. 설정에서 권한을 변경해주세요.`, [
         { text: '설정으로 가기', onPress: () => Linking.openSettings() },

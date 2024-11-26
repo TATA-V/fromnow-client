@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Keyboard, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import Button from '@components/common/Button';
 import Input from '@components/common/Input';
@@ -65,8 +65,8 @@ const TeamFriendAddScreen = ({}: Props) => {
   };
 
   return (
-    <>
-      <DismissKeyboard>
+    <DismissKeyboard>
+      <>
         <View className="flex-1">
           {myFriendData?.length > 0 && (
             <FlashList
@@ -123,21 +123,21 @@ const TeamFriendAddScreen = ({}: Props) => {
             )}
           </View>
         </View>
-      </DismissKeyboard>
-      {hasSearched && (
-        <KeyboardAvoiding>
-          <View className="absolute bottom-[-5px] pt-1 pb-[20px] px-4 items-center w-full bg-black100">
-            {/* <View className="flex-row space-x-[2px] mb-4">
+        {hasSearched && (
+          <KeyboardAvoiding>
+            <View className="absolute bottom-[-5px] pt-1 pb-[20px] px-4 items-center w-full bg-black100">
+              {/* <View className="flex-row space-x-[2px] mb-4">
               <Text className="text-black700 text-[12px] font-PTDLight">친구를 찾을 수 없나요?</Text>
               <TouchableOpacity onPress={async () => await Share.share({ message: `${CLIENT_URL}TeamSetting/${teamId}` })}>
                 <Text className="text-black700 text-[12px] font-PTDSemiBold underline">초대링크 공유하기</Text>
               </TouchableOpacity>
             </View> */}
-            <Button onPress={addUserToTeam}>{profileNames.length}명 초대하기</Button>
-          </View>
-        </KeyboardAvoiding>
-      )}
-    </>
+              <Button onPress={addUserToTeam}>{profileNames.length}명 초대하기</Button>
+            </View>
+          </KeyboardAvoiding>
+        )}
+      </>
+    </DismissKeyboard>
   );
 };
 

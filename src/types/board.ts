@@ -26,9 +26,3 @@ export interface CreateBoard {
   uploadPhotos: ImageType;
   chooseDiaryDto: ChooseDiaryDto;
 }
-
-export interface LikeDislikeParams {
-  diaryId: number;
-  boardId: number;
-  date: string;
-}

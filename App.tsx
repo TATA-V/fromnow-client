@@ -75,6 +75,7 @@ function App() {
     return (
       <Tab.Navigator
         tabBar={props => <BottomTabBar {...props} />}
+        initialRouteName="Home"
         screenOptions={() => ({
           tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,

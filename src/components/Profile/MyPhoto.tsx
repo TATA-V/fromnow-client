@@ -2,9 +2,6 @@ import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useUpdatePhoto } from '@hooks/query';
-import { isIOS } from '@utils/deviceInfo';
-import { androidPermission, iosPermission } from '@const/permissions';
-import { checkPremission } from '@utils/checkPermissions';
 
 interface Props {
   photoUrl: string;
@@ -19,8 +16,7 @@ const MyPhoto = ({ photoUrl }: Props) => {
       height: 300,
       cropping: true,
     }).then(item => {
-      const permission = isIOS ? iosPermission.PHOTO : androidPermission.PHOTO;
-      checkPremission({ permission, target: '앨범', onGranted: () => updatePhotoMutation.mutate(item) });
+      updatePhotoMutation.mutate(item);
     });
   };
 
