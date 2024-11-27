@@ -26,13 +26,7 @@ const NoticeItem = (props: Props) => {
       <View className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200">
         <Image source={imgUrl ? { uri: imgUrl } : thumbnailPng} className="w-[36px] h-[36px] rounded-xl" resizeMode="cover" />
       </View>
-      <Text className="text-black900 font-PTDLight text-sm">
-        {content}
-        {/* <Text className="font-PTDSemiBold" ellipsizeMode="tail">
-          출근실어
-        </Text>
-        님이 <Text className="font-PTDSemiBold">프롬나우</Text> 모임에 당신을 초대 했어요. */}
-      </Text>
+      <Text className="text-black900 font-PTDLight text-sm">{content}</Text>
     </View>
   );
 };

@@ -157,7 +157,7 @@ const TeamScreen = ({}: Props) => {
               onScroll={scrollList}
               data={boards}
               keyExtractor={(_, idx) => idx.toString()}
-              renderItem={({ item, index }) => <BoardItem date={currentDate} key={index} {...item} />}
+              renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
               showsVerticalScrollIndicator={false}
               ItemSeparatorComponent={() => <View className="h-[18px]" />}
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}

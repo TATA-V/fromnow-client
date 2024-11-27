@@ -4,6 +4,7 @@ import KakaoIcon from '@assets/icons/kakao.svg';
 import Button from '@components/common/Button';
 import useToast from '@hooks/useToast';
 import { useSignInSocial } from '@hooks/query';
+import { useDebounce } from '@hooks/useOptimization';
 
 const KakaoSignInBtn = () => {
   const { errorToast } = useToast();
@@ -19,8 +20,10 @@ const KakaoSignInBtn = () => {
     }
   };
 
+  const debounceSignInWithKakao = useDebounce(signInWithKakao, 500);
+
   return (
-    <Button onPress={signInWithKakao} color="yellow" icon={<KakaoIcon />}>
+    <Button onPress={debounceSignInWithKakao} color="yellow" icon={<KakaoIcon />}>
       Kakao로 로그인하기
     </Button>
   );

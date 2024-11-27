@@ -32,7 +32,7 @@ export const useGetMyProfile = () => {
   return { data, isError, isLoading };
 };
 
-export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>) => {
+export const useUpdateNickname = () => {
   const setName = useUserStore(state => state.setName);
   const queryClient = useQueryClient();
   const { successToast, errorToast } = useToast();
@@ -44,8 +44,10 @@ export const useUpdateNickname = (setNickname?: Dispatch<SetStateAction<string>>
     mutationFn: updateNickname,
     onSuccess: async res => {
       const name = res.data.profileName;
-      queryClient.setQueryData(myProfileKey, (prev: MyProfile) => ({ ...prev, profileName: name }));
-      setNickname && setNickname(name);
+      await queryClient.setQueryData(myProfileKey, (prev: MyProfile) => {
+        console.log('updateNickname:', { ...prev, profileName: name });
+        return { ...prev, profileName: name };
+      });
       setName(name);
       await setStorage('name', name);
       if (route.name === 'SignupNickname') {
@@ -82,8 +84,8 @@ export const useUpdatePhoto = () => {
     mutationFn: updatePhoto,
     onSuccess: res => {
       if (route.name === 'SignupPhoto') {
-        navigation.navigate('Bottom', { screen: 'Home' });
         successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
+        navigation.navigate('Bottom', { screen: 'Home', refresh: true });
         return;
       }
       queryClient.setQueryData(myProfileKey, (prev: MyProfile) => {
@@ -152,9 +154,9 @@ export const useDeleteUser = () => {
   const deleteUserMutation = useMutation({
     mutationFn: deleteOne,
     onSuccess: async res => {
-      successToast(`${res.profileName} 님 그동안 이용해 주셔서 감사합니다:)`);
       await clearAllUserData();
       navigation.navigate('SignIn');
+      successToast(`${res.profileName} 님 그동안 이용해 주셔서 감사합니다:)`);
     },
     onError: () => {
       errorToast('계정 삭제에 실패했습니다.');

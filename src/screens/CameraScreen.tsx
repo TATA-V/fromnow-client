@@ -34,14 +34,10 @@ const CameraScreen = () => {
       compressImageMaxWidth: 4000,
       compressImageMaxHeight: 4000,
       compressImageQuality: 0.8,
-    })
-      .then(image => {
-        setIsTimer(false);
-        navigation.navigate('BoardEdit', { file: image });
-      })
-      .catch(() => {
-        navigation.navigate('Bottom', { screen: 'Home' });
-      });
+    }).then(image => {
+      setIsTimer(false);
+      navigation.navigate('BoardEdit', { file: image });
+    });
   };
 
   useEffect(() => {

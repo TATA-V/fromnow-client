@@ -6,6 +6,7 @@ import { useSignInSocial } from '@hooks/query';
 import useToast from '@hooks/useToast';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
+import { useDebounce } from '@hooks/useOptimization';
 
 const GoogleSignInBtn = () => {
   const { errorToast } = useToast();
@@ -47,8 +48,10 @@ const GoogleSignInBtn = () => {
     }
   };
 
+  const debounceSignInWithGoogle = useDebounce(signInWithGoogle, 500);
+
   return (
-    <Button onPress={signInWithGoogle} color="white" icon={<GoogleIcon />}>
+    <Button onPress={debounceSignInWithGoogle} color="white" icon={<GoogleIcon />}>
       Google로 로그인하기
     </Button>
   );

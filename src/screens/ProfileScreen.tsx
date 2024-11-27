@@ -7,14 +7,17 @@ import HeartsIcon from '@assets/icons/hearts.svg';
 import LogoutIcon from '@assets/icons/logout.svg';
 import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
+import ExitIcon from '@assets/icons/exit.svg';
 import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
-import MyNickname from '@components/Profile/MyNickname';
 import { useDeleteUser, useGetMyProfile } from '@hooks/query';
-import MiniLoading from '@components/common/MiniLoading';
 import useUserStore from '@store/useUserStore';
-import { useModal } from '@components/Modal';
 import useClearAllUserData from '@hooks/useClearAllUserData';
+import { useDebounce } from '@hooks/useOptimization';
+import { useModal } from '@components/Modal';
+
+import MyNickname from '@components/Profile/MyNickname';
+import MiniLoading from '@components/common/MiniLoading';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
@@ -31,12 +34,15 @@ const ProfileScreen = () => {
     await clearAllUserData();
     navigation.navigate('SignIn');
   };
-  const removeUser = () => {
+  const deleteUserConfirm = useDebounce(() => {
+    deleteUserMutation.mutate(username);
+  }, 500);
+  const deleteUser = () => {
     showModal({
       type: 'dialog',
       title: '계정 삭제',
       description: '계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
-      confirm: () => deleteUserMutation.mutate(username),
+      confirm: deleteUserConfirm,
     });
   };
 
@@ -49,7 +55,7 @@ const ProfileScreen = () => {
       label: '로그아웃',
       section: '정보 관리',
       onPress: logoutUser,
-      submenu: [{ icon: <LogoutIcon />, label: '탈퇴하기', onPress: removeUser }],
+      submenu: [{ icon: <ExitIcon />, label: '탈퇴하기', onPress: deleteUser }],
     },
     {
       icon: <PeoplePolicyIcon />,

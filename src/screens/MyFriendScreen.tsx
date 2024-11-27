@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, RefreshControl, FlatList } from 'react-native';
-import FriendItem from '@components/common/FriendItem';
-import AvatarSadMsg from '@components/common/AvatarSadMsg';
-import Button from '@components/common/Button';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePostFriendReject } from '@hooks/query';
 import { Friend } from '@clientTypes/friend';
 import useNavi from '@hooks/useNavi';
 import useRefresh from '@hooks/useRefresh';
-import DeleteButton from '@components/common/DeleteButton';
 import { Swipeable } from 'react-native-gesture-handler';
 import useCurrentRoute from '@hooks/useCurrentRoute';
+import { useDebounce } from '@hooks/useOptimization';
+
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
+import AvatarSadMsg from '@components/common/AvatarSadMsg';
+import DeleteButton from '@components/common/DeleteButton';
+import FriendItem from '@components/common/FriendItem';
+import Button from '@components/common/Button';
 
 interface Props {
   paramName: string;
@@ -33,9 +35,9 @@ const MyFriendScreen = ({}: Props) => {
 
   const { friendRequestMutation } = usePostFriendReject();
 
-  const deleteFriendReq = (id: number) => {
+  const deleteFriendReq = useDebounce((id: number) => {
     friendRequestMutation.mutate(id);
-  };
+  }, 500);
 
   if (isLoadingMyFriend || isLoadingFriendRq) return <FullScreenMiniLoading />;
 

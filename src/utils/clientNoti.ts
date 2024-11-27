@@ -13,8 +13,13 @@ export interface Notice {
 
 export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMessage) => {
   const data = message.data;
-  const { title, body, id, path, imgUrl } = data;
+  const { title: dataTitle, body: dataBody, id, path, imgUrl, mission } = data;
   const noticeId = id?.toString() || new Date().getTime().toString();
+
+  const missionTitle = '🩷두근두근 프나타임🩷';
+  const missionBody = '지금 이 순간, 당신의 일상을 들려주세요!';
+  const title = mission ? missionTitle : dataTitle?.toString();
+  const body = missionBody ? missionBody : dataBody?.toString();
 
   const channelId = await notifee.createChannel({
     id: noticeId,
@@ -35,8 +40,8 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
   return notifee.displayNotification({
     id: noticeId,
     data,
-    body: body?.toString(),
-    title: title?.toString(),
+    body,
+    title,
     android: {
       channelId,
       smallIcon: 'ic_notification',

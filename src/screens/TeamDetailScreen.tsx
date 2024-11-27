@@ -43,7 +43,7 @@ const TeamDetailScreen = ({}: Props) => {
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             data={boards}
             keyExtractor={(_, idx) => idx.toString()}
-            renderItem={({ item, index }) => <BoardItem date={date} key={index} {...item} />}
+            renderItem={({ item, index }) => <BoardItem key={index} {...item} />}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View className="h-[18px]" />}
             contentContainerStyle={{ paddingTop: 8, paddingBottom: 30, paddingHorizontal: 16 }}

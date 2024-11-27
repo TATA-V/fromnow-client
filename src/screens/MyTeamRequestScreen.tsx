@@ -7,6 +7,7 @@ import useRefresh from '@hooks/useRefresh';
 import DeleteButton from '@components/common/DeleteButton';
 import { Swipeable } from 'react-native-gesture-handler';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
+import { useDebounce } from '@hooks/useOptimization';
 
 const MyTeamRequestScreen = () => {
   const { data, isLoading } = useGetAllMyTeamRequest();
@@ -14,11 +15,11 @@ const MyTeamRequestScreen = () => {
   const { refreshing, onRefresh } = useRefresh({ queryKey: myTeamReqKey });
   const { friendRequestMutation } = usePostTeamReject();
 
-  if (isLoading) return <FullScreenMiniLoading />;
-
-  const deleteTeamReq = (diaryId: number) => {
+  const deleteTeamReq = useDebounce((diaryId: number) => {
     friendRequestMutation.mutate(diaryId);
-  };
+  }, 500);
+
+  if (isLoading) return <FullScreenMiniLoading />;
 
   return (
     <View className="flex-1 bg-black100">

@@ -13,6 +13,7 @@ import { useModal } from '@components/Modal';
 import { useDeleteOneTeam, useGetTeamMenu } from '@hooks/query';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { MotiView } from 'moti';
+import { useDebounce } from '@hooks/useOptimization';
 
 interface Props {
   open: boolean;
@@ -36,11 +37,13 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
     setOpen(false);
   };
 
-  const { deleteTeamMutation } = useDeleteOneTeam(close, true);
+  const { deleteTeamMutation } = useDeleteOneTeam(true);
+  const confirmDeleteTeam = useDebounce(() => {
+    deleteTeamMutation.mutate(route.params.id, {
+      onSuccess: close,
+    });
+  }, 500);
   const deleteTeam = () => {
-    const confirmDeleteTeam = () => {
-      deleteTeamMutation.mutate(route.params.id);
-    };
     showModal({
       type: 'dialog',
       title: '모임 삭제',

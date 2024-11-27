@@ -7,6 +7,8 @@ import { useGetAllTeam, usePostOneBoard } from '@hooks/query';
 import MiniLoading from '@components/common/MiniLoading';
 import { Image as ImageType } from 'react-native-image-crop-picker';
 import { Team } from '@clientTypes/team';
+import { useDebounce } from '@hooks/useOptimization';
+import GrayLoadingLottie from '@components/Lottie/GrayLoadingLottie';
 
 interface Props {
   payload?: {
@@ -30,7 +32,9 @@ const SelectTeam = ({ payload }: Props) => {
     setTeams(prev => prev.map(team => (team.id === id ? { ...team, isSharing: !team.isSharing } : team)));
   };
 
+  const [submitLoading, setSubmitLoading] = useState(false);
   const confirmTeamSelection = () => {
+    setSubmitLoading(true);
     const diaryIds = teams.reduce((acc, team) => {
       if (team.isSharing) {
         acc.push(team.id);
@@ -38,8 +42,9 @@ const SelectTeam = ({ payload }: Props) => {
       return acc;
     }, []);
     const chooseDiaryDto = { content: payload.content, diaryIds };
-    createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto });
+    createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto }, { onSuccess: () => setSubmitLoading(false) });
   };
+  const debounceConfirmTeamSelection = useDebounce(confirmTeamSelection, 500);
 
   if (isLoading) return <MiniLoading />;
 
@@ -66,7 +71,9 @@ const SelectTeam = ({ payload }: Props) => {
           />
         </View>
         <View className="absolute bottom-0 pb-[20px] pt-4 w-full bg-white">
-          <Button onPress={confirmTeamSelection}>다음</Button>
+          <Button disabled={submitLoading} onPress={debounceConfirmTeamSelection}>
+            {submitLoading ? <GrayLoadingLottie customStyle={{ width: 100, height: 48, transform: 'translateY(12px)' }} /> : '다음'}
+          </Button>
         </View>
       </View>
     </ActionSheet>

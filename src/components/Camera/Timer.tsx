@@ -28,7 +28,7 @@ const Timer = () => {
           clearInterval(interval!);
           hideModal();
           navigation.navigate('Home');
-          warnToast('⏰시간이 다 되었어요', { duration: 5000 });
+          warnToast('⏰ 시간이 다 되었어요', { duration: 5000 });
           return moment.duration(0);
         }
         return newTime;

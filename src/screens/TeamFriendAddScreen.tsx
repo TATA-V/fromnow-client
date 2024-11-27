@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
-import Button from '@components/common/Button';
-import Input from '@components/common/Input';
-import MyFriendItem from '@components/TeamFriendAdd/MyFriendItem';
-import TeamFriendItem from '@components/TeamFriendAdd/TeamFriendItem';
 import { FlashList } from '@shopify/flash-list';
-import DismissKeyboard from '@components/common/DismissKeyboard';
-import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import { QUERY_KEY, useGetAllMyFriend, useGetSearchTeamFriend, useInviteTeam, useKey } from '@hooks/query';
-import MiniLoading from '@components/common/MiniLoading';
-import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import { Share } from 'react-native';
 import { CLIENT_URL } from '@env';
 import { useQueryClient } from '@tanstack/react-query';
+import { useDebounce } from '@hooks/useOptimization';
+
+import TeamFriendItem from '@components/TeamFriendAdd/TeamFriendItem';
+import MyFriendItem from '@components/TeamFriendAdd/MyFriendItem';
+import DismissKeyboard from '@components/common/DismissKeyboard';
+import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
+import MiniLoading from '@components/common/MiniLoading';
+import AvatarSadMsg from '@components/common/AvatarSadMsg';
+import Button from '@components/common/Button';
+import Input from '@components/common/Input';
 
 interface Props {
   paramName: string;
@@ -38,10 +40,10 @@ const TeamFriendAddScreen = ({}: Props) => {
     setHasSearched(true);
   };
 
-  const findFriends = () => {
+  const findFriends = useDebounce(() => {
     startSearch();
     setSubmitSearch(search);
-  };
+  }, 500);
 
   const [profileNames, setProfileNames] = useState<string[]>([]);
   useEffect(() => {

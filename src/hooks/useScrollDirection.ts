@@ -16,7 +16,7 @@ export const useScrollDirection = () => {
       return;
     }
     // 스크롤이 맨 아래에 도달했을 때
-    if (currentOffsetY + layoutHeight >= totalContentHeight) {
+    if (currentOffsetY + layoutHeight >= totalContentHeight - 50) {
       setIsScrollUp(false);
       return;
     }

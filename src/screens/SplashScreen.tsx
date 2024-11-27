@@ -15,7 +15,7 @@ const SplashScreen = () => {
       const unsubscribe = setTimeout(() => {
         setShowLottie(false);
         setIsFirstEntry(false);
-      }, 2700);
+      }, 2500);
 
       return () => clearTimeout(unsubscribe);
     };

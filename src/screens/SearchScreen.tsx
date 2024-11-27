@@ -59,10 +59,6 @@ const SearchScreen = () => {
     await saveHistory(title);
   };
 
-  useEffect(() => {
-    console.log('hasSearched:', hasSearched);
-  }, [hasSearched]);
-
   const searchHeaderProps = { hasSearched, search, setSearch, onSubmitEditing };
   if (isLoading)
     return (

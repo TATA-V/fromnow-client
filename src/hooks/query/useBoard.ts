@@ -60,7 +60,6 @@ export const useLikeBoard = () => {
     },
     onError: error => {
       errorToast('좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요.');
-      console.log('useLikeBoard error:', error);
     },
   });
 

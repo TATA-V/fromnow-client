@@ -2,11 +2,12 @@ import React from 'react';
 import { View } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { useForm } from 'react-hook-form';
-import InputField from '@components/common/InputField';
-import Button from '@components/common/Button';
 import { useUpdateOneTeam } from '@hooks/query';
+
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import DismissKeyboard from '@components/common/DismissKeyboard';
+import InputField from '@components/common/InputField';
+import Button from '@components/common/Button';
 
 interface Form {
   teamName: string;
@@ -26,7 +27,9 @@ const TeamEditScreen = ({}: Props) => {
     formState: { errors },
   } = useForm<Form>();
 
-  const onSubmit = handleSubmit(async data => {
+  const onSubmit = handleSubmit(async (data, e) => {
+    e?.persist();
+    e?.preventDefault();
     const { teamName } = data;
     if (errors.teamName) return;
     updateTeamMutation.mutate({ diaryId: route.params.id, newTitle: teamName });

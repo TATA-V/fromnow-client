@@ -5,9 +5,9 @@ import CheckLineIcon from '@assets/icons/checkLine.svg';
 import CheckFillIcon from '@assets/icons/checkFill.svg';
 import RightArrowIcon from '@assets/icons/RightArrowIcon';
 import usePolicyStore from '@store/usePolicyStore';
-
-import Button from '@components/common/Button';
 import useNavi from '@hooks/useNavi';
+import useToast from '@hooks/useToast';
+import Button from '@components/common/Button';
 
 interface PolicyList {
   name: string;
@@ -19,6 +19,7 @@ const SignupPolicy = () => {
   const { navigation } = useNavi();
   const policyState = usePolicyStore(state => state);
   const { all, privacyPolicy, servicePolicy, ageConfirm, animated, setIsChecked, reset } = policyState;
+  const { successToast } = useToast();
 
   const list: PolicyList[] = [
     { name: 'servicePolicy', path: 'ServicePolicy', content: '[필수] 서비스 이용에 동의합니다' },
@@ -39,6 +40,7 @@ const SignupPolicy = () => {
   const agreeAndContinue = () => {
     SheetManager.hide('signup-policy');
     navigation.navigate('SignupNickname');
+    successToast('가입을 축하해요🎉\n이제 멋진 닉네임을 설정해 주세요:)');
     reset();
   };
 

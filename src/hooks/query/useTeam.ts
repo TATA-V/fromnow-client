@@ -11,12 +11,14 @@ export const useGetAllTeam = () => {
   const { data, isError, error, isLoading } = useQuery<Team[]>({
     queryKey,
     queryFn: getAll,
+    staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 5,
   });
 
   return { data, isError, error, isLoading };
 };
 
-export const useDeleteOneTeam = (close?: () => void, toastModal?: boolean) => {
+export const useDeleteOneTeam = (toastModal?: boolean) => {
   const { successToast, errorToast } = useToast();
   const { showToastModal } = useToastModal();
   const { navigation } = useNavi();
@@ -29,7 +31,6 @@ export const useDeleteOneTeam = (close?: () => void, toastModal?: boolean) => {
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
       toastModal ? showToastModal({ type: 'success', message: '다이어리를 삭제했습니다.' }) : successToast('다이어리를 삭제했습니다.');
-      close && close();
     },
     onError: () => {
       toastModal ? showToastModal({ type: 'error', message: '다이어리 삭제에 실패했습니다.' }) : errorToast('다이어리 삭제에 실패했습니다.');

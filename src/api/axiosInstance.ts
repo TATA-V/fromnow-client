@@ -36,8 +36,15 @@ const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
     config.headers['Authorization'] = access;
     return instance(config);
   } catch (error) {
-    return Promise.reject(error);
+    const { code, message } = error.response.data;
+    if (code === 401 && message === '해당 Refresh token과 DB에 저장된 member의 token이 일치하는게 없습니다. 다시 로그인하세요.') {
+      await removeStorageAll();
+      useUserStore.getState().reset();
+      Alert.alert('로그인이 만료', '로그인이 만료되었습니다. 다시 로그인해주세요.');
+      RootNavi.navigate('SignIn');
+    }
   }
+  return instance(config);
 };
 
 instance.interceptors.response.use(

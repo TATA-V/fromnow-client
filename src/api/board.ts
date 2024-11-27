@@ -29,42 +29,34 @@ export const getAll = async (data: GetAll) => {
 export const postOne = async (data: CreateBoard) => {
   const { uploadPhotos, chooseDiaryDto } = data;
 
-  try {
-    const formData = new FormData();
-    formData.append('uploadPhotos', {
-      uri: uploadPhotos.path,
-      type: uploadPhotos.mime,
-      name: uploadPhotos.path.split('/').pop(),
-    });
-    const jsonString = JSON.stringify(chooseDiaryDto);
-    const fileName = 'dto.json';
-    const filePath = `${RNFS.TemporaryDirectoryPath}/${fileName}`;
-    await RNFS.writeFile(filePath, jsonString, 'utf8');
-    formData.append('chooseDiaryDto', { uri: `file://${filePath}`, type: 'application/json', name: fileName });
+  const formData = new FormData();
+  formData.append('uploadPhotos', {
+    uri: uploadPhotos.path,
+    type: uploadPhotos.mime,
+    name: uploadPhotos.path.split('/').pop(),
+  });
+  const jsonString = JSON.stringify(chooseDiaryDto);
+  const fileName = 'dto.json';
+  const filePath = `${RNFS.TemporaryDirectoryPath}/${fileName}`;
+  await RNFS.writeFile(filePath, jsonString, 'utf8');
+  formData.append('chooseDiaryDto', { uri: `file://${filePath}`, type: 'application/json', name: fileName });
 
-    const res = await instance.post('/api/board/diaries', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return res;
-  } catch (err) {
-    Alert.alert(err.response.data);
-  }
+  const res = await instance.post('/api/board/diaries', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res;
 };
 
 export const postLike = async (boardId: number) => {
-  try {
-    const res = await instance.post(`api/board/${boardId}/like`);
-    return res;
-  } catch (err) {
-    console.log('postLike:', err.response.data);
-  }
+  const res = await instance.post(`api/board/${boardId}/like`);
+  return res.data.data;
 };
 
 export const postDisLike = async (boardId: number) => {
   const res = await instance.post(`api/board/${boardId}/dislike`);
-  return res;
+  return res.data.data;
 };
 
 export const postRead = async ({ diaryId, date }: PostRead) => {

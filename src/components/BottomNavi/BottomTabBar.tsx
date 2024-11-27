@@ -68,7 +68,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
       <View style={styles.profile} className="absolute h-full justify-center">
         <TouchableOpacity onPress={() => navigateToScreen('Profile')} className="items-center">
           <PeopleIcon color={state.routes[state.index].name === 'Profile' ? '#1C1C1E' : '#D9D9DC'} />
-          <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">홈</Text>
+          <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">내 정보</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.camera} className="absolute h-full justify-center">

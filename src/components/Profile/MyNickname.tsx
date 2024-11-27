@@ -4,6 +4,7 @@ import PenIcon from '@assets/icons/PenIcon';
 import { useUpdateNickname } from '@hooks/query';
 import useToast from '@hooks/useToast';
 import { nicknameRegex } from '@const/regex';
+import { useDebounce } from '@hooks/useOptimization';
 
 interface Props {
   profileName: string;
@@ -12,7 +13,7 @@ interface Props {
 const MyNickname = ({ profileName }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState(profileName);
-  const { updateNicknameMutation } = useUpdateNickname(setNickname);
+  const { updateNicknameMutation } = useUpdateNickname();
   const { warnToast } = useToast();
 
   const submitNickname = () => {
@@ -24,16 +25,21 @@ const MyNickname = ({ profileName }: Props) => {
     setIsEditing(false);
   };
 
+  const debounceSubmitNickname = useDebounce(submitNickname, 500);
+
   return (
     <View className="flex flex-row mt-[8px] items-center">
       {isEditing && (
         <TextInput
           value={nickname}
           onChangeText={setNickname}
-          onSubmitEditing={submitNickname}
+          onSubmitEditing={debounceSubmitNickname}
           className="text-black900 font-UhBee text-3xl"
           blurOnSubmit={false}
-          onBlur={submitNickname}
+          onBlur={() => {
+            setNickname(profileName);
+            setIsEditing(false);
+          }}
           autoFocus
         />
       )}
