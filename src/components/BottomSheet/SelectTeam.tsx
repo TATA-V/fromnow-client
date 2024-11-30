@@ -71,7 +71,7 @@ const SelectTeam = ({ payload }: Props) => {
           />
         </View>
         <View className="absolute bottom-0 pb-[20px] pt-4 w-full bg-white">
-          <Button disabled={submitLoading} onPress={debounceConfirmTeamSelection}>
+          <Button disabled={submitLoading || teams.length === 0} onPress={debounceConfirmTeamSelection}>
             {submitLoading ? <GrayLoadingLottie customStyle={{ width: 100, height: 48, transform: 'translateY(12px)' }} /> : '다음'}
           </Button>
         </View>

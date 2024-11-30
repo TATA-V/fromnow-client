@@ -7,12 +7,12 @@ import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
-
-import '@components/BottomSheet/sheets';
 import { navigationRef } from '@utils/rootNavigation';
 import { linking } from './deeplinkConfig';
 import useUserStore from '@store/useUserStore';
 import { getStorage } from '@utils/storage';
+import useAppState from '@store/useAppState';
+import '@components/BottomSheet/sheets';
 
 import RQProvider from '@components/provider/RQProvider';
 import ToastNotiProvider from '@components/provider/ToastProvider';
@@ -46,7 +46,6 @@ import TeamCreateScreen from './src/screens/TeamCreateScreen';
 import PrivacyPolicyScreen from './src/screens/PrivacyPolicyScreen';
 import ServicePolicyScreen from './src/screens/ServicePolicyScreen';
 import SplashScreen from './src/screens/SplashScreen';
-import useAppState from '@store/useAppState';
 
 function App() {
   const [loading, setLoading] = useState(true);

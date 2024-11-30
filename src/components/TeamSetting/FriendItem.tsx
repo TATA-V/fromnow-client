@@ -28,7 +28,9 @@ const FriendItem = (props: TeamMenu) => {
   return (
     <View className="h-[60px] flex-row justify-between items-center">
       <View className="flex-row space-x-[8px] items-center">
-        <Image source={{ uri: photoUrl }} className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200 justify-center items-center" />
+        <View className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200">
+          <Image source={{ uri: photoUrl }} className="w-[48px] h-[48px] rounded-2xl justify-center items-center" />
+        </View>
         <Text className="text-black900 text-sm font-PTDLight">{profileName}</Text>
       </View>
       {name !== profileName && (

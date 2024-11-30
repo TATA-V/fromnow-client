@@ -67,16 +67,15 @@ const TeamFolder = (props: Props) => {
         <View className="absolute w-full h-full items-center justify-center top-[9.5%]">
           <View className="flex flex-row">
             {Array.isArray(photoUrls) &&
-              photoUrls
-                .slice(0, 2)
-                .map((img, idx) => (
+              photoUrls.slice(0, 2).map((img, idx) => (
+                <View key={idx} className="rounded-2xl border-[1px] border-black200">
                   <Image
                     style={{ width: imageSize, height: imageSize, marginLeft: idx === 0 ? 0 : -(imageSize / 4) }}
-                    key={idx}
                     source={{ uri: img }}
-                    className="rounded-2xl border-[1px] border-black200"
+                    className="rounded-2xl"
                   />
-                ))}
+                </View>
+              ))}
             {photoUrls.length > 2 && (
               <View
                 style={{ width: imageSize, height: imageSize }}

@@ -18,7 +18,7 @@ interface PolicyList {
 const SignupPolicy = () => {
   const { navigation } = useNavi();
   const policyState = usePolicyStore(state => state);
-  const { all, privacyPolicy, servicePolicy, ageConfirm, animated, setIsChecked, reset } = policyState;
+  const { all, privacyPolicy, servicePolicy, ageConfirm, animated, setAnimated, setIsChecked, reset } = policyState;
   const { successToast } = useToast();
 
   const list: PolicyList[] = [
@@ -54,7 +54,7 @@ const SignupPolicy = () => {
   };
 
   return (
-    <ActionSheet containerStyle={styles.container} animated={animated}>
+    <ActionSheet containerStyle={styles.container} animated={animated} onClose={() => setAnimated(true)}>
       <View className="w-full justify-center items-center h-[66px]">
         <Text className="text-black900 text-base font-PTDSemiBold">약관 동의</Text>
       </View>

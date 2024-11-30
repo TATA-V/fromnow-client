@@ -15,6 +15,9 @@ const MyPhoto = ({ photoUrl }: Props) => {
       width: 300,
       height: 300,
       cropping: true,
+      compressImageMaxWidth: 4000,
+      compressImageMaxHeight: 4000,
+      compressImageQuality: 0.8,
     }).then(item => {
       updatePhotoMutation.mutate(item);
     });

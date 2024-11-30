@@ -5,6 +5,7 @@ import {
   getAllMyLikedBoard,
   getAllMyTeamRequest,
   getOne,
+  logout,
   updateNickname,
   updatePhoto,
 } from '@api/user';
@@ -14,7 +15,6 @@ import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { MyTeamRequest, MyProfile } from '@clientTypes/user';
 import { Friend } from '@clientTypes/friend';
-import { Dispatch, SetStateAction } from 'react';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
 import { Board } from '@clientTypes/board';
@@ -164,4 +164,24 @@ export const useDeleteUser = () => {
   });
 
   return { deleteUserMutation };
+};
+
+export const useLogoutUser = () => {
+  const { successToast, errorToast } = useToast();
+  const { navigation } = useNavi();
+  const clearAllUserData = useClearAllUserData();
+
+  const logoutUserMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: async () => {
+      await clearAllUserData();
+      navigation.navigate('SignIn');
+      successToast('안전하게 로그아웃되었습니다.');
+    },
+    onError: () => {
+      errorToast('로그아웃에 실패했습니다.');
+    },
+  });
+
+  return { logoutUserMutation };
 };

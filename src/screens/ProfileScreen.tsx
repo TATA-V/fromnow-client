@@ -10,9 +10,8 @@ import DocumentIcon from '@assets/icons/document.svg';
 import ExitIcon from '@assets/icons/exit.svg';
 import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
-import { useDeleteUser, useGetMyProfile } from '@hooks/query';
+import { useDeleteUser, useGetMyProfile, useLogoutUser } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
-import useClearAllUserData from '@hooks/useClearAllUserData';
 import { useDebounce } from '@hooks/useOptimization';
 import { useModal } from '@components/Modal';
 
@@ -24,15 +23,11 @@ const ProfileScreen = () => {
   const username = useUserStore(state => state.name);
   const { data, isLoading } = useGetMyProfile();
   const { deleteUserMutation } = useDeleteUser();
+  const { logoutUserMutation } = useLogoutUser();
   const { showModal } = useModal();
-  const clearAllUserData = useClearAllUserData();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
     navigation.navigate(target, { ...options });
-  };
-  const logoutUser = async () => {
-    await clearAllUserData();
-    navigation.navigate('SignIn');
   };
   const deleteUserConfirm = useDebounce(() => {
     deleteUserMutation.mutate(username);
@@ -54,7 +49,7 @@ const ProfileScreen = () => {
       icon: <LogoutIcon />,
       label: '로그아웃',
       section: '정보 관리',
-      onPress: logoutUser,
+      onPress: () => logoutUserMutation.mutate(username),
       submenu: [{ icon: <ExitIcon />, label: '탈퇴하기', onPress: deleteUser }],
     },
     {

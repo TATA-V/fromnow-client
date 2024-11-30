@@ -29,6 +29,7 @@ export const useDeleteOneTeam = (toastModal?: boolean) => {
     mutationFn: deleteOne,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
+      queryClient.refetchQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
       toastModal ? showToastModal({ type: 'success', message: '다이어리를 삭제했습니다.' }) : successToast('다이어리를 삭제했습니다.');
     },

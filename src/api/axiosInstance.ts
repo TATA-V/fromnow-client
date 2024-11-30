@@ -1,7 +1,6 @@
 import { getStorage, removeStorageAll, setStorage } from '@utils/storage';
 import { BASE_URL } from '@env';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { Alert } from 'react-native';
 import * as RootNavi from '@utils/rootNavigation';
 import useUserStore from '@store/useUserStore';
 
@@ -40,7 +39,6 @@ const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
     if (code === 401 && message === '해당 Refresh token과 DB에 저장된 member의 token이 일치하는게 없습니다. 다시 로그인하세요.') {
       await removeStorageAll();
       useUserStore.getState().reset();
-      Alert.alert('로그인이 만료', '로그인이 만료되었습니다. 다시 로그인해주세요.');
       RootNavi.navigate('SignIn');
     }
   }
@@ -61,7 +59,6 @@ instance.interceptors.response.use(
     } else if (status === 401 && config._retry && data.data === 'REFRESH_TOKEN_EXPIRED') {
       await removeStorageAll();
       useUserStore.getState().reset();
-      Alert.alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
       RootNavi.navigate('SignIn');
     }
 

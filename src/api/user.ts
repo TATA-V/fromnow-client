@@ -59,3 +59,8 @@ export const deleteOne = async (profileName: string) => {
   const res = await instance.delete('/api/member/withdraw', { data: { profileName } });
   return res.data.data;
 };
+
+export const logout = async (profileName: string) => {
+  const res = await instance.post('/api/member/logout', { data: { profileName } });
+  return res.data.data;
+};

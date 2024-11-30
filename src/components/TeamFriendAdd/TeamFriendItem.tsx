@@ -24,7 +24,9 @@ const TeamFriendItem = (props: Props) => {
       className={`${index === 0 && 'border-t-[1px] rounded-t-2xl'} ${index === length - 1 && 'border-b-[1px] rounded-b-2xl'}
       h-[60px] bg-white w-full flex flex-row justify-between items-center px-4 border-r-[1px] border-l-[1px] border-black200`}>
       <View className="flex flex-row gap-2 items-center">
-        <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200" />
+        <View className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200">
+          <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl" />
+        </View>
         <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>
       <TouchableOpacity

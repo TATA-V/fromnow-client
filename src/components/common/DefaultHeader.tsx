@@ -4,6 +4,7 @@ import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
 import { removeStorageAll } from '@utils/storage';
 import { navigateByPath } from '@utils/pathHandler';
+import useUserStore from '@store/useUserStore';
 
 interface Props {
   title: string;
@@ -14,6 +15,7 @@ interface Props {
 
 const DefaultHeader = ({ title, path, isSignup, customStyle }: Props) => {
   const { navigation } = useNavi();
+  const userReset = useUserStore(state => state.reset);
 
   const goBack = async () => {
     if (path) {
@@ -22,6 +24,9 @@ const DefaultHeader = ({ title, path, isSignup, customStyle }: Props) => {
     }
     if (isSignup) {
       await removeStorageAll();
+      userReset();
+      navigation.navigate('SignIn');
+      return;
     }
     navigation.goBack();
   };

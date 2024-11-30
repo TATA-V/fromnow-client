@@ -22,7 +22,9 @@ const MyFriendItem = (props: Friend) => {
 
   return (
     <View className="h-[60px] w-[42px] px-[3px] py-[4px] items-center justify-between">
-      <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200" resizeMode="cover" />
+      <View className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200">
+        <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl" resizeMode="cover" />
+      </View>
       <Text className="text-black900 text-sm font-PTDLight leading-6">{profileName}</Text>
       <TouchableOpacity onPress={deleteOne} className="absolute top-0 right-0">
         <View className="bg-white rounded-full">
