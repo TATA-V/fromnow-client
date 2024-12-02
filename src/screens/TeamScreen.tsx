@@ -35,6 +35,7 @@ const TeamScreen = ({}: Props) => {
   const [week, setWeek] = useState<Moment | string>(moment().utcOffset(9).format());
   const { navigation } = useNavi();
   const isFocused = useIsFocused();
+  const queryClient = useQueryClient();
   const { isScrollUp, scrollList } = useScrollDirection();
   const { recivedAt: teamDate, targetDate } = useSelectedTeamStore();
 
@@ -43,7 +44,7 @@ const TeamScreen = ({}: Props) => {
   const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
   const [currentDate, setCurrentDate] = useState(targetDate);
   const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
-  const { data: calendarData, fetchPreviousPage, refetch } = useRowInfiniteCalendar({ diaryId });
+  const { data: calendarData, fetchPreviousPage, refetch: calendarRefetch } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
   // console.log('data?.blur', data?.blur);
   // console.log('calendarData:', calendarData);
@@ -51,11 +52,10 @@ const TeamScreen = ({}: Props) => {
   // data && console.log('data:', data);
 
   const rowKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
-  const queryClient = useQueryClient();
   useEffect(() => {
     if (!isFocused) return;
     queryClient.removeQueries({ queryKey: rowKey });
-    refetch();
+    calendarRefetch();
   }, [isFocused]);
 
   // 읽음 처리

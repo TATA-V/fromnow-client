@@ -21,14 +21,14 @@ import { CalendarCol } from '@clientTypes/calendar';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
-  const { data, isError, error, isLoading } = useQuery<AllBoard>({
+  const { data, isError, error, isLoading, refetch } = useQuery<AllBoard>({
     queryKey,
     queryFn: async () => await getAll(boardData),
     staleTime: 1000 * 30,
     gcTime: 1000 * 60 * 5,
   });
 
-  return { data, isError, error, isLoading };
+  return { data, isError, error, isLoading, refetch };
 };
 
 export const usePostOneBoard = () => {

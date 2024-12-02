@@ -3,7 +3,7 @@ import notifee, { EventDetail, AndroidImportance } from '@notifee/react-native';
 import { deepLinkByPath } from '@utils/pathHandler';
 import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
 import { getStorage, setStorage } from '@utils/storage';
-import useAppState from '@store/useAppState';
+import useAppState from '@store/useAppStore';
 
 export interface Notice {
   id: string | number;

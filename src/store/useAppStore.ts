@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 
-interface UseAppState {
+interface UseAppStore {
   isFirstEntry: boolean;
   setIsFirstEntry: (isFirstEntry: boolean) => void;
 }
 
-const useAppState = create<UseAppState>(set => ({
+const useAppStore = create<UseAppStore>(set => ({
   isFirstEntry: true,
   setIsFirstEntry: (isFirstEntry: boolean) => set({ isFirstEntry }),
 }));
 
-export default useAppState;
+export default useAppStore;

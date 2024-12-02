@@ -11,7 +11,7 @@ import { navigationRef } from '@utils/rootNavigation';
 import { linking } from './deeplinkConfig';
 import useUserStore from '@store/useUserStore';
 import { getStorage } from '@utils/storage';
-import useAppState from '@store/useAppState';
+import useAppState from '@store/useAppStore';
 import '@components/BottomSheet/sheets';
 
 import RQProvider from '@components/provider/RQProvider';

@@ -9,7 +9,7 @@ import ModalManager from '@components/Modal/ModalManager';
 import ToastModalManager from '@components/Modal/ToastModalManager';
 import useGetFCMToken from '@hooks/useGetFCMToken';
 import useClearAllUserData from '@hooks/useClearAllUserData';
-import useAppState from '@store/useAppState';
+import useAppState from '@store/useAppStore';
 
 interface Props {
   children: ReactNode;

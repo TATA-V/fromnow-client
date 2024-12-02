@@ -3,7 +3,7 @@ import { AnimatePresence, MotiView } from 'moti';
 import { StyleSheet, View } from 'react-native';
 import SplashLottie from '@components/Lottie/SplashLottie';
 import BootSplash from 'react-native-bootsplash';
-import useAppState from '@store/useAppState';
+import useAppState from '@store/useAppStore';
 
 const SplashScreen = () => {
   const [showLottie, setShowLottie] = useState(true);
