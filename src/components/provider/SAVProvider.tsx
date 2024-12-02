@@ -61,7 +61,6 @@ function SAVProvider({ children }: Props) {
     return () => {
       unsubscribe();
       foregroundEventListener();
-      // clearTimeout(unsubscribeDarkMode);
     };
   }, []);
 

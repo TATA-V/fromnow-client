@@ -10,7 +10,7 @@ export const useGetMission = (dateString: string | Moment) => {
   const queryKey = useKey([date, QUERY_KEY.MISSION]);
   const { data, isError, isLoading } = useQuery<Mission[]>({
     queryKey,
-    queryFn: () => getOne(date),
+    queryFn: async () => await getOne(date),
   });
 
   return { data, isError, isLoading };

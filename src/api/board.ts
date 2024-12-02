@@ -3,7 +3,6 @@ import { instance } from '@api/axiosInstance';
 import RNFS from 'react-native-fs';
 import { splitDate } from '@utils/formatDate';
 import { Moment } from 'moment-modification-rn';
-import { Alert } from 'react-native';
 
 export interface GetAll {
   diaryId: number;

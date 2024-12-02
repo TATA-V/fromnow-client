@@ -82,16 +82,16 @@ export const useUpdatePhoto = () => {
 
   const updatePhotoMutation = useMutation({
     mutationFn: updatePhoto,
-    onSuccess: res => {
+    onSuccess: async res => {
       if (route.name === 'SignupPhoto') {
         successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
         navigation.navigate('Bottom', { screen: 'Home', refresh: true });
         return;
       }
-      queryClient.setQueryData(myProfileKey, (prev: MyProfile) => {
+      await queryClient.setQueryData(myProfileKey, (prev: MyProfile) => {
         return { ...prev, photoUrl: res.data.photoUrl };
       });
-      queryClient.invalidateQueries({ queryKey: myTeamsKey });
+      await queryClient.invalidateQueries({ queryKey: myTeamsKey });
       successToast('이미지 수정 완료!');
     },
     onError: () => {
@@ -129,8 +129,8 @@ export const useGetAllMyFriendRequest = () => {
   const { data, isError, isLoading } = useQuery<Friend[]>({
     queryKey,
     queryFn: getAllMyFriendRequest,
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 5,
   });
 
   return { data, isError, isLoading };

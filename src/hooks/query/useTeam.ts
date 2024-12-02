@@ -48,7 +48,7 @@ export const useUpdateOneTeam = () => {
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const updateTeamMutation = useMutation({
-    mutationFn: ({ diaryId, newTitle }: UpdateOne) => updateOne({ diaryId, newTitle }),
+    mutationFn: async ({ diaryId, newTitle }: UpdateOne) => await updateOne({ diaryId, newTitle }),
     onSuccess: res => {
       navigation.navigate('Team', { id: res.data.diaryId });
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
@@ -96,11 +96,11 @@ export const useInviteTeam = () => {
   const { successToast, errorToast } = useToast();
 
   const inviteTeamMutation = useMutation({
-    mutationFn: ({ diaryId, profileNames }: TeamInvite) => postInvite({ diaryId, profileNames }),
+    mutationFn: async ({ diaryId, profileNames }: TeamInvite) => await postInvite({ diaryId, profileNames }),
     onSuccess: () => {
       successToast('초대 성공!');
     },
-    onError: error => {
+    onError: () => {
       errorToast('초대에 실패했습니다.');
     },
   });
@@ -142,9 +142,9 @@ export const useGetTeamMenu = (diaryId: number) => {
   const queryKey = useKey([QUERY_KEY.TEAM, diaryId, 'menu']);
   const { data, isError, isLoading } = useQuery<TeamMenu[]>({
     queryKey,
-    queryFn: () => getMenu(diaryId),
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    queryFn: async () => await getMenu(diaryId),
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 5,
   });
 
   return { data, isError, isLoading };

@@ -31,7 +31,7 @@ const Photo = ({ image, setImage }: Props) => {
         </View>
       )}
       {image && image.path && (
-        <View className="rounded-[60px] border-[1px] border-black200 overflow-hidden">
+        <View className="w-full h-full rounded-[60px] border-[1px] border-black200 overflow-hidden">
           <Image source={{ uri: image.path }} className="w-full h-full object-cover rounded-[60px]" />
         </View>
       )}

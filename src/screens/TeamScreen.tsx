@@ -12,7 +12,6 @@ import Button from '@components/common/Button';
 import CameraIcon from '@assets/icons/CameraIcon';
 import blurPng from '@assets/png/blur.png';
 import { QUERY_KEY, useGetAllBoard, useKey, useReadBoard, useRowInfiniteCalendar } from '@hooks/query';
-import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
@@ -22,7 +21,10 @@ import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
 import { useScrollDirection } from '@hooks/useScrollDirection';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
+import { useIsFocused } from '@react-navigation/native';
 import 'moment-modification-rn/locale/ko';
+import { getAll, getRowInfiniteCalendar } from '@api/board';
+import { useQueryClient } from '@tanstack/react-query';
 moment.locale('ko');
 
 interface Props {
@@ -32,6 +34,7 @@ interface Props {
 const TeamScreen = ({}: Props) => {
   const [week, setWeek] = useState<Moment | string>(moment().utcOffset(9).format());
   const { navigation } = useNavi();
+  const isFocused = useIsFocused();
   const { isScrollUp, scrollList } = useScrollDirection();
   const { recivedAt: teamDate, targetDate } = useSelectedTeamStore();
 
@@ -40,11 +43,20 @@ const TeamScreen = ({}: Props) => {
   const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
   const [currentDate, setCurrentDate] = useState(targetDate);
   const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
-  const { data: calendarData, fetchPreviousPage } = useRowInfiniteCalendar({ diaryId });
+  const { data: calendarData, fetchPreviousPage, refetch } = useRowInfiniteCalendar({ diaryId });
   const boards = data?.boardOverViewResponseDtoList;
   // console.log('data?.blur', data?.blur);
-  // console.log('data?.read', data?.read);
+  // console.log('calendarData:', calendarData);
+  // console.log('calendarMap:', calendarMap);
   // data && console.log('data:', data);
+
+  const rowKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!isFocused) return;
+    queryClient.removeQueries({ queryKey: rowKey });
+    refetch();
+  }, [isFocused]);
 
   // 읽음 처리
   const { readBoardMutation } = useReadBoard();

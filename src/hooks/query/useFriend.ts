@@ -17,9 +17,9 @@ export const useGetSearchFriend = (profileName: string, options = {}) => {
   const queryKey = useKey(['search', QUERY_KEY.FRIEND, profileName]);
   const { data, isError, isLoading } = useQuery<Friend[]>({
     queryKey,
-    queryFn: () => getSearchFriend(profileName),
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    queryFn: async () => await getSearchFriend(profileName),
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 5,
     ...options,
   });
 
@@ -30,9 +30,9 @@ export const useGetSearchTeamFriend = ({ diaryId, profileName, options }: GetSea
   const queryKey = useKey(['search', QUERY_KEY.FRIEND, QUERY_KEY.TEAM, profileName]);
   const { data, isError, isLoading } = useQuery<TeamFriend[]>({
     queryKey,
-    queryFn: () => getSearchTeamFriend({ diaryId, profileName }),
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    queryFn: async () => await getSearchTeamFriend({ diaryId, profileName }),
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 5,
     ...(options || {}),
   });
 

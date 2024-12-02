@@ -7,7 +7,7 @@ import PeopleIcon from '@assets/icons/PeopleIcon';
 import TooltipTailIcon from '@assets/icons/tooltip-tail.svg';
 import { AnimatePresence, MotiView } from 'moti';
 import { useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEY, useKey } from '@hooks/query';
+import { QUERY_KEY, useGetAllTeam, useKey } from '@hooks/query';
 import { Team } from '@clientTypes/team';
 import { useModal } from '@components/Modal';
 import { cameraAccessible } from '@utils/cameraAccessible';
@@ -25,8 +25,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
   const { showModal } = useModal();
   const { accessible } = cameraAccessible();
 
-  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
-  const teamList: Team[] = queryClient.getQueryData(myTeamsKey);
+  const { data: teamList } = useGetAllTeam();
 
   const navigateToScreen = (target: string) => {
     navigation.navigate(target);

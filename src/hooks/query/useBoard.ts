@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AllBoard, CreateBoard } from '@clientTypes/board';
 import {
   GetAll,
@@ -23,9 +23,9 @@ export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
   const { data, isError, error, isLoading } = useQuery<AllBoard>({
     queryKey,
-    queryFn: () => getAll(boardData),
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    queryFn: async () => await getAll(boardData),
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 5,
   });
 
   return { data, isError, error, isLoading };
@@ -36,7 +36,7 @@ export const usePostOneBoard = () => {
   const { navigation } = useNavi();
 
   const createBoardMutation = useMutation({
-    mutationFn: ({ uploadPhotos, chooseDiaryDto }: CreateBoard) => postOne({ uploadPhotos, chooseDiaryDto }),
+    mutationFn: async ({ uploadPhotos, chooseDiaryDto }: CreateBoard) => await postOne({ uploadPhotos, chooseDiaryDto }),
     onSuccess: () => {
       navigation.navigate('Home');
       SheetManager.hide('select-team');
@@ -58,7 +58,7 @@ export const useLikeBoard = () => {
     onSuccess: () => {
       successToast('좋아요 완료!');
     },
-    onError: error => {
+    onError: () => {
       errorToast('좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요.');
     },
   });
@@ -87,7 +87,7 @@ export const useReadBoard = () => {
   const boardKey = useKey([QUERY_KEY.BOARD]);
 
   const readBoardMutation = useMutation({
-    mutationFn: ({ diaryId, date }: PostRead) => postRead({ diaryId, date }),
+    mutationFn: async ({ diaryId, date }: PostRead) => await postRead({ diaryId, date }),
     onSuccess: res => {
       const { diaryId, date } = res;
       const allBoardKey = [...boardKey, 'all', diaryId, date];
@@ -101,20 +101,24 @@ export const useReadBoard = () => {
 
 export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryId'>) => {
   const queryKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
-  const { data, isLoading, isError, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+  const { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey,
     initialPageParam: { diaryId, date: moment().utcOffset(9).format() },
-    queryFn: async ({ pageParam }) => getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
-    getNextPageParam: () => ({ diaryId, date: moment().utcOffset(9).add(1, 'months').toISOString() }),
+    queryFn: async ({ pageParam }) => await getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
+    getNextPageParam: lastPage => {
+      const nextDate = moment(lastPage[0]?.date).utcOffset(9).add(1, 'months').toISOString();
+      return { diaryId, date: nextDate };
+    },
     getPreviousPageParam: firstPage => {
       const prevDate = moment(firstPage[0]?.date).utcOffset(9).subtract(1, 'month').toISOString();
       return { diaryId, date: prevDate };
     },
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 5,
+    placeholderData: keepPreviousData,
   });
 
-  return { data, isLoading, isError, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };
+  return { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };
 };
 
 // useInfiniteQuery를 사용하지 않은 이유: 1월부터 10월까지의 달력이 있고, 현재 10월일 때 천천히 스크롤하지 않고 빠르게 올리면 3월 달력이 바로 나타남
@@ -122,9 +126,9 @@ export const useColCalendar = ({ diaryId, date, num = 2 }: RowColCalendar) => {
   const queryKey = useKey(['col', QUERY_KEY.BOARD, diaryId, date]);
   const { data, isError, isLoading } = useQuery<CalendarCol[]>({
     queryKey,
-    queryFn: () => getColCalendar({ diaryId, date, num }),
-    staleTime: 1000,
-    gcTime: 5 * 60 * 1000,
+    queryFn: async () => await getColCalendar({ diaryId, date, num }),
+    staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 5,
   });
 
   return { data, isError, isLoading };

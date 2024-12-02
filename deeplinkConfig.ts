@@ -5,6 +5,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
   prefixes: ['fromnow://'],
   config: {
     screens: {
+      Splash: 'splash',
       Home: 'home',
       Profile: 'profile',
       SignIn: 'signin',
@@ -34,6 +35,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
 };
 
 type RootStackParamList = {
+  Splash: string;
   Home: string;
   Profile: string;
   SignIn: string;

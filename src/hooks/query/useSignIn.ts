@@ -16,7 +16,7 @@ export const useSignInSocial = () => {
   const queryClient = useQueryClient();
 
   const signInMutation = useMutation({
-    mutationFn: ({ path, token }: GetOne) => getOne({ path, token }),
+    mutationFn: async ({ path, token }: GetOne) => await getOne({ path, token }),
     onSuccess: async res => {
       const access = res.headers.authorization;
       const profileName = res.data.data.profileName;
