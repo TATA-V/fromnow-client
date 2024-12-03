@@ -28,8 +28,6 @@ const TeamEditScreen = ({}: Props) => {
   } = useForm<Form>();
 
   const onSubmit = handleSubmit(async (data, e) => {
-    e?.persist();
-    e?.preventDefault();
     const { teamName } = data;
     if (errors.teamName) return;
     updateTeamMutation.mutate({ diaryId: route.params.id, newTitle: teamName });

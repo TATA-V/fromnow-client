@@ -60,6 +60,7 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
 };
 
 export const clientNotiClick = async (detail: EventDetail) => {
+  useAppState.getState().setIsFirstEntry(false);
   const data = detail.notification?.data || {};
   const { id: noticeId, path, team } = data;
 
@@ -67,7 +68,6 @@ export const clientNotiClick = async (detail: EventDetail) => {
     const { id, title, createdAt, recivedAt, targetDate } = team as SelectedTeam;
     useSelectedTeamStore.getState().setSelectedTeam({ id, title, createdAt, recivedAt, targetDate });
   }
-  useAppState.getState().setIsFirstEntry(false);
   let noticeStorage: Notice[] = JSON.parse(await getStorage('notice')) || [];
   noticeId && (noticeStorage = noticeStorage.filter(item => item.id !== noticeId));
   await setStorage('notice', JSON.stringify(noticeStorage));

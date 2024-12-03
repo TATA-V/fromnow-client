@@ -2,13 +2,14 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 import ConfirmModal from '@components/Modal/ConfirmModal';
 import DialogModal from '@components/Modal/DialogModal';
 import MissionModal from '@components/Modal/MissionModal';
+import AccountModal from '@components/Modal/AccountModal';
 
 interface Props {
   children: ReactNode;
 }
 
 export interface ModalState {
-  type: 'confirm' | 'dialog' | 'mission';
+  type: 'confirm' | 'dialog' | 'mission' | 'account';
   open: boolean;
   title?: string;
   description?: string;
@@ -16,6 +17,7 @@ export interface ModalState {
   missionImg?: string;
   lockBackdrop?: boolean;
   children?: ReactNode;
+  enableHideConfirm?: boolean;
 }
 interface ModalContextType {
   showModal: (modalData: Omit<ModalState, 'open'>) => void;
@@ -28,7 +30,7 @@ export const useModal = (): ModalContextType => {
   return context;
 };
 
-const ModalManager = ({ children }: Props) => {
+const ModalManager = React.memo(({ children }: Props) => {
   const [modalState, setModalState] = useState<ModalState>({
     type: 'dialog',
     open: false,
@@ -50,8 +52,9 @@ const ModalManager = ({ children }: Props) => {
       {modalState.type === 'confirm' && <ConfirmModal {...modalState} />}
       {modalState.type === 'dialog' && <DialogModal {...modalState} />}
       {modalState.type === 'mission' && <MissionModal {...modalState} />}
+      {modalState.type === 'account' && <AccountModal {...modalState} />}
     </ModalContext.Provider>
   );
-};
+});
 
 export default ModalManager;

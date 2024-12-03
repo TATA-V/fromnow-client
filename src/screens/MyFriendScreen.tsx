@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, RefreshControl, FlatList } from 'react-native';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePostFriendReject } from '@hooks/query';
@@ -8,6 +8,8 @@ import useRefresh from '@hooks/useRefresh';
 import { Swipeable } from 'react-native-gesture-handler';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { useDebounce } from '@hooks/useOptimization';
+import { useIsFocused } from '@react-navigation/native';
+import { useQueryClient } from '@tanstack/react-query';
 
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
@@ -24,13 +26,21 @@ const { width } = Dimensions.get('window');
 const MyFriendScreen = ({}: Props) => {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
+  const isFocused = useIsFocused();
+  const queryClient = useQueryClient();
   const isReq = route.params.req;
   const [isAllFriend, setIsAllFriend] = useState(isReq ? false : true);
 
-  const { data: myFriendData, isLoading: isLoadingMyFriend } = useGetAllMyFriend();
-  const { data: myFriendRqData, isLoading: isLoadingFriendRq } = useGetAllMyFriendRequest();
+  const [isInitialRender, setIsInitialRender] = useState(false);
+  const { data: myFriendData, isLoading: isLoadingMyFriend, refetch: refetchMyFriend } = useGetAllMyFriend({ options: { enabled: isInitialRender } });
+  const {
+    data: myFriendRqData,
+    isLoading: isLoadingFriendRq,
+    refetch: refetchMyFriendReq,
+  } = useGetAllMyFriendRequest({ options: { enabled: isInitialRender } });
   let data: Friend[] = isAllFriend ? myFriendData : myFriendRqData;
   let queryKey = isAllFriend ? useKey([QUERY_KEY.MY, 'friends']) : useKey([QUERY_KEY.MY, 'friend', 'request']);
+  let refetch = isAllFriend ? refetchMyFriend : refetchMyFriendReq;
   const { refreshing, onRefresh } = useRefresh({ queryKey });
 
   const { friendRequestMutation } = usePostFriendReject();
@@ -39,7 +49,12 @@ const MyFriendScreen = ({}: Props) => {
     friendRequestMutation.mutate(id);
   }, 500);
 
-  if (isLoadingMyFriend || isLoadingFriendRq) return <FullScreenMiniLoading />;
+  useEffect(() => {
+    if (!isFocused || isInitialRender) return;
+    queryClient.removeQueries({ queryKey });
+    refetch();
+    setIsInitialRender(true);
+  }, [isFocused]);
 
   return (
     <View className="flex-1 bg-black100">
@@ -59,6 +74,7 @@ const MyFriendScreen = ({}: Props) => {
           </TouchableOpacity>
         </View>
       </View>
+      {(isLoadingMyFriend || isLoadingFriendRq) && <FullScreenMiniLoading />}
       {data?.length > 0 && (
         <View className="bg-white rounded-2xl border-[1px] border-black200 overflow-hidden mx-4 mb-[97px] mt-[4px]">
           <FlatList

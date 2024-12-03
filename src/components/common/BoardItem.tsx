@@ -1,13 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import HeartIcon from '@assets/icons/HeartIcon';
-import { AllBoard, Board } from '@clientTypes/board';
+import { Board } from '@clientTypes/board';
 import { formatDate, formatTime } from '@utils/formatDate';
 import { QUERY_KEY, useDisLikeBoard, useKey, useLikeBoard } from '@hooks/query';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@hooks/useOptimization';
-import { useIsFocused } from '@react-navigation/native';
 
 interface Props extends Board {
   isMyLikedBoard?: boolean;

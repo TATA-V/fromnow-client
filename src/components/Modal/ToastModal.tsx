@@ -58,8 +58,8 @@ const ToastModal = ({ type = 'success', open, close, message }: Props) => {
         transition={{ type: 'timing', duration: 300 }}
         onDidAnimate={() => isAnimatingOut && onAnimationComplete()}
         style={{ position: 'absolute', top: 15, left: 0, right: 0, alignItems: 'center' }}>
-        <View className={`${bgStyle} text-[14px] rounded-[10px] border py-3 px-3`}>
-          <Text className={`${textStyle} text-[14px]`}>{message}</Text>
+        <View className={`${bgStyle} rounded-[10px] border py-3 px-3`}>
+          <Text className={`${textStyle} text-[22px] font-UhBeeBold`}>{message}</Text>
         </View>
       </MotiView>
     </Modal>

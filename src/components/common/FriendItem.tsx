@@ -3,6 +3,7 @@ import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { useDeleteFriend, usePostFriendAccept, usePostFriendRequest } from '@hooks/query';
 import { Friend } from '@clientTypes/friend';
 import { useModal } from '@components/Modal';
+import { useDebounce } from '@hooks/useOptimization';
 
 interface Props extends Friend {
   isFriendReq?: boolean;
@@ -16,7 +17,7 @@ const FriendItem = (props: Props) => {
   const { showModal } = useModal();
 
   const updateFriend = () => {
-    if (isFriendReq) {
+    if (isFriendReq && !friend) {
       friendRequestMutation.mutate(profileName);
       return;
     }
@@ -29,6 +30,7 @@ const FriendItem = (props: Props) => {
     }
     friendAcceptMutation.mutate(memberId);
   };
+  const debounceUpdateFriend = useDebounce(updateFriend, 500);
 
   return (
     <View className="h-[60px] rounded-2xl bg-white w-full flex flex-row justify-between items-center px-4">
@@ -39,7 +41,7 @@ const FriendItem = (props: Props) => {
         <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>
       <TouchableOpacity
-        onPress={updateFriend}
+        onPress={debounceUpdateFriend}
         className={`${friend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
         h-9 px-[12.5px] flex justify-center items-center rounded-xl`}>
         <Text className={`${friend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{friend ? '친구' : '친구추가'}</Text>

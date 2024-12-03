@@ -9,7 +9,7 @@ import {
   updateNickname,
   updatePhoto,
 } from '@api/user';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
@@ -114,26 +114,28 @@ export const useGetAllMyLikedBoard = () => {
   return { data, isError, isLoading };
 };
 
-export const useGetAllMyFriend = () => {
+export const useGetAllMyFriend = ({ options }: { options?: Object } = {}) => {
   const queryKey = useKey([QUERY_KEY.MY, 'friends']);
-  const { data, isError, isLoading } = useQuery<Friend[]>({
+  const { data, isError, isLoading, refetch } = useQuery<Friend[]>({
     queryKey,
     queryFn: getAllMyFriend,
+    ...(options || {}),
   });
 
-  return { data, isError, isLoading };
+  return { data, isError, isLoading, refetch };
 };
 
-export const useGetAllMyFriendRequest = () => {
+export const useGetAllMyFriendRequest = ({ options }: { options?: Object } = {}) => {
   const queryKey = useKey([QUERY_KEY.MY, 'friend', 'request']);
-  const { data, isError, isLoading } = useQuery<Friend[]>({
+  const { data, isError, isLoading, refetch } = useQuery<Friend[]>({
     queryKey,
     queryFn: getAllMyFriendRequest,
     staleTime: 1000 * 30,
     gcTime: 1000 * 60 * 5,
+    ...(options || {}),
   });
 
-  return { data, isError, isLoading };
+  return { data, isError, isLoading, refetch };
 };
 
 export const useGetAllMyTeamRequest = () => {

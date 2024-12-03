@@ -65,6 +65,7 @@ const TeamFriendAddScreen = ({}: Props) => {
       },
     );
   };
+  const debounceAddUserToTeam = useDebounce(addUserToTeam, 500);
 
   return (
     <DismissKeyboard>
@@ -134,7 +135,7 @@ const TeamFriendAddScreen = ({}: Props) => {
                 <Text className="text-black700 text-[12px] font-PTDSemiBold underline">초대링크 공유하기</Text>
               </TouchableOpacity>
             </View> */}
-              <Button onPress={addUserToTeam}>{profileNames.length}명 초대하기</Button>
+              <Button onPress={debounceAddUserToTeam}>{profileNames.length}명 초대하기</Button>
             </View>
           </KeyboardAvoiding>
         )}

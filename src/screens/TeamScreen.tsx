@@ -23,7 +23,6 @@ import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import { useIsFocused } from '@react-navigation/native';
 import 'moment-modification-rn/locale/ko';
-import { getAll, getRowInfiniteCalendar } from '@api/board';
 import { useQueryClient } from '@tanstack/react-query';
 moment.locale('ko');
 
@@ -43,8 +42,13 @@ const TeamScreen = ({}: Props) => {
   const diaryId = route.params.id;
   const [calendarMap, setCalendarMap] = useState<CalendarRowMap>({});
   const [currentDate, setCurrentDate] = useState(targetDate);
+  const [isInitialRender, setIsInitialRender] = useState(false);
   const { data, isLoading } = useGetAllBoard({ diaryId, date: currentDate });
-  const { data: calendarData, fetchPreviousPage, refetch: calendarRefetch } = useRowInfiniteCalendar({ diaryId });
+  const {
+    data: calendarData,
+    fetchPreviousPage,
+    refetch: calendarRefetch,
+  } = useRowInfiniteCalendar({ diaryId, options: { enabled: isInitialRender } });
   const boards = data?.boardOverViewResponseDtoList;
   // console.log('data?.blur', data?.blur);
   // console.log('calendarData:', calendarData);
@@ -53,9 +57,10 @@ const TeamScreen = ({}: Props) => {
 
   const rowKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
   useEffect(() => {
-    if (!isFocused) return;
+    if (!isFocused || isInitialRender) return;
     queryClient.removeQueries({ queryKey: rowKey });
     calendarRefetch();
+    setIsInitialRender(true);
   }, [isFocused]);
 
   // 읽음 처리

@@ -24,7 +24,7 @@ function SAVProvider({ children }: Props) {
   useEffect(() => {
     const initializeUser = async () => {
       const access = await getStorage('access');
-      if (!access) {
+      if (!access && !isFirstEntry) {
         await clearAllUserData();
         navigation.navigate('SignIn');
         return;

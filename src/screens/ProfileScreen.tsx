@@ -8,7 +8,6 @@ import LogoutIcon from '@assets/icons/logout.svg';
 import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import ExitIcon from '@assets/icons/exit.svg';
-import CcIcon from '@assets/icons/cc.svg';
 import useNavi from '@hooks/useNavi';
 import { useDeleteUser, useGetMyProfile, useLogoutUser } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
@@ -24,20 +23,26 @@ const ProfileScreen = () => {
   const { data, isLoading } = useGetMyProfile();
   const { deleteUserMutation } = useDeleteUser();
   const { logoutUserMutation } = useLogoutUser();
-  const { showModal } = useModal();
+  const { showModal, hideModal } = useModal();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
     navigation.navigate(target, { ...options });
   };
+  const logoutUser = useDebounce(() => {
+    logoutUserMutation.mutate(username);
+  }, 500);
   const deleteUserConfirm = useDebounce(() => {
-    deleteUserMutation.mutate(username);
+    deleteUserMutation.mutate(username, {
+      onSuccess: hideModal,
+    });
   }, 500);
   const deleteUser = () => {
     showModal({
-      type: 'dialog',
+      type: 'account',
       title: '계정 삭제',
       description: '계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
       confirm: deleteUserConfirm,
+      enableHideConfirm: false,
     });
   };
 
@@ -49,7 +54,7 @@ const ProfileScreen = () => {
       icon: <LogoutIcon />,
       label: '로그아웃',
       section: '정보 관리',
-      onPress: () => logoutUserMutation.mutate(username),
+      onPress: logoutUser,
       submenu: [{ icon: <ExitIcon />, label: '탈퇴하기', onPress: deleteUser }],
     },
     {

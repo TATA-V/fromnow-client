@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import useToast from '@hooks/useToast';
 import { getStorage, setStorage } from '@utils/storage';
@@ -7,7 +7,7 @@ import RecentSearches from '@components/Search/RecentSearches';
 import SearchHeader from '@components/Search/SearchHeader';
 import SearchNotFound from '@components/Search/SearchNotFound';
 import SearchResultList from '@components/Search/SearchResultList';
-import MiniLoading from '@components/common/MiniLoading';
+import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import DismissKeyboard from '@components/common/DismissKeyboard';
 
 const SearchScreen = () => {
@@ -29,19 +29,11 @@ const SearchScreen = () => {
     if (!isAutoSave || isAutoSave === 'false') return;
 
     let histStorage: string[] = JSON.parse(await getStorage('searchHistory')) || [];
-    if (!Array.isArray(history)) {
-      histStorage = [];
-    }
-    if (!histStorage.includes(newSearch.toLowerCase().trim())) {
-      histStorage.unshift(newSearch.trim());
-      setHistory([newSearch, ...history].slice(0, 17));
-      const updateHistory = histStorage.length > 17 ? histStorage.slice(0, 17) : histStorage;
-      await setStorage('searchHistory', JSON.stringify(updateHistory));
-    } else {
-      histStorage = histStorage.filter(item => item.toLowerCase() !== newSearch.toLowerCase());
-      histStorage.unshift(newSearch);
-      await setStorage('searchHistory', JSON.stringify(histStorage));
-    }
+    if (!Array.isArray(history)) histStorage = [];
+    histStorage.unshift(newSearch.trim());
+    const updateHistory = Array.from(new Set(histStorage)).slice(0, 17);
+    setHistory(updateHistory);
+    await setStorage('searchHistory', JSON.stringify(updateHistory));
   };
 
   // 검색 제출
@@ -63,10 +55,8 @@ const SearchScreen = () => {
   if (isLoading)
     return (
       <>
+        <FullScreenMiniLoading translateY="0" />
         <SearchHeader {...searchHeaderProps} />
-        <View className="pt-[66px]">
-          <MiniLoading />
-        </View>
       </>
     );
 

@@ -11,15 +11,13 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const hideBootSplash = async () => {
-      const promise = new Promise<void>(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, 2500);
-      });
       await BootSplash.hide({ fade: true });
-      await promise;
-      setShowLottie(false);
-      setIsFirstEntry(false);
+
+      const unsubscribe = setTimeout(() => {
+        setShowLottie(false);
+        setIsFirstEntry(false);
+      }, 2600);
+      return () => clearTimeout(unsubscribe);
     };
 
     hideBootSplash();

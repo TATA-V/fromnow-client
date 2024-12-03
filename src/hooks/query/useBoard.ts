@@ -99,7 +99,7 @@ export const useReadBoard = () => {
   return { readBoardMutation };
 };
 
-export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryId'>) => {
+export const useRowInfiniteCalendar = ({ diaryId, options }: Pick<RowColCalendar, 'diaryId'> & { options?: Object }) => {
   const queryKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
   const { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey,
@@ -116,6 +116,7 @@ export const useRowInfiniteCalendar = ({ diaryId }: Pick<RowColCalendar, 'diaryI
     staleTime: 1000 * 30,
     gcTime: 1000 * 60 * 5,
     placeholderData: keepPreviousData,
+    ...(options || {}),
   });
 
   return { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };

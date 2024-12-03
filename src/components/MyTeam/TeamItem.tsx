@@ -3,14 +3,15 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { MyTeamRequest } from '@clientTypes/user';
 import PlusIcon from '@assets/icons/PlusIcon';
 import { useAcceptTeam } from '@hooks/query';
+import { useDebounce } from '@hooks/useOptimization';
 
 const TeamItem = (props: MyTeamRequest) => {
   const { diaryId, diaryTitle, photoUrls } = props;
 
   const { acceptTeamMutation } = useAcceptTeam();
-  const addTeam = () => {
+  const addTeam = useDebounce(() => {
     acceptTeamMutation.mutate(diaryId);
-  };
+  }, 500);
 
   return (
     <View className="h-[94px] rounded-2xl bg-white w-full flex flex-row justify-between items-center p-4">

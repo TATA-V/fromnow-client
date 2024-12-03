@@ -38,9 +38,6 @@ module.exports = {
   plugins: [
     function ({ addUtilities }) {
       const newUtilities = {
-        '.w-fit': {
-          width: 'fit-content',
-        },
         '.error-text': {
           color: '#B3B4B9',
           fontFamily: 'Pretendard-Light',

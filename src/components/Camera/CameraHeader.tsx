@@ -13,9 +13,17 @@ const CameraHeader = ({ toggleCameraType }: Props) => {
   const { navigation } = useNavi();
   const insets = useSafeAreaInsets();
 
+  const goBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Bottom', { screen: 'Home' });
+    }
+  };
+
   return (
     <View style={{ top: insets.top }} className="absolute px-[8px] h-[66px] w-full flex flex-row items-center justify-between">
-      <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
+      <TouchableOpacity onPress={goBack} className="w-[44px] h-[44px] p-[10px]">
         <LeftArrowIcon color="#fff" />
       </TouchableOpacity>
       <Text className="text-white text-base font-PTDSemiBold">카메라 촬영</Text>

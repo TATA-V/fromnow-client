@@ -5,6 +5,7 @@ import { useDeleteFriend, usePostFriendRequest } from '@hooks/query';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import useUserStore from '@store/useUserStore';
 import { useModal } from '@components/Modal';
+import { useDebounce } from '@hooks/useOptimization';
 
 const FriendItem = (props: TeamMenu) => {
   const { memberId, profileName, photoUrl, owner, friend } = props;
@@ -24,6 +25,7 @@ const FriendItem = (props: TeamMenu) => {
     }
     friendRequestMutation.mutate(profileName);
   };
+  const debounceUpdateFriend = useDebounce(updateFriend, 500);
 
   return (
     <View className="h-[60px] flex-row justify-between items-center">
@@ -35,7 +37,7 @@ const FriendItem = (props: TeamMenu) => {
       </View>
       {name !== profileName && (
         <TouchableOpacity
-          onPress={updateFriend}
+          onPress={debounceUpdateFriend}
           className={`${friend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
             h-9 w-[74px] flex justify-center items-center rounded-xl`}>
           <Text className={`${friend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{friend ? '친구' : '친구추가'}</Text>

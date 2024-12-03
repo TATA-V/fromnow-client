@@ -12,6 +12,7 @@ import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { Friend, TeamFriend } from '@clientTypes/friend';
 import { useToastModal } from '@components/Modal';
+import { AxiosError } from 'axios';
 
 export const useGetSearchFriend = (profileName: string, options = {}) => {
   const queryKey = useKey(['search', QUERY_KEY.FRIEND, profileName]);
@@ -40,7 +41,7 @@ export const useGetSearchTeamFriend = ({ diaryId, profileName, options }: GetSea
 };
 
 export const usePostFriendRequest = (toastModal?: boolean) => {
-  const { successToast, errorToast } = useToast();
+  const { successToast, errorToast, warnToast } = useToast();
   const { showToastModal } = useToastModal();
 
   const friendRequestMutation = useMutation({
@@ -48,7 +49,13 @@ export const usePostFriendRequest = (toastModal?: boolean) => {
     onSuccess: () => {
       toastModal ? showToastModal({ type: 'success', message: '친구 요청 완료!' }) : successToast('친구 요청 완료!');
     },
-    onError: () => {
+    onError: e => {
+      const error = e as AxiosError<{ code: number; message: string; status: boolean }>;
+      const { code, message } = error.response.data;
+      if (code === 409 && message === '이미 서로 친구입니다') {
+        toastModal ? showToastModal({ type: 'warn', message: '친구 요청을 이미 보냈습니다.' }) : warnToast('친구 요청을 이미 보냈습니다.');
+        return;
+      }
       toastModal ? showToastModal({ type: 'error', message: '친구 요청에 실패했습니다.' }) : errorToast('친구 요청에 실패했습니다.');
     },
   });

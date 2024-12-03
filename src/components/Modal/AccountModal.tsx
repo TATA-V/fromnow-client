@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, Modal, View } from 'react-native';
 import { MotiView } from 'moti';
-import { useModal, ModalState } from '@components/Modal';
+import { useModal, ModalState, useToastModal } from '@components/Modal';
+import Input from '@components/common/Input';
+import useUserStore from '@store/useUserStore';
 
-const DialogModal = (props: ModalState) => {
-  const { children, enableHideConfirm = true, open, title, description, confirm, lockBackdrop } = props;
+const AccountModal = (props: ModalState) => {
+  const { enableHideConfirm = true, open, title, description, confirm, lockBackdrop } = props;
   const { hideModal } = useModal();
+  const { showToastModal } = useToastModal();
+  const [nickname, setNickname] = useState('');
+  const name = useUserStore(state => state.name);
 
   const confirmClick = () => {
+    if (nickname.trim().length === 0) {
+      showToastModal({ type: 'warn', message: '닉네임을 입력해 주세요.' });
+      return;
+    }
+    if (nickname.trim() !== name) {
+      showToastModal({ type: 'warn', message: '닉네임을 정확히 입력해 주세요.' });
+      return;
+    }
     if (confirm) confirm();
     if (enableHideConfirm) hideModal();
   };
@@ -21,9 +34,12 @@ const DialogModal = (props: ModalState) => {
           animate={{ opacity: open ? 1 : 0, scale: open ? 1 : 0.9 }}
           transition={{ type: 'timing', duration: 300 }}
           className="w-[279px] p-4 bg-white rounded-[24px] items-center">
-          {title && <Text className="font-PTDSemiBold text-lg mb-2 text-black900 mt-2">{title}</Text>}
-          <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>
-          {children}
+          {title && <Text className="font-PTDSemiBold text-lg mb-5 text-black900 mt-2 text-center leading-[26px]">{title}</Text>}
+          {description && <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>}
+          <View className="w-full pt-4">
+            <Text className="text-fnRed text-sm text-center mb-2 font-PTDLight">계정을 삭제하려면 닉네임을 입력해 주세요.</Text>
+            <Input value={nickname} setValue={setNickname} autoFocus placeholder="닉네임 입력" />
+          </View>
           <View className="flex-row w-full justify-between mt-[24px]">
             <TouchableOpacity
               onPress={hideModal}
@@ -40,4 +56,4 @@ const DialogModal = (props: ModalState) => {
   );
 };
 
-export default DialogModal;
+export default AccountModal;

@@ -12,6 +12,7 @@ import { linking } from './deeplinkConfig';
 import useUserStore from '@store/useUserStore';
 import { getStorage } from '@utils/storage';
 import useAppState from '@store/useAppStore';
+import BootSplash from 'react-native-bootsplash';
 import '@components/BottomSheet/sheets';
 
 import RQProvider from '@components/provider/RQProvider';
@@ -54,6 +55,7 @@ function App() {
 
   useEffect(() => {
     const loadNameFromStorage = async () => {
+      if (!isFirstEntry) await BootSplash.hide({ fade: true });
       const name = await getStorage('name');
       if (name) setName(name);
       setLoading(false);
