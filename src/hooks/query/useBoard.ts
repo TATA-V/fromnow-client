@@ -88,11 +88,11 @@ export const useReadBoard = () => {
 
   const readBoardMutation = useMutation({
     mutationFn: async ({ diaryId, date }: PostRead) => await postRead({ diaryId, date }),
-    onSuccess: res => {
+    onSuccess: async res => {
       const { diaryId, date } = res;
       const allBoardKey = [...boardKey, 'all', diaryId, date];
-      queryClient.setQueryData(allBoardKey, (prev: AllBoard) => ({ ...prev, read: true }));
-      queryClient.invalidateQueries({ queryKey: ['row', ...boardKey, diaryId] });
+      await queryClient.setQueryData(allBoardKey, (prev: AllBoard) => ({ ...prev, read: true }));
+      await queryClient.invalidateQueries({ queryKey: ['row', ...boardKey, diaryId] });
     },
   });
 

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
 import DndTeamList from '@components/Home/DndTeamList';
@@ -7,18 +7,12 @@ import TeamList from '@components/Home/TeamList';
 import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
-import useClearAllUserData from '@hooks/useClearAllUserData';
 
 const HomeScreen = () => {
   // const [isEdit, setIsEdit] = useState(false);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
 
   const { data, isLoading } = useGetAllTeam();
-
-  // const removeAll = useClearAllUserData();
-  // useEffect(() => {
-  //   removeAll();
-  // }, []);
 
   if (isLoading)
     return (

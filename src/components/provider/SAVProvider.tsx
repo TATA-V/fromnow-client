@@ -10,6 +10,7 @@ import ToastModalManager from '@components/Modal/ToastModalManager';
 import useGetFCMToken from '@hooks/useGetFCMToken';
 import useClearAllUserData from '@hooks/useClearAllUserData';
 import useAppState from '@store/useAppStore';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 interface Props {
   children: ReactNode;
@@ -67,10 +68,12 @@ function SAVProvider({ children }: Props) {
   return (
     <ToastModalManager>
       <ModalManager>
-        <SafeAreaView className="flex-1 w-full">
-          <StatusBar barStyle={isFirstEntry ? 'light-content' : 'dark-content'} backgroundColor={isFirstEntry ? '#1C1C1E' : '#fff'} />
-          {children}
-        </SafeAreaView>
+        <SafeAreaProvider>
+          <SafeAreaView className="flex-1 w-full">
+            <StatusBar barStyle={isFirstEntry ? 'light-content' : 'dark-content'} backgroundColor={isFirstEntry ? '#1C1C1E' : '#fff'} />
+            {children}
+          </SafeAreaView>
+        </SafeAreaProvider>
       </ModalManager>
     </ToastModalManager>
   );

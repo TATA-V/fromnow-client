@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { FlashList } from '@shopify/flash-list';
 import { QUERY_KEY, useGetAllMyFriend, useGetSearchTeamFriend, useInviteTeam, useKey } from '@hooks/query';
@@ -16,6 +16,7 @@ import MiniLoading from '@components/common/MiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import Button from '@components/common/Button';
 import Input from '@components/common/Input';
+import FadeIn from '@components/common/FadeIn';
 
 interface Props {
   paramName: string;
@@ -28,7 +29,11 @@ const TeamFriendAddScreen = ({}: Props) => {
 
   const [hasSearched, setHasSearched] = useState(false);
   const [submitSearch, setSubmitSearch] = useState('');
-  const { data: searchData, isLoading: searchLoading } = useGetSearchTeamFriend({
+  const {
+    data: searchData,
+    isLoading: searchLoading,
+    refetch: searchRefetch,
+  } = useGetSearchTeamFriend({
     diaryId: teamId,
     profileName: submitSearch.trim(),
     options: { enabled: hasSearched },
@@ -59,8 +64,9 @@ const TeamFriendAddScreen = ({}: Props) => {
       { diaryId: teamId, profileNames },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: teamFriendSearchKey });
-          queryClient.refetchQueries({ queryKey: teamFriendSearchKey });
+          queryClient.removeQueries({ queryKey: teamFriendSearchKey });
+          searchRefetch();
+          setProfileNames([]);
         },
       },
     );
@@ -104,7 +110,15 @@ const TeamFriendAddScreen = ({}: Props) => {
                   keyboardShouldPersistTaps="always"
                   keyExtractor={(_, index) => index.toString()}
                   renderItem={({ item, index }) => (
-                    <TeamFriendItem setProfileNames={setProfileNames} key={index} {...item} index={index} length={searchData.length} />
+                    <FadeIn key={item.memberId}>
+                      <TeamFriendItem
+                        profileNames={profileNames}
+                        setProfileNames={setProfileNames}
+                        {...item}
+                        index={index}
+                        length={searchData.length}
+                      />
+                    </FadeIn>
                   )}
                   showsVerticalScrollIndicator={false}
                   ListFooterComponent={() => <View className="h-[370px]" />}
@@ -115,7 +129,7 @@ const TeamFriendAddScreen = ({}: Props) => {
               </View>
             )}
             {searchLoading && (
-              <View className="bg-[#FBFBFD]">
+              <View className="bg-[#FBFBFD] pt-10">
                 <MiniLoading />
               </View>
             )}

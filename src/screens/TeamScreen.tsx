@@ -50,10 +50,6 @@ const TeamScreen = ({}: Props) => {
     refetch: calendarRefetch,
   } = useRowInfiniteCalendar({ diaryId, options: { enabled: isInitialRender } });
   const boards = data?.boardOverViewResponseDtoList;
-  // console.log('data?.blur', data?.blur);
-  // console.log('calendarData:', calendarData);
-  // console.log('calendarMap:', calendarMap);
-  // data && console.log('data:', data);
 
   const rowKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
   useEffect(() => {
@@ -65,16 +61,24 @@ const TeamScreen = ({}: Props) => {
 
   // 읽음 처리
   const { readBoardMutation } = useReadBoard();
+  const currentDayData = calendarMap[currentDate];
   useEffect(() => {
-    if (!data || data.blur || data.read) return;
+    if (!data || !currentDayData?.new) return;
     const hasNewPosts = boards.length !== 0;
     if (hasNewPosts) {
-      readBoardMutation.mutate({ diaryId, date: currentDate });
+      readBoardMutation.mutate(
+        { diaryId, date: currentDate },
+        {
+          onSuccess: () => {
+            setCalendarMap(prev => ({ ...prev, [currentDate]: { ...currentDayData, new: false } }));
+          },
+        },
+      );
     }
-  }, [data?.blur, data?.read, boards, diaryId, currentDate]);
+  }, [boards, diaryId, currentDate, currentDayData]);
 
   const boardsKey = useKey(['all', QUERY_KEY.BOARD, currentDate]);
-  const { refreshing, onRefresh } = useRefresh({ queryKey: boardsKey });
+  const { refreshing, onRefresh } = useRefresh({ queryKey: [boardsKey, rowKey] });
 
   const onWeekChanged = async (start: Moment, _) => {
     const startYearMonth = moment(start).format('YYYY-MM');
@@ -98,13 +102,6 @@ const TeamScreen = ({}: Props) => {
       return { ...mappedData, ...prev };
     });
   }, [calendarData]);
-  useEffect(() => {
-    let dayData = calendarMap[currentDate];
-    if (!data?.blur && data?.read && dayData?.new) {
-      dayData.new = false;
-      setCalendarMap(prev => ({ ...prev, dayData }));
-    }
-  }, [data?.blur, data?.read, boards, currentDate, calendarMap]);
 
   const onDateSelected = async (date: Moment) => {
     const format = formatDate(date);

@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Share, Modal, Dimensions } from 'react-native';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Modal, Dimensions } from 'react-native';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import PlusIcon from '@assets/icons/PlusIcon';
@@ -7,13 +7,17 @@ import FriendItem from '@components/TeamSetting/FriendItem';
 import PenIcon from '@assets/icons/PenIcon';
 import ShareIcon from '@assets/icons/ShareIcon';
 import TrashIcon from '@assets/icons/trash.svg';
-import { CLIENT_URL } from '@env';
 import useNavi from '@hooks/useNavi';
 import { useModal } from '@components/Modal';
-import { useDeleteOneTeam, useGetTeamMenu } from '@hooks/query';
+import { QUERY_KEY, useDeleteOneTeam, useGetTeamMenu, useKey } from '@hooks/query';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { MotiView } from 'moti';
 import { useDebounce } from '@hooks/useOptimization';
+import useKakaoShare from '@hooks/useKakaoShare';
+import useUserStore from '@store/useUserStore';
+import { isIOS } from '@utils/deviceInfo';
+import { useIsFocused } from '@react-navigation/native';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   open: boolean;
@@ -25,11 +29,26 @@ const { width } = Dimensions.get('window');
 const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
+  const isFocused = useIsFocused();
+  const queryClient = useQueryClient();
+  const { kakaoShare } = useKakaoShare();
   const { showModal } = useModal();
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+  const username = useUserStore(state => state.name);
 
+  const [isInitialRender, setIsInitialRender] = useState(false);
   const teamId = useSelectedTeamStore(state => state.id);
-  const { data } = useGetTeamMenu(teamId);
+  const { data, refetch } = useGetTeamMenu({ teamId, options: { enabled: isInitialRender } });
+
+  const teamMenuKey = useKey([QUERY_KEY.TEAM, teamId, 'menu']);
+  useEffect(() => {
+    if (!isFocused || isInitialRender) return;
+    queryClient.removeQueries({ queryKey: teamMenuKey });
+    refetch();
+    setIsInitialRender(true);
+  }, [isFocused]);
+
+  const user = data?.find(v => v.profileName === username);
 
   const close = () => setIsAnimatingOut(true);
   const onAnimationComplete = () => {
@@ -63,11 +82,17 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
     },
     {
       icon: <ShareIcon size={24} color="#E4E5EA" />,
-      title: '초대링크 공유하기',
-      onPress: async () => await Share.share({ message: `${CLIENT_URL}TeamSetting/${route.params.id}` }),
+      title: '다이어리 링크 공유하기',
+      onPress: () =>
+        kakaoShare({
+          title: '다이어리 공유',
+          description: `${username}님이 다이어리 링크를 공유했어요!`,
+          imageUrl: `${user.photoUrl}`,
+          params: { deepLink: `fromnow://team/${route.params.id}` },
+        }),
     },
-    { icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam },
-  ];
+    user?.owner ? { icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam } : null,
+  ].filter(Boolean);
 
   return (
     <Modal transparent visible={open} onRequestClose={close}>
@@ -80,7 +105,10 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
           exit={{ translateX: width }}
           transition={{ type: 'timing', duration: 300 }}
           onDidAnimate={() => isAnimatingOut && onAnimationComplete()}>
-          <ScrollView className="flex-1 px-4 bg-white" showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            className={`${isIOS && 'pt-[66px]'} flex-1 px-4 bg-white`}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}>
             <View className="h-[26px] mt-[66px] justify-center">
               <Text className="font-PTDLight text-sm text-black500">모임 친구</Text>
             </View>

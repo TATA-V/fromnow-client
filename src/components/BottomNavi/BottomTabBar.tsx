@@ -56,7 +56,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
   };
 
   return (
-    <View className="absolute bottom-0 w-full bg-transparent" pointerEvents="box-none">
+    <View className="absolute bottom-[-3.5px] w-full bg-transparent" pointerEvents="box-none">
       <Image source={bottomTabBg} className="w-full h-[110px]" resizeMode="cover" />
       <View style={styles.home} className="absolute h-full justify-center">
         <TouchableOpacity onPress={() => navigateToScreen('Home')} className="items-center">

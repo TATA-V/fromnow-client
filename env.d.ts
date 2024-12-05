@@ -8,4 +8,5 @@ declare module '@env' {
   export const CLIENT_URL: string;
   export const BASE_URL: string;
   export const ENV_MODE: string;
+  export const KAKAO_SHARE_IMG: string;
 }

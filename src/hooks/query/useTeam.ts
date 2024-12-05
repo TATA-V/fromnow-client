@@ -27,9 +27,9 @@ export const useDeleteOneTeam = (toastModal?: boolean) => {
 
   const deleteTeamMutation = useMutation({
     mutationFn: deleteOne,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: myTeamsKey });
-      queryClient.refetchQueries({ queryKey: myTeamsKey });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: myTeamsKey });
+      await queryClient.refetchQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
       toastModal ? showToastModal({ type: 'success', message: '다이어리를 삭제했습니다.' }) : successToast('다이어리를 삭제했습니다.');
     },
@@ -109,7 +109,7 @@ export const useInviteTeam = () => {
 };
 
 export const useAcceptTeam = () => {
-  const { successToast, errorToast } = useToast();
+  const { successToast } = useToast();
   const queryClient = useQueryClient();
   const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
   const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
@@ -130,24 +130,23 @@ export const useAcceptTeam = () => {
         return update;
       });
     },
-    onError: () => {
-      errorToast('다이어리 초대 수락에 실패했습니다.');
-    },
+    onError: () => {},
   });
 
   return { acceptTeamMutation };
 };
 
-export const useGetTeamMenu = (diaryId: number) => {
+export const useGetTeamMenu = ({ teamId: diaryId, options }: { teamId: number; options?: Object }) => {
   const queryKey = useKey([QUERY_KEY.TEAM, diaryId, 'menu']);
-  const { data, isError, isLoading } = useQuery<TeamMenu[]>({
+  const { data, isError, isLoading, refetch } = useQuery<TeamMenu[]>({
     queryKey,
     queryFn: async () => await getMenu(diaryId),
     staleTime: 1000 * 30,
     gcTime: 1000 * 60 * 5,
+    ...(options || {}),
   });
 
-  return { data, isError, isLoading };
+  return { data, isError, isLoading, refetch };
 };
 
 export const usePostTeamReject = () => {

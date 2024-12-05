@@ -80,12 +80,12 @@ const BoardItem = (props: Props) => {
     <View className="space-y-3 p-4 bg-white border-[1px] border-black200 rounded-3xl">
       <View className="flex flex-row space-x-[8px] h-[36px] items-center">
         <View className="w-[36px] h-[36px] border-[1px] border-black200 rounded-xl overflow-hidden">
-          <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl" resizeMode="cover" />
+          <Image source={{ uri: profilePhotoUrl }} className="w-full h-full rounded-xl" resizeMode="cover" />
         </View>
         <Text className="text-black900 text-sm font-PTDLight">{profileName}</Text>
       </View>
       <View className="w-full h-[311px] rounded-xl overflow-hidden">
-        <Image source={{ uri: contentPhotoUrl }} className="w-full h-[311px] rounded-xl" resizeMode="cover" />
+        <Image source={{ uri: contentPhotoUrl }} className="w-full h-full rounded-xl" resizeMode="cover" />
       </View>
       <View className="h-[42px] space-y-[6px]">
         <TouchableOpacity onPress={toggleLike} className="w-[24px] h-[24px] flex justify-center items-center">

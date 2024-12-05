@@ -4,7 +4,7 @@ import MyPhoto from '@components/Profile/MyPhoto';
 import FriendsIcon from '@assets/icons/friends.svg';
 import FolderIcon from '@assets/icons/FolderIcon';
 import HeartsIcon from '@assets/icons/hearts.svg';
-import LogoutIcon from '@assets/icons/logout.svg';
+import WithdrawalIcon from '@assets/icons/withdrawal.svg';
 import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import ExitIcon from '@assets/icons/exit.svg';
@@ -51,11 +51,11 @@ const ProfileScreen = () => {
     { icon: <FolderIcon />, label: '받은 모임 요청', section: '모임 관리', onPress: () => navigateToScreen('MyTeamRequest') },
     { icon: <HeartsIcon />, label: '좋아요 누른 일상', section: '일상 관리', onPress: () => navigateToScreen('MyLikedBoard') },
     {
-      icon: <LogoutIcon />,
+      icon: <ExitIcon />,
       label: '로그아웃',
       section: '정보 관리',
       onPress: logoutUser,
-      submenu: [{ icon: <ExitIcon />, label: '탈퇴하기', onPress: deleteUser }],
+      submenu: [{ icon: <WithdrawalIcon />, label: '탈퇴하기', onPress: deleteUser }],
     },
     {
       icon: <PeoplePolicyIcon />,

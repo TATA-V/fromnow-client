@@ -29,7 +29,7 @@ export const useGetSearchFriend = (profileName: string, options = {}) => {
 
 export const useGetSearchTeamFriend = ({ diaryId, profileName, options }: GetSearchTeamFriend & { options?: Object }) => {
   const queryKey = useKey(['search', QUERY_KEY.FRIEND, QUERY_KEY.TEAM, profileName]);
-  const { data, isError, isLoading } = useQuery<TeamFriend[]>({
+  const { data, isError, isLoading, refetch } = useQuery<TeamFriend[]>({
     queryKey,
     queryFn: async () => await getSearchTeamFriend({ diaryId, profileName }),
     staleTime: 1000 * 30,
@@ -37,7 +37,7 @@ export const useGetSearchTeamFriend = ({ diaryId, profileName, options }: GetSea
     ...(options || {}),
   });
 
-  return { data, isError, isLoading };
+  return { data, isError, isLoading, refetch };
 };
 
 export const usePostFriendRequest = (toastModal?: boolean) => {
@@ -90,9 +90,9 @@ export const usePostFriendAccept = () => {
 
   const friendAcceptMutation = useMutation({
     mutationFn: postFriendAccept,
-    onSuccess: res => {
-      queryClient.invalidateQueries({ queryKey: myFriendReqKey });
-      queryClient.setQueryData(myFriendsKey, (prev: Friend[]) => [{ ...res.data, friend: true, profilePhotoUrl: res.data.photoUrl }, ...prev]);
+    onSuccess: async res => {
+      await queryClient.invalidateQueries({ queryKey: myFriendReqKey });
+      await queryClient.setQueryData(myFriendsKey, (prev: Friend[]) => [{ ...res.data, friend: true, profilePhotoUrl: res.data.photoUrl }, ...prev]);
       successToast('친구 수락 완료!');
     },
     onError: () => {

@@ -1,22 +1,21 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { TeamFriend } from '@clientTypes/friend';
 
 interface Props extends TeamFriend {
   index: number;
   length: number;
+  profileNames: string[];
   setProfileNames: Dispatch<SetStateAction<string[]>>;
 }
 
 const TeamFriendItem = (props: Props) => {
-  const { setProfileNames, profileName, profilePhotoUrl, team, index, length } = props;
-  const [isFriend, setIsFriend] = useState(team);
+  const { profileNames, setProfileNames, profileName, profilePhotoUrl, team, index, length } = props;
+  const isFriend = profileNames.includes(profileName);
 
   const addTeam = () => {
     if (isFriend) setProfileNames(prev => prev.filter(name => name !== profileName));
     else setProfileNames(prev => [...prev, profileName]);
-
-    setIsFriend(!isFriend);
   };
 
   return (
@@ -25,7 +24,7 @@ const TeamFriendItem = (props: Props) => {
       h-[60px] bg-white w-full flex flex-row justify-between items-center px-4 border-r-[1px] border-l-[1px] border-black200`}>
       <View className="flex flex-row gap-2 items-center">
         <View className="w-[36px] h-[36px] rounded-xl border-[1px] border-black200">
-          <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl" />
+          <Image source={{ uri: profilePhotoUrl }} className="w-full h-full rounded-xl" />
         </View>
         <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>

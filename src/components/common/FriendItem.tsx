@@ -36,7 +36,7 @@ const FriendItem = (props: Props) => {
     <View className="h-[60px] rounded-2xl bg-white w-full flex flex-row justify-between items-center px-4">
       <View className="flex flex-row gap-2 items-center">
         <View className="border-[1px] border-black200 w-[36px] h-[36px] rounded-xl">
-          <Image source={{ uri: profilePhotoUrl }} className="w-[36px] h-[36px] rounded-xl" />
+          <Image source={{ uri: profilePhotoUrl }} className="w-full h-full rounded-xl" />
         </View>
         <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>

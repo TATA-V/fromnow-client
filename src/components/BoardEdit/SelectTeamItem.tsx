@@ -18,7 +18,7 @@ const SelectTeamItem = (props: Props) => {
             <View
               key={idx}
               className={`${idx === 0 ? 'ml-0' : 'ml-[-12px]'} w-[36px] h-[36px] border-[1px] border-black200 rounded-xl overflow-hidden`}>
-              <Image source={{ uri }} className="w-[36px] h-[36px]" resizeMode="cover" />
+              <Image source={{ uri }} className="w-full h-full" resizeMode="cover" />
             </View>
           ))}
         </View>

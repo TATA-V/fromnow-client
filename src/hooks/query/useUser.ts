@@ -45,7 +45,6 @@ export const useUpdateNickname = () => {
     onSuccess: async res => {
       const name = res.data.profileName;
       await queryClient.setQueryData(myProfileKey, (prev: MyProfile) => {
-        console.log('updateNickname:', { ...prev, profileName: name });
         return { ...prev, profileName: name };
       });
       setName(name);

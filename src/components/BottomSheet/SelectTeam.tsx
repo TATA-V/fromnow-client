@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import ActionSheet, { FlatList } from 'react-native-actions-sheet';
-import SelectTeamItem from '@components/BoardEdit/SelectTeamItem';
-import Button from '@components/common/Button';
 import { useGetAllTeam, usePostOneBoard } from '@hooks/query';
-import MiniLoading from '@components/common/MiniLoading';
 import { Image as ImageType } from 'react-native-image-crop-picker';
 import { Team } from '@clientTypes/team';
 import { useDebounce } from '@hooks/useOptimization';
+import { isIOS } from '@utils/deviceInfo';
+
 import GrayLoadingLottie from '@components/Lottie/GrayLoadingLottie';
+import SelectTeamItem from '@components/BoardEdit/SelectTeamItem';
+import MiniLoading from '@components/common/MiniLoading';
+import Button from '@components/common/Button';
 
 interface Props {
   payload?: {
@@ -72,7 +74,11 @@ const SelectTeam = ({ payload }: Props) => {
         </View>
         <View className="absolute bottom-0 pb-[20px] pt-4 w-full bg-white">
           <Button disabled={submitLoading || teams.length === 0} onPress={debounceConfirmTeamSelection}>
-            {submitLoading ? <GrayLoadingLottie customStyle={{ width: 100, height: 48, transform: 'translateY(12px)' }} /> : '다음'}
+            {submitLoading ? (
+              <GrayLoadingLottie customStyle={{ width: 100, height: 48, transform: isIOS ? undefined : 'translateY(12px)' }} />
+            ) : (
+              '다음'
+            )}
           </Button>
         </View>
       </View>

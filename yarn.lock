@@ -2260,6 +2260,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mj-studio/js-util@npm:1.1.14":
+  version: 1.1.14
+  resolution: "@mj-studio/js-util@npm:1.1.14"
+  checksum: 10c0/e571e5e1f416eb75fe1c0f99502982fd54776b597c5f77cfde6796f7057ec2bda8eb4c9cbc314d6e1b53a2a08f429c2cda48ca4e761d8e37b340778d48ce5a1f
+  languageName: node
+  linkType: hard
+
 "@mj-studio/js-util@npm:1.1.3":
   version: 1.1.3
   resolution: "@mj-studio/js-util@npm:1.1.3"
@@ -2757,6 +2764,32 @@ __metadata:
     expo:
       optional: true
   checksum: 10c0/db5a0a82842a08f7de554a8b820304c6cdf380395ae8818b60b6bb16dc810d10173ba3db82d16da24c0dab25d5acab0e64614a0be927a4cb99a7d79ebb02931c
+  languageName: node
+  linkType: hard
+
+"@react-native-kakao/share@npm:^2.2.6":
+  version: 2.2.6
+  resolution: "@react-native-kakao/share@npm:2.2.6"
+  dependencies:
+    "@mj-studio/js-util": "npm:1.1.14"
+  peerDependencies:
+    "@react-native-kakao/core": 2.2.6
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/e3e5ab6ada738043c1273bb71f8910b415ec6eae75b46f5ac245c8ef69d5e888b5fcdc93b733ae021794b6c7f52c613cae249db48a2f4447a3464227b3650b5b
+  languageName: node
+  linkType: hard
+
+"@react-native-kakao/social@npm:^2.2.6":
+  version: 2.2.6
+  resolution: "@react-native-kakao/social@npm:2.2.6"
+  dependencies:
+    "@mj-studio/js-util": "npm:1.1.3"
+  peerDependencies:
+    "@react-native-kakao/core": 2.2.6
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/22a105f0da529cb9adb6e6bbfdab5ae0fa7d8e2ca2de41661cf031a35b16617458bc258f3c56f3ec49a796da61db94bde2d3f02e30b58e72bba9c35e5783e795
   languageName: node
   linkType: hard
 
@@ -3778,6 +3811,8 @@ __metadata:
     "@react-native-firebase/messaging": "npm:^21.0.0"
     "@react-native-google-signin/google-signin": "npm:^13.0.1"
     "@react-native-kakao/core": "npm:^2.2.5"
+    "@react-native-kakao/share": "npm:^2.2.6"
+    "@react-native-kakao/social": "npm:^2.2.6"
     "@react-native-kakao/user": "npm:^2.2.5"
     "@react-native/babel-preset": "npm:0.74.85"
     "@react-native/eslint-config": "npm:0.74.83"

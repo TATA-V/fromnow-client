@@ -43,6 +43,13 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="fromnow" />
       </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="kakao${kakaoAppKey}" />
+        <data android:host="kakaolink" />
+      </intent-filter>
     </activity>
     <activity
       android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
