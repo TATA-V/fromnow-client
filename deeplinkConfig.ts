@@ -6,7 +6,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
   config: {
     screens: {
       Splash: 'splash',
-      Home: 'home',
+      Home: 'home/:path',
       Profile: 'profile',
       SignIn: 'signin',
       Camera: 'camera',
@@ -36,7 +36,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
 
 type RootStackParamList = {
   Splash: string;
-  Home: string;
+  Home: { path?: string };
   Profile: string;
   SignIn: string;
   Camera: string;

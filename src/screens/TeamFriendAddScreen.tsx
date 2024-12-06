@@ -108,7 +108,7 @@ const TeamFriendAddScreen = ({}: Props) => {
                 <FlashList
                   data={searchData}
                   keyboardShouldPersistTaps="always"
-                  keyExtractor={(_, index) => index.toString()}
+                  keyExtractor={item => item.memberId.toString()}
                   renderItem={({ item, index }) => (
                     <FadeIn key={item.memberId}>
                       <TeamFriendItem

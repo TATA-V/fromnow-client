@@ -63,7 +63,7 @@ const TeamScreen = ({}: Props) => {
   const { readBoardMutation } = useReadBoard();
   const currentDayData = calendarMap[currentDate];
   useEffect(() => {
-    if (!data || !currentDayData?.new) return;
+    if (!data || data.blur || !currentDayData?.new) return;
     const hasNewPosts = boards.length !== 0;
     if (hasNewPosts) {
       readBoardMutation.mutate(
@@ -75,7 +75,7 @@ const TeamScreen = ({}: Props) => {
         },
       );
     }
-  }, [boards, diaryId, currentDate, currentDayData]);
+  }, [data?.blur, boards, diaryId, currentDate, currentDayData]);
 
   const boardsKey = useKey(['all', QUERY_KEY.BOARD, currentDate]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: [boardsKey, rowKey] });

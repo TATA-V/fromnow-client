@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { TeamFriend } from '@clientTypes/friend';
 
@@ -11,12 +11,17 @@ interface Props extends TeamFriend {
 
 const TeamFriendItem = (props: Props) => {
   const { profileNames, setProfileNames, profileName, profilePhotoUrl, team, index, length } = props;
-  const isFriend = profileNames.includes(profileName);
+  const [isFriend, setIsFriend] = useState(profileNames.includes(profileName));
 
-  const addTeam = () => {
+  const toogleTeam = () => {
     if (isFriend) setProfileNames(prev => prev.filter(name => name !== profileName));
     else setProfileNames(prev => [...prev, profileName]);
+    setIsFriend(!isFriend);
   };
+
+  useEffect(() => {
+    setIsFriend(profileNames.includes(profileName));
+  }, [profileNames, profileName]);
 
   return (
     <View
@@ -29,7 +34,7 @@ const TeamFriendItem = (props: Props) => {
         <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>
       <TouchableOpacity
-        onPress={addTeam}
+        onPress={toogleTeam}
         className={`${isFriend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
         h-9 w-[74px] flex justify-center items-center rounded-xl`}>
         <Text className={`${isFriend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isFriend ? '모임' : '모임추가'}</Text>

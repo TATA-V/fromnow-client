@@ -4,12 +4,12 @@ import { MotiView } from 'moti';
 import { useModal, ModalState } from '@components/Modal';
 
 const DialogModal = (props: ModalState) => {
-  const { children, enableHideConfirm = true, open, title, description, confirm, lockBackdrop } = props;
+  const { children, open, title, description, confirm, lockBackdrop } = props;
   const { hideModal } = useModal();
 
   const confirmClick = () => {
     if (confirm) confirm();
-    if (enableHideConfirm) hideModal();
+    hideModal();
   };
 
   return (

@@ -16,9 +16,9 @@ const CameraHeader = ({ toggleCameraType }: Props) => {
   const goBack = () => {
     if (navigation.canGoBack()) {
       navigation.goBack();
-    } else {
-      navigation.navigate('Bottom', { screen: 'Home' });
+      return;
     }
+    navigation.navigate('Bottom', { screen: 'Home' });
   };
 
   return (

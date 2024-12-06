@@ -35,3 +35,11 @@ export const deepLinkByPath = async (url: string) => {
   const params = parseQueryParams(query, true);
   await Linking.openURL(`fromnow://${newPath}${params}`);
 };
+
+export const deepLinkByShareUrl = async (url: string) => {
+  if (!url) return;
+  const deepLinkMatch = url.match(/[?&]deepLink=([^&]+)/);
+  if (!deepLinkMatch || !deepLinkMatch[1]) return;
+  const newUrl = deepLinkMatch[1];
+  await Linking.openURL(newUrl);
+};

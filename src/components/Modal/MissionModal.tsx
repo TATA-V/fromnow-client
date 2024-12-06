@@ -6,11 +6,11 @@ import { ModalState, useModal } from '@components/Modal';
 import tempMissionPng from '@assets/png/mission.png';
 
 const MissionModal = (props: ModalState) => {
-  const { open, enableHideConfirm = true, title, description, confirm, missionImg, lockBackdrop } = props;
+  const { open, title, description, confirm, missionImg, lockBackdrop } = props;
   const { hideModal } = useModal();
   const confirmClick = () => {
     if (confirm) confirm();
-    if (enableHideConfirm) hideModal();
+    hideModal();
   };
 
   return (

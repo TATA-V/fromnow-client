@@ -28,7 +28,12 @@ const DefaultHeader = ({ title, path, isSignup, customStyle }: Props) => {
       navigation.navigate('SignIn');
       return;
     }
-    navigation.goBack();
+
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+      return;
+    }
+    navigation.navigate('Bottom', { screen: 'Home' });
   };
 
   return (

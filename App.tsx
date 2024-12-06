@@ -6,7 +6,7 @@ import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 import { navigationRef } from '@utils/rootNavigation';
 import { linking } from './deeplinkConfig';
 import useUserStore from '@store/useUserStore';

@@ -12,7 +12,7 @@ import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { Friend, TeamFriend } from '@clientTypes/friend';
 import { useToastModal } from '@components/Modal';
-import { AxiosError } from 'axios';
+import { BaseAxiosError } from '@clientTypes/base';
 
 export const useGetSearchFriend = (profileName: string, options = {}) => {
   const queryKey = useKey(['search', QUERY_KEY.FRIEND, profileName]);
@@ -50,7 +50,7 @@ export const usePostFriendRequest = (toastModal?: boolean) => {
       toastModal ? showToastModal({ type: 'success', message: '친구 요청 완료!' }) : successToast('친구 요청 완료!');
     },
     onError: e => {
-      const error = e as AxiosError<{ code: number; message: string; status: boolean }>;
+      const error = e as BaseAxiosError;
       const { code, message } = error.response.data;
       if (code === 409 && message === '이미 서로 친구입니다') {
         toastModal ? showToastModal({ type: 'warn', message: '친구 요청을 이미 보냈습니다.' }) : warnToast('친구 요청을 이미 보냈습니다.');

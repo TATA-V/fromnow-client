@@ -17,7 +17,6 @@ export interface ModalState {
   missionImg?: string;
   lockBackdrop?: boolean;
   children?: ReactNode;
-  enableHideConfirm?: boolean;
 }
 interface ModalContextType {
   showModal: (modalData: Omit<ModalState, 'open'>) => void;

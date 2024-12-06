@@ -80,17 +80,18 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
         navigation.navigate('TeamEdit', { id: route.params.id });
       },
     },
-    {
-      icon: <ShareIcon size={24} color="#E4E5EA" />,
-      title: '다이어리 링크 공유하기',
-      onPress: () =>
-        kakaoShare({
-          title: '다이어리 공유',
-          description: `${username}님이 다이어리 링크를 공유했어요!`,
-          imageUrl: `${user.photoUrl}`,
-          params: { deepLink: `fromnow://team/${route.params.id}` },
-        }),
-    },
+    // 다이어리 초대 api 추가 시 적용 예정
+    // {
+    //   icon: <ShareIcon size={24} color="#E4E5EA" />,
+    //   title: '초대 링크 공유하기',
+    //   onPress: () =>
+    //     kakaoShare({
+    //       title: '다이어리 초대',
+    //       description: `${username}님이 다이어리에 초대했어요`,
+    //       imageUrl: `${user.photoUrl}`,
+    //       params: { deepLink: `fromnow://team/invite` },
+    //     }),
+    // },
     user?.owner ? { icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam } : null,
   ].filter(Boolean);
 

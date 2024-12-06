@@ -9,7 +9,7 @@ import PeoplePolicyIcon from '@assets/icons/people-policy.svg';
 import DocumentIcon from '@assets/icons/document.svg';
 import ExitIcon from '@assets/icons/exit.svg';
 import useNavi from '@hooks/useNavi';
-import { useDeleteUser, useGetMyProfile, useLogoutUser } from '@hooks/query';
+import { useGetMyProfile, useLogoutUser } from '@hooks/query';
 import useUserStore from '@store/useUserStore';
 import { useDebounce } from '@hooks/useOptimization';
 import { useModal } from '@components/Modal';
@@ -21,9 +21,9 @@ const ProfileScreen = () => {
   const { navigation } = useNavi();
   const username = useUserStore(state => state.name);
   const { data, isLoading } = useGetMyProfile();
-  const { deleteUserMutation } = useDeleteUser();
+
   const { logoutUserMutation } = useLogoutUser();
-  const { showModal, hideModal } = useModal();
+  const { showModal } = useModal();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
     navigation.navigate(target, { ...options });
@@ -31,18 +31,12 @@ const ProfileScreen = () => {
   const logoutUser = useDebounce(() => {
     logoutUserMutation.mutate(username);
   }, 500);
-  const deleteUserConfirm = useDebounce(() => {
-    deleteUserMutation.mutate(username, {
-      onSuccess: hideModal,
-    });
-  }, 500);
+
   const deleteUser = () => {
     showModal({
       type: 'account',
       title: '계정 삭제',
       description: '계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
-      confirm: deleteUserConfirm,
-      enableHideConfirm: false,
     });
   };
 

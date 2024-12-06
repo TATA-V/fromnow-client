@@ -4,13 +4,16 @@ import { MotiView } from 'moti';
 import { useModal, ModalState, useToastModal } from '@components/Modal';
 import Input from '@components/common/Input';
 import useUserStore from '@store/useUserStore';
+import { useDeleteUser } from '@hooks/query';
+import { useDebounce } from '@hooks/useOptimization';
 
 const AccountModal = (props: ModalState) => {
-  const { enableHideConfirm = true, open, title, description, confirm, lockBackdrop } = props;
+  const { open, title, description, lockBackdrop } = props;
   const { hideModal } = useModal();
   const { showToastModal } = useToastModal();
   const [nickname, setNickname] = useState('');
   const name = useUserStore(state => state.name);
+  const { deleteUserMutation } = useDeleteUser();
 
   const confirmClick = () => {
     if (nickname.trim().length === 0) {
@@ -21,9 +24,14 @@ const AccountModal = (props: ModalState) => {
       showToastModal({ type: 'warn', message: '닉네임을 정확히 입력해 주세요.' });
       return;
     }
-    if (confirm) confirm();
-    if (enableHideConfirm) hideModal();
+    deleteUserMutation.mutate(name, {
+      onSuccess: () => {
+        hideModal();
+        setNickname('');
+      },
+    });
   };
+  const debounceConfirmClick = useDebounce(confirmClick, 500);
 
   return (
     <Modal transparent visible={open} animationType="fade" onRequestClose={hideModal}>
@@ -46,7 +54,7 @@ const AccountModal = (props: ModalState) => {
               className="w-[121.5px] border-[1px] border-[#E4E5EA] rounded-xl h-[40px] justify-center items-center">
               <Text className="font-semibold text-sm text-black900 font-PTDSemiBold">취소</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={confirmClick} className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
+            <TouchableOpacity onPress={debounceConfirmClick} className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
               <Text className="text-white font-semibold text-sm font-PTDSemiBold">확인</Text>
             </TouchableOpacity>
           </View>

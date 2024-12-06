@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { Linking, SafeAreaView, StatusBar } from 'react-native';
 import useNavi from '@hooks/useNavi';
 import { getStorage } from '@utils/storage';
 import messaging from '@react-native-firebase/messaging';
@@ -11,6 +11,8 @@ import useGetFCMToken from '@hooks/useGetFCMToken';
 import useClearAllUserData from '@hooks/useClearAllUserData';
 import useAppState from '@store/useAppStore';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { deepLinkByShareUrl } from '@utils/pathHandler';
+import BootSplash from 'react-native-bootsplash';
 
 interface Props {
   children: ReactNode;
@@ -20,9 +22,22 @@ function SAVProvider({ children }: Props) {
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
   const clearAllUserData = useClearAllUserData();
-  const isFirstEntry = useAppState(state => state.isFirstEntry);
+  const { isFirstEntry, setIsFirstEntry } = useAppState(state => state);
 
   useEffect(() => {
+    const initialURL = async () => {
+      const url = await Linking.getInitialURL();
+      setIsFirstEntry(false);
+      await BootSplash.hide({ fade: true });
+      await deepLinkByShareUrl(url);
+    };
+    initialURL();
+    const linkingListener = Linking.addEventListener('url', e => {
+      const { url } = e;
+      setIsFirstEntry(false);
+      deepLinkByShareUrl(url);
+    });
+
     const initializeUser = async () => {
       const access = await getStorage('access');
       if (!access && !isFirstEntry) {
@@ -62,6 +77,7 @@ function SAVProvider({ children }: Props) {
     return () => {
       unsubscribe();
       foregroundEventListener();
+      linkingListener.remove();
     };
   }, []);
 

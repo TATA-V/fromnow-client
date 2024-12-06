@@ -11,8 +11,8 @@ export const useGetAllTeam = () => {
   const { data, isError, error, isLoading } = useQuery<Team[]>({
     queryKey,
     queryFn: getAll,
-    staleTime: 1000 * 60,
-    gcTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
+    gcTime: 1000 * 60 * 7,
   });
 
   return { data, isError, error, isLoading };
@@ -73,7 +73,7 @@ export const usePostOneTeam = () => {
     onSuccess: res => {
       queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
         let update = [...prev];
-        const newTeam = { ...res.data, photoUrls: [res.data.photoUrls], isNew: true };
+        const newTeam = { ...res.data, photoUrls: Array.isArray(res.data.photoUrls) ? res.data.photoUrls : [res.data.photoUrls], isNew: true };
         if (prev[0] && prev[0].isNew) {
           update.shift();
           update.unshift({ ...prev[0], isNew: false });
@@ -109,19 +109,20 @@ export const useInviteTeam = () => {
 };
 
 export const useAcceptTeam = () => {
-  const { successToast } = useToast();
+  const { successToast, errorToast } = useToast();
   const queryClient = useQueryClient();
   const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
   const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
 
   const acceptTeamMutation = useMutation({
     mutationFn: postAccept,
-    onSuccess: res => {
+    onSuccess: async res => {
       successToast('다이어리 초대 수락이 완료되었습니다.');
-      queryClient.invalidateQueries({ queryKey: myTeamReqKey });
-      queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
+      await queryClient.invalidateQueries({ queryKey: myTeamReqKey });
+      await queryClient.invalidateQueries({ queryKey: myTeamKey });
+      await queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
         let update = [...prev];
-        const newTeam = { ...res.data, photoUrls: [res.data.photoUrls], isNew: true };
+        const newTeam = { ...res.data, photoUrls: Array.isArray(res.data.photoUrls) ? res.data.photoUrls : [res.data.photoUrls], isNew: true };
         if (prev[0] && prev[0].isNew) {
           update.shift();
           update.unshift({ ...prev[0], isNew: false });
@@ -130,7 +131,9 @@ export const useAcceptTeam = () => {
         return update;
       });
     },
-    onError: () => {},
+    onError: () => {
+      errorToast('다이어리 초대 수락에 실패했습니다.');
+    },
   });
 
   return { acceptTeamMutation };

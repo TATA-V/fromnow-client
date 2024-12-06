@@ -14,17 +14,17 @@ interface KakaoShareProps {
 }
 
 const useKakaoShare = () => {
-  const { successToast, errorToast } = useToast();
+  const { errorToast } = useToast();
 
   const kakaoShare = useCallback(
     async ({
       title = '프롬나우',
-      description = '지금 이 순간, 당신의 일상이 특별해지는 마법✧',
+      description = '당신의 일상이 특별해지는 마법✧\n지금 바로 프롬나우를 시작해 보세요!',
       imageUrl = `${KAKAO_SHARE_IMG}`,
       webUrl = '',
       mobileWebUrl = '',
       buttonTitle = '자세히보기',
-      params = { deepLink: 'fromnow://bottom' },
+      params = { deepLink: 'bottom' },
     }: KakaoShareProps = {}) => {
       try {
         const template = {
@@ -54,8 +54,6 @@ const useKakaoShare = () => {
           template,
           useWebBrowserIfKakaoTalkNotAvailable: true,
         });
-
-        successToast('카카오톡에 메시지가 공유되었어요.');
       } catch (error) {
         errorToast('카카오톡으로 공유하는 데 실패했습니다.\n다시 시도해주세요.');
       }
