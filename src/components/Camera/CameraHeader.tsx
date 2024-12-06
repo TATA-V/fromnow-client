@@ -14,11 +14,11 @@ const CameraHeader = ({ toggleCameraType }: Props) => {
   const insets = useSafeAreaInsets();
 
   const goBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
+    if (!navigation.canGoBack()) {
+      navigation.navigate('Bottom', { screen: 'Home' });
       return;
     }
-    navigation.navigate('Bottom', { screen: 'Home' });
+    navigation.goBack();
   };
 
   return (

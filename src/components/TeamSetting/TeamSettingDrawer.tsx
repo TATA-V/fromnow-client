@@ -31,7 +31,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const { route } = useCurrentRoute();
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
-  const { kakaoShare } = useKakaoShare();
+  // const { kakaoShare } = useKakaoShare();
   const { showModal } = useModal();
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const username = useUserStore(state => state.name);
@@ -72,14 +72,16 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   };
 
   const settingList = [
-    {
-      icon: <PenIcon size={24} />,
-      title: '모임정보 수정하기',
-      onPress: () => {
-        close();
-        navigation.navigate('TeamEdit', { id: route.params.id });
-      },
-    },
+    user?.owner
+      ? {
+          icon: <PenIcon size={24} />,
+          title: '모임정보 수정하기',
+          onPress: () => {
+            close();
+            navigation.navigate('TeamEdit', { id: route.params.id });
+          },
+        }
+      : null,
     // 다이어리 초대 api 추가 시 적용 예정
     // {
     //   icon: <ShareIcon size={24} color="#E4E5EA" />,

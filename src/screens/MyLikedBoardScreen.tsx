@@ -20,7 +20,7 @@ const MyLikedBoardScreen = () => {
         <FlashList
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           data={data}
-          keyExtractor={(_, idx) => idx.toString()}
+          keyExtractor={item => item.boardId.toString()}
           renderItem={({ item, index }) => <BoardItem isMyLikedBoard key={index} {...item} />}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View className="h-[18px]" />}

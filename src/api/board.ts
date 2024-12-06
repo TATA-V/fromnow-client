@@ -67,12 +67,8 @@ export const postRead = async ({ diaryId, date }: PostRead) => {
 export const getRowInfiniteCalendar = async ({ diaryId, date }: RowColCalendar) => {
   const { year, month } = splitDate(date.toString());
   const query = new URLSearchParams({ year, month });
-  try {
-    const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/row?${query}`);
-    return res.data.data;
-  } catch (err) {
-    console.log('getRowInfiniteCalendar error:', err.response.data);
-  }
+  const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/row?${query}`);
+  return res.data.data;
 };
 
 export const getColCalendar = async ({ diaryId, date, num = 2 }: RowColCalendar) => {

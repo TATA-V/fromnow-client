@@ -64,7 +64,7 @@ const SelectTeam = ({ payload }: Props) => {
           </View>
           <FlatList
             data={teams}
-            keyExtractor={(_, key) => key.toString()}
+            keyExtractor={item => item.id.toString()}
             renderItem={({ item, index }) => <SelectTeamItem key={index} {...item} toggleSharing={toggleSharing} />}
             ItemSeparatorComponent={() => <View className="h-[10px]" />}
             showsVerticalScrollIndicator={false}

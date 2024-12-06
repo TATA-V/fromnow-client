@@ -80,7 +80,7 @@ const TeamFriendAddScreen = ({}: Props) => {
           {myFriendData?.length > 0 && (
             <FlashList
               data={myFriendData}
-              keyExtractor={(_, key) => key.toString()}
+              keyExtractor={item => item.memberId.toString()}
               renderItem={({ item, index }) => <MyFriendItem key={index} {...item} />}
               horizontal
               showsHorizontalScrollIndicator={false}

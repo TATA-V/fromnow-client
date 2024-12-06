@@ -29,11 +29,11 @@ const DefaultHeader = ({ title, path, isSignup, customStyle }: Props) => {
       return;
     }
 
-    if (navigation.canGoBack()) {
-      navigation.goBack();
+    if (!navigation.canGoBack()) {
+      navigation.navigate('Bottom', { screen: 'Home' });
       return;
     }
-    navigation.navigate('Bottom', { screen: 'Home' });
+    navigation.goBack();
   };
 
   return (

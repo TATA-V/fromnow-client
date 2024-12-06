@@ -42,7 +42,7 @@ const NoticeScreen = () => {
         <FlashList
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           data={noticeList}
-          keyExtractor={(_, idx) => idx.toString()}
+          keyExtractor={item => item.id.toString()}
           renderItem={({ item, index }) => (
             <Swipeable key={index} renderRightActions={() => <DeleteButton id={index} onDelete={() => deleteNoti(item.id)} />}>
               <NoticeItem {...item} setNoticeList={setNoticeList} />
