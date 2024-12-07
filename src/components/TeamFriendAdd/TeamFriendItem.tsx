@@ -10,7 +10,7 @@ interface Props extends TeamFriend {
 }
 
 const TeamFriendItem = (props: Props) => {
-  const { profileNames, setProfileNames, profileName, profilePhotoUrl, team, index, length } = props;
+  const { profileNames, setProfileNames, profileName, profilePhotoUrl, index, length } = props;
   const [isFriend, setIsFriend] = useState(profileNames.includes(profileName));
 
   const toogleTeam = () => {

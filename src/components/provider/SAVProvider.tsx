@@ -11,7 +11,7 @@ import useGetFCMToken from '@hooks/useGetFCMToken';
 import useClearAllUserData from '@hooks/useClearAllUserData';
 import useAppState from '@store/useAppStore';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { deepLinkByShareUrl } from '@utils/pathHandler';
+import { extractDeepLink } from '@utils/pathHandler';
 import BootSplash from 'react-native-bootsplash';
 
 interface Props {
@@ -22,20 +22,22 @@ function SAVProvider({ children }: Props) {
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
   const clearAllUserData = useClearAllUserData();
-  const { isFirstEntry, setIsFirstEntry } = useAppState(state => state);
+  const isFirstEntry = useAppState(state => state.isFirstEntry);
 
   useEffect(() => {
     const initialURL = async () => {
       const url = await Linking.getInitialURL();
-      setIsFirstEntry(false);
+      const link = extractDeepLink(url);
+      if (!link) return;
       await BootSplash.hide({ fade: true });
-      await deepLinkByShareUrl(url);
+      await Linking.openURL(link);
     };
     initialURL();
     const linkingListener = Linking.addEventListener('url', e => {
       const { url } = e;
-      setIsFirstEntry(false);
-      deepLinkByShareUrl(url);
+      const link = extractDeepLink(url);
+      if (!link) return;
+      Linking.openURL(link);
     });
 
     const initializeUser = async () => {

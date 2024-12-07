@@ -5,7 +5,6 @@ import useCurrentRoute from '@hooks/useCurrentRoute';
 import PlusIcon from '@assets/icons/PlusIcon';
 import FriendItem from '@components/TeamSetting/FriendItem';
 import PenIcon from '@assets/icons/PenIcon';
-import ShareIcon from '@assets/icons/ShareIcon';
 import TrashIcon from '@assets/icons/trash.svg';
 import useNavi from '@hooks/useNavi';
 import { useModal } from '@components/Modal';
@@ -13,7 +12,8 @@ import { QUERY_KEY, useDeleteOneTeam, useGetTeamMenu, useKey } from '@hooks/quer
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { MotiView } from 'moti';
 import { useDebounce } from '@hooks/useOptimization';
-import useKakaoShare from '@hooks/useKakaoShare';
+// import ShareIcon from '@assets/icons/ShareIcon';
+// import useKakaoShare from '@hooks/useKakaoShare';
 import useUserStore from '@store/useUserStore';
 import { isIOS } from '@utils/deviceInfo';
 import { useIsFocused } from '@react-navigation/native';
@@ -72,16 +72,6 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   };
 
   const settingList = [
-    user?.owner
-      ? {
-          icon: <PenIcon size={24} />,
-          title: '모임정보 수정하기',
-          onPress: () => {
-            close();
-            navigation.navigate('TeamEdit', { id: route.params.id });
-          },
-        }
-      : null,
     // 다이어리 초대 api 추가 시 적용 예정
     // {
     //   icon: <ShareIcon size={24} color="#E4E5EA" />,
@@ -94,8 +84,18 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
     //       params: { deepLink: `fromnow://team/invite` },
     //     }),
     // },
-    user?.owner ? { icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam } : null,
-  ].filter(Boolean);
+  ];
+  if (user?.owner) {
+    settingList.unshift({
+      icon: <PenIcon size={24} />,
+      title: '모임정보 수정하기',
+      onPress: () => {
+        close();
+        navigation.navigate('TeamEdit', { id: route.params.id });
+      },
+    });
+    settingList.push({ icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam });
+  }
 
   return (
     <Modal transparent visible={open} onRequestClose={close}>

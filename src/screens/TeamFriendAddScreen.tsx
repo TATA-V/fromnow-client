@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { FlashList } from '@shopify/flash-list';
 import { QUERY_KEY, useGetAllMyFriend, useGetSearchTeamFriend, useInviteTeam, useKey } from '@hooks/query';
-import { Share } from 'react-native';
 import { CLIENT_URL } from '@env';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@hooks/useOptimization';
@@ -64,7 +63,7 @@ const TeamFriendAddScreen = ({}: Props) => {
       { diaryId: teamId, profileNames },
       {
         onSuccess: () => {
-          queryClient.removeQueries({ queryKey: teamFriendSearchKey });
+          queryClient.invalidateQueries({ queryKey: teamFriendSearchKey });
           searchRefetch();
           setProfileNames([]);
         },

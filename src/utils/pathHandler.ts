@@ -1,4 +1,5 @@
 import * as RootNavi from '@utils/rootNavigation';
+import useAppState from '@store/useAppStore';
 import { Linking } from 'react-native';
 
 const parseQueryParams = (query: string, isDeepLink = false) => {
@@ -36,10 +37,9 @@ export const deepLinkByPath = async (url: string) => {
   await Linking.openURL(`fromnow://${newPath}${params}`);
 };
 
-export const deepLinkByShareUrl = async (url: string) => {
+export const extractDeepLink = (url: string) => {
   if (!url) return;
+  useAppState.getState().setIsFirstEntry(false);
   const deepLinkMatch = url.match(/[?&]deepLink=([^&]+)/);
-  if (!deepLinkMatch || !deepLinkMatch[1]) return;
-  const newUrl = deepLinkMatch[1];
-  await Linking.openURL(newUrl);
+  return deepLinkMatch && deepLinkMatch[1] ? deepLinkMatch[1] : null;
 };

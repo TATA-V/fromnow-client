@@ -24,7 +24,7 @@ const useKakaoShare = () => {
       webUrl = '',
       mobileWebUrl = '',
       buttonTitle = '자세히보기',
-      params = { deepLink: 'bottom' },
+      params = { deepLink: 'fromnow://bottom' },
     }: KakaoShareProps = {}) => {
       try {
         const template = {
