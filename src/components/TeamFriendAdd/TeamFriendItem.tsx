@@ -13,7 +13,7 @@ const TeamFriendItem = (props: Props) => {
   const { profileNames, setProfileNames, profileName, profilePhotoUrl, index, length } = props;
   const [isFriend, setIsFriend] = useState(profileNames.includes(profileName));
 
-  const toogleTeam = () => {
+  const toggleTeam = () => {
     if (isFriend) setProfileNames(prev => prev.filter(name => name !== profileName));
     else setProfileNames(prev => [...prev, profileName]);
     setIsFriend(!isFriend);
@@ -34,7 +34,7 @@ const TeamFriendItem = (props: Props) => {
         <Text className="text-black900 font-PTDLight text-sm">{profileName}</Text>
       </View>
       <TouchableOpacity
-        onPress={toogleTeam}
+        onPress={toggleTeam}
         className={`${isFriend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
         h-9 w-[74px] flex justify-center items-center rounded-xl`}>
         <Text className={`${isFriend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isFriend ? '모임' : '모임추가'}</Text>

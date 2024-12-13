@@ -7,6 +7,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Splash: 'splash',
       Home: 'home',
+      TeamInvite: 'team-invite/:id',
       Profile: 'profile',
       SignIn: 'signin',
       Camera: 'camera',
@@ -36,6 +37,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
 
 type RootStackParamList = {
   Splash: string;
+  TeamInvite: { id: string };
   Home: string;
   Profile: string;
   SignIn: string;

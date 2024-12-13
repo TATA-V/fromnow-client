@@ -1,5 +1,5 @@
-import { Team, TeamInvite, TeamMenu } from '@clientTypes/team';
-import { deleteOne, getAll, getMenu, postAccept, postInvite, postOne, postTeamReject, UpdateOne, updateOne } from '@api/team';
+import { Team, TeamInvite, TeamImmediateInvite, TeamMenu } from '@clientTypes/team';
+import { deleteOne, getAll, getMenu, postAccept, postImmediateInvite, postInvite, postOne, postTeamReject, UpdateOne, updateOne } from '@api/team';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
@@ -169,4 +169,35 @@ export const usePostTeamReject = () => {
   });
 
   return { friendRequestMutation };
+};
+
+export const usePostImmediateInvite = () => {
+  const { successToast, errorToast } = useToast();
+  const queryClient = useQueryClient();
+  const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
+  const { navigation } = useNavi();
+
+  const inviteTeamMutation = useMutation({
+    mutationFn: async ({ diaryId, profileName }: TeamImmediateInvite) => await postImmediateInvite({ diaryId, profileName }),
+    onSuccess: async res => {
+      successToast('다이어리에 초대되었습니다🎉');
+      await queryClient.invalidateQueries({ queryKey: myTeamKey });
+      await queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
+        let update = [...prev];
+        const newTeam = { ...res.data, photoUrls: Array.isArray(res.data.photoUrls) ? res.data.photoUrls : [res.data.photoUrls], isNew: true };
+        if (prev[0] && prev[0].isNew) {
+          update.shift();
+          update.unshift({ ...prev[0], isNew: false });
+        }
+        update.unshift(newTeam);
+        return update;
+      });
+      navigation.navigate('Bottom', { screen: 'Home' });
+    },
+    onError: () => {
+      errorToast('다이어리 초대 받기에 실패했어요.');
+    },
+  });
+
+  return { inviteTeamMutation };
 };

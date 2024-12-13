@@ -47,6 +47,7 @@ import TeamCreateScreen from './src/screens/TeamCreateScreen';
 import PrivacyPolicyScreen from './src/screens/PrivacyPolicyScreen';
 import ServicePolicyScreen from './src/screens/ServicePolicyScreen';
 import SplashScreen from './src/screens/SplashScreen';
+import TeamInviteScreen from './src/screens/TeamInviteScreen';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -178,6 +179,9 @@ function App() {
                   </Stack.Screen>
                   <Stack.Screen name="ServicePolicy" options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}>
                     {props => <ServicePolicyScreen {...props} paramName="ServicePolicy" />}
+                  </Stack.Screen>
+                  <Stack.Screen name="TeamInvite" options={{ headerShown: false }}>
+                    {props => <TeamInviteScreen {...props} paramName="TeamInvite" />}
                   </Stack.Screen>
                 </Stack.Navigator>
               </SAVProvider>

@@ -6,6 +6,7 @@ import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import useUserStore from '@store/useUserStore';
 import { useModal } from '@components/Modal';
 import { useDebounce } from '@hooks/useOptimization';
+import CrownIcon from '@assets/icons/crown.svg';
 
 const FriendItem = (props: TeamMenu) => {
   const { memberId, profileName, photoUrl, owner, friend } = props;
@@ -33,6 +34,7 @@ const FriendItem = (props: TeamMenu) => {
         <View className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200">
           <Image source={{ uri: photoUrl }} className="w-full h-full rounded-2xl justify-center items-center" />
         </View>
+        {owner && <CrownIcon />}
         <Text className="text-black900 text-sm font-PTDLight">{profileName}</Text>
       </View>
       {name !== profileName && (

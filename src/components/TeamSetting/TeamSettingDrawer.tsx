@@ -12,8 +12,8 @@ import { QUERY_KEY, useDeleteOneTeam, useGetTeamMenu, useKey } from '@hooks/quer
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { MotiView } from 'moti';
 import { useDebounce } from '@hooks/useOptimization';
-// import ShareIcon from '@assets/icons/ShareIcon';
-// import useKakaoShare from '@hooks/useKakaoShare';
+import ShareIcon from '@assets/icons/ShareIcon';
+import useKakaoShare from '@hooks/useKakaoShare';
 import useUserStore from '@store/useUserStore';
 import { isIOS } from '@utils/deviceInfo';
 import { useIsFocused } from '@react-navigation/native';
@@ -23,6 +23,11 @@ interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
+interface SettingItem {
+  icon: JSX.Element;
+  title: string;
+  onPress: () => void | Promise<void>;
+}
 
 const { width } = Dimensions.get('window');
 
@@ -31,7 +36,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const { route } = useCurrentRoute();
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
-  // const { kakaoShare } = useKakaoShare();
+  const { kakaoShare } = useKakaoShare();
   const { showModal } = useModal();
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const username = useUserStore(state => state.name);
@@ -71,19 +76,18 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
     });
   };
 
-  const settingList = [
-    // 다이어리 초대 api 추가 시 적용 예정
-    // {
-    //   icon: <ShareIcon size={24} color="#E4E5EA" />,
-    //   title: '초대 링크 공유하기',
-    //   onPress: () =>
-    //     kakaoShare({
-    //       title: '다이어리 초대',
-    //       description: `${username}님이 다이어리에 초대했어요`,
-    //       imageUrl: `${user.photoUrl}`,
-    //       params: { deepLink: `fromnow://team/invite` },
-    //     }),
-    // },
+  const settingList: SettingItem[] = [
+    {
+      icon: <ShareIcon size={24} color="#E4E5EA" />,
+      title: '초대 링크 공유하기',
+      onPress: async () =>
+        await kakaoShare({
+          title: '다이어리 초대장💌',
+          description: `${username}님이 다이어리에 초대했어요!`,
+          imageUrl: `${user.photoUrl}`,
+          params: { deepLink: `fromnow://team/invite/${teamId}` },
+        }),
+    },
   ];
   if (user?.owner) {
     settingList.unshift({

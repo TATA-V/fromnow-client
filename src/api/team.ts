@@ -1,4 +1,4 @@
-import { TeamInvite } from '@clientTypes/team';
+import { TeamInvite, TeamImmediateInvite } from '@clientTypes/team';
 import { instance } from '@api/axiosInstance';
 
 export interface UpdateOne {
@@ -44,5 +44,10 @@ export const getMenu = async (diaryId: number) => {
 
 export const postTeamReject = async (rejectDiaryId: number) => {
   const res = await instance.post('/api/diary/reject', { rejectDiaryId });
+  return res.data;
+};
+
+export const postImmediateInvite = async (body: TeamImmediateInvite) => {
+  const res = await instance.post('api/diary/immediate-invite', body);
   return res.data;
 };

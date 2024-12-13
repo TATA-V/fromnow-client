@@ -12,6 +12,11 @@ export interface TeamInvite {
   profileNames: string[];
 }
 
+export interface TeamImmediateInvite {
+  diaryId: number;
+  profileName: string;
+}
+
 export interface TeamMenu {
   memberId: number;
   profileName: string;
