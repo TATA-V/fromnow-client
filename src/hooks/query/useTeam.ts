@@ -196,6 +196,7 @@ export const usePostImmediateInvite = () => {
     },
     onError: () => {
       errorToast('다이어리 초대 받기에 실패했어요.');
+      navigation.navigate('Bottom', { screen: 'Home' });
     },
   });
 

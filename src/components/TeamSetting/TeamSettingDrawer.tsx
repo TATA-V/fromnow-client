@@ -1,9 +1,7 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { ReactNode, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Modal, Dimensions } from 'react-native';
-import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import PlusIcon from '@assets/icons/PlusIcon';
-import FriendItem from '@components/TeamSetting/FriendItem';
 import PenIcon from '@assets/icons/PenIcon';
 import TrashIcon from '@assets/icons/trash.svg';
 import useNavi from '@hooks/useNavi';
@@ -18,13 +16,15 @@ import useUserStore from '@store/useUserStore';
 import { isIOS } from '@utils/deviceInfo';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
+import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
+import FriendItem from '@components/TeamSetting/FriendItem';
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 interface SettingItem {
-  icon: JSX.Element;
+  icon: ReactNode;
   title: string;
   onPress: () => void | Promise<void>;
 }
@@ -85,7 +85,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
           title: '다이어리 초대장💌',
           description: `${username}님이 다이어리에 초대했어요!`,
           imageUrl: `${user.photoUrl}`,
-          params: { deepLink: `fromnow://team/invite/${teamId}` },
+          params: { deepLink: `fromnow://team-invite/${teamId}` },
         }),
     },
   ];
