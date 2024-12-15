@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import HomeHeader from '@components/Home/HomeHeader';
 import { Color } from '@components/common/TeamFolder';
@@ -7,12 +7,23 @@ import TeamList from '@components/Home/TeamList';
 import MiniLoading from '@components/common/MiniLoading';
 import TeamNotFound from '@components/Home/TeamNotFound';
 import { useGetAllTeam } from '@hooks/query';
+import useClearAllUserData from '@hooks/useClearAllUserData';
+import useUserStore from '@store/useUserStore';
 
 const HomeScreen = () => {
   // const [isEdit, setIsEdit] = useState(false);
   const colors: Color[] = ['pink', 'yellow', 'blue', 'green', 'gray'];
+  const removeAll = useClearAllUserData();
+  const { name } = useUserStore(state => state);
 
   const { data, isLoading } = useGetAllTeam();
+
+  // useEffect(() => {
+  //   const reset = async () => {
+  //     await removeAll();
+  //   };
+  //   reset();
+  // }, []);
 
   if (isLoading)
     return (

@@ -22,7 +22,10 @@ function SAVProvider({ children }: Props) {
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
   const clearAllUserData = useClearAllUserData();
+
   const isFirstEntry = useAppState(state => state.isFirstEntry);
+  StatusBar.setBarStyle(isFirstEntry ? 'light-content' : 'dark-content');
+  StatusBar.setBackgroundColor(isFirstEntry ? '#1C1C1E' : '#fff');
 
   useEffect(() => {
     const initialURL = async () => {
@@ -73,6 +76,8 @@ function SAVProvider({ children }: Props) {
     const requestUserPermission = async () => {
       const authStatus = await messaging().requestPermission({ providesAppNotificationSettings: true });
       const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      console.log('authStatus:', authStatus);
+      console.log('enabled:', enabled);
     };
     requestUserPermission();
 
@@ -88,7 +93,7 @@ function SAVProvider({ children }: Props) {
       <ModalManager>
         <SafeAreaProvider>
           <SafeAreaView className="flex-1 w-full">
-            <StatusBar barStyle={isFirstEntry ? 'light-content' : 'dark-content'} backgroundColor={isFirstEntry ? '#1C1C1E' : '#fff'} />
+            <StatusBar />
             {children}
           </SafeAreaView>
         </SafeAreaProvider>

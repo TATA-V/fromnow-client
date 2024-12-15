@@ -1,6 +1,5 @@
 import { TeamInvite, TeamImmediateInvite } from '@clientTypes/team';
 import { instance } from '@api/axiosInstance';
-import { Alert } from 'react-native';
 
 export interface UpdateOne {
   diaryId: number;
