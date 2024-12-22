@@ -4,6 +4,7 @@ import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDebounce } from '@hooks/useOptimization';
+import { isAndroid } from '@utils/deviceInfo';
 
 import Input from '@components/common/Input';
 
@@ -24,7 +25,9 @@ const SearchHeader = ({ hasSearched, search, setSearch, onSubmitEditing }: Props
   const debounceOnSubmitEditing = useDebounce(onSubmitEditing, 500);
 
   return (
-    <View style={{ top: insets.top }} className="absolute pl-[48px] pr-[16px] bg-black100 h-[66px] w-full flex flex-row items-center justify-between">
+    <View
+      style={{ top: isAndroid ? insets.top : 0 }}
+      className="absolute pl-[48px] pr-[16px] bg-black100 h-[66px] w-full flex flex-row items-center justify-between">
       <View className="absolute top-0 h-full justify-center left-[9px]">
         <Pressable onPress={goBack} className="w-[32px] h-[44px] px-[8px] flex flex-row justify-start items-center mr-[8px]">
           <LeftArrowIcon />

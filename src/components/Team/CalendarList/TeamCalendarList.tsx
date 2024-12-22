@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment-modification-rn';
 import { Text, TouchableOpacity } from 'react-native';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { DateData, DayState, Theme } from 'react-native-calendars/src/types';
@@ -95,6 +94,7 @@ const TeamCalendarList = () => {
 
   return (
     <CalendarList
+      initialScrollIndex={calendarData?.length > 0 ? 0 : undefined}
       onVisibleMonthsChange={onVisibleMonthsChange}
       dayComponent={dayProps => <DayComponent {...dayProps} calendarMap={calendarMap} />}
       calendarHeight={600}

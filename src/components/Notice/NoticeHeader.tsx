@@ -4,6 +4,7 @@ import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import useNavi from '@hooks/useNavi';
 import { removeStorage } from '@utils/storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { isAndroid } from '@utils/deviceInfo';
 
 interface Props {
   title: string;
@@ -20,7 +21,9 @@ const NoticeHeader = ({ title, resetNoticeList }: Props) => {
   };
 
   return (
-    <View style={{ top: insets.top }} className="absolute px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
+    <View
+      style={{ top: isAndroid ? insets.top : 0 }}
+      className="absolute px-[8px] bg-white h-[66px] w-full flex flex-row items-center justify-between">
       <View className="w-[69px] h-[48px] justify-center">
         <TouchableOpacity onPress={() => navigation.goBack()} className="w-[44px] h-[44px] p-[10px]">
           <LeftArrowIcon />

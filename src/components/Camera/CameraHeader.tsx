@@ -4,6 +4,7 @@ import useNavi from '@hooks/useNavi';
 import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import CycleIcon from '@assets/icons/cycle.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { isAndroid } from '@utils/deviceInfo';
 
 interface Props {
   toggleCameraType: () => void;
@@ -22,7 +23,7 @@ const CameraHeader = ({ toggleCameraType }: Props) => {
   };
 
   return (
-    <View style={{ top: insets.top }} className="absolute px-[8px] h-[66px] w-full flex flex-row items-center justify-between">
+    <View style={{ top: isAndroid ? insets.top : 0 }} className="absolute px-[8px] h-[66px] w-full flex flex-row items-center justify-between">
       <TouchableOpacity onPress={goBack} className="w-[44px] h-[44px] p-[10px]">
         <LeftArrowIcon color="#fff" />
       </TouchableOpacity>

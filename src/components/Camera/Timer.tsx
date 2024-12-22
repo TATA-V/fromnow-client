@@ -44,7 +44,8 @@ const Timer = () => {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
-  const progressPercentage = (1 - time.asMilliseconds() / totalDuration.asMilliseconds()) * 100;
+  // const progressPercentage = (1 - time.asMilliseconds() / totalDuration.asMilliseconds()) * 100;
+  const progressPercentage = Math.max(0, Math.min(100, (1 - time.asMilliseconds() / totalDuration.asMilliseconds()) * 100));
   const formattedTime = formatTime(time.asSeconds());
   const shouldAnimate = time.asMinutes() <= 1;
 
