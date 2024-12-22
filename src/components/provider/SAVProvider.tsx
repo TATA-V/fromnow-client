@@ -13,6 +13,7 @@ import useAppState from '@store/useAppStore';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { extractDeepLink } from '@utils/pathHandler';
 import BootSplash from 'react-native-bootsplash';
+import { isAndroid } from '@utils/deviceInfo';
 
 interface Props {
   children: ReactNode;
@@ -24,8 +25,9 @@ function SAVProvider({ children }: Props) {
   const clearAllUserData = useClearAllUserData();
 
   const isFirstEntry = useAppState(state => state.isFirstEntry);
+  const statusBarBgColor = isFirstEntry ? '#1C1C1E' : '#fff';
   StatusBar.setBarStyle(isFirstEntry ? 'light-content' : 'dark-content');
-  StatusBar.setBackgroundColor(isFirstEntry ? '#1C1C1E' : '#fff');
+  StatusBar.setBackgroundColor(statusBarBgColor);
 
   useEffect(() => {
     const initialURL = async () => {
@@ -76,8 +78,8 @@ function SAVProvider({ children }: Props) {
     const requestUserPermission = async () => {
       const authStatus = await messaging().requestPermission({ providesAppNotificationSettings: true });
       const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-      console.log('authStatus:', authStatus);
-      console.log('enabled:', enabled);
+      // console.log('authStatus:', authStatus);
+      // console.log('enabled:', enabled);
     };
     requestUserPermission();
 
@@ -91,9 +93,9 @@ function SAVProvider({ children }: Props) {
   return (
     <ToastModalManager>
       <ModalManager>
-        <SafeAreaProvider>
+        <SafeAreaProvider style={{ flex: 1, width: '100%', backgroundColor: statusBarBgColor }}>
           <SafeAreaView className="flex-1 w-full">
-            <StatusBar />
+            {isAndroid && <StatusBar />}
             {children}
           </SafeAreaView>
         </SafeAreaProvider>

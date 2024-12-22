@@ -2,3 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --fn-red: #F04438;
+  --fn-pink: #FEC7C6;
+  --fn-blue: #8EB9E6;
+  --fn-yellow: #FEE987;
+  --fn-green: #B0DDC1;
+  --black-900: #1C1C1E;
+  --black-700: #6E6D73;
+  --black-500: #B3B4B9;
+  --black-400: #D9D9DC;
+  --black-300: #E4E5EA;
+  --black-200: #F3F3F8;
+  --black-100: #FBFBFD;
+  --success: #12B76A;
+  --kakao: #FEE500;
+  --kakao-txt: #212121;
+}

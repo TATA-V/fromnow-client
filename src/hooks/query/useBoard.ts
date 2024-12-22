@@ -16,8 +16,8 @@ import useToast from '@hooks/useToast';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
-import moment from 'moment-modification-rn';
 import { CalendarCol } from '@clientTypes/calendar';
+import { getDate } from '@utils/formatDate';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
@@ -103,14 +103,14 @@ export const useRowInfiniteCalendar = ({ diaryId, options }: Pick<RowColCalendar
   const queryKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
   const { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey,
-    initialPageParam: { diaryId, date: moment().utcOffset(9).format() },
+    initialPageParam: { diaryId, date: getDate().utcOffset(9).format() },
     queryFn: async ({ pageParam }) => await getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
     getNextPageParam: lastPage => {
-      const nextDate = moment(lastPage[0]?.date).utcOffset(9).add(1, 'months').toISOString();
+      const nextDate = getDate(lastPage[0]?.date).utcOffset(9).add(1, 'months').toISOString();
       return { diaryId, date: nextDate };
     },
     getPreviousPageParam: firstPage => {
-      const prevDate = moment(firstPage[0]?.date).utcOffset(9).subtract(1, 'month').toISOString();
+      const prevDate = getDate(firstPage[0]?.date).utcOffset(9).subtract(1, 'month').toISOString();
       return { diaryId, date: prevDate };
     },
     staleTime: 1000 * 30,

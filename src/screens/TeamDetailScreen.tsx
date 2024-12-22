@@ -7,10 +7,8 @@ import { QUERY_KEY, useGetAllBoard, useKey } from '@hooks/query';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
-import moment from 'moment-modification-rn';
-import 'moment-modification-rn/locale/ko';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
-moment.locale('ko');
+import { getDate } from '@utils/formatDate';
 
 interface Props {
   paramName: string;
@@ -23,7 +21,7 @@ const TeamDetailScreen = ({}: Props) => {
   const { data, isLoading } = useGetAllBoard({ diaryId, date });
   const boardKey = useKey(['all', QUERY_KEY.BOARD, date]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardKey });
-  const formattedDate = moment(date).utcOffset(9).format('YYYY년 MM월 DD일 dddd');
+  const formattedDate = getDate(date).utcOffset(9).format('YYYY년 MM월 DD일 dddd');
   const boards = data?.boardOverViewResponseDtoList;
 
   if (isLoading) {
@@ -47,7 +45,7 @@ const TeamDetailScreen = ({}: Props) => {
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View className="h-[18px]" />}
             contentContainerStyle={{ paddingTop: 8, paddingBottom: 30, paddingHorizontal: 16 }}
-            initialScrollIndex={0}
+            initialScrollIndex={boards.length > 0 ? 0 : undefined}
             estimatedItemSize={600}
             estimatedFirstItemOffset={8}
           />

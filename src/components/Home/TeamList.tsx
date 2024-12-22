@@ -47,7 +47,7 @@ function TeamList({ teamList, colors }: Props) {
           </FadeIn>
         }
         numColumns={numColumns}
-        initialScrollIndex={0}
+        initialScrollIndex={teamList.length > 0 ? 0 : undefined}
         horizontal={false}
       />
     </View>

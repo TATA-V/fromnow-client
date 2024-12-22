@@ -16,7 +16,7 @@ import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
 import useNavi from '@hooks/useNavi';
-import { formatDate } from '@utils/formatDate';
+import { formatDate, getDate } from '@utils/formatDate';
 import { CalendarRow, CalendarRowMap } from '@clientTypes/calendar';
 import { useScrollDirection } from '@hooks/useScrollDirection';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
@@ -31,7 +31,7 @@ interface Props {
 }
 
 const TeamScreen = ({}: Props) => {
-  const [week, setWeek] = useState<Moment | string>(moment().utcOffset(9).format());
+  const [week, setWeek] = useState<Moment | string>(getDate().utcOffset(9).format());
   const { navigation } = useNavi();
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
@@ -81,8 +81,8 @@ const TeamScreen = ({}: Props) => {
   const { refreshing, onRefresh } = useRefresh({ queryKey: [boardsKey, rowKey] });
 
   const onWeekChanged = async (start: Moment, _) => {
-    const startYearMonth = moment(start).format('YYYY-MM');
-    if (startYearMonth === moment(week).format('YYYY-MM')) return;
+    const startYearMonth = getDate(start).format('YYYY-MM');
+    if (startYearMonth === getDate(week).format('YYYY-MM')) return;
     setWeek(start);
     if (calendarMap[`${startYearMonth}-01`]) return;
     await fetchPreviousPage();
@@ -130,9 +130,9 @@ const TeamScreen = ({}: Props) => {
           scrollerPaging={true}
           onDateSelected={onDateSelected}
           onWeekChanged={onWeekChanged}
-          minDate={formatDate() === moment(teamDate).toString() ? moment(teamDate) : moment(teamDate).subtract('4', 'days')}
-          maxDate={moment().add(4, 'days')}
-          selectedDate={moment(currentDate)}
+          minDate={formatDate() === getDate(teamDate).toString() ? getDate(teamDate) : getDate(teamDate).subtract('4', 'days')}
+          maxDate={getDate().add(4, 'days')}
+          selectedDate={getDate(currentDate)}
           dayComponent={({ date, onDateSelected }) => {
             const format = formatDate(date.toISOString());
             const dayData = calendarMap[format];
@@ -141,9 +141,9 @@ const TeamScreen = ({}: Props) => {
               <Pressable
                 onPress={() => {
                   onDateSelected(date);
-                  setCurrentDate(moment(date).format('YYYY-MM-DD'));
+                  setCurrentDate(getDate(date).format('YYYY-MM-DD'));
                 }}
-                className={`${moment(date).format('YYYY-MM-DD') === currentDate && 'bg-black200'} relative
+                className={`${getDate(date).format('YYYY-MM-DD') === currentDate && 'bg-black200'} relative
                 items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
                 <View
                   className={`${dayData?.hasPosts ? 'bg-black900' : 'bg-black300'}
@@ -175,7 +175,7 @@ const TeamScreen = ({}: Props) => {
               showsVerticalScrollIndicator={false}
               ItemSeparatorComponent={() => <View className="h-[18px]" />}
               contentContainerStyle={{ paddingTop: 16, paddingBottom: 30, paddingHorizontal: 16 }}
-              initialScrollIndex={0}
+              initialScrollIndex={boards.length > 0 ? 0 : undefined}
               estimatedItemSize={600}
             />
             {data && boards.length > 0 && data.blur && (

@@ -50,7 +50,7 @@ const NoticeScreen = () => {
           )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 66, paddingBottom: 30 }}
-          initialScrollIndex={0}
+          initialScrollIndex={noticeList.length > 0 ? 0 : undefined}
           estimatedItemSize={60}
           estimatedFirstItemOffset={0}
         />

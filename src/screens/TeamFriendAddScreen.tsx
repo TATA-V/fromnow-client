@@ -99,7 +99,7 @@ const TeamFriendAddScreen = ({}: Props) => {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 12 }}
               ItemSeparatorComponent={() => <View className="w-[6px]" />}
-              initialScrollIndex={0}
+              initialScrollIndex={myFriendData.length > 0 ? 0 : undefined}
               estimatedItemSize={60}
               estimatedFirstItemOffset={0}
             />
@@ -134,7 +134,7 @@ const TeamFriendAddScreen = ({}: Props) => {
                   )}
                   showsVerticalScrollIndicator={false}
                   ListFooterComponent={() => <View className="h-[370px]" />}
-                  initialScrollIndex={0}
+                  initialScrollIndex={searchData.length > 0 ? 0 : undefined}
                   estimatedItemSize={60}
                   estimatedFirstItemOffset={0}
                 />

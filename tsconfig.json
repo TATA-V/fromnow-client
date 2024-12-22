@@ -6,7 +6,6 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"],
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
       "@assets/*": ["assets/*"],
@@ -17,6 +16,7 @@
       "@clientTypes/*": ["types/*"],
       "@const/*": ["const/*"],
       "@api/*": ["api/*"],
+      "@/*": ["./*"],
     },
   },
 }

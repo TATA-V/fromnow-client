@@ -5,6 +5,8 @@ import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { useToastModal } from '@components/Modal';
+import { BaseAxiosError } from '@clientTypes/base';
+import { Alert } from 'react-native';
 
 export const useGetAllTeam = () => {
   const queryKey = useKey(['all', QUERY_KEY.TEAM]);
@@ -179,23 +181,15 @@ export const usePostImmediateInvite = () => {
 
   const inviteTeamMutation = useMutation({
     mutationFn: async ({ diaryId, profileName }: TeamImmediateInvite) => await postImmediateInvite({ diaryId, profileName }),
-    onSuccess: async res => {
+    onSuccess: async () => {
       successToast('다이어리에 초대되었습니다🎉');
       await queryClient.invalidateQueries({ queryKey: myTeamKey });
-      await queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
-        let update = [...prev];
-        const newTeam = { ...res.data, photoUrls: Array.isArray(res.data.photoUrls) ? res.data.photoUrls : [res.data.photoUrls], isNew: true };
-        if (prev[0] && prev[0].isNew) {
-          update.shift();
-          update.unshift({ ...prev[0], isNew: false });
-        }
-        update.unshift(newTeam);
-        return update;
-      });
       navigation.navigate('Bottom', { screen: 'Home' });
     },
-    onError: () => {
-      errorToast('다이어리 초대 받기에 실패했어요.');
+    onError: e => {
+      const error = e as BaseAxiosError;
+      const { message } = error.response.data;
+      errorToast(`다이어리 초대 받기에 실패했어요.\n${message}`);
       navigation.navigate('Bottom', { screen: 'Home' });
     },
   });

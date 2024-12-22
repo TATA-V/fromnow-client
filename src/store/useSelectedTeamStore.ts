@@ -1,5 +1,5 @@
-import moment from 'moment-modification-rn';
 import { Moment } from 'moment-modification-rn';
+import { getDate } from '@utils/formatDate';
 import { create } from 'zustand';
 
 export interface SelectedTeam {
@@ -19,7 +19,7 @@ const initial: SelectedTeam = {
   title: '',
   createdAt: '',
   recivedAt: '',
-  targetDate: moment().utcOffset(9).format('YYYY-MM-DD'),
+  targetDate: getDate().utcOffset(9).format('YYYY-MM-DD'),
 };
 
 const useSelectedTeamStore = create<SelectedTeamStore>(set => ({

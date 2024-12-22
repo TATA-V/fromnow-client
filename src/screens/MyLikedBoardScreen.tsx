@@ -25,7 +25,7 @@ const MyLikedBoardScreen = () => {
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View className="h-[18px]" />}
           contentContainerStyle={{ paddingTop: 8, paddingBottom: 30, paddingHorizontal: 16 }}
-          initialScrollIndex={0}
+          initialScrollIndex={data.length > 0 ? 0 : undefined}
           estimatedItemSize={600}
           estimatedFirstItemOffset={8}
         />

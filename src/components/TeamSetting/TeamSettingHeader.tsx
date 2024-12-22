@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
-import moment from 'moment-modification-rn';
+import { getDate } from '@utils/formatDate';
 
 interface Props {
   close: () => void;
@@ -12,8 +12,8 @@ interface Props {
 const TeamSettingHeader = ({ close }: Props) => {
   const insets = useSafeAreaInsets();
   const { title, createdAt } = useSelectedTeamStore(state => state);
-  const startDate = moment(createdAt).utcOffset(9);
-  const currentDate = moment().utcOffset(9);
+  const startDate = getDate(createdAt).utcOffset(9);
+  const currentDate = getDate().utcOffset(9);
   const daysShared = currentDate.utcOffset(9).diff(startDate, 'days') + 1;
 
   return (

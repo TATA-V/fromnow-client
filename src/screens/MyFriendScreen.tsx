@@ -93,7 +93,7 @@ const MyFriendScreen = ({}: Props) => {
           />
         </View>
       )}
-      {data?.length === 0 && (!isLoadingMyFriend || !isLoadingFriendRq) && (
+      {data?.length === 0 && !isLoadingMyFriend && !isLoadingFriendRq && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="w-full h-full justify-center items-center transfrom translate-y-[-70px]" pointerEvents="box-none">
             <AvatarSadMsg message={isAllFriend ? `아직 친구가 없어요\n새로운 친구를 찾아보세요!` : `아직 받은\n친구 요청이 없어요`} />

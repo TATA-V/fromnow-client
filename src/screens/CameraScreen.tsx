@@ -50,8 +50,7 @@ const CameraScreen = () => {
   const { data: teamList } = useGetAllTeam();
   useEffect(() => {
     if (teamList && teamList.length === 0) {
-      if (navigation.canGoBack()) navigation.navigate('Home');
-      else navigation.navigate('Bottom', { screen: 'Home' });
+      navigation.navigate('Bottom', { screen: 'Home' });
       showModal({
         type: 'confirm',
         title: '모임 생성',
