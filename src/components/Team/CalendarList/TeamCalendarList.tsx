@@ -94,7 +94,7 @@ const TeamCalendarList = () => {
 
   return (
     <CalendarList
-      initialScrollIndex={calendarData?.length > 0 ? 0 : undefined}
+      initialScrollIndex={calendarData && calendarData?.length > 0 ? 0 : undefined}
       onVisibleMonthsChange={onVisibleMonthsChange}
       dayComponent={dayProps => <DayComponent {...dayProps} calendarMap={calendarMap} />}
       calendarHeight={600}

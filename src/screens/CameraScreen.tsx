@@ -22,7 +22,6 @@ const CameraScreen = () => {
   const { accessible } = cameraAccessible();
 
   const { data: mission, isLoading } = useGetMission(formatDate());
-  console.log('mission:', mission);
 
   const toggleCameraType = () => setIsFrontCamera(!isFrontCamera);
 
