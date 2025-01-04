@@ -24,7 +24,7 @@ const AccountModal = (props: ModalState) => {
       showToastModal({ type: 'warn', message: '닉네임을 정확히 입력해 주세요.' });
       return;
     }
-    deleteUserMutation.mutate(name, {
+    deleteUserMutation.mutate(undefined, {
       onSuccess: () => {
         hideModal();
         setNickname('');

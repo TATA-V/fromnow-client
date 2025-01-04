@@ -37,7 +37,8 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
-gradle.properties
+**/gradle.properties
+**.der
 
 # node.js
 #

@@ -10,7 +10,6 @@ import DocumentIcon from '@assets/icons/document.svg';
 import ExitIcon from '@assets/icons/exit.svg';
 import useNavi from '@hooks/useNavi';
 import { useGetMyProfile, useLogoutUser } from '@hooks/query';
-import useUserStore from '@store/useUserStore';
 import { useDebounce } from '@hooks/useOptimization';
 import { useModal } from '@components/Modal';
 
@@ -19,7 +18,6 @@ import MiniLoading from '@components/common/MiniLoading';
 
 const ProfileScreen = () => {
   const { navigation } = useNavi();
-  const username = useUserStore(state => state.name);
   const { data, isLoading } = useGetMyProfile();
 
   const { logoutUserMutation } = useLogoutUser();
@@ -29,7 +27,7 @@ const ProfileScreen = () => {
     navigation.navigate(target, { ...options });
   };
   const logoutUser = useDebounce(() => {
-    logoutUserMutation.mutate(username);
+    logoutUserMutation.mutate();
   }, 500);
 
   const deleteUser = () => {

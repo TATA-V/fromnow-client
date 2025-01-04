@@ -55,12 +55,12 @@ export const postFCM = async (fcmToken: string) => {
   return res.data.data;
 };
 
-export const deleteOne = async (profileName: string) => {
-  const res = await instance.delete('/api/member/withdraw', { data: { profileName } });
+export const deleteOne = async () => {
+  const res = await instance.delete('/api/member/withdraw');
   return res.data.data;
 };
 
-export const logout = async (profileName: string) => {
-  const res = await instance.post('/api/member/logout', { profileName });
+export const logout = async () => {
+  const res = await instance.post('/api/member/logout');
   return res.data.data;
 };
