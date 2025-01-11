@@ -120,11 +120,11 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             // 개발 테스트용
-            signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            // signingConfig signingConfigs.debug
+            // minifyEnabled enableProguardInReleaseBuilds
             // 배포용
-            // signingConfig signingConfigs.release
-            // minifyEnabled true
+            signingConfig signingConfigs.release
+            minifyEnabled true
 
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

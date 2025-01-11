@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, TouchableOpacity, Dimensions, StyleSheet, Text } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Image, TouchableOpacity, StyleSheet, Text, LayoutChangeEvent } from 'react-native';
 import bottomTabBg from '@assets/png/bottom-tab-bg.png';
 import CameraIcon from '@assets/icons/CameraIcon';
 import HomeIcon from '@assets/icons/HomeIcon';
@@ -14,12 +14,13 @@ import { cameraAccessible } from '@utils/cameraAccessible';
 import { androidPermission, iosPermission } from '@const/permissions';
 import { isIOS } from '@utils/deviceInfo';
 import { checkPremission } from '@utils/checkPermissions';
-
-const { width } = Dimensions.get('window');
+import useDeviceSize from '@hooks/useDeviceSize';
 
 const BottomTabBar = ({ state, descriptors, navigation }: any) => {
   // const [showBubble, setShowBubble] = useState(true);
   // 말풍선은 새로운 일상이 생겼을 때 + 내가 글을 작성하지 않았을 때만 뜬다.
+  const { width, isTablet } = useDeviceSize();
+  const styles = createStyles(width, isTablet);
 
   const queryClient = useQueryClient();
   const { showModal } = useModal();
@@ -58,18 +59,20 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
   return (
     <View className="absolute bottom-[-3.5px] w-full bg-transparent" pointerEvents="box-none">
       <Image source={bottomTabBg} className="w-full h-[110px]" resizeMode="cover" />
-      <View style={styles.home} className="absolute h-full justify-center">
-        <TouchableOpacity onPress={() => navigateToScreen('Home')} className="items-center">
+      {/* <View className="relative bg-pink-400"> */}
+      <View style={styles.home} className="absolute">
+        <TouchableOpacity onPress={() => navigateToScreen('Home')} className="items-center py-2 px-5">
           <HomeIcon color={state.routes[state.index].name === 'Home' ? '#1C1C1E' : '#D9D9DC'} />
           <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">홈</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.profile} className="absolute h-full justify-center">
-        <TouchableOpacity onPress={() => navigateToScreen('Profile')} className="items-center">
+      <View style={styles.profile} className="absolute">
+        <TouchableOpacity onPress={() => navigateToScreen('Profile')} className="items-center py-2 px-5">
           <PeopleIcon color={state.routes[state.index].name === 'Profile' ? '#1C1C1E' : '#D9D9DC'} />
           <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">내 정보</Text>
         </TouchableOpacity>
       </View>
+      {/* </View> */}
       <View style={styles.camera} className="absolute h-full justify-center">
         <TouchableOpacity onPress={clickCamera} style={styles.button} className={`rounded-full bg-black900 flex justify-center items-center`}>
           <CameraIcon width={width * 0.068} height={width * 0.068} />
@@ -106,28 +109,29 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
 
 export default BottomTabBar;
 
-const styles = StyleSheet.create({
-  button: {
-    width: width * 0.14,
-    height: width * 0.14,
-  },
-  home: {
-    left: width / 5.6,
-    top: width * 0.044,
-  },
-  profile: {
-    right: width / 5.6,
-    top: width * 0.044,
-  },
-  camera: {
-    left: width / 2,
-    transform: [{ translateX: -(width * 0.07) }],
-    bottom: 9,
-  },
-  bubble: {
-    width: '100%',
-    bottom: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const createStyles = (width: number, isTablet: boolean) =>
+  StyleSheet.create({
+    button: {
+      width: width * 0.14,
+      height: width * 0.14,
+    },
+    home: {
+      left: isTablet ? '17%' : '12%',
+      bottom: isTablet ? 15 : 5,
+    },
+    profile: {
+      right: isTablet ? '17%' : '12%',
+      bottom: isTablet ? 15 : 5,
+    },
+    camera: {
+      left: width / 2,
+      transform: [{ translateX: -(width * 0.07) }],
+      bottom: 9,
+    },
+    bubble: {
+      width: '100%',
+      bottom: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });

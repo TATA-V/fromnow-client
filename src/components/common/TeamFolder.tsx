@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
-import { Text, View, Image, Pressable, Dimensions } from 'react-native';
+import { Text, View, Image, Pressable } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import PlusIcon from '@assets/icons/PlusIcon';
 import Badge from '@components/common/Badge';
 import useNavi from '@hooks/useNavi';
 import { Team } from '@clientTypes/team';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
-import { isTablet } from '@utils/deviceInfo';
+import useDeviceSize from '@hooks/useDeviceSize';
 
 export type Color = 'pink' | 'yellow' | 'blue' | 'green' | 'gray';
 
@@ -14,14 +14,13 @@ interface Props extends Team {
   color: string;
 }
 
-const { width } = Dimensions.get('window');
-
 const TeamFolder = (props: Props) => {
   const { isNew, color, id, createdAt, recivedAt, title, photoUrls = [] } = props;
   const { setSelectedTeam } = useSelectedTeamStore();
   const { navigation } = useNavi();
+  const { width, isTablet } = useDeviceSize();
   const numColumns = isTablet ? 4 : 2;
-  const teamFolderSize = (width - 18 - 32) / numColumns;
+  const teamFolderSize = (width - 18 * (numColumns - 1) - 32) / numColumns;
   const badgeSize = teamFolderSize / 4.5;
   const imageSize = teamFolderSize / 3.375;
   const fontSize = teamFolderSize / 8.1;
@@ -70,9 +69,9 @@ const TeamFolder = (props: Props) => {
               photoUrls.slice(0, 2).map((img, idx) => (
                 <View
                   key={idx}
-                  className="rounded-2xl border-[1px] border-black200"
+                  className="rounded-2xl border-[1px] border-black200 overflow-hidden"
                   style={{ width: imageSize, height: imageSize, marginLeft: idx === 0 ? 0 : -(imageSize / 4) }}>
-                  <Image source={{ uri: img }} className="rounded-2xl w-full h-full" />
+                  <Image source={{ uri: img }} className="w-full h-full" />
                 </View>
               ))}
             {photoUrls.length > 2 && (

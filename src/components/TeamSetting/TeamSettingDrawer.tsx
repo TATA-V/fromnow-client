@@ -1,5 +1,5 @@
 import React, { ReactNode, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Modal, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import PlusIcon from '@assets/icons/PlusIcon';
 import PenIcon from '@assets/icons/PenIcon';
@@ -18,6 +18,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import FriendItem from '@components/TeamSetting/FriendItem';
+import useDeviceSize from '@hooks/useDeviceSize';
 
 interface Props {
   open: boolean;
@@ -29,11 +30,10 @@ interface SettingItem {
   onPress: () => void | Promise<void>;
 }
 
-const { width } = Dimensions.get('window');
-
 const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
+  const { width } = useDeviceSize();
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
   const { kakaoShare } = useKakaoShare();

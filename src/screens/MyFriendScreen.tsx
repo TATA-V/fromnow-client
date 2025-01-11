@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, TouchableOpacity, Text, StyleSheet, Dimensions, RefreshControl, FlatList } from 'react-native';
+import { ScrollView, View, TouchableOpacity, Text, StyleSheet, RefreshControl, FlatList } from 'react-native';
 import SearchIcon from '@assets/icons/SearchIcon';
 import { QUERY_KEY, useGetAllMyFriend, useGetAllMyFriendRequest, useKey, usePostFriendReject } from '@hooks/query';
 import { Friend } from '@clientTypes/friend';
@@ -16,16 +16,17 @@ import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import DeleteButton from '@components/common/DeleteButton';
 import FriendItem from '@components/common/FriendItem';
 import Button from '@components/common/Button';
+import useDeviceSize from '@hooks/useDeviceSize';
 
 interface Props {
   paramName: string;
 }
 
-const { width } = Dimensions.get('window');
-
 const MyFriendScreen = ({}: Props) => {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
+  const { width } = useDeviceSize();
+  const styles = createStyles(width);
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
   const isReq = route.params.req;
@@ -111,8 +112,9 @@ const MyFriendScreen = ({}: Props) => {
 
 export default MyFriendScreen;
 
-const styles = StyleSheet.create({
-  button: {
-    width: (width - 48 - 12) / 2,
-  },
-});
+const createStyles = (width: number) =>
+  StyleSheet.create({
+    button: {
+      width: (width - 48 - 12) / 2,
+    },
+  });

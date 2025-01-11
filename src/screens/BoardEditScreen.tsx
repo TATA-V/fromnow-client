@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, TextInput, Text, Keyboard, Dimensions } from 'react-native';
+import { View, Image, TextInput, Text, Keyboard } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { SheetManager } from 'react-native-actions-sheet';
 import Button from '@components/common/Button';
@@ -7,18 +7,18 @@ import { useModal } from '@components/Modal';
 import { MotiView } from 'moti';
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import DismissKeyboard from '@components/common/DismissKeyboard';
+import useDeviceSize from '@hooks/useDeviceSize';
 
 interface Props {
   paramName: string;
 }
-
-const { height } = Dimensions.get('window');
 
 const BoardEditScreen = ({}: Props) => {
   const [content, setContent] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const { route } = useCurrentRoute();
   const { showModal } = useModal();
+  const { height } = useDeviceSize();
 
   const changeContent = (text: string) => {
     if (text.length <= 500) {
