@@ -14,6 +14,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { extractDeepLink } from '@utils/pathHandler';
 import BootSplash from 'react-native-bootsplash';
 import { isAndroid } from '@utils/deviceInfo';
+import useDeviceSize from '@hooks/useDeviceSize';
+import Orientation from 'react-native-orientation-locker';
 
 interface Props {
   children: ReactNode;
@@ -23,6 +25,7 @@ function SAVProvider({ children }: Props) {
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
   const clearAllUserData = useClearAllUserData();
+  const { isTablet } = useDeviceSize();
 
   const isFirstEntry = useAppState(state => state.isFirstEntry);
   const statusBarBgColor = isFirstEntry ? '#1C1C1E' : '#fff';
@@ -30,6 +33,9 @@ function SAVProvider({ children }: Props) {
   StatusBar.setBackgroundColor(statusBarBgColor);
 
   useEffect(() => {
+    if (!isTablet) Orientation.lockToPortrait();
+    else Orientation.unlockAllOrientations();
+
     const initialURL = async () => {
       const url = await Linking.getInitialURL();
       const link = extractDeepLink(url);

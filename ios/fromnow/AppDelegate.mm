@@ -5,6 +5,7 @@
 #import <React/RCTLinkingManager.h>
 #import <RNCKakaoUser/RNCKakaoUserUtil.h>
 #import "RNBootSplash.h"
+#import <Orientation.h>
 
 @implementation AppDelegate
 
@@ -52,6 +53,10 @@
   UIView *rootView = [super createRootViewWithBridge:bridge moduleName:moduleName initProps:initProps];
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; 
   return rootView;
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
 }
 
 @end
