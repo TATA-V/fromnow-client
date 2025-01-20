@@ -4,7 +4,7 @@ import { MotiView } from 'moti';
 import { useModal, ModalState } from '@components/Modal';
 
 const ConfirmModal = (props: ModalState) => {
-  const { children, open, title, description, confirm, lockBackdrop } = props;
+  const { children, open, title, description, confirm, lockBackdrop, confirmStyle } = props;
   const { hideModal } = useModal();
 
   const confirmClick = () => {
@@ -24,7 +24,10 @@ const ConfirmModal = (props: ModalState) => {
           {title && <Text className="font-PTDSemiBold text-lg mb-2 text-black900 mt-2 text-center leading-[26px]">{title}</Text>}
           {description && <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>}
           {children}
-          <TouchableOpacity onPress={confirmClick} className="mt-[24px] w-full bg-black900 rounded-xl h-[40px] justify-center items-center">
+          <TouchableOpacity
+            style={confirmStyle}
+            onPress={confirmClick}
+            className="mt-[24px] w-full bg-black900 rounded-xl h-[40px] justify-center items-center">
             <Text className="text-white text-sm font-PTDSemiBold">확인</Text>
           </TouchableOpacity>
         </MotiView>

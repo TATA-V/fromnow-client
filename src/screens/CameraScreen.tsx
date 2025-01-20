@@ -11,6 +11,7 @@ import { cameraAccessible } from '@utils/cameraAccessible';
 import useToast from '@hooks/useToast';
 import { useGetAllTeam, useGetMission } from '@hooks/query';
 import { formatDate } from '@utils/formatDate';
+import moment from 'moment-modification-rn';
 
 const CameraScreen = () => {
   const [isFrontCamera, setIsFrontCamera] = useState(false);
@@ -52,7 +53,7 @@ const CameraScreen = () => {
         missionImg: mission[0]?.missionImg || '',
         lockBackdrop: true,
       });
-  }, [isTimer]);
+  }, [isTimer, mission]);
 
   const { data: teamList } = useGetAllTeam();
   useEffect(() => {

@@ -8,7 +8,7 @@ import { useDeleteUser } from '@hooks/query';
 import { useDebounce } from '@hooks/useOptimization';
 
 const AccountModal = (props: ModalState) => {
-  const { open, title, description, lockBackdrop } = props;
+  const { open, title, description, lockBackdrop, confirmStyle } = props;
   const { hideModal } = useModal();
   const { showToastModal } = useToastModal();
   const [nickname, setNickname] = useState('');
@@ -54,7 +54,10 @@ const AccountModal = (props: ModalState) => {
               className="w-[121.5px] border-[1px] border-[#E4E5EA] rounded-xl h-[40px] justify-center items-center">
               <Text className="font-semibold text-sm text-black900 font-PTDSemiBold">취소</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={debounceConfirmClick} className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
+            <TouchableOpacity
+              style={confirmStyle}
+              onPress={debounceConfirmClick}
+              className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
               <Text className="text-white font-semibold text-sm font-PTDSemiBold">확인</Text>
             </TouchableOpacity>
           </View>

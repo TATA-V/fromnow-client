@@ -6,11 +6,12 @@ import PenIcon from '@assets/icons/PenIcon';
 import TrashIcon from '@assets/icons/trash.svg';
 import useNavi from '@hooks/useNavi';
 import { useModal } from '@components/Modal';
-import { QUERY_KEY, useDeleteOneTeam, useGetTeamMenu, useKey } from '@hooks/query';
+import { QUERY_KEY, useDeleteOneTeam, useGetTeamMenu, useKey, useLeaveOneTeam } from '@hooks/query';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { MotiView } from 'moti';
 import { useDebounce } from '@hooks/useOptimization';
 import ShareIcon from '@assets/icons/ShareIcon';
+import DoorIcon from '@assets/icons/door.svg';
 import useKakaoShare from '@hooks/useKakaoShare';
 import useUserStore from '@store/useUserStore';
 import { isIOS } from '@utils/deviceInfo';
@@ -73,6 +74,23 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
       title: '모임 삭제',
       description: '모임을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
       confirm: confirmDeleteTeam,
+      confirmStyle: { backgroundColor: '#F04438' },
+    });
+  };
+
+  const { leaveTeamMutation } = useLeaveOneTeam(true);
+  const confirmLeaveTeam = useDebounce(() => {
+    leaveTeamMutation.mutate(route.params.id, {
+      onSuccess: close,
+    });
+  }, 500);
+  const leaveTeam = () => {
+    showModal({
+      type: 'dialog',
+      title: '모임 나가기',
+      description: '모임을 나가면 나와 친구들이 남겼던\n일상들을 다시 볼 수 없게 돼요 ;(',
+      confirm: confirmLeaveTeam,
+      confirmStyle: { backgroundColor: '#F04438' },
     });
   };
 
@@ -82,11 +100,16 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
       title: '초대 링크 공유하기',
       onPress: async () =>
         await kakaoShare({
-          title: '다이어리 초대장💌',
-          description: `${username}님이 다이어리에 초대했어요!`,
+          title: '모임 초대장💌',
+          description: `${username}님이 모임에 초대했어요!`,
           imageUrl: `${user.photoUrl}`,
           params: { deepLink: `fromnow://team-invite/${teamId}` },
         }),
+    },
+    {
+      icon: <DoorIcon />,
+      title: '모임 나가기',
+      onPress: leaveTeam,
     },
   ];
   if (user?.owner) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import ActionSheet, { FlatList } from 'react-native-actions-sheet';
 import { useGetAllTeam, usePostOneBoard } from '@hooks/query';
@@ -35,7 +35,7 @@ const SelectTeam = ({ payload }: Props) => {
   };
 
   const [submitLoading, setSubmitLoading] = useState(false);
-  const confirmTeamSelection = () => {
+  const confirmTeamSelection = useCallback(() => {
     setSubmitLoading(true);
     const diaryIds = teams.reduce((acc, team) => {
       if (team.isSharing) {
@@ -45,7 +45,7 @@ const SelectTeam = ({ payload }: Props) => {
     }, []);
     const chooseDiaryDto = { content: payload.content, diaryIds };
     createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto }, { onSuccess: () => setSubmitLoading(false) });
-  };
+  }, []);
   const debounceConfirmTeamSelection = useDebounce(confirmTeamSelection, 500);
 
   if (isLoading) return <MiniLoading />;

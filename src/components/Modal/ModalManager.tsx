@@ -3,6 +3,7 @@ import ConfirmModal from '@components/Modal/ConfirmModal';
 import DialogModal from '@components/Modal/DialogModal';
 import MissionModal from '@components/Modal/MissionModal';
 import AccountModal from '@components/Modal/AccountModal';
+import { StyleProp, ViewStyle } from 'react-native';
 
 interface Props {
   children: ReactNode;
@@ -17,6 +18,7 @@ export interface ModalState {
   missionImg?: string;
   lockBackdrop?: boolean;
   children?: ReactNode;
+  confirmStyle?: StyleProp<ViewStyle>;
 }
 interface ModalContextType {
   showModal: (modalData: Omit<ModalState, 'open'>) => void;

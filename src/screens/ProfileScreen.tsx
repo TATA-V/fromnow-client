@@ -35,6 +35,7 @@ const ProfileScreen = () => {
       type: 'account',
       title: '계정 삭제',
       description: '계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
+      confirmStyle: { backgroundColor: '#F04438' },
     });
   };
 

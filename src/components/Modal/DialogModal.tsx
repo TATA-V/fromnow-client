@@ -4,7 +4,7 @@ import { MotiView } from 'moti';
 import { useModal, ModalState } from '@components/Modal';
 
 const DialogModal = (props: ModalState) => {
-  const { children, open, title, description, confirm, lockBackdrop } = props;
+  const { children, open, title, description, confirm, lockBackdrop, confirmStyle } = props;
   const { hideModal } = useModal();
 
   const confirmClick = () => {
@@ -30,7 +30,10 @@ const DialogModal = (props: ModalState) => {
               className="w-[121.5px] border-[1px] border-[#E4E5EA] rounded-xl h-[40px] justify-center items-center">
               <Text className="font-semibold text-sm text-black900 font-PTDSemiBold">취소</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={confirmClick} className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
+            <TouchableOpacity
+              style={confirmStyle}
+              onPress={confirmClick}
+              className="w-[121.5px] bg-black900 rounded-xl h-[40px] justify-center items-center">
               <Text className="text-white font-semibold text-sm font-PTDSemiBold">확인</Text>
             </TouchableOpacity>
           </View>

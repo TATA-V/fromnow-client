@@ -78,8 +78,8 @@ const TeamFriendAddScreen = ({}: Props) => {
 
   const shareInviteLink = async () => {
     await kakaoShare({
-      title: '다이어리 초대장💌',
-      description: `${username}님이 다이어리에 초대했어요!`,
+      title: '모임 초대장💌',
+      description: `${username}님이 모임에 초대했어요!`,
       imageUrl: `${KAKAO_SHARE_IMG}`,
       params: { deepLink: `fromnow://team-invite/${teamId}` },
     });

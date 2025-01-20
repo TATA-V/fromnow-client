@@ -16,6 +16,11 @@ export const deleteOne = async (diaryId: number) => {
   return res;
 };
 
+export const leaveOne = async (diaryId: number) => {
+  const res = await instance.delete(`api/diary/${diaryId}/leave`);
+  return res.data;
+};
+
 export const updateOne = async (data: UpdateOne) => {
   const { diaryId, newTitle } = data;
   const res = await instance.put(`api/diary/${diaryId}`, { newTitle });

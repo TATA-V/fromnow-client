@@ -1,12 +1,23 @@
 import { Team, TeamInvite, TeamImmediateInvite, TeamMenu } from '@clientTypes/team';
-import { deleteOne, getAll, getMenu, postAccept, postImmediateInvite, postInvite, postOne, postTeamReject, UpdateOne, updateOne } from '@api/team';
+import {
+  deleteOne,
+  leaveOne,
+  getAll,
+  getMenu,
+  postAccept,
+  postImmediateInvite,
+  postInvite,
+  postOne,
+  postTeamReject,
+  UpdateOne,
+  updateOne,
+} from '@api/team';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { useToastModal } from '@components/Modal';
 import { BaseAxiosError } from '@clientTypes/base';
-import { Alert } from 'react-native';
 
 export const useGetAllTeam = () => {
   const queryKey = useKey(['all', QUERY_KEY.TEAM]);
@@ -33,14 +44,37 @@ export const useDeleteOneTeam = (toastModal?: boolean) => {
       await queryClient.invalidateQueries({ queryKey: myTeamsKey });
       await queryClient.refetchQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
-      toastModal ? showToastModal({ type: 'success', message: '다이어리를 삭제했습니다.' }) : successToast('다이어리를 삭제했습니다.');
+      toastModal ? showToastModal({ type: 'success', message: '모임을 삭제했습니다.' }) : successToast('모임을 삭제했습니다.');
     },
     onError: () => {
-      toastModal ? showToastModal({ type: 'error', message: '다이어리 삭제에 실패했습니다.' }) : errorToast('다이어리 삭제에 실패했습니다.');
+      toastModal ? showToastModal({ type: 'error', message: '모임 삭제에 실패했습니다.' }) : errorToast('모임 삭제에 실패했습니다.');
     },
   });
 
   return { deleteTeamMutation };
+};
+
+export const useLeaveOneTeam = (toastModal?: boolean) => {
+  const { successToast, errorToast } = useToast();
+  const { showToastModal } = useToastModal();
+  const { navigation } = useNavi();
+  const queryClient = useQueryClient();
+  const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+
+  const leaveTeamMutation = useMutation({
+    mutationFn: leaveOne,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: myTeamsKey });
+      await queryClient.refetchQueries({ queryKey: myTeamsKey });
+      navigation.navigate('Home');
+      toastModal ? showToastModal({ type: 'success', message: '모임을 떠났습니다.' }) : successToast('모임을 떠났습니다.');
+    },
+    onError: () => {
+      toastModal ? showToastModal({ type: 'error', message: '모임 나가기에 실패했습니다.' }) : errorToast('모임 나가기에 실패했습니다.');
+    },
+  });
+
+  return { leaveTeamMutation };
 };
 
 export const useUpdateOneTeam = () => {
@@ -54,10 +88,10 @@ export const useUpdateOneTeam = () => {
     onSuccess: res => {
       navigation.navigate('Team', { id: res.data.diaryId });
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
-      successToast('다이어리 이름을 수정했습니다.');
+      successToast('모임 이름을 수정했습니다.');
     },
     onError: () => {
-      errorToast('다이어리 이름 수정에 실패했습니다.');
+      errorToast('모임 이름 수정에 실패했습니다.');
     },
   });
 
@@ -84,10 +118,10 @@ export const usePostOneTeam = () => {
         return update;
       });
       navigation.navigate('Home');
-      successToast('새로운 다이어리가 생성되었습니다.');
+      successToast('새로운 모임이 생성되었습니다.');
     },
     onError: () => {
-      errorToast('다이어리 생성에 실패했습니다.');
+      errorToast('모임 생성에 실패했습니다.');
     },
   });
 
@@ -119,7 +153,7 @@ export const useAcceptTeam = () => {
   const acceptTeamMutation = useMutation({
     mutationFn: postAccept,
     onSuccess: async res => {
-      successToast('다이어리 초대 수락이 완료되었습니다.');
+      successToast('모임 초대 수락이 완료되었습니다.');
       await queryClient.invalidateQueries({ queryKey: myTeamReqKey });
       await queryClient.invalidateQueries({ queryKey: myTeamKey });
       await queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
@@ -134,7 +168,7 @@ export const useAcceptTeam = () => {
       });
     },
     onError: () => {
-      errorToast('다이어리 초대 수락에 실패했습니다.');
+      errorToast('모임 초대 수락에 실패했습니다.');
     },
   });
 
@@ -182,14 +216,14 @@ export const usePostImmediateInvite = () => {
   const inviteTeamMutation = useMutation({
     mutationFn: async ({ diaryId, profileName }: TeamImmediateInvite) => await postImmediateInvite({ diaryId, profileName }),
     onSuccess: async () => {
-      successToast('다이어리에 초대되었습니다🎉');
+      successToast('모임에 초대되었습니다🎉');
       await queryClient.invalidateQueries({ queryKey: myTeamKey });
       navigation.navigate('Bottom', { screen: 'Home' });
     },
     onError: e => {
       const error = e as BaseAxiosError;
       const { message } = error.response.data;
-      errorToast(`다이어리 초대 받기에 실패했어요.\n${message}`);
+      errorToast(`모임 초대 받기에 실패했어요.\n${message}`);
       navigation.navigate('Bottom', { screen: 'Home' });
     },
   });

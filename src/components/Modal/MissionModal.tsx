@@ -12,7 +12,6 @@ const MissionModal = (props: ModalState) => {
     if (confirm) confirm();
     hideModal();
   };
-  console.log('missionImg:', missionImg);
 
   return (
     <Modal transparent visible={open} animationType="fade" onRequestClose={hideModal}>
