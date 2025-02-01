@@ -35,8 +35,8 @@ const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
     config.headers['Authorization'] = access;
     return instance(config);
   } catch (error) {
-    const { code, message } = error.response.data;
-    if (code === 401 && message === '해당 Refresh token과 DB에 저장된 member의 token이 일치하는게 없습니다. 다시 로그인하세요.') {
+    const { code } = error.response.data;
+    if (code === 401) {
       await removeStorageAll();
       useUserStore.getState().reset();
       RootNavi.navigate('SignIn');

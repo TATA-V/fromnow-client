@@ -51,7 +51,7 @@ const TeamEditScreen = ({}: Props) => {
         </View>
         <KeyboardAvoiding>
           <View className="absolute bottom-[-5px] pt-4 pb-[20px] w-full bg-white">
-            <Button onPress={onSubmit} disabled={!!errors.teamName}>
+            <Button onPress={onSubmit} disabled={!!errors.teamName || updateTeamMutation.isPending}>
               수정 완료하기
             </Button>
           </View>

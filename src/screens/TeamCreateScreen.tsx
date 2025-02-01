@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { usePostOneTeam } from '@hooks/query';
@@ -44,7 +44,7 @@ const TeamCreateScreen = () => {
         </View>
         <KeyboardAvoiding>
           <View className="absolute bottom-[-5px] pt-4 pb-[20px] w-full bg-white">
-            <Button onPress={onSubmit} disabled={!!errors.title}>
+            <Button onPress={onSubmit} disabled={!!errors.title || createTeamMutation.isPending}>
               모임 생성하기
             </Button>
           </View>

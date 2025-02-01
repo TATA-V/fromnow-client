@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import InputField from '@components/common/InputField';
@@ -55,7 +55,7 @@ const SignupNicknameScreen = () => {
         </View>
         <KeyboardAvoiding>
           <View className="absolute bottom-[20px] w-full">
-            <Button onPress={onSubmit} disabled={!!errors.nickname}>
+            <Button onPress={onSubmit} disabled={!!errors.nickname || updateNicknameMutation.isPending}>
               다음
             </Button>
           </View>

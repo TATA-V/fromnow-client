@@ -34,9 +34,7 @@ const SelectTeam = ({ payload }: Props) => {
     setTeams(prev => prev.map(team => (team.id === id ? { ...team, isSharing: !team.isSharing } : team)));
   };
 
-  const [submitLoading, setSubmitLoading] = useState(false);
   const confirmTeamSelection = useCallback(() => {
-    setSubmitLoading(true);
     const diaryIds = teams.reduce((acc, team) => {
       if (team.isSharing) {
         acc.push(team.id);
@@ -44,7 +42,7 @@ const SelectTeam = ({ payload }: Props) => {
       return acc;
     }, []);
     const chooseDiaryDto = { content: payload.content, diaryIds };
-    createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto }, { onSuccess: () => setSubmitLoading(false) });
+    createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto });
   }, []);
   const debounceConfirmTeamSelection = useDebounce(confirmTeamSelection, 500);
 
@@ -73,8 +71,8 @@ const SelectTeam = ({ payload }: Props) => {
           />
         </View>
         <View className="absolute bottom-0 pb-[20px] pt-4 w-full bg-white">
-          <Button disabled={submitLoading || teams.length === 0} onPress={debounceConfirmTeamSelection}>
-            {submitLoading ? (
+          <Button disabled={createBoardMutation.isPending || teams.length === 0} onPress={debounceConfirmTeamSelection}>
+            {createBoardMutation.isPending ? (
               <GrayLoadingLottie customStyle={{ width: 100, height: 48, transform: isIOS ? undefined : 'translateY(12px)' }} />
             ) : (
               '다음'
