@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { usePostOneTeam } from '@hooks/query';

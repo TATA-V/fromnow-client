@@ -11,6 +11,7 @@ import { formatDate, getDate } from '@utils/formatDate';
 import { CalendarCol, CalendarColMap } from '@clientTypes/calendar';
 import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 import { isHolidayForDate } from '@utils/isHolidayForDate';
+import moment from 'moment-modification-rn';
 
 LocaleConfig.locales.fr = {
   monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
@@ -57,29 +58,32 @@ const TeamCalendarList = () => {
   const monthsDiff = currentDate.diff(startDate, 'months');
   const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
   const [fetchMonth, setFetchMonth] = useState(getDate().utcOffset(9).format('YYYY-MM-DD'));
-  const [numOfCalendars, setNumOfCalendars] = useState(monthsDiff === 0 ? 1 : 2);
-  const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth, num: numOfCalendars });
+  const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth, num: monthsDiff === 0 ? 1 : 2 });
+  const [pastScrollRange, setPastScrollRange] = useState(0);
+  useEffect(() => {
+    if (!calendarData || !calendarData[0] || !calendarData[0].date) return;
+    const update = currentDate.diff(moment(calendarData[0].date).utcOffset(9), 'months');
+    setPastScrollRange(update);
+  }, [calendarData]);
 
-  // 달력이 여러 개일 때 화면에 보이는 달력은 2개임. months[0]은 화면에서 크게 보이는 주요 달력을 의미함. 위쪽에 조금 보이는 달력은 포함되지 않음. 그래서 이전 달력도 불러올 거임
   const onVisibleMonthsChange = async (months: { dateString: string }[]) => {
-    const newVisibleMonth = months[0].dateString;
+    const newVisibleMonth = months[0]?.dateString;
     const nextMonth = getDate(newVisibleMonth).utcOffset(9).add(1, 'months').format('YYYY-MM-DD');
-    const secondNextMonth = getDate(newVisibleMonth).utcOffset(9).add(2, 'months').format('YYYY-MM-DD');
 
     if (!calendarMap[newVisibleMonth]) {
       setFetchMonth(newVisibleMonth);
-      setNumOfCalendars(calendarMap[nextMonth] ? 1 : 2);
       return;
     }
 
-    if (calendarMap[nextMonth]) return;
-    setFetchMonth(nextMonth);
-    setNumOfCalendars(calendarMap[secondNextMonth] ? 1 : 2);
+    if (!calendarMap[nextMonth]) {
+      setFetchMonth(nextMonth);
+    }
   };
 
   useEffect(() => {
     if (!calendarData) return;
-    const mappedData = calendarData?.reduce((acc: CalendarColMap, item: CalendarCol) => {
+
+    const mappedData = calendarData.reduce((acc: CalendarColMap, item: CalendarCol) => {
       const format = formatDate(item.date);
       acc[format] = item;
       return acc;
@@ -88,7 +92,7 @@ const TeamCalendarList = () => {
       if (JSON.stringify(prev) === JSON.stringify(mappedData)) {
         return prev;
       }
-      return { ...mappedData, ...prev };
+      return { ...prev, ...mappedData };
     });
   }, [calendarData]);
 
@@ -98,7 +102,7 @@ const TeamCalendarList = () => {
       onVisibleMonthsChange={onVisibleMonthsChange}
       dayComponent={dayProps => <DayComponent {...dayProps} calendarMap={calendarMap} />}
       calendarHeight={600}
-      pastScrollRange={monthsDiff}
+      pastScrollRange={pastScrollRange}
       futureScrollRange={0}
       calendarStyle={{ paddingTop: 30, paddingBottom: 30 }}
       theme={

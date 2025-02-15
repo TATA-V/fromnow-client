@@ -180,8 +180,8 @@ export const useGetTeamMenu = ({ teamId: diaryId, options }: { teamId: number; o
   const { data, isError, isLoading, refetch } = useQuery<TeamMenu[]>({
     queryKey,
     queryFn: async () => await getMenu(diaryId),
-    staleTime: 1000 * 30,
-    gcTime: 1000 * 60 * 5,
+    staleTime: 0,
+    gcTime: 1000,
     ...(options || {}),
   });
 

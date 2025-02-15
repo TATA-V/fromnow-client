@@ -34,7 +34,7 @@ const SelectTeam = ({ payload }: Props) => {
     setTeams(prev => prev.map(team => (team.id === id ? { ...team, isSharing: !team.isSharing } : team)));
   };
 
-  const confirmTeamSelection = useCallback(() => {
+  const confirmTeamSelection = () => {
     const diaryIds = teams.reduce((acc, team) => {
       if (team.isSharing) {
         acc.push(team.id);
@@ -43,7 +43,7 @@ const SelectTeam = ({ payload }: Props) => {
     }, []);
     const chooseDiaryDto = { content: payload.content, diaryIds };
     createBoardMutation.mutate({ uploadPhotos: payload.file, chooseDiaryDto });
-  }, []);
+  };
   const debounceConfirmTeamSelection = useDebounce(confirmTeamSelection, 500);
 
   if (isLoading) return <MiniLoading />;

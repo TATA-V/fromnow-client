@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { FlashList } from '@shopify/flash-list';
-import { QUERY_KEY, useGetAllMyFriend, useGetSearchTeamFriend, useInviteTeam, useKey } from '@hooks/query';
+import { QUERY_KEY, useGetAllMyFriend, useGetSearchTeamFriend, useGetTeamMenu, useInviteTeam, useKey } from '@hooks/query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@hooks/useOptimization';
 import useKakaoShare from '@hooks/useKakaoShare';
@@ -42,6 +42,11 @@ const TeamFriendAddScreen = ({}: Props) => {
     options: { enabled: hasSearched },
   });
   const { data: myFriendData } = useGetAllMyFriend();
+  const { data: teamData } = useGetTeamMenu({ teamId });
+
+  const filteredFriends = myFriendData.filter(friend => {
+    return !teamData.some(team => team.memberId === friend.memberId);
+  });
 
   const startSearch = () => {
     if (hasSearched) return;
@@ -89,9 +94,9 @@ const TeamFriendAddScreen = ({}: Props) => {
     <DismissKeyboard>
       <>
         <View className="flex-1">
-          {myFriendData?.length > 0 && (
+          {filteredFriends?.length > 0 && (
             <FlashList
-              data={myFriendData}
+              data={filteredFriends}
               keyExtractor={item => item.memberId.toString()}
               renderItem={({ item, index }) => <MyFriendItem key={index} {...item} />}
               horizontal
@@ -99,7 +104,7 @@ const TeamFriendAddScreen = ({}: Props) => {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 12 }}
               ItemSeparatorComponent={() => <View className="w-[6px]" />}
-              initialScrollIndex={myFriendData.length > 0 ? 0 : undefined}
+              initialScrollIndex={filteredFriends.length > 0 ? 0 : undefined}
               estimatedItemSize={60}
               estimatedFirstItemOffset={0}
             />

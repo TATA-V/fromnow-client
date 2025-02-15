@@ -50,7 +50,7 @@ const CameraScreen = () => {
         type: 'mission',
         title: mission[0]?.title || '',
         description: mission[0]?.content || '',
-        missionImg: mission[0]?.missionImg || '',
+        missionImg: mission[0]?.missionImg || null,
         lockBackdrop: true,
       });
   }, [isTimer, mission]);

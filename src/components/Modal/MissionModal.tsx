@@ -23,11 +23,7 @@ const MissionModal = (props: ModalState) => {
           className="w-[279px] p-4 bg-white rounded-[24px] items-center">
           {title && <Text className="font-PTDSemiBold text-lg mb-[3px] text-black900 mt-4">{title}</Text>}
           <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>
-          <Image
-            source={missionImg !== '' || !missionImg ? tempMissionPng : { uri: missionImg }}
-            resizeMode="cover"
-            className="w-[247pz] h-[100px] my-[24px]"
-          />
+          <Image source={missionImg ? { uri: missionImg } : tempMissionPng} resizeMode="contain" className="w-[247px] h-[100px] my-[24px]" />
           <Button onPress={confirmClick} customStyle={{ height: 40 }}>
             촬영 시작!
           </Button>

@@ -24,8 +24,8 @@ export const useGetAllBoard = (boardData: GetAll) => {
   const { data, isError, error, isLoading, refetch } = useQuery<AllBoard>({
     queryKey,
     queryFn: async () => await getAll(boardData),
-    staleTime: 1000 * 30,
-    gcTime: 1000 * 60 * 5,
+    staleTime: 0,
+    gcTime: 1000,
   });
 
   return { data, isError, error, isLoading, refetch };
@@ -101,7 +101,7 @@ export const useReadBoard = () => {
 
 export const useRowInfiniteCalendar = ({ diaryId, options }: Pick<RowColCalendar, 'diaryId'> & { options?: Object }) => {
   const queryKey = useKey(['row', QUERY_KEY.BOARD, diaryId]);
-  const { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+  const { data, isLoading, isError, error, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey,
     initialPageParam: { diaryId, date: getDate().utcOffset(9).format() },
     queryFn: async ({ pageParam }) => await getRowInfiniteCalendar({ diaryId: pageParam.diaryId, date: pageParam.date }),
@@ -113,13 +113,13 @@ export const useRowInfiniteCalendar = ({ diaryId, options }: Pick<RowColCalendar
       const prevDate = getDate(firstPage[0]?.date).utcOffset(9).subtract(1, 'month').toISOString();
       return { diaryId, date: prevDate };
     },
-    staleTime: 1000 * 30,
-    gcTime: 1000 * 60 * 5,
+    staleTime: 0,
+    gcTime: 1000,
     placeholderData: keepPreviousData,
     ...(options || {}),
   });
 
-  return { data, isLoading, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };
+  return { data, isLoading, error, isError, refetch, fetchPreviousPage, fetchNextPage, hasNextPage, isFetching };
 };
 
 // useInfiniteQuery를 사용하지 않은 이유: 1월부터 10월까지의 달력이 있고, 현재 10월일 때 천천히 스크롤하지 않고 빠르게 올리면 3월 달력이 바로 나타남
@@ -128,8 +128,8 @@ export const useColCalendar = ({ diaryId, date, num = 2 }: RowColCalendar) => {
   const { data, isError, isLoading } = useQuery<CalendarCol[]>({
     queryKey,
     queryFn: async () => await getColCalendar({ diaryId, date, num }),
-    staleTime: 1000 * 60,
-    gcTime: 1000 * 60 * 5,
+    staleTime: 0,
+    gcTime: 1000,
   });
 
   return { data, isError, isLoading };

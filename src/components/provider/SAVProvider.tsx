@@ -16,6 +16,8 @@ import BootSplash from 'react-native-bootsplash';
 import { isAndroid } from '@utils/deviceInfo';
 import useDeviceSize from '@hooks/useDeviceSize';
 import Orientation from 'react-native-orientation-locker';
+import SpInAppUpdates, { IAUUpdateKind, StartUpdateOptions } from 'sp-react-native-in-app-updates';
+import DeviceInfo from 'react-native-device-info';
 
 interface Props {
   children: ReactNode;
@@ -33,6 +35,20 @@ function SAVProvider({ children }: Props) {
   StatusBar.setBackgroundColor(statusBarBgColor);
 
   useEffect(() => {
+    const curVersion = DeviceInfo.getBuildNumber();
+    const inAppUpdates = new SpInAppUpdates(false);
+    inAppUpdates.checkNeedsUpdate({ curVersion }).then(result => {
+      if (result.shouldUpdate) {
+        if (isAndroid) {
+          const updateOptions: StartUpdateOptions = {
+            updateType: IAUUpdateKind.IMMEDIATE,
+          };
+          inAppUpdates.startUpdate(updateOptions);
+          inAppUpdates.installUpdate();
+        }
+      }
+    });
+
     if (!isTablet) Orientation.lockToPortrait();
     else Orientation.unlockAllOrientations();
 
