@@ -12,6 +12,10 @@ import { CalendarCol, CalendarColMap } from '@clientTypes/calendar';
 import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 import { isHolidayForDate } from '@utils/isHolidayForDate';
 import moment from 'moment-modification-rn';
+import { cn } from '@utils/cn';
+import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
+import useDeviceSize from '@hooks/useDeviceSize';
+import { useThrottle } from '@hooks/useOptimization';
 
 LocaleConfig.locales.fr = {
   monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
@@ -45,7 +49,7 @@ function DayComponent({ calendarMap, date, state, marking }: DayComponentProps) 
     <TouchableOpacity
       onPress={() => navigation.navigate('TeamDetail', { teamId: route.params.id, date: dateString })}
       className="h-[98px] items-center w-full">
-      <Text className={`${textColor} font-UhBee text-[22px]`}>{date.day}</Text>
+      <Text className={cn(textColor, 'font-UhBee text-[22px]')}>{date.day}</Text>
       {dayData && !dayData.blur && dayData.photoUrls.length > 0 && <ImageCards imgs={dayData.photoUrls} />}
     </TouchableOpacity>
   );
@@ -55,18 +59,14 @@ const TeamCalendarList = () => {
   const { id: diaryId, recivedAt } = useSelectedTeamStore();
   const startDate = getDate(recivedAt).utcOffset(9);
   const currentDate = getDate().utcOffset(9);
-  const monthsDiff = currentDate.diff(startDate, 'months');
   const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
+  const [monthsDiff, setMonthsDiff] = useState(currentDate.diff(startDate, 'months'));
   const [fetchMonth, setFetchMonth] = useState(getDate().utcOffset(9).format('YYYY-MM-DD'));
-  const { data: calendarData } = useColCalendar({ diaryId, date: fetchMonth, num: monthsDiff === 0 ? 1 : 2 });
+  const { calendarData, isLoading } = useColCalendar({ diaryId, date: fetchMonth, num: monthsDiff === 0 ? 1 : 2 });
   const [pastScrollRange, setPastScrollRange] = useState(0);
-  useEffect(() => {
-    if (!calendarData || !calendarData[0] || !calendarData[0].date) return;
-    const update = currentDate.diff(moment(calendarData[0].date).utcOffset(9), 'months');
-    setPastScrollRange(update);
-  }, [calendarData]);
+  const { width } = useDeviceSize();
 
-  const onVisibleMonthsChange = async (months: { dateString: string }[]) => {
+  const onVisibleMonthsChange = useThrottle(async (months: { dateString: string }[]) => {
     const newVisibleMonth = months[0]?.dateString;
     const nextMonth = getDate(newVisibleMonth).utcOffset(9).add(1, 'months').format('YYYY-MM-DD');
 
@@ -78,10 +78,12 @@ const TeamCalendarList = () => {
     if (!calendarMap[nextMonth]) {
       setFetchMonth(nextMonth);
     }
-  };
+  }, 500);
 
   useEffect(() => {
-    if (!calendarData) return;
+    if (!calendarData || !calendarData[0] || !calendarData[0].date) return;
+    const update = currentDate.diff(moment(calendarData[0].date).utcOffset(9), 'months');
+    setPastScrollRange(update);
 
     const mappedData = calendarData.reduce((acc: CalendarColMap, item: CalendarCol) => {
       const format = formatDate(item.date);
@@ -96,6 +98,8 @@ const TeamCalendarList = () => {
     });
   }, [calendarData]);
 
+  if (isLoading) return <FullScreenMiniLoading />;
+
   return (
     <CalendarList
       initialScrollIndex={calendarData && calendarData?.length > 0 ? 0 : undefined}
@@ -104,7 +108,7 @@ const TeamCalendarList = () => {
       calendarHeight={600}
       pastScrollRange={pastScrollRange}
       futureScrollRange={0}
-      calendarStyle={{ paddingTop: 30, paddingBottom: 30 }}
+      calendarStyle={{ paddingTop: 30, paddingBottom: 30, width }}
       theme={
         {
           'stylesheet.calendar.main': {

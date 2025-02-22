@@ -22,7 +22,7 @@ export const getAll = async (data: GetAll) => {
   const { diaryId, date } = data;
   const query = new URLSearchParams({ date });
   const res = await instance.get(`/api/board/diaries/${diaryId}?${query}`);
-  return res.data.data;
+  return res.data.data || {};
 };
 
 export const postOne = async (data: CreateBoard) => {
@@ -75,5 +75,5 @@ export const getColCalendar = async ({ diaryId, date, num = 2 }: RowColCalendar)
   const { year, month } = splitDate(date.toString());
   const query = new URLSearchParams({ year, month, num: num.toString() });
   const res = await instance.get(`/api/diary/diaries/${diaryId}/scroll/col?${query}`);
-  return res.data.data;
+  return res.data.data || [];
 };

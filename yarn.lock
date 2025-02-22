@@ -3867,6 +3867,7 @@ __metadata:
     babel-jest: "npm:^29.7.0"
     babel-loader: "npm:^9.1.3"
     babel-plugin-module-resolver: "npm:^5.0.2"
+    clsx: "npm:^2.1.1"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.19.0"
     jest: "npm:^29.7.0"
@@ -3899,6 +3900,7 @@ __metadata:
     react-native-svg-transformer: "npm:^1.5.0"
     react-native-toast-notifications: "npm:^3.4.0"
     sp-react-native-in-app-updates: "npm:^1.4.0"
+    tailwind-merge: "npm:^3.0.1"
     tailwindcss: "npm:3.3.2"
     typescript: "npm:5.5.3"
     zustand: "npm:^4.5.4"
@@ -4934,6 +4936,13 @@ __metadata:
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
   checksum: 10c0/2176952b3649293473999a95d7bebfc9dc96410f6cbd3d2595cf12fd401f63a4bf41a7adbfd3ab2ff09ed60cb9870c58c6acdd18b87767366fabfc163700f13b
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
   languageName: node
   linkType: hard
 
@@ -12100,6 +12109,13 @@ __metadata:
   bin:
     svgo: ./bin/svgo
   checksum: 10c0/a6badbd3d1d6dbb177f872787699ab34320b990d12e20798ecae915f0008796a0f3c69164f1485c9def399e0ce0a5683eb4a8045e51a5e1c364bb13a0d9f79e1
+  languageName: node
+  linkType: hard
+
+"tailwind-merge@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "tailwind-merge@npm:3.0.1"
+  checksum: 10c0/973d754687ad82d25cb55bf16958153999d080cd68dd0a6c1c74909bd92d05bcca01c24d9642e9e6ec95b3a207b15cd4b32bca49d586f2e743d311358ecb584b
   languageName: node
   linkType: hard
 

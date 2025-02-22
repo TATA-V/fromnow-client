@@ -8,7 +8,7 @@ export interface UpdateOne {
 
 export const getAll = async () => {
   const res = await instance.get('/api/diary/overview');
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const deleteOne = async (diaryId: number) => {
@@ -44,7 +44,7 @@ export const postAccept = async (diaryId: number) => {
 
 export const getMenu = async (diaryId: number) => {
   const res = await instance.get(`/api/diary/${diaryId}/menu`);
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const postTeamReject = async (rejectDiaryId: number) => {

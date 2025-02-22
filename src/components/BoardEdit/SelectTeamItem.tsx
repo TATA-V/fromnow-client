@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Team } from '@clientTypes/team';
+import { cn } from '@utils/cn';
 
 interface Props extends Team {
   isSharing: boolean;
@@ -17,7 +18,7 @@ const SelectTeamItem = (props: Props) => {
           {photoUrls.slice(0, 5).map((uri, idx) => (
             <View
               key={idx}
-              className={`${idx === 0 ? 'ml-0' : 'ml-[-12px]'} w-[36px] h-[36px] border-[1px] border-black200 rounded-xl overflow-hidden`}>
+              className={cn(idx === 0 ? 'ml-0' : 'ml-[-12px]', 'w-[36px] h-[36px] border-[1px] border-black200 rounded-xl overflow-hidden')}>
               <Image source={{ uri }} className="w-full h-full" resizeMode="cover" />
             </View>
           ))}
@@ -26,9 +27,11 @@ const SelectTeamItem = (props: Props) => {
       </View>
       <TouchableOpacity
         onPress={() => toggleSharing(id)}
-        className={`${isSharing ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
-        h-9 w-[74px] flex justify-center items-center rounded-xl`}>
-        <Text className={`${isSharing ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{isSharing ? '공유중' : '공유하기'}</Text>
+        className={cn(
+          isSharing ? 'bg-white border-[1px] border-black200' : 'bg-black900',
+          'h-9 w-[74px] flex justify-center items-center rounded-xl',
+        )}>
+        <Text className={cn(isSharing ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>{isSharing ? '공유중' : '공유하기'}</Text>
       </TouchableOpacity>
     </View>
   );

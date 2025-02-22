@@ -28,7 +28,7 @@ export const useGetAllTeam = () => {
     gcTime: 1000 * 60 * 7,
   });
 
-  return { data, isError, error, isLoading };
+  return { data, isError, error: error as BaseAxiosError, isLoading };
 };
 
 export const useDeleteOneTeam = (toastModal?: boolean) => {
@@ -181,7 +181,7 @@ export const useGetTeamMenu = ({ teamId: diaryId, options }: { teamId: number; o
     queryKey,
     queryFn: async () => await getMenu(diaryId),
     staleTime: 0,
-    gcTime: 1000,
+    gcTime: 1000 * 60 * 10,
     ...(options || {}),
   });
 

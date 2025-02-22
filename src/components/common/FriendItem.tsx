@@ -4,6 +4,7 @@ import { useDeleteFriend, usePostFriendAccept, usePostFriendRequest } from '@hoo
 import { Friend } from '@clientTypes/friend';
 import { useModal } from '@components/Modal';
 import { useDebounce } from '@hooks/useOptimization';
+import { cn } from '@utils/cn';
 
 interface Props extends Friend {
   isFriendReq?: boolean;
@@ -42,9 +43,11 @@ const FriendItem = (props: Props) => {
       </View>
       <TouchableOpacity
         onPress={debounceUpdateFriend}
-        className={`${friend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
-        h-9 px-[12.5px] flex justify-center items-center rounded-xl`}>
-        <Text className={`${friend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{friend ? '친구' : '친구추가'}</Text>
+        className={cn(
+          friend ? 'bg-white border-[1px] border-black200' : 'bg-black900',
+          'h-9 px-[12.5px] flex justify-center items-center rounded-xl',
+        )}>
+        <Text className={cn(friend ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>{friend ? '친구' : '친구추가'}</Text>
       </TouchableOpacity>
     </View>
   );

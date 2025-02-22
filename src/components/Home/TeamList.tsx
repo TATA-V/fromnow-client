@@ -7,6 +7,7 @@ import { Team } from '@clientTypes/team';
 import useNavi from '@hooks/useNavi';
 import FadeIn from '@components/common/FadeIn';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { cn } from '@utils/cn';
 
 interface Props {
   teamList: Team[];
@@ -20,13 +21,13 @@ function TeamList({ teamList, colors }: Props) {
   const centerList = isTablet ? teamList.length < 4 : teamList.length !== 1;
 
   return (
-    <View className={`${centerList && 'items-center'} flex w-full flex-1`}>
+    <View className={cn(centerList && 'items-center', 'flex w-full flex-1')}>
       <FlatList
         key={numColumns}
         data={teamList}
         keyExtractor={team => team.id.toString()}
         renderItem={({ item, index }) => (
-          <View className={`${(index + 1) % numColumns === 0 || teamList.length === 1 ? 'mr-0' : 'mr-[18px]'}`}>
+          <View className={cn((index + 1) % numColumns === 0 || teamList.length === 1 ? 'mr-0' : 'mr-[18px]')}>
             <FadeIn>
               <TeamFolder {...item} color={colors[index % colors.length]} />
             </FadeIn>

@@ -4,6 +4,7 @@ import { MyTeamRequest } from '@clientTypes/user';
 import PlusIcon from '@assets/icons/PlusIcon';
 import { useAcceptTeam } from '@hooks/query';
 import { useDebounce } from '@hooks/useOptimization';
+import { cn } from '@utils/cn';
 
 const TeamItem = (props: MyTeamRequest) => {
   const { diaryId, diaryTitle, photoUrls } = props;
@@ -20,7 +21,7 @@ const TeamItem = (props: MyTeamRequest) => {
           {photoUrls.slice(0, 8).map((url, idx) => (
             <View
               key={idx}
-              className={`${idx === 0 ? 'ml-0' : 'ml-[-12px]'} w-[36px] h-[36px] border-[1px] border-black200 rounded-xl overflow-hidden`}>
+              className={cn(idx === 0 ? 'ml-0' : 'ml-[-12px]', 'w-[36px] h-[36px] border-[1px] border-black200 rounded-xl overflow-hidden')}>
               {url && <Image source={{ uri: url }} className="w-full h-full" resizeMode="cover" />}
             </View>
           ))}

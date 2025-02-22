@@ -35,12 +35,9 @@ const tokenAndRequestUpdate = async (config: AxiosRequestConfig) => {
     config.headers['Authorization'] = access;
     return instance(config);
   } catch (error) {
-    const { code } = error.response.data;
-    if (code === 401) {
-      await removeStorageAll();
-      useUserStore.getState().reset();
-      RootNavi.navigate('SignIn');
-    }
+    await removeStorageAll();
+    useUserStore.getState().reset();
+    RootNavi.navigate('SignIn');
   }
   return instance(config);
 };
@@ -52,7 +49,6 @@ instance.interceptors.response.use(
   async error => {
     // prettier-ignore
     const { config, response: { status, data } } = error;
-
     if (status === 401 && !config._retry && data.data === 'ACCESS_TOKEN_EXPIRED') {
       config._retry = true;
       return tokenAndRequestUpdate(config);

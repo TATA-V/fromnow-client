@@ -1,3 +1,4 @@
+import { cn } from '@utils/cn';
 import React, { ReactNode, useMemo } from 'react';
 import { Text, TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
 
@@ -42,10 +43,10 @@ const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon
       style={customStyle}
       onPress={onPress}
       disabled={disabled}
-      className={`${btnSize.join(' ')} ${btnColor[0]} ${btnColor[1]} border-[1px] flex justify-center items-center`}>
-      <View className={`${size === 'big' ? 'gap-[10px]' : 'gap-[8px]'} flex flex-row justify-center items-center`}>
+      className={cn(btnSize.join(' '), btnColor[0], btnColor[1], 'border-[1px] flex justify-center items-center')}>
+      <View className={cn(size === 'big' ? 'gap-[10px]' : 'gap-[8px]', 'flex flex-row justify-center items-center')}>
         <View>{icon && icon}</View>
-        <Text className={`font-PTDSemiBold ${btnColor[2]} text-sm`}>{children}</Text>
+        <Text className={cn(btnColor[2], 'font-PTDSemiBold text-sm')}>{children}</Text>
       </View>
     </TouchableOpacity>
   );

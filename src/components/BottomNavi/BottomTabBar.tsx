@@ -74,7 +74,7 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
       </View>
       {/* </View> */}
       <View style={styles.camera} className="absolute h-full justify-center">
-        <TouchableOpacity onPress={clickCamera} style={styles.button} className={`rounded-full bg-black900 flex justify-center items-center`}>
+        <TouchableOpacity onPress={clickCamera} style={styles.button} className="rounded-full bg-black900 flex justify-center items-center">
           <CameraIcon width={width * 0.068} height={width * 0.068} />
         </TouchableOpacity>
       </View>

@@ -18,6 +18,7 @@ import useNavi from '@hooks/useNavi';
 import { SheetManager } from 'react-native-actions-sheet';
 import { CalendarCol } from '@clientTypes/calendar';
 import { getDate } from '@utils/formatDate';
+import { useEffect, useState } from 'react';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
@@ -25,7 +26,7 @@ export const useGetAllBoard = (boardData: GetAll) => {
     queryKey,
     queryFn: async () => await getAll(boardData),
     staleTime: 0,
-    gcTime: 1000,
+    gcTime: 1000 * 60 * 10,
   });
 
   return { data, isError, error, isLoading, refetch };
@@ -114,7 +115,7 @@ export const useRowInfiniteCalendar = ({ diaryId, options }: Pick<RowColCalendar
       return { diaryId, date: prevDate };
     },
     staleTime: 0,
-    gcTime: 1000,
+    gcTime: 1000 * 60 * 10,
     placeholderData: keepPreviousData,
     ...(options || {}),
   });
@@ -124,13 +125,23 @@ export const useRowInfiniteCalendar = ({ diaryId, options }: Pick<RowColCalendar
 
 // useInfiniteQuery를 사용하지 않은 이유: 1월부터 10월까지의 달력이 있고, 현재 10월일 때 천천히 스크롤하지 않고 빠르게 올리면 3월 달력이 바로 나타남
 export const useColCalendar = ({ diaryId, date, num = 2 }: RowColCalendar) => {
+  const [calendarData, setCalendarData] = useState<CalendarCol[]>([]);
+
   const queryKey = useKey(['col', QUERY_KEY.BOARD, diaryId, date]);
-  const { data, isError, isLoading } = useQuery<CalendarCol[]>({
+  const { data, isLoading, isFetching, isError, error } = useQuery<CalendarCol[]>({
     queryKey,
     queryFn: async () => await getColCalendar({ diaryId, date, num }),
     staleTime: 0,
-    gcTime: 1000,
+    gcTime: 1000 * 60 * 10,
+    enabled: !!diaryId && !!date && !!num,
   });
 
-  return { data, isError, isLoading };
+  useEffect(() => {
+    if (isLoading || isFetching) return;
+    if (data && data.length > 0) {
+      setCalendarData(data);
+    }
+  }, [data]);
+
+  return { data, calendarData, isLoading, isError, error };
 };

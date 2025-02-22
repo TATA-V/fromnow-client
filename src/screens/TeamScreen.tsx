@@ -24,6 +24,7 @@ import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import { useIsFocused } from '@react-navigation/native';
 import 'moment-modification-rn/locale/ko';
 import { useQueryClient } from '@tanstack/react-query';
+import { cn } from '@utils/cn';
 moment.locale('ko');
 
 interface Props {
@@ -143,14 +144,18 @@ const TeamScreen = ({}: Props) => {
                   onDateSelected(date);
                   setCurrentDate(getDate(date).format('YYYY-MM-DD'));
                 }}
-                className={`${getDate(date).format('YYYY-MM-DD') === currentDate && 'bg-black200'} relative
-                items-center space-y-[6px] h-[70px] justify-center rounded-2xl`}>
+                className={cn(
+                  getDate(date).format('YYYY-MM-DD') === currentDate && 'bg-black200',
+                  'relative items-center space-y-[6px] h-[70px] justify-center rounded-2xl',
+                )}>
                 <View
-                  className={`${dayData?.hasPosts ? 'bg-black900' : 'bg-black300'}
-                  w-[36px] h-[36px] rounded-[12px] flex justify-center items-center`}>
+                  className={cn(
+                    dayData?.hasPosts ? 'bg-black900' : 'bg-black300',
+                    'w-[36px] h-[36px] rounded-[12px] flex justify-center items-center',
+                  )}>
                   <Text className="text-white text-[14px] font-PTDSemiBold">{date.date()}</Text>
                 </View>
-                <Text className={`${dayData?.hasPosts ? 'text-black900' : 'text-black300'} text-[12x] font-PTDSemiBold`}>{date.format('ddd')}</Text>
+                <Text className={cn(dayData?.hasPosts ? 'text-black900' : 'text-black300', 'text-[12x] font-PTDSemiBold')}>{date.format('ddd')}</Text>
                 {dayData?.new && (
                   <View className="absolute top-[-5px] left-[1px]">
                     <Badge width={24} height={24} bgColor={'#F04438'} />

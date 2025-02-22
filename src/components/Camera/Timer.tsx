@@ -6,6 +6,7 @@ import useNavi from '@hooks/useNavi';
 import useToast from '@hooks/useToast';
 import { useModal } from '@components/Modal';
 import { cameraAccessible } from '@utils/cameraAccessible';
+import { cn } from '@utils/cn';
 
 const Timer = () => {
   const currentMinutes = moment().minute();
@@ -54,16 +55,18 @@ const Timer = () => {
         <View>
           <View
             style={{ width: `${100 - progressPercentage}%` }}
-            className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} h-full rounded-[8px] justify-center relative`}>
+            className={cn(shouldAnimate ? 'bg-fnRed' : 'bg-white', 'h-full rounded-[8px] justify-center relative')}>
             <View
-              className={`${shouldAnimate ? 'bg-fnRed' : 'bg-white'} absolute top-[-8px] right-[-16px]
-              rounded-[14px] w-[36px] h-[36px] flex justify-center items-center`}>
+              className={cn(
+                shouldAnimate ? 'bg-fnRed' : 'bg-white',
+                'absolute top-[-8px] right-[-16px] rounded-[14px] w-[36px] h-[36px] flex justify-center items-center',
+              )}>
               <AlarmIcon color={shouldAnimate ? '#fff' : '#1C1C1E'} />
             </View>
           </View>
         </View>
       </View>
-      <Text className={`${shouldAnimate ? 'text-white' : 'text-black900'} text-sm font-PTDSemiBold pl-[6px] mt-2`}>{formattedTime}</Text>
+      <Text className={cn(shouldAnimate ? 'text-white' : 'text-black900', 'text-sm font-PTDSemiBold pl-[6px] mt-2')}>{formattedTime}</Text>
     </View>
   );
 };

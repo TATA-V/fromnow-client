@@ -1459,6 +1459,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - RNCKakaoCore
     - Yoga
+  - RNDeviceInfo (14.0.4):
+    - React-Core
   - RNFBAnalytics (21.6.1):
     - Firebase/Analytics (= 11.5.0)
     - React-Core
@@ -1647,7 +1649,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.35.0):
+  - RNScreens (4.6.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1741,6 +1743,7 @@ DEPENDENCIES:
   - "RNCKakaoShare (from `../node_modules/@react-native-kakao/share`)"
   - "RNCKakaoSocial (from `../node_modules/@react-native-kakao/social`)"
   - "RNCKakaoUser (from `../node_modules/@react-native-kakao/user`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
@@ -1921,6 +1924,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-kakao/social"
   RNCKakaoUser:
     :path: "../node_modules/@react-native-kakao/user"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBAnalytics:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
@@ -2048,6 +2053,7 @@ SPEC CHECKSUMS:
   RNCKakaoShare: ca674a9299e82c893e758d26d945d5974a05a648
   RNCKakaoSocial: 3a095165acae48ef3a23081af06aa0c71d1fe957
   RNCKakaoUser: f45f781cbe7f06cfbbabdf7525af627917927ddf
+  RNDeviceInfo: feea80a690d2bde1fe51461cf548039258bd03f2
   RNFBAnalytics: 1eab488eb92fb35aab0ac916e00480314e995df0
   RNFBApp: a3c9c3b23aa2d77001ce62b5a997325927593c12
   RNFBCrashlytics: c8cea289b99b47519311d3f3161eb62226d7db87
@@ -2061,7 +2067,7 @@ SPEC CHECKSUMS:
   RNPermissions: e1f5e15746595207b0e74a088949822822bf1b44
   RNReactNativeHapticFeedback: dd1df8ab143dfd0ac79fe483cd08822d7a86fc85
   RNReanimated: 5e83ae058e4be4824043b974c5f98b7c5a3ae169
-  RNScreens: 62ee76dc52f65afddfa6821b01965dc79d69c35b
+  RNScreens: 5e177ccc0bb8a17d0620cc339514e5dd8ed79c1e
   RNSVG: 7ff26379b2d1871b8571e6f9bc9630de6baf9bdf
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654

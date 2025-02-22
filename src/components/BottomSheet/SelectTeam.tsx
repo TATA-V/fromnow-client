@@ -58,7 +58,7 @@ const SelectTeam = ({ payload }: Props) => {
             </View>
           </View>
           <View className="h-[66px] justify-center items-center">
-            <Text className="text-black900 text-base font-PTDSemiBold">보여줄 모임 선택하기</Text>
+            <Text className="text-black900 text-base font-PTDSemiBold">공유 모임 선택</Text>
           </View>
           <FlatList
             data={teams}

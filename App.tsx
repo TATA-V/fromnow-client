@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { KAKAO_NATIVE_APP_KEY } from '@env';
-import { initializeKakaoSDK, getKeyHashAndroid } from '@react-native-kakao/core';
+import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -158,7 +158,7 @@ function App() {
                         component={TeamCreateScreen}
                         options={{ header: () => <DefaultHeader title="모임 생성하기" /> }}
                       />
-                      <Stack.Screen name="BoardEdit" options={{ header: () => <DefaultHeader title="일상 기록하기" /> }}>
+                      <Stack.Screen name="BoardEdit" options={{ header: () => <DefaultHeader title="일상 기록" /> }}>
                         {props => <BoardEditScreen {...props} paramName="BoardEdit" />}
                       </Stack.Screen>
                       <Stack.Screen

@@ -90,7 +90,7 @@ android {
         applicationId "com.fromnow"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14
+        versionCode 16
         versionName "1.0"
         manifestPlaceholders = [kakaoAppKey: kakaoAppKey]
 

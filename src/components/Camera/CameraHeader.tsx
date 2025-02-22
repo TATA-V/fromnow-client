@@ -27,7 +27,7 @@ const CameraHeader = ({ toggleCameraType }: Props) => {
       <TouchableOpacity onPress={goBack} className="w-[44px] h-[44px] p-[10px]">
         <LeftArrowIcon color="#fff" />
       </TouchableOpacity>
-      <Text className="text-white text-base font-PTDSemiBold">카메라 촬영</Text>
+      <Text className="text-white text-base font-PTDSemiBold">일상 촬영</Text>
       <TouchableOpacity onPress={toggleCameraType} className="w-[44px] h-[44px] p-[12px]">
         <CycleIcon />
       </TouchableOpacity>

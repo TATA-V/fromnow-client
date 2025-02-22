@@ -36,6 +36,7 @@
     "@shopify/flash-list": "^1.7.1",
     "@tanstack/react-query": "^5.51.15",
     "axios": "^1.7.2",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "lottie-react-native": "^6.7.2",
     "moment-modification-rn": "^1.0.2",
@@ -64,6 +65,7 @@
     "react-native-svg": "^15.10.1",
     "react-native-toast-notifications": "^3.4.0",
     "sp-react-native-in-app-updates": "^1.4.0",
+    "tailwind-merge": "^3.0.1",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

@@ -10,13 +10,14 @@ import useCurrentRoute from '@hooks/useCurrentRoute';
 import { useDebounce } from '@hooks/useOptimization';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
+import useDeviceSize from '@hooks/useDeviceSize';
+import { cn } from '@utils/cn';
 
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
 import DeleteButton from '@components/common/DeleteButton';
 import FriendItem from '@components/common/FriendItem';
 import Button from '@components/common/Button';
-import useDeviceSize from '@hooks/useDeviceSize';
 
 interface Props {
   paramName: string;
@@ -64,14 +65,14 @@ const MyFriendScreen = ({}: Props) => {
           <TouchableOpacity
             onPress={() => setIsAllFriend(true)}
             style={styles.button}
-            className={`${isAllFriend ? 'bg-black900' : 'bg-white'}  rounded-full w-full h-full flex justify-center items-center`}>
-            <Text className={`${isAllFriend ? 'text-white' : 'text-black500'} font-PTDSemiBold text-sm`}>모든 친구</Text>
+            className={cn(isAllFriend ? 'bg-black900' : 'bg-white', 'rounded-full w-full h-full flex justify-center items-center')}>
+            <Text className={cn(isAllFriend ? 'text-white' : 'text-black500', 'font-PTDSemiBold text-sm')}>모든 친구</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setIsAllFriend(false)}
             style={styles.button}
-            className={`${isAllFriend ? 'bg-white' : 'bg-black900'} rounded-full w-full h-full flex justify-center items-center`}>
-            <Text className={`${!isAllFriend ? 'text-white' : 'text-black500'} font-PTDSemiBold text-sm`}>받은 친구 요청</Text>
+            className={cn(isAllFriend ? 'bg-white' : 'bg-black900', 'rounded-full w-full h-full flex justify-center items-center')}>
+            <Text className={cn(!isAllFriend ? 'text-white' : 'text-black500', 'font-PTDSemiBold text-sm')}>받은 친구 요청</Text>
           </TouchableOpacity>
         </View>
       </View>

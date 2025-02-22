@@ -8,6 +8,7 @@ import { MotiView } from 'moti';
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import DismissKeyboard from '@components/common/DismissKeyboard';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { cn } from '@utils/cn';
 
 interface Props {
   paramName: string;
@@ -58,8 +59,10 @@ const BoardEditScreen = ({}: Props) => {
               autoFocus
               value={content}
               onChangeText={changeContent}
-              className={`${isFocused ? 'border-black500' : 'border-black200'} relative h-full
-              rounded-2xl border-[1px] p-4 text-sm text-black900 font-PTDLight`}
+              className={cn(
+                isFocused ? 'border-black900' : 'border-black200',
+                'relative h-full rounded-2xl border-[1px] p-4 text-sm text-black900 font-PTDLight',
+              )}
               placeholder="일상을 기억할 수 있도록 글을 작성해 보세요."
               placeholderTextColor="#D9D9DC"
               cursorColor={'#1C1C1E'}
@@ -69,7 +72,7 @@ const BoardEditScreen = ({}: Props) => {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
             />
-            <Text className={`${content.length === 500 ? 'text-fnRed' : 'text-black400'} absolute right-4 bottom-[214px] text-sm font-PTDLight`}>
+            <Text className={cn(content.length === 500 ? 'text-fnRed' : 'text-black400', 'absolute right-4 bottom-[214px] text-sm font-PTDLight')}>
               {content.length}/500
             </Text>
           </MotiView>

@@ -20,6 +20,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import FriendItem from '@components/TeamSetting/FriendItem';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { cn } from '@utils/cn';
 
 interface Props {
   open: boolean;
@@ -136,7 +137,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
           transition={{ type: 'timing', duration: 300 }}
           onDidAnimate={() => isAnimatingOut && onAnimationComplete()}>
           <ScrollView
-            className={`${isIOS && 'pt-[66px]'} flex-1 px-4 bg-white`}
+            className={cn(isIOS && 'pt-[66px]', 'flex-1 px-4 bg-white')}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}>
             <View className="h-[26px] mt-[66px] justify-center">
@@ -161,8 +162,10 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
                 <TouchableOpacity
                   onPress={onPress}
                   key={index}
-                  className={`flex-row space-x-[6px] h-[48px] items-center border-t-[1px] border-black100
-                  ${index === settingList.length - 1 && 'border-b-[1px]'}`}>
+                  className={cn(
+                    'flex-row space-x-[6px] h-[48px] items-center border-t-[1px] border-black100',
+                    index === settingList.length - 1 && 'border-b-[1px]',
+                  )}>
                   {icon}
                   <Text className="text-black700 text-sm font-PTDLight">{title}</Text>
                 </TouchableOpacity>

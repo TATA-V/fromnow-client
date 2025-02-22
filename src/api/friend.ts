@@ -14,7 +14,7 @@ export const getSearchFriend = async (profileName: string) => {
 export const getSearchTeamFriend = async ({ diaryId, profileName }: GetSearchTeamFriend) => {
   const query = new URLSearchParams({ profileName });
   const res = await instance.get(`/api/diary/${diaryId}/search?${query}`);
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const postFriendRequest = async (sentProfileName: string) => {

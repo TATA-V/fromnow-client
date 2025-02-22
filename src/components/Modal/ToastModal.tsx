@@ -1,3 +1,4 @@
+import { cn } from '@utils/cn';
 import { MotiView } from 'moti';
 import React, { useMemo, useState } from 'react';
 import { View, Text, Modal } from 'react-native';
@@ -58,8 +59,8 @@ const ToastModal = ({ type = 'success', open, close, message }: Props) => {
         transition={{ type: 'timing', duration: 300 }}
         onDidAnimate={() => isAnimatingOut && onAnimationComplete()}
         style={{ position: 'absolute', top: 15, left: 0, right: 0, alignItems: 'center' }}>
-        <View className={`${bgStyle} rounded-[10px] border py-3 px-3`}>
-          <Text className={`${textStyle} text-[22px] font-UhBeeBold`}>{message}</Text>
+        <View className={cn(bgStyle, 'rounded-[10px] border py-3 px-3')}>
+          <Text className={cn(textStyle, 'text-[22px] font-UhBeeBold')}>{message}</Text>
         </View>
       </MotiView>
     </Modal>

@@ -7,6 +7,7 @@ import useUserStore from '@store/useUserStore';
 import { useModal } from '@components/Modal';
 import { useDebounce } from '@hooks/useOptimization';
 import CrownIcon from '@assets/icons/crown.svg';
+import { cn } from '@utils/cn';
 
 const FriendItem = (props: TeamMenu) => {
   const { memberId, profileName, photoUrl, owner, friend } = props;
@@ -40,9 +41,11 @@ const FriendItem = (props: TeamMenu) => {
       {name !== profileName && (
         <TouchableOpacity
           onPress={debounceUpdateFriend}
-          className={`${friend ? 'bg-white border-[1px] border-black200' : 'bg-black900'}
-            h-9 w-[74px] flex justify-center items-center rounded-xl`}>
-          <Text className={`${friend ? 'text-black900' : 'text-white'} text-sm font-PTDSemiBold`}>{friend ? '친구' : '친구추가'}</Text>
+          className={cn(
+            friend ? 'bg-white border-[1px] border-black200' : 'bg-black900',
+            'h-9 w-[74px] flex justify-center items-center rounded-xl',
+          )}>
+          <Text className={cn(friend ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>{friend ? '친구' : '친구추가'}</Text>
         </TouchableOpacity>
       )}
     </View>

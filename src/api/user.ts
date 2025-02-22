@@ -32,22 +32,22 @@ export const updatePhoto = async (image: ImageType) => {
 
 export const getAllMyLikedBoard = async () => {
   const res = await instance.get('/api/my/likes');
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const getAllMyFriend = async () => {
   const res = await instance.get('/api/my/friend/mutual');
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const getAllMyFriendRequest = async () => {
   const res = await instance.get('/api/my/friend/requests/received');
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const getAllMyTeamRequest = async () => {
   const res = await instance.get('/api/my/diary/requests/received');
-  return res.data.data;
+  return res.data.data || [];
 };
 
 export const postFCM = async (fcmToken: string) => {
