@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { TouchableWithoutFeedback, TouchableWithoutFeedbackProps, Keyboard } from 'react-native';
 
-interface Props {
+interface Props extends TouchableWithoutFeedbackProps {
   children: ReactNode;
 }
 
-const DismissKeyboard = ({ children }: Props) => {
+const DismissKeyboard = ({ children, ...props }: Props) => {
   return (
-    <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss} {...props}>
       {children}
     </TouchableWithoutFeedback>
   );

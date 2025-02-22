@@ -1,10 +1,10 @@
 import { cn } from '@utils/cn';
 import React, { ReactNode, useMemo } from 'react';
-import { Text, TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
+import { Text, TouchableOpacity, View, StyleProp, ViewStyle, TouchableOpacityProps } from 'react-native';
 
 type Color = 'black' | 'white' | 'yellow';
 
-interface Props {
+interface Props extends TouchableOpacityProps {
   onPress?: () => void;
   size?: string;
   color?: Color;
@@ -14,7 +14,7 @@ interface Props {
   customStyle?: StyleProp<ViewStyle>;
 }
 
-const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon, customStyle, children }: Props) => {
+const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon, customStyle, children, ...buttonProps }: Props) => {
   const btnSize = useMemo(() => {
     switch (size) {
       case 'big':
@@ -43,7 +43,8 @@ const Button = ({ onPress, size = 'big', color = 'black', disabled = false, icon
       style={customStyle}
       onPress={onPress}
       disabled={disabled}
-      className={cn(btnSize.join(' '), btnColor[0], btnColor[1], 'border-[1px] flex justify-center items-center')}>
+      className={cn(btnSize.join(' '), btnColor[0], btnColor[1], 'border-[1px] flex justify-center items-center')}
+      {...buttonProps}>
       <View className={cn(size === 'big' ? 'gap-[10px]' : 'gap-[8px]', 'flex flex-row justify-center items-center')}>
         <View>{icon && icon}</View>
         <Text className={cn(btnColor[2], 'font-PTDSemiBold text-sm')}>{children}</Text>

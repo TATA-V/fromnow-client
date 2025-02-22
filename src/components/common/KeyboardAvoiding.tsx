@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import { isIOS } from '@utils/deviceInfo';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, KeyboardAvoidingViewProps } from 'react-native';
 
-interface Props {
+interface Props extends KeyboardAvoidingViewProps {
   children: ReactNode;
   offset?: number;
 }
 
-const KeyboardAvoiding = ({ children, offset = 130 }: Props) => {
+const KeyboardAvoiding = ({ children, offset = 130, ...props }: Props) => {
   return (
-    <KeyboardAvoidingView className="relative" behavior={isIOS ? 'padding' : 'height'} keyboardVerticalOffset={offset}>
+    <KeyboardAvoidingView className="relative" behavior={isIOS ? 'padding' : 'height'} keyboardVerticalOffset={offset} {...props}>
       {children}
     </KeyboardAvoidingView>
   );

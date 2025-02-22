@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View, TextInputProps } from 'react-native';
 import CircleDangerIcon from '@assets/icons/circleDanger.svg';
 import CircleCheckIcon from '@assets/icons/circleCheck.svg';
 import CircleXIcon from '@assets/icons/CircleXIcon';
@@ -7,7 +7,7 @@ import SearchIcon from '@assets/icons/SearchIcon';
 
 type Mode = 'black' | 'error' | 'trust' | 'gray';
 
-interface Props {
+interface Props extends TextInputProps {
   autoFocus?: boolean;
   mode?: Mode;
   placeholder?: string;
@@ -18,9 +18,18 @@ interface Props {
   onSubmitEditing?: () => void;
 }
 
-const Input = ({ autoFocus = false, mode = 'black', placeholder, editable = true, search, value, setValue, onSubmitEditing }: Props) => {
+const Input = ({
+  autoFocus = false,
+  mode = 'black',
+  placeholder,
+  editable = true,
+  search,
+  value,
+  setValue,
+  onSubmitEditing,
+  ...inputProps
+}: Props) => {
   const [isFocused, setIsFocused] = useState(false);
-  const inputRef = useRef<TextInput | null>(null);
 
   const color = useMemo(() => {
     if (!editable) {
@@ -71,6 +80,7 @@ const Input = ({ autoFocus = false, mode = 'black', placeholder, editable = true
         onSubmitEditing={onSubmitEditing}
         scrollEnabled={false}
         blurOnSubmit={false}
+        {...inputProps}
       />
       <View className="absolute right-[16px] h-full justify-center">
         {mode === 'error' && <CircleDangerIcon />}
