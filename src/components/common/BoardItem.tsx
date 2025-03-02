@@ -7,6 +7,7 @@ import { QUERY_KEY, useDisLikeBoard, useKey, useLikeBoard } from '@hooks/query';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@hooks/useOptimization';
+import { isKo } from '@utils/localize';
 
 interface Props extends Board {
   isMyLikedBoard?: boolean;
@@ -91,7 +92,7 @@ const BoardItem = (props: Props) => {
         <TouchableOpacity onPress={toggleLike} className="w-[24px] h-[24px] flex justify-center items-center">
           <HeartIcon color={localLiked ? '#FEC7C6' : '#E4E5EA'} />
         </TouchableOpacity>
-        <Text className="text-black900 text-[12px] font-PTDLight">좋아요 {localLikes}개</Text>
+        <Text className="text-black900 text-[12px] font-PTDLight">{isKo() ? `좋아요 ${localLikes}개` : `Likes ${localLikes}`}</Text>
       </View>
       <View>
         <Text className="text-black900 font-UhBee text-xl leading-[20px] mt-[4px]">{content}</Text>

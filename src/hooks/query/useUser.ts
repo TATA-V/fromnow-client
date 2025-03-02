@@ -9,7 +9,7 @@ import {
   updateNickname,
   updatePhoto,
 } from '@api/user';
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useToast from '@hooks/useToast';
 import useNavi from '@hooks/useNavi';
 import useCurrentRoute from '@hooks/useCurrentRoute';
@@ -20,6 +20,7 @@ import useUserStore from '@store/useUserStore';
 import { Board } from '@clientTypes/board';
 import { setStorage } from '@utils/storage';
 import useClearAllUserData from '@hooks/useClearAllUserData';
+import { useTranslation } from 'react-i18next';
 
 export const useGetMyProfile = () => {
   const queryKey = useKey([QUERY_KEY.MY, 'profile']);
@@ -39,6 +40,7 @@ export const useUpdateNickname = () => {
   const { navigation } = useNavi();
   const { route } = useCurrentRoute();
   const myProfileKey = useKey([QUERY_KEY.MY, 'profile']);
+  const { t } = useTranslation();
 
   const updateNicknameMutation = useMutation({
     mutationFn: updateNickname,
@@ -50,19 +52,18 @@ export const useUpdateNickname = () => {
       setName(name);
       await setStorage('name', name);
       if (route.name === 'SignupNickname') {
-        successToast('별명 설정 완료!');
+        successToast(`${t('toast.name.setSuccess')}`);
         navigation.navigate('SignupPhoto');
         return;
       }
-      successToast('닉네임 변경 완료!');
+      successToast(`${t('toast.name.changeSuccess')}`);
     },
     onError: error => {
       if (error.message === 'Request failed with status code 409') {
-        errorToast('이미 존재하는 별명입니다.');
+        errorToast(`${t('toast.name.exists')}`);
         return;
       }
-      errorToast('별명 변경에 실패했습니다.');
-      errorToast('error.message');
+      errorToast(`${t('toast.name.changeFail')}`);
     },
   });
 
@@ -78,12 +79,13 @@ export const useUpdatePhoto = () => {
   const { route } = useCurrentRoute();
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
   const myProfileKey = useKey([QUERY_KEY.MY, 'profile']);
+  const { t } = useTranslation();
 
   const updatePhotoMutation = useMutation({
     mutationFn: updatePhoto,
     onSuccess: async res => {
       if (route.name === 'SignupPhoto') {
-        successToast('🎉 프롬나우에서 멋진 시간을 보내세요!');
+        successToast(`${t('toast.signup.welcome')}`);
         navigation.navigate('Bottom', { screen: 'Home', refresh: true });
         return;
       }
@@ -91,10 +93,10 @@ export const useUpdatePhoto = () => {
         return { ...prev, photoUrl: res.data.photoUrl };
       });
       await queryClient.invalidateQueries({ queryKey: myTeamsKey });
-      successToast('이미지 수정 완료!');
+      successToast(`${t('toast.image.changeSuccess')}`);
     },
     onError: () => {
-      errorToast('프로필 사진 변경에 실패했습니다.');
+      errorToast(`${t('toast.image.changeFail')}`);
     },
   });
 
@@ -151,16 +153,17 @@ export const useDeleteUser = () => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const clearAllUserData = useClearAllUserData();
+  const { t } = useTranslation();
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteOne,
     onSuccess: async res => {
       await clearAllUserData();
       navigation.navigate('SignIn');
-      successToast(`${res.profileName} 님 그동안 이용해 주셔서 감사합니다:)`);
+      successToast(`${res.profileName} ${t('toast.deleteUser.success')}`);
     },
     onError: () => {
-      errorToast('계정 삭제에 실패했습니다.');
+      errorToast(`${t('toast.deleteUser.fail')}`);
     },
   });
 
@@ -171,16 +174,17 @@ export const useLogoutUser = () => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const clearAllUserData = useClearAllUserData();
+  const { t } = useTranslation();
 
   const logoutUserMutation = useMutation({
     mutationFn: logout,
     onSuccess: async () => {
       await clearAllUserData();
       navigation.navigate('SignIn');
-      successToast('안전하게 로그아웃되었습니다.');
+      successToast(`${t('toast.logout.success')}`);
     },
     onError: () => {
-      errorToast('로그아웃에 실패했습니다.');
+      errorToast(`${t('toast.logout.fail')}`);
     },
   });
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import moment from 'moment-modification-rn';
+import { isKo } from '@utils/localize';
 
 import styles from './Calendar.style.js';
 
@@ -35,14 +36,14 @@ class CalendarHeader extends Component {
     const firstDay = this.props.weekStartDate;
     const lastDay = this.props.weekEndDate;
 
-    const yearMonthFormat = 'YYYY년 M월';
+    const yearMonthFormat = isKo() ? 'YYYY년 M월' : 'MMMM yyyy';
 
     if (firstDay.year() === lastDay.year() && firstDay.month() === lastDay.month()) {
       return firstDay.format(yearMonthFormat);
     } else if (firstDay.year() === lastDay.year()) {
-      return `${firstDay.format('YYYY년 M월')} / ${lastDay.format('M월')}`;
+      return `${firstDay.format(isKo() ? 'YYYY년 M월' : 'MMMM yyyy')} / ${lastDay.format(isKo() ? 'M월' : 'MMMM')}`;
     } else {
-      return `${firstDay.format('YYYY년 M월')} / ${lastDay.format('YYYY년 M월')}`;
+      return `${firstDay.format(isKo() ? 'YYYY년 M월' : 'MMMM yyyy')} / ${lastDay.format(isKo() ? 'YYYY년 M월' : 'MMMM yyyy')}`;
     }
   }
 

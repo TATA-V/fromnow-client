@@ -15,6 +15,7 @@
       "@store/*": ["store/*"],
       "@clientTypes/*": ["types/*"],
       "@const/*": ["const/*"],
+      "@language/*": ["language/*"],
       "@api/*": ["api/*"],
       "@/*": ["./*"],
     },

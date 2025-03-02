@@ -9,6 +9,7 @@ import { Easing } from 'react-native-reanimated';
 import Button from '@components/common/Button';
 import FadeIn from '@components/common/FadeIn';
 import { Team } from '@clientTypes/team';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   teamList: Team[];
@@ -17,6 +18,7 @@ interface Props {
 
 function DndTeamList({ teamList, colors }: Props) {
   const { navigation } = useNavi();
+  const { t } = useTranslation();
   const GRID_SIZE = 2;
 
   const onGridOrderChange: DraggableGridProps['onOrderChange'] = orderedIds => {
@@ -70,7 +72,7 @@ function DndTeamList({ teamList, colors }: Props) {
         <View className="w-full items-center pt-[18px]">
           <FadeIn>
             <Button onPress={() => navigation.navigate('TeamCreate')} size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
-              모임 생성하기
+              {t('teamCreate.create')}
             </Button>
           </FadeIn>
         </View>

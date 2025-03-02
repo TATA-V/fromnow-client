@@ -20,6 +20,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import TeamSettingHeader from '@components/TeamSetting/TeamSettingHeader';
 import FriendItem from '@components/TeamSetting/FriendItem';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
 
 interface Props {
@@ -42,6 +43,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const { showModal } = useModal();
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const username = useUserStore(state => state.name);
+  const { t } = useTranslation();
 
   const [isInitialRender, setIsInitialRender] = useState(false);
   const teamId = useSelectedTeamStore(state => state.id);
@@ -72,8 +74,8 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const deleteTeam = () => {
     showModal({
       type: 'dialog',
-      title: '모임 삭제',
-      description: '모임을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
+      title: t('teamSetting.remove'),
+      description: t('teamSetting.removeDesc'),
       confirm: confirmDeleteTeam,
       confirmStyle: { backgroundColor: '#F04438' },
     });
@@ -88,8 +90,8 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const leaveTeam = () => {
     showModal({
       type: 'dialog',
-      title: '모임 나가기',
-      description: '모임을 나가면 나와 친구들이 남겼던\n일상들을 다시 볼 수 없게 돼요 ;(',
+      title: t('teamSetting.leave'),
+      description: t('teamSetting.leaveDesc'),
       confirm: confirmLeaveTeam,
       confirmStyle: { backgroundColor: '#F04438' },
     });
@@ -98,31 +100,31 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
   const settingList: SettingItem[] = [
     {
       icon: <ShareIcon size={24} color="#E4E5EA" />,
-      title: '초대 링크 공유하기',
+      title: t('teamSetting.shareLink'),
       onPress: async () =>
         await kakaoShare({
-          title: '모임 초대장💌',
-          description: `${username}님이 모임에 초대했어요!`,
+          title: t('teamSetting.share'),
+          description: `${username}${t('teamSetting.shareDesc')}`,
           imageUrl: `${user.photoUrl}`,
           params: { deepLink: `fromnow://team-invite/${teamId}` },
         }),
     },
     {
       icon: <DoorIcon />,
-      title: '모임 나가기',
+      title: t('teamSetting.leave'),
       onPress: leaveTeam,
     },
   ];
   if (user?.owner) {
     settingList.unshift({
       icon: <PenIcon size={24} />,
-      title: '모임정보 수정하기',
+      title: t('teamSetting.edit'),
       onPress: () => {
         close();
         navigation.navigate('TeamEdit', { id: route.params.id });
       },
     });
-    settingList.push({ icon: <TrashIcon />, title: '모임 삭제하기', onPress: deleteTeam });
+    settingList.push({ icon: <TrashIcon />, title: `${t('teamSetting.removeTeam')}`, onPress: deleteTeam });
   }
 
   return (
@@ -141,7 +143,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}>
             <View className="h-[26px] mt-[66px] justify-center">
-              <Text className="font-PTDLight text-sm text-black500">모임 친구</Text>
+              <Text className="font-PTDLight text-sm text-black500">{t('teamSetting.teamFriends')}</Text>
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -152,7 +154,7 @@ const TeamSettingDrawer = ({ open, setOpen }: Props) => {
               <View className="w-[48px] h-[48px] rounded-2xl border-[1px] border-black200 bg-black100 justify-center items-center">
                 <PlusIcon size={24} />
               </View>
-              <Text className="text-black900 text-sm font-PTDLight">친구 추가하기</Text>
+              <Text className="text-black900 text-sm font-PTDLight">{t('teamSetting.addFriend')}</Text>
             </TouchableOpacity>
             {data?.map((item, index) => (
               <FriendItem {...item} key={index} />

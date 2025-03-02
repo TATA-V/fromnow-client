@@ -7,6 +7,7 @@ import useNavi from '@hooks/useNavi';
 import useUserStore from '@store/useUserStore';
 import useGetFCMToken from '@hooks/useGetFCMToken';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 export const useSignInSocial = () => {
   const setName = useUserStore(state => state.setName);
@@ -14,6 +15,7 @@ export const useSignInSocial = () => {
   const { navigation } = useNavi();
   const { getFCMToken } = useGetFCMToken();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const signInMutation = useMutation({
     mutationFn: async ({ path, token }: GetOne) => await getOne({ path, token }),
@@ -32,7 +34,7 @@ export const useSignInSocial = () => {
       navigation.navigate('Bottom', { screen: 'Home', refresh: true });
     },
     onError: async error => {
-      errorToast(`로그인에 실패했습니다: ${error}`);
+      errorToast(`${t('signin.loginFailed')}: ${error}`);
     },
   });
 

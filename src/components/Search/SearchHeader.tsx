@@ -5,6 +5,7 @@ import useNavi from '@hooks/useNavi';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDebounce } from '@hooks/useOptimization';
 import { isAndroid } from '@utils/deviceInfo';
+import { useTranslation } from 'react-i18next';
 
 import Input from '@components/common/Input';
 
@@ -18,6 +19,7 @@ interface Props {
 const SearchHeader = ({ hasSearched, search, setSearch, onSubmitEditing }: Props) => {
   const { navigation } = useNavi();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
 
   const goBack = () => {
     navigation.goBack();
@@ -38,7 +40,7 @@ const SearchHeader = ({ hasSearched, search, setSearch, onSubmitEditing }: Props
           onSubmitEditing={debounceOnSubmitEditing}
           value={search}
           setValue={setSearch}
-          placeholder="친구 별명 등 검색어를 입력해 주세요"
+          placeholder={t('header.search.placeholder')}
           search
           autoFocus={hasSearched ? false : true}
         />

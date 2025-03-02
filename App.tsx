@@ -13,7 +13,9 @@ import useUserStore from '@store/useUserStore';
 import { getStorage } from '@utils/storage';
 import useAppState from '@store/useAppStore';
 import BootSplash from 'react-native-bootsplash';
+import { useTranslation } from 'react-i18next';
 import '@components/BottomSheet/sheets';
+import '@language/index';
 
 import RQProvider from '@components/provider/RQProvider';
 import ToastNotiProvider from '@components/provider/ToastProvider';
@@ -53,6 +55,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const { name: username, setName } = useUserStore(state => state);
   const isFirstEntry = useAppState(state => state.isFirstEntry);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const loadNameFromStorage = async () => {
@@ -111,13 +114,15 @@ function App() {
                       <Stack.Screen
                         name="SignupPhoto"
                         component={SignupPhotoScreen}
-                        options={{ header: () => <DefaultHeader title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
+                        options={{ header: () => <DefaultHeader title={t('header.signup')} />, contentStyle: { backgroundColor: '#fff' } }}
                       />
                       <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }} />
                       <Stack.Screen
                         name="MyFriend"
                         options={{
-                          header: () => <DefaultHeader path="Bottom?screen=Profile" title="내 친구" customStyle={{ backgroundColor: '#FBFBFD' }} />,
+                          header: () => (
+                            <DefaultHeader path="Bottom?screen=Profile" title={t('header.myFriend')} customStyle={{ backgroundColor: '#FBFBFD' }} />
+                          ),
                         }}>
                         {props => <MyFriendScreen {...props} paramName="MyFriend" />}
                       </Stack.Screen>
@@ -126,27 +131,31 @@ function App() {
                         component={MyTeamRequestScreen}
                         options={{
                           header: () => (
-                            <DefaultHeader path="Bottom?screen=Profile" title="받은 모임 요청" customStyle={{ backgroundColor: '#FBFBFD' }} />
+                            <DefaultHeader
+                              path="Bottom?screen=Profile"
+                              title={t('header.myTeamRequest')}
+                              customStyle={{ backgroundColor: '#FBFBFD' }}
+                            />
                           ),
                         }}
                       />
                       <Stack.Screen
                         name="MyLikedBoard"
                         component={MyLikedBoardScreen}
-                        options={{ header: () => <DefaultHeader title="좋아요 누른 일상" customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
+                        options={{ header: () => <DefaultHeader title={t('header.myLikedBoard')} customStyle={{ backgroundColor: '#FBFBFD' }} /> }}
                       />
                       <Stack.Screen name="Team" options={{ header: () => <TeamHeader /> }}>
                         {props => <TeamScreen {...props} paramName="Team" />}
                       </Stack.Screen>
                       <Stack.Screen name="TeamCalendar" component={TeamCalendarScreen} options={{ header: () => <TeamHeader /> }} />
-                      <Stack.Screen name="TeamEdit" options={{ header: () => <DefaultHeader title="모임정보 수정하기" /> }}>
+                      <Stack.Screen name="TeamEdit" options={{ header: () => <DefaultHeader title={t('header.teamEdit')} /> }}>
                         {props => <TeamEditScreen {...props} paramName="TeamEdit" />}
                       </Stack.Screen>
                       <Stack.Screen
                         name="TeamFriendAdd"
                         options={{
                           contentStyle: { backgroundColor: '#FBFBFD' },
-                          header: () => <DefaultHeader title="모임친구 초대" customStyle={{ backgroundColor: '#FBFBFD' }} />,
+                          header: () => <DefaultHeader title={t('header.teamFriendAdd')} customStyle={{ backgroundColor: '#FBFBFD' }} />,
                         }}>
                         {props => <TeamFriendAddScreen {...props} paramName="TeamFriendAdd" />}
                       </Stack.Screen>
@@ -156,9 +165,9 @@ function App() {
                       <Stack.Screen
                         name="TeamCreate"
                         component={TeamCreateScreen}
-                        options={{ header: () => <DefaultHeader title="모임 생성하기" /> }}
+                        options={{ header: () => <DefaultHeader title={t('header.teamCreate')} /> }}
                       />
-                      <Stack.Screen name="BoardEdit" options={{ header: () => <DefaultHeader title="일상 기록" /> }}>
+                      <Stack.Screen name="BoardEdit" options={{ header: () => <DefaultHeader title={t('header.boardEdit')} /> }}>
                         {props => <BoardEditScreen {...props} paramName="BoardEdit" />}
                       </Stack.Screen>
                       <Stack.Screen
@@ -172,12 +181,15 @@ function App() {
                   <Stack.Screen
                     name="SignupNickname"
                     component={SignupNicknameScreen}
-                    options={{ header: () => <DefaultHeader isSignup={true} title="회원가입" />, contentStyle: { backgroundColor: '#fff' } }}
+                    options={{
+                      header: () => <DefaultHeader isSignup={true} title={t('header.signup')} />,
+                      contentStyle: { backgroundColor: '#fff' },
+                    }}
                   />
-                  <Stack.Screen name="PrivacyPolicy" options={{ header: () => <PolicyHeader title="개인정보처리방침" /> }}>
+                  <Stack.Screen name="PrivacyPolicy" options={{ header: () => <PolicyHeader title={t('header.privacy')} /> }}>
                     {props => <PrivacyPolicyScreen {...props} paramName="PrivacyPolicy" />}
                   </Stack.Screen>
-                  <Stack.Screen name="ServicePolicy" options={{ header: () => <PolicyHeader title="서비스 이용약관" /> }}>
+                  <Stack.Screen name="ServicePolicy" options={{ header: () => <PolicyHeader title={t('header.service')} /> }}>
                     {props => <ServicePolicyScreen {...props} paramName="ServicePolicy" />}
                   </Stack.Screen>
                   <Stack.Screen name="TeamInvite" options={{ headerShown: false }}>

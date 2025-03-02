@@ -18,6 +18,9 @@ import useDeviceSize from '@hooks/useDeviceSize';
 import Orientation from 'react-native-orientation-locker';
 import SpInAppUpdates, { IAUUpdateKind, StartUpdateOptions } from 'sp-react-native-in-app-updates';
 import DeviceInfo from 'react-native-device-info';
+import 'moment-modification-rn/locale/ko';
+import moment from 'moment-modification-rn';
+import { isKo } from '@utils/localize';
 
 interface Props {
   children: ReactNode;
@@ -35,6 +38,9 @@ function SAVProvider({ children }: Props) {
   StatusBar.setBackgroundColor(statusBarBgColor);
 
   useEffect(() => {
+    if (isKo()) moment.locale('ko');
+    else moment.locale('en');
+
     const curVersion = DeviceInfo.getBuildNumber();
     const inAppUpdates = new SpInAppUpdates(false);
     inAppUpdates.checkNeedsUpdate({ curVersion }).then(result => {

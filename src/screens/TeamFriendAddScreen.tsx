@@ -8,6 +8,7 @@ import { useDebounce } from '@hooks/useOptimization';
 import useKakaoShare from '@hooks/useKakaoShare';
 import useUserStore from '@store/useUserStore';
 import { KAKAO_SHARE_IMG } from '@env';
+import { useTranslation } from 'react-i18next';
 
 import TeamFriendItem from '@components/TeamFriendAdd/TeamFriendItem';
 import MyFriendItem from '@components/TeamFriendAdd/MyFriendItem';
@@ -29,6 +30,7 @@ const TeamFriendAddScreen = ({}: Props) => {
   const username = useUserStore(state => state.name);
   const { route } = useCurrentRoute();
   const teamId = route.params.id;
+  const { t } = useTranslation();
 
   const [hasSearched, setHasSearched] = useState(false);
   const [submitSearch, setSubmitSearch] = useState('');
@@ -44,7 +46,7 @@ const TeamFriendAddScreen = ({}: Props) => {
   const { data: myFriendData } = useGetAllMyFriend();
   const { data: teamData } = useGetTeamMenu({ teamId });
 
-  const filteredFriends = myFriendData.filter(friend => {
+  const filteredFriends = (myFriendData || []).filter(friend => {
     return !teamData.some(team => team.memberId === friend.memberId);
   });
 
@@ -83,8 +85,8 @@ const TeamFriendAddScreen = ({}: Props) => {
 
   const shareInviteLink = async () => {
     await kakaoShare({
-      title: '모임 초대장💌',
-      description: `${username}님이 모임에 초대했어요!`,
+      title: t('teamFriendAdd.inviteTitle'),
+      description: `${username}${t('teamFriendAdd.invitedMessage')}`,
       imageUrl: `${KAKAO_SHARE_IMG}`,
       params: { deepLink: `fromnow://team-invite/${teamId}` },
     });
@@ -117,7 +119,7 @@ const TeamFriendAddScreen = ({}: Props) => {
                 value={search}
                 setValue={setSearch}
                 search
-                placeholder="친구 검색"
+                placeholder={t('teamFriendAdd.searchPlaceholder')}
               />
             </View>
             {searchData && searchData.length > 0 && hasSearched && (
@@ -152,7 +154,7 @@ const TeamFriendAddScreen = ({}: Props) => {
             )}
             {(!searchData || searchData.length === 0) && hasSearched && !searchLoading && (
               <View className="pt-[95px]">
-                <AvatarSadMsg message={`친구를 찾지 못했어요 ;(`} />
+                <AvatarSadMsg message={t('avatar.friendNotFoundShort')} />
               </View>
             )}
           </View>
@@ -161,12 +163,15 @@ const TeamFriendAddScreen = ({}: Props) => {
           <KeyboardAvoiding>
             <View className="absolute bottom-[-5px] pt-1 pb-[20px] px-4 items-center w-full bg-black100">
               <View className="flex-row space-x-[2px] mb-4">
-                <Text className="text-black700 text-[12px] font-PTDLight">친구를 찾을 수 없나요?</Text>
+                <Text className="text-black700 text-[12px] font-PTDLight">{t('teamFriendAdd.friendNotFound')}</Text>
                 <TouchableOpacity onPress={shareInviteLink}>
-                  <Text className="text-black700 text-[12px] font-PTDSemiBold underline">초대링크 공유하기</Text>
+                  <Text className="text-black700 text-[12px] font-PTDSemiBold underline">{t('teamFriendAdd.shareInviteLink')}</Text>
                 </TouchableOpacity>
               </View>
-              <Button onPress={debounceAddUserToTeam}>{profileNames.length}명 초대하기</Button>
+              <Button onPress={debounceAddUserToTeam}>
+                {profileNames.length}
+                {t('teamFriendAdd.inviteCount')}
+              </Button>
             </View>
           </KeyboardAvoiding>
         )}

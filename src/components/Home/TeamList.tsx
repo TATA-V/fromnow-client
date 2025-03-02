@@ -7,6 +7,7 @@ import { Team } from '@clientTypes/team';
 import useNavi from '@hooks/useNavi';
 import FadeIn from '@components/common/FadeIn';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
 
 interface Props {
@@ -19,6 +20,7 @@ function TeamList({ teamList, colors }: Props) {
   const { isTablet } = useDeviceSize();
   const numColumns = isTablet ? 4 : 2;
   const centerList = isTablet ? teamList.length < 4 : teamList.length !== 1;
+  const { t } = useTranslation();
 
   return (
     <View className={cn(centerList && 'items-center', 'flex w-full flex-1')}>
@@ -44,7 +46,7 @@ function TeamList({ teamList, colors }: Props) {
           <FadeIn>
             <View className="mb-[25px] w-full items-center pt-[18px] pb-[130px]">
               <Button onPress={() => navigation.navigate('TeamCreate')} size="mid" color="white" icon={<PlusIcon color="#1C1C1E" />}>
-                모임 생성하기
+                {t('teamCreate.create')}
               </Button>
             </View>
           </FadeIn>

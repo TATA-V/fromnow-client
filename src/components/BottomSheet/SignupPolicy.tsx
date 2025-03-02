@@ -8,6 +8,7 @@ import usePolicyStore from '@store/usePolicyStore';
 import useNavi from '@hooks/useNavi';
 import useToast from '@hooks/useToast';
 import Button from '@components/common/Button';
+import { useTranslation } from 'react-i18next';
 
 interface PolicyList {
   name: string;
@@ -20,11 +21,12 @@ const SignupPolicy = () => {
   const policyState = usePolicyStore(state => state);
   const { all, privacyPolicy, servicePolicy, ageConfirm, animated, setAnimated, setIsChecked, reset } = policyState;
   const { successToast } = useToast();
+  const { t } = useTranslation();
 
   const list: PolicyList[] = [
-    { name: 'servicePolicy', path: 'ServicePolicy', content: '[필수] 서비스 이용에 동의합니다' },
-    { name: 'privacyPolicy', path: 'PrivacyPolicy', content: '[필수] 개인정보 수집 및 이용에 동의합니다' },
-    { name: 'ageConfirm', content: '[필수] 만 14세 이상입니다' },
+    { name: 'servicePolicy', path: 'ServicePolicy', content: `${t('policy.service')}` },
+    { name: 'privacyPolicy', path: 'PrivacyPolicy', content: `${t('policy.privacy')}` },
+    { name: 'ageConfirm', content: `${t('policy.ageConfirm')}` },
   ];
 
   const toggleCheck = (value: string) => {
@@ -40,7 +42,7 @@ const SignupPolicy = () => {
   const agreeAndContinue = () => {
     SheetManager.hide('signup-policy');
     navigation.navigate('SignupNickname');
-    successToast('가입을 축하해요🎉\n이제 멋진 닉네임을 설정해 주세요:)');
+    successToast(t('signin.congratulations'));
     reset();
   };
 
@@ -56,12 +58,12 @@ const SignupPolicy = () => {
   return (
     <ActionSheet containerStyle={styles.container} animated={animated} onClose={() => setAnimated(true)}>
       <View className="w-full justify-center items-center h-[66px]">
-        <Text className="text-black900 text-base font-PTDSemiBold">약관 동의</Text>
+        <Text className="text-black900 text-base font-PTDSemiBold">{t('policy.title')}</Text>
       </View>
       <View className="flex flex-row h-[52px] items-center">
         <Pressable onPress={toggleAllTerms} className="flex flex-row items-center">
           {all ? <CheckFillIcon /> : <CheckLineIcon />}
-          <Text className="text-black900 text-sm font-PTDSemiBold ml-1">전체 약관에 동의합니다</Text>
+          <Text className="text-black900 text-sm font-PTDSemiBold ml-1">{t('policy.agreeAll')}</Text>
         </Pressable>
       </View>
       <View className="h-[124px] flex flex-col justify-around">
@@ -79,7 +81,7 @@ const SignupPolicy = () => {
       </View>
       <View className="h-[80px] flex justify-center">
         <Button disabled={!(ageConfirm && servicePolicy && privacyPolicy)} onPress={agreeAndContinue}>
-          가입 완료
+          {t('policy.joinComplete')}
         </Button>
       </View>
     </ActionSheet>

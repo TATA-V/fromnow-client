@@ -4,6 +4,7 @@ import { deepLinkByPath } from '@utils/pathHandler';
 import useSelectedTeamStore, { SelectedTeam } from '@store/useSelectedTeamStore';
 import { getStorage, setStorage } from '@utils/storage';
 import useAppState from '@store/useAppStore';
+import { isKo } from '@utils/localize';
 
 export interface Notice {
   id: string | number;
@@ -17,8 +18,8 @@ export const clientNotiMessage = async (message: FirebaseMessagingTypes.RemoteMe
   const { title: dataTitle, body: dataBody, id, path, imgUrl, mission } = data;
   const noticeId = id?.toString() || new Date().getTime().toString();
 
-  const missionTitle = '❤️두근두근 프나타임❤️';
-  const missionBody = '지금 이 순간, 당신의 일상을 들려주세요!';
+  const missionTitle = isKo() ? '❤️두근두근 프나타임❤️' : '❤️Heart-Pounding Fun Time❤️';
+  const missionBody = isKo() ? '지금 이 순간, 당신의 일상을 들려주세요!' : 'Share your everyday life with us, right now!';
   const title = mission ? missionTitle : dataTitle?.toString();
   const body = missionBody ? missionBody : dataBody?.toString();
 

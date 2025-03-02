@@ -4,16 +4,18 @@ import Button from '@components/common/Button';
 import PlusIcon from '@assets/icons/PlusIcon';
 import AvatarHappyMsg from '@components/common/AvatarHappyMsg';
 import useNavi from '@hooks/useNavi';
+import { useTranslation } from 'react-i18next';
 
 const TeamNotFound = () => {
   const { navigation } = useNavi();
+  const { t } = useTranslation();
 
   return (
     <View className="h-full flex flex-col items-center justify-center transform translate-y-[-120px]">
-      <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
+      <AvatarHappyMsg message={t('avatar.uploadDailyLife')} />
       <View className="mt-[24px]">
         <Button onPress={() => navigation.navigate('TeamCreate')} size="mid" icon={<PlusIcon size={24} color="white" />}>
-          모임 생성하기
+          {t('home.createTeam')}
         </Button>
       </View>
     </View>

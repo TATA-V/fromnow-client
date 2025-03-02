@@ -16,15 +16,7 @@ import { cn } from '@utils/cn';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import useDeviceSize from '@hooks/useDeviceSize';
 import { useThrottle } from '@hooks/useOptimization';
-
-LocaleConfig.locales.fr = {
-  monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
-  monthNamesShort: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
-  dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-  today: 'Aujourd hui',
-};
-LocaleConfig.defaultLocale = 'fr';
+import { isKo } from '@utils/localize';
 
 interface DayComponentProps {
   calendarMap: CalendarColMap;
@@ -56,25 +48,43 @@ function DayComponent({ calendarMap, date, state, marking }: DayComponentProps) 
 }
 
 const TeamCalendarList = () => {
+  if (isKo()) {
+    LocaleConfig.locales.fr = {
+      monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
+      monthNamesShort: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
+      dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+      dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+      today: 'Aujourd hui',
+    };
+    LocaleConfig.defaultLocale = 'fr';
+  } else {
+    LocaleConfig.locales.en = {
+      monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      today: 'Today',
+    };
+    LocaleConfig.defaultLocale = 'en';
+  }
+
   const { id: diaryId, recivedAt } = useSelectedTeamStore();
   const startDate = getDate(recivedAt).utcOffset(9);
   const currentDate = getDate().utcOffset(9);
   const [calendarMap, setCalendarMap] = useState<CalendarColMap>({});
   const [monthsDiff, setMonthsDiff] = useState(currentDate.diff(startDate, 'months'));
   const [fetchMonth, setFetchMonth] = useState(getDate().utcOffset(9).format('YYYY-MM-DD'));
-  const { calendarData, isLoading } = useColCalendar({ diaryId, date: fetchMonth, num: monthsDiff === 0 ? 1 : 2 });
+  const { data, calendarData, isLoading } = useColCalendar({ diaryId, date: fetchMonth, num: monthsDiff === 0 ? 1 : 2 });
   const [pastScrollRange, setPastScrollRange] = useState(0);
   const { width } = useDeviceSize();
 
   const onVisibleMonthsChange = useThrottle(async (months: { dateString: string }[]) => {
     const newVisibleMonth = months[0]?.dateString;
     const nextMonth = getDate(newVisibleMonth).utcOffset(9).add(1, 'months').format('YYYY-MM-DD');
-
     if (!calendarMap[newVisibleMonth]) {
       setFetchMonth(newVisibleMonth);
       return;
     }
-
     if (!calendarMap[nextMonth]) {
       setFetchMonth(nextMonth);
     }
@@ -164,7 +174,7 @@ const TeamCalendarList = () => {
         } as Theme
       }
       hideExtraDays={true}
-      monthFormat={'yyyy년 M월'}
+      monthFormat={isKo() ? 'yyyy년 M월' : 'MMMM yyyy'}
     />
   );
 };

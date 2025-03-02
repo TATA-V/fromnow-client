@@ -1,0 +1,239 @@
+{
+  "base": {
+    "ok": "OK",
+    "next": "Next",
+    "home": "Home",
+    "profile": "Profile"
+  },
+  "error": {
+    "required": "This field is required",
+    "nickname": "Please use 2-10 characters (Korean, English, or numbers)"
+  },
+  "toast": {
+    "name": {
+      "setSuccess": "Nickname set successfully!",
+      "changeSuccess": "Nickname changed successfully!",
+      "exists": "This nickname already exists.",
+      "changeFail": "Failed to change nickname."
+    },
+    "signup": {
+      "welcome": "🎉 Have a great time at FromNow!"
+    },
+    "image": {
+      "changeSuccess": "Image updated successfully!",
+      "changeFail": "Failed to update profile picture."
+    },
+    "deleteUser": {
+      "success": "Thank you for using our service :)",
+      "fail": "Failed to delete account."
+    },
+    "logout": {
+      "success": "Logged out securely.",
+      "fail": "Failed to log out."
+    },
+    "board": {
+      "success": "Post created successfully!",
+      "fail": "Failed to create post."
+    },
+    "like": {
+      "success": "Liked!",
+      "fail": "Failed to like. Please try again later."
+    },
+    "unlike": {
+      "success": "Unliked!",
+      "fail": "Failed to remove like. Please try again later."
+    },
+    "friendReq": {
+      "success": "Friend request sent!",
+      "warn": "Friend request already sent.",
+      "fail": "Failed to send friend request."
+    },
+    "friendReqDelete": {
+      "success": "Friend request deleted successfully.",
+      "fail": "Failed to delete friend request."
+    },
+    "friendAccept": {
+      "success": "Friend request accepted!",
+      "fail": "Failed to accept friend request."
+    },
+    "friendDelete": {
+      "success": "Friend removed.",
+      "fail": "Failed to remove friend."
+    },
+    "deleteTeam": {
+      "success": "The team has been deleted.",
+      "fail": "Failed to delete the team."
+    },
+    "leaveTeam": {
+      "success": "You have left the team.",
+      "fail": "Failed to leave the team."
+    },
+    "updateTeam": {
+      "success": "The team name has been updated.",
+      "fail": "Failed to update the team name."
+    },
+    "createTeam": {
+      "success": "New team created.",
+      "fail": "Failed to create team."
+    },
+    "inviteTeam": {
+      "success": "Invitation sent!",
+      "fail": "Failed to send invitation."
+    },
+    "acceptTeam": {
+      "success": "Team invitation accepted.",
+      "fail": "Failed to accept team invitation."
+    },
+    "rejectTeam": {
+      "success": "Team request removed.",
+      "fail": "Failed to remove team request."
+    },
+    "immediateInvite": {
+      "success": "You've been invited to the team 🎉",
+      "fail": "Failed to receive team invitation."
+    }
+  },
+  "header": {
+    "signup": "Sign Up",
+    "myFriend": "My Friends",
+    "myTeamRequest": "Received Group Requests",
+    "myLikedBoard": "Liked Posts",
+    "teamEdit": "Edit Group Info",
+    "teamFriendAdd": "Invite Group Friends",
+    "teamCreate": "Create Group",
+    "boardEdit": "Record Daily Life",
+    "service": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "camera": "Capture Daily Life",
+    "profile": "My Profile",
+    "notice": {
+      "title": "Notifications",
+      "allRead": "All Read"
+    },
+    "search": {
+      "placeholder": "Please enter search terms such as a friend's nickname"
+    }
+  },
+  "signin": {
+    "permissionGuide": "Access Permission Guide\nfor Using FromNow",
+    "greeting": "Capture the Moment, From Now",
+    "googleSignin": "Sign in with Google",
+    "kakaoSignin": "Sign in with Kakao",
+    "loginFailed": "Login failed",
+    "congratulations": "Congratulations on joining🎉\nNow, please set a cool nickname :)"
+  },
+  "policy": {
+    "title": "Agree to Terms",
+    "service": "[Required] I agree to the terms of service",
+    "privacy": "[Required] I agree to the collection and use of personal information",
+    "ageConfirm": "[Required] I confirm that I am at least 14 years old",
+    "agreeAll": "Agree to all terms",
+    "joinComplete": "Sign Up"
+  },
+  "signupNickname": {
+    "title1": "Nice to meet you!",
+    "title2": "How should FromNow address you?",
+    "inputLabel": "Nickname",
+    "inputPlaceholder": "Please enter your unique nickname"
+  },
+  "signupPhoto": {
+    "title1": "Show off your individuality!",
+    "title2": "You can register later :)",
+    "start": "Start FromNow"
+  },
+  "avatar": {
+    "uploadDailyLife": "If you upload your daily life,\nyou can see your friends' daily lives!",
+    "friendNotFound": "Friend not found ;(\nShare the link to invite a friend!",
+    "noFriends": "You don't have any friends yet\nTry finding new friends!",
+    "noReceivedRequests": "You haven't received\nany friend requests yet",
+    "noLikedPosts": "You haven't liked\nany posts yet",
+    "noReceivedTeam": "You haven't received\nany group requests yet",
+    "noRecentNoti": "There are no\nrecent notifications.",
+    "noPosts": "Nobody has\nposted anything",
+    "friendNotFoundShort": "Friend not found ;("
+  },
+  "home": {
+    "createTeam": "Create Group"
+  },
+  "myFriend": {
+    "find": "Find Friends",  
+    "remove": "Remove Friend",  
+    "friend": "Friend",  
+    "addFriend": "Add Friend"
+  },
+  "boardEdit": {
+    "warning": "Warning",
+    "exceedsCharacterLimit": "You have exceeded the 500 character limit.",
+    "placeholder": "Write something to help you remember your everyday life."
+  },
+  "camera": {
+    "createTeamTitle": "Create Group",
+    "createTeamDesc": "No groups yet.\nStart a new one now!",
+    "restrictedAccess": "Camera access is only allowed at the designated time.",
+    "start": "Start!"
+  },
+  "profile": {
+    "delete": {
+      "title": "Delete Account",
+      "desc": "Delete your account?\nOnce deleted, it cannot be recovered."
+    },
+    "friend": {
+      "label": "My Friends",
+      "section": "Friend Management"
+    },
+    "team": {
+      "label": "Received Group Requests",
+      "section": "Group Management"
+    },
+    "heart": {
+      "label": "Liked Posts",
+      "section": "Post Management"
+    },
+    "logout": {
+      "label": "Log Out",
+      "section": "Account Management",
+      "submenuLabel": "Unregister"
+    },
+    "policy": {
+      "label": "Privacy Policy",
+      "section": "Customer Center",
+      "submenuLabel": "Terms of Service",
+      "submenuLabel2": "Company Information"
+    }
+  },
+  "team": {
+    "share": "Share My Daily Life",
+    "name": "Group Name",
+    "placeholder": "Enter your group name",
+    "select": "Select shared group",
+    "sharingStatus": "Sharing",
+    "startSharing": "Share"
+  },
+  "teamCreate": {
+    "create": "Create Group"
+  },
+  "teamFriendAdd": {
+    "inviteTitle": "Group Invitation 💌",
+    "invitedMessage": "has invited you to the group!",
+    "searchPlaceholder": "Search Friends",
+    "friendNotFound": "Can't find your friend?",
+    "shareInviteLink": "Share invite link",
+    "inviteCount": "Invite Friend"
+  },
+  "teamInvite": {
+    "wating": "Please wait a moment!"
+  },
+  "teamSetting": {
+    "remove": "Delete Group",
+    "removeDesc": "Delete the group?\nThis action cannot be undone.",
+    "leave": "Leave Group",
+    "leaveDesc": "Leaving the group will hide posts shared by you and your friends ;(",
+    "shareLink": "Share Invitation Link",
+    "share": "Group Invitation 💌",
+    "shareDesc": "has invited you to the group!",
+    "edit": "Edit Group Info",
+    "removeTeam": "Delete Group",
+    "teamFriends": "Group Friends",
+    "addFriend": "Add Friend"
+  }
+}

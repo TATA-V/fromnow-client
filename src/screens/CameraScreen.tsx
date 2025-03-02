@@ -11,6 +11,7 @@ import { cameraAccessible } from '@utils/cameraAccessible';
 import useToast from '@hooks/useToast';
 import { useGetAllTeam, useGetMission } from '@hooks/query';
 import { formatDate } from '@utils/formatDate';
+import { useTranslation } from 'react-i18next';
 import moment from 'moment-modification-rn';
 
 const CameraScreen = () => {
@@ -21,6 +22,7 @@ const CameraScreen = () => {
   const { showModal } = useModal();
   const { warnToast } = useToast();
   const { accessible } = cameraAccessible();
+  const { t } = useTranslation();
 
   const { data: mission, isLoading } = useGetMission(formatDate());
 
@@ -61,14 +63,14 @@ const CameraScreen = () => {
       navigation.navigate('Bottom', { screen: 'Home' });
       showModal({
         type: 'confirm',
-        title: '모임 생성',
-        description: '아직 생성된 모임이 없어요.\n지금 바로 새로운 모임을 만들어 보세요!',
+        title: `${t('camera.createTeamTitle')}`,
+        description: `${t('camera.createTeamDesc')}`,
         confirm: () => navigation.navigate('TeamCreate'),
       });
       return;
     }
     // if (accessible) return;
-    // warnToast('지정된 시간에만 카메라에 접근할 수 있어요.');
+    // warnToast(`${t('camera.restrictedAccess')}`);
     // navigation.navigate('Home');
   }, []);
 

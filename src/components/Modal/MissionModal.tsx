@@ -4,10 +4,12 @@ import { MotiView } from 'moti';
 import Button from '@components/common/Button';
 import { ModalState, useModal } from '@components/Modal';
 import tempMissionPng from '@assets/png/mission.png';
+import { useTranslation } from 'react-i18next';
 
 const MissionModal = (props: ModalState) => {
   const { open, title, description, confirm, missionImg, lockBackdrop } = props;
   const { hideModal } = useModal();
+  const { t } = useTranslation();
   const confirmClick = () => {
     if (confirm) confirm();
     hideModal();
@@ -25,7 +27,7 @@ const MissionModal = (props: ModalState) => {
           <Text className="text-black900 text-sm font-PTDLight text-center">{description}</Text>
           <Image source={missionImg ? { uri: missionImg } : tempMissionPng} resizeMode="contain" className="w-[247px] h-[100px] my-[24px]" />
           <Button onPress={confirmClick} customStyle={{ height: 40 }}>
-            촬영 시작!
+            {t('camera.start')}
           </Button>
         </MotiView>
       </View>

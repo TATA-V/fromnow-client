@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Team } from '@clientTypes/team';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
 
 interface Props extends Team {
@@ -10,6 +11,7 @@ interface Props extends Team {
 
 const SelectTeamItem = (props: Props) => {
   const { id, title, photoUrls, isSharing, toggleSharing } = props;
+  const { t } = useTranslation();
 
   return (
     <View className="h-[94px] rounded-2xl bg-black100 w-full flex flex-row justify-between items-center p-4 border-[1px] border-black200">
@@ -31,7 +33,9 @@ const SelectTeamItem = (props: Props) => {
           isSharing ? 'bg-white border-[1px] border-black200' : 'bg-black900',
           'h-9 w-[74px] flex justify-center items-center rounded-xl',
         )}>
-        <Text className={cn(isSharing ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>{isSharing ? '공유중' : '공유하기'}</Text>
+        <Text className={cn(isSharing ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>
+          {isSharing ? `${t('team.sharingStatus')}` : `${t('team.startSharing')}`}
+        </Text>
       </TouchableOpacity>
     </View>
   );

@@ -11,6 +11,7 @@ import { useDebounce } from '@hooks/useOptimization';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
 
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
@@ -30,6 +31,7 @@ const MyFriendScreen = ({}: Props) => {
   const styles = createStyles(width);
   const isFocused = useIsFocused();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const isReq = route.params.req;
   const [isAllFriend, setIsAllFriend] = useState(isReq ? false : true);
 
@@ -98,10 +100,10 @@ const MyFriendScreen = ({}: Props) => {
       {data?.length === 0 && !isLoadingMyFriend && !isLoadingFriendRq && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="w-full h-full justify-center items-center transfrom translate-y-[-70px]" pointerEvents="box-none">
-            <AvatarSadMsg message={isAllFriend ? `아직 친구가 없어요\n새로운 친구를 찾아보세요!` : `아직 받은\n친구 요청이 없어요`} />
+            <AvatarSadMsg message={isAllFriend ? `${t('avatar.noFriends')}` : `${t('avatar.noReceivedRequests')}`} />
             <View className="mt-[24px]">
               <Button onPress={() => navigation.navigate('Search')} size="mid" icon={<SearchIcon color="#fff" size={24} />}>
-                친구 찾아보기
+                {t('myFriend.find')}
               </Button>
             </View>
           </View>

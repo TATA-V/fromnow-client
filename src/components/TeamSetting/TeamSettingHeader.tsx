@@ -4,6 +4,8 @@ import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useSelectedTeamStore from '@store/useSelectedTeamStore';
 import { getDate } from '@utils/formatDate';
+import { useTranslation } from 'react-i18next';
+import { isKo } from '@utils/localize';
 
 interface Props {
   close: () => void;
@@ -15,6 +17,7 @@ const TeamSettingHeader = ({ close }: Props) => {
   const startDate = getDate(createdAt).utcOffset(9);
   const currentDate = getDate().utcOffset(9);
   const daysShared = currentDate.utcOffset(9).diff(startDate, 'days') + 1;
+  const { t } = useTranslation();
 
   return (
     <View style={{ top: insets.top }} className="absolute px-[8px] h-[66px] w-full flex flex-row items-center justify-between bg-white">
@@ -26,7 +29,9 @@ const TeamSettingHeader = ({ close }: Props) => {
           <Text ellipsizeMode="tail" className="text-black900 text-sm font-PTDSemiBold ml-[4px]">
             {title}
           </Text>
-          <Text className="text-black500 text-[12px] font-PTDLight ml-[4px]">{daysShared}일째 일상을 공유하고 있어요 :)</Text>
+          <Text className="text-black500 text-[12px] font-PTDLight ml-[4px]">
+            {isKo() ? `${daysShared}일째 일상을 공유하고 있어요 :)` : `Day ${daysShared} of sharing`}
+          </Text>
         </View>
       </View>
     </View>

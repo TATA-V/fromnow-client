@@ -5,7 +5,6 @@ import moment from 'moment-modification-rn';
 import { Text, View, Animated, Easing, LayoutAnimation, TouchableOpacity } from 'react-native';
 import styles from './Calendar.style.js';
 import 'moment-modification-rn/locale/ko';
-moment.locale('ko');
 
 class CalendarDay extends Component {
   static propTypes = {

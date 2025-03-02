@@ -9,6 +9,8 @@ import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import { getDate } from '@utils/formatDate';
+import { useTranslation } from 'react-i18next';
+import { isKo } from '@utils/localize';
 
 interface Props {
   paramName: string;
@@ -21,8 +23,11 @@ const TeamDetailScreen = ({}: Props) => {
   const { data, isLoading } = useGetAllBoard({ diaryId, date });
   const boardKey = useKey(['all', QUERY_KEY.BOARD, date]);
   const { refreshing, onRefresh } = useRefresh({ queryKey: boardKey });
-  const formattedDate = getDate(date).utcOffset(9).format('YYYY년 MM월 DD일 dddd');
+  const formattedDate = getDate(date)
+    .utcOffset(9)
+    .format(isKo() ? 'YYYY년 MM월 DD일 dddd' : 'MMMM DD, YYYY');
   const boards = data?.boardOverViewResponseDtoList;
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -55,7 +60,7 @@ const TeamDetailScreen = ({}: Props) => {
       {(!data || boards.length === 0) && !isLoading && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="h-full justify-center mt-[-66px]">
-            <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />
+            <AvatarSadMsg message={t('avatar.noPosts')} />
           </View>
         </ScrollView>
       )}

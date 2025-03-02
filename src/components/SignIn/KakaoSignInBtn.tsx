@@ -5,10 +5,12 @@ import Button from '@components/common/Button';
 import useToast from '@hooks/useToast';
 import { useSignInSocial } from '@hooks/query';
 import { useDebounce } from '@hooks/useOptimization';
+import { useTranslation } from 'react-i18next';
 
 const KakaoSignInBtn = () => {
   const { errorToast } = useToast();
   const signInMutation = useSignInSocial();
+  const { t } = useTranslation();
 
   const signInWithKakao = async () => {
     try {
@@ -24,7 +26,7 @@ const KakaoSignInBtn = () => {
 
   return (
     <Button onPress={debounceSignInWithKakao} color="yellow" icon={<KakaoIcon />}>
-      Kakao로 로그인하기
+      {t('signin.kakaoSignin')}
     </Button>
   );
 };

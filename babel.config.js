@@ -17,6 +17,7 @@ module.exports = {
           '@store': './src/store',
           '@clientTypes': './src/types',
           '@const': './src/const',
+          '@language': './src/language',
           '@api': './src/api',
           '@': './*',
         },

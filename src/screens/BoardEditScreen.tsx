@@ -8,6 +8,7 @@ import { MotiView } from 'moti';
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import DismissKeyboard from '@components/common/DismissKeyboard';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
 
 interface Props {
@@ -20,12 +21,13 @@ const BoardEditScreen = ({}: Props) => {
   const { route } = useCurrentRoute();
   const { showModal } = useModal();
   const { height } = useDeviceSize();
+  const { t } = useTranslation();
 
   const changeContent = (text: string) => {
     if (text.length <= 500) {
       setContent(text);
     } else {
-      showModal({ type: 'confirm', title: '경고', description: '글자 수가 500자를 초과했습니다.' });
+      showModal({ type: 'confirm', title: `${t('boardEdit.warning')}`, description: `${t('boardEdit.exceedsCharacterLimit')}` });
     }
   };
 
@@ -63,7 +65,7 @@ const BoardEditScreen = ({}: Props) => {
                 isFocused ? 'border-black900' : 'border-black200',
                 'relative h-full rounded-2xl border-[1px] p-4 text-sm text-black900 font-PTDLight',
               )}
-              placeholder="일상을 기억할 수 있도록 글을 작성해 보세요."
+              placeholder={t('boardEdit.placeholder')}
               placeholderTextColor="#D9D9DC"
               cursorColor={'#1C1C1E'}
               selectionColor={'#1C1C1E'}
@@ -80,7 +82,7 @@ const BoardEditScreen = ({}: Props) => {
       </DismissKeyboard>
       <KeyboardAvoiding>
         <View className="absolute bottom-[-5px] pt-4 pb-[20px] px-4 w-full bg-white">
-          <Button onPress={selectTeamToShow}>다음</Button>
+          <Button onPress={selectTeamToShow}>{t('base.next')}</Button>
         </View>
       </KeyboardAvoiding>
     </>

@@ -12,6 +12,7 @@ import useNavi from '@hooks/useNavi';
 import { useGetMyProfile, useLogoutUser } from '@hooks/query';
 import { useDebounce } from '@hooks/useOptimization';
 import { useModal } from '@components/Modal';
+import { useTranslation } from 'react-i18next';
 
 import MyNickname from '@components/Profile/MyNickname';
 import MiniLoading from '@components/common/MiniLoading';
@@ -22,6 +23,7 @@ const ProfileScreen = () => {
 
   const { logoutUserMutation } = useLogoutUser();
   const { showModal } = useModal();
+  const { t } = useTranslation();
 
   const navigateToScreen = (target: string, options?: { [key: string]: string | boolean }) => {
     navigation.navigate(target, { ...options });
@@ -33,35 +35,35 @@ const ProfileScreen = () => {
   const deleteUser = () => {
     showModal({
       type: 'account',
-      title: '계정 삭제',
-      description: '계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.',
+      title: t('profile.delete.title'),
+      description: t('profile.delete.desc'),
       confirmStyle: { backgroundColor: '#F04438' },
     });
   };
 
   const list = [
-    { icon: <FriendsIcon />, label: '내 친구', section: '친구 관리', onPress: () => navigateToScreen('MyFriend') },
-    { icon: <FolderIcon />, label: '받은 모임 요청', section: '모임 관리', onPress: () => navigateToScreen('MyTeamRequest') },
-    { icon: <HeartsIcon />, label: '좋아요 누른 일상', section: '일상 관리', onPress: () => navigateToScreen('MyLikedBoard') },
+    { icon: <FriendsIcon />, label: t('profile.friend.label'), section: t('profile.friend.section'), onPress: () => navigateToScreen('MyFriend') },
+    { icon: <FolderIcon />, label: t('profile.team.label'), section: t('profile.team.section'), onPress: () => navigateToScreen('MyTeamRequest') },
+    { icon: <HeartsIcon />, label: t('profile.heart.label'), section: t('profile.heart.section'), onPress: () => navigateToScreen('MyLikedBoard') },
     {
       icon: <ExitIcon />,
-      label: '로그아웃',
-      section: '정보 관리',
+      label: t('profile.logout.label'),
+      section: t('profile.logout.section'),
       onPress: logoutUser,
-      submenu: [{ icon: <WithdrawalIcon />, label: '탈퇴하기', onPress: deleteUser }],
+      submenu: [{ icon: <WithdrawalIcon />, label: t('profile.logout.submenuLabel'), onPress: deleteUser }],
     },
     {
       icon: <PeoplePolicyIcon />,
-      label: '개인정보처리방침',
-      section: '고객 센터',
+      label: t('profile.policy.label'),
+      section: t('profile.policy.section'),
       onPress: () => navigateToScreen('PrivacyPolicy', { showSignupPolicy: false }),
       submenu: [
         {
           icon: <DocumentIcon />,
-          label: '이용약관',
+          label: t('profile.policy.submenuLabel'),
           onPress: () => navigateToScreen('ServicePolicy', { showSignupPolicy: false }),
         },
-        // { icon: <CcIcon />, label: '사업자 정보', onPress: () => {} },
+        // { icon: <CcIcon />, label: t('profile.policy.submenuLabel2'), onPress: () => {} },
       ],
     },
   ];

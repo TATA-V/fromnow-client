@@ -5,6 +5,7 @@ import useNavi from '@hooks/useNavi';
 import { removeStorage } from '@utils/storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { isAndroid } from '@utils/deviceInfo';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   title: string;
@@ -14,6 +15,7 @@ interface Props {
 const NoticeHeader = ({ title, resetNoticeList }: Props) => {
   const insets = useSafeAreaInsets();
   const { navigation } = useNavi();
+  const { t } = useTranslation();
 
   const deleteAll = async () => {
     resetNoticeList();
@@ -31,7 +33,7 @@ const NoticeHeader = ({ title, resetNoticeList }: Props) => {
       </View>
       <Text className="text-black900 text-base font-PTDSemiBold">{title}</Text>
       <TouchableOpacity onPress={deleteAll} className="w-[69px] h-[48px] justify-center items-center">
-        <Text className="text-black700 text-[12px] font-PTDLight">모두 읽음</Text>
+        <Text className="text-black700 text-[12px] font-PTDLight">{t('header.notice.allRead')}</Text>
       </TouchableOpacity>
     </View>
   );

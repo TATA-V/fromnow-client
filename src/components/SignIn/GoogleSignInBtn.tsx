@@ -7,9 +7,11 @@ import useToast from '@hooks/useToast';
 import GoogleIcon from '@assets/icons/google.svg';
 import Button from '@components/common/Button';
 import { useDebounce } from '@hooks/useOptimization';
+import { useTranslation } from 'react-i18next';
 
 const GoogleSignInBtn = () => {
   const { errorToast } = useToast();
+  const { t } = useTranslation();
 
   GoogleSignin.configure({
     webClientId: isIOS ? IOS_WED_CLIENT_ID : ANDROID_WEB_CLIENT_ID,
@@ -52,7 +54,7 @@ const GoogleSignInBtn = () => {
 
   return (
     <Button onPress={debounceSignInWithGoogle} color="white" icon={<GoogleIcon />}>
-      Google로 로그인하기
+      {t('signin.googleSignin')}
     </Button>
   );
 };

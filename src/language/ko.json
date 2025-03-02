@@ -1,0 +1,242 @@
+{
+  "base": {
+    "ok": "확인",
+    "next": "다음",
+    "home": "홈",
+    "profile": "내 정보"
+  },
+  "error": {
+    "required": "필수 입력 항목입니다",
+    "nickname": "2~10자 한/영/숫자로 설정해 주세요"
+  },
+  "toast": {
+    "name": {
+      "setSuccess": "별명 설정 완료!",
+      "changeSuccess": "닉네임 변경 완료!",
+      "exists": "이미 존재하는 별명입니다.",
+      "changeFail": "별명 변경에 실패했습니다."
+    },
+    "signup": {
+      "welcome": "🎉 프롬나우에서 멋진 시간을 보내세요!"
+    },
+    "image": {
+      "changeSuccess" : "이미지 수정 완료!",
+      "changeFail" : "프로필 사진 변경에 실패했습니다."
+    },
+    "deleteUser": {
+      "success": "님 그동안 이용해 주셔서 감사합니다:)",
+      "fail": "계정 삭제에 실패했습니다."
+    },
+    "logout": {
+      "success": "안전하게 로그아웃되었습니다.",
+      "fail": "로그아웃에 실패했습니다."
+    },
+    "board": {
+      "success": "게시글 작성 완료!",
+      "fail": "게시글 작성에 실패했습니다."
+    },
+    "like": {
+      "success": "좋아요 완료!",
+      "fail": "좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요."
+    },
+    "unlike": {
+      "success": "좋아요를 취소했습니다.",
+      "fail": "좋아요 취소에 실패했습니다. 잠시 후 다시 시도해 주세요."
+    },
+    "friendReq": {
+      "success": "친구 요청 완료!",
+      "warn": "친구 요청을 이미 보냈습니다.",
+      "fail": "친구 요청에 실패했습니다."
+    },
+    "friendReqDelete": {
+      "success": "친구 요청 삭제 완료",
+      "fail": "친구 요청 삭제에 실패했습니다."
+    },
+    "friendAccept": {
+      "success": "친구 수락 완료!",
+      "fail": "친구 수락에 실패했습니다."
+    },
+    "friendDelete": {
+      "success": "친구가 삭제되었습니다.",
+      "fail": "친구 삭제에 실패했습니다."
+    },
+    "deleteTeam": {
+      "success": "모임을 삭제했습니다.",
+      "fail": "모임 삭제에 실패했습니다."
+    },
+    "leaveTeam": {
+      "success": "모임을 떠났습니다.",
+      "fail": "모임 나가기에 실패했습니다."
+    },
+    "updateTeam": {
+      "success": "모임 이름을 수정했습니다.",
+      "fail": "모임 이름 수정에 실패했습니다."
+    },
+    "createTeam": {
+      "success": "새로운 모임이 생성되었습니다.",
+      "fail": "모임 생성에 실패했습니다."
+    },
+    "inviteTeam": {
+      "success": "초대 성공!",
+      "fail": "초대에 실패했습니다."
+    },
+    "acceptTeam": {
+      "success": "모임 초대 수락이 완료되었습니다.",
+      "fail": "모임 초대 수락에 실패했습니다."
+    },
+    "rejectTeam": {
+      "success": "모임 요청 삭제 완료",
+      "fail": "모임 요청 삭제에 실패했습니다."
+    },
+    "immediateInvite": {
+      "success": "모임에 초대되었습니다🎉",
+      "fail": "모임 초대 받기에 실패했어요."
+    }
+  },
+  "header": {
+    "signup": "회원가입",
+    "myFriend": "내 친구",
+    "myTeamRequest": "받은 모임 요청",
+    "myLikedBoard": "좋아요 누른 일상",
+    "teamEdit": "모임정보 수정하기",
+    "teamFriendAdd": "모임친구 초대",
+    "teamCreate": "모임 생성하기",
+    "boardEdit": "일상 기록",
+    "service": "서비스 이용약관",
+    "privacy": "개인정보처리방침",
+    "camera": "일상 촬영",
+    "profile": "내 정보",
+    "notice": {
+      "title": "알림",
+      "allRead": "모두 읽음"
+    },
+    "search": {
+      "placeholder": "친구 별명 등 검색어를 입력해 주세요"
+    }
+  },
+  "signin": {
+    "permissionGuide": "프롬나우 이용을 위한\n접근 권한 안내",
+    "greeting": "지금의 순간을 기록하세요, 프롬 나우",
+    "googleSignin": "Google로 로그인하기",
+    "kakaoSignin": "Kakao로 로그인하기",
+    "loginFailed": "로그인에 실패했습니다",
+    "congratulations": "가입을 축하해요🎉\n이제 멋진 닉네임을 설정해 주세요:)"
+  },
+  "policy": {
+    "title": "약관동의",
+    "service": "[필수] 서비스 이용에 동의합니다",
+    "privacy": "[필수] 개인정보 수집 및 이용에 동의합니다",
+    "ageConfirm": "[필수] 만 14세 이상입니다",
+    "agreeAll": "전체 약관에 동의합니다",
+    "joinComplete": "가입 완료"
+  },
+  "signupNickname": {
+    "title1" : "정말 반가워요!",
+    "title2" : "프롬나우가 어떻게 불러드릴까요?",
+    "inputLabel": "별명",
+    "inputPlaceholder": "당신만의 특별한 별명을 입력해 주세요"
+  },
+  "signupPhoto": {
+    "title1" : "당신의 개성을 맘껏 뽐내보세요!",
+    "title2" : "나중에 등록해도 괜찮아요 :)",
+    "start": "프롬나우 시작"
+  },
+  "avatar": {
+    "uploadDailyLife": "오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!",
+    "friendNotFound": "친구를 찾지 못했어요 ;(\n링크를 공유하여 친구를 초대해 보세요!",
+    "noFriends": "아직 친구가 없어요\n새로운 친구를 찾아보세요!",
+    "noReceivedRequests": "아직 받은\n친구 요청이 없어요",
+    "noLikedPosts": "아직 좋아요를 누른\n게시글이 없어요",
+    "noReceivedTeam": "아직 받은\n모임 요청이 없어요",
+    "noRecentNoti": "최근 알림이 없습니다.",
+    "noPosts": "아무도 글을\n작성하지 않았어요",
+    "friendNotFoundShort": "친구를 찾지 못했어요 ;("
+  },
+  "home": {
+    "createTeam" : "모임 생성하기"
+  },
+  "myFriend": {
+    "find" : "친구 찾아보기",
+    "remove": "친구 삭제",
+    "friend": "친구",
+    "addFriend": "친구추가"
+  },
+  "boardEdit": {
+    "warning": "경고",
+    "exceedsCharacterLimit": "글자 수가 500자를 초과했습니다.",
+    "placeholder": "일상을 기억할 수 있도록 글을 작성해 보세요."
+  },
+  "camera": {
+    "createTeamTitle" : "모임 생성",
+    "createTeamDesc" : "아직 생성된 모임이 없어요.\n지금 바로 새로운 모임을 만들어 보세요!",
+    "restrictedAccess": "지정된 시간에만 카메라에 접근할 수 있어요.",
+    "start": "촬영 시작!"
+  },
+  "profile": {
+    "delete": {
+      "title": "계정 삭제",
+      "desc": "계정을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다."
+    },
+    "friend": {
+      "label": "내 친구",
+      "section": "친구 관리"
+    },
+    "team": {
+      "label": "받은 모임 요청",
+      "section": "모임 관리"
+    },
+    "heart": {
+      "label": "좋아요 누른 일상",
+      "section": "일상 관리"
+    },
+    "logout": {
+      "label": "로그아웃",
+      "section": "정보 관리",
+      "submenuLabel": "탈퇴하기"
+    },
+    "policy": {
+      "label": "개인정보처리방침",
+      "section": "고객 센터",
+      "submenuLabel": "이용약관",
+      "submenuLabel2": "사업자 정보"
+    }
+  },
+  "team": {
+    "share": "내 일상 공유하기",
+    "name": "모임 이름",
+    "placeholder": "모임 이름을 입력해 주세요",
+    "select": "공유 모임 선택",
+    "sharingStatus": "공유중",
+    "startSharing": "공유하기"
+  },
+  "teamCreate": {
+    "create": "모임 생성하기"
+  },
+  "teamEdit": {
+    "finish": "수정 완료하기"
+  }, 
+  "teamFriendAdd": {
+    "inviteTitle": "모임 초대장💌",
+    "invitedMessage": "님이 모임에 초대했어요!",
+    "searchPlaceholder": "친구 검색",
+    "friendNotFound": "친구를 찾을 수 없나요?",
+    "shareInviteLink": "초대링크 공유하기",
+    "inviteCount": "명 초대하기"
+  },
+  "teamInvite": {
+    "wating": "잠시만 기다려주세요!"
+  },
+  "teamSetting": {
+    "remove": "모임 삭제",
+    "removeDesc": "모임을 삭제하시겠습니까?\n삭제하면 다시 복구할 수 없습니다.",
+    "leave": "모임 나가기",
+    "leaveDesc": "모임을 나가면 나와 친구들이 남겼던\n일상들을 다시 볼 수 없게 돼요 ;(",
+    "shareLink": "초대 링크 공유하기",
+    "share": "모임 초대장💌",
+    "shareDesc": "님이 모임에 초대했어요!",
+    "edit": "모임정보 수정하기",
+    "removeTeam": "모임 삭제하기",
+    "teamFriends": "모임 친구",
+    "addFriend": "친구 추가하기"
+  }
+}

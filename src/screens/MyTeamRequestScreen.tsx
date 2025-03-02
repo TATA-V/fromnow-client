@@ -8,12 +8,14 @@ import DeleteButton from '@components/common/DeleteButton';
 import { Swipeable } from 'react-native-gesture-handler';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import { useDebounce } from '@hooks/useOptimization';
+import { useTranslation } from 'react-i18next';
 
 const MyTeamRequestScreen = () => {
   const { data, isLoading } = useGetAllMyTeamRequest();
   const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
   const { refreshing, onRefresh } = useRefresh({ queryKey: myTeamReqKey });
   const { friendRequestMutation } = usePostTeamReject();
+  const { t } = useTranslation();
 
   const deleteTeamReq = useDebounce((diaryId: number) => {
     friendRequestMutation.mutate(diaryId);
@@ -41,7 +43,7 @@ const MyTeamRequestScreen = () => {
       {data.length === 0 && (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} contentContainerStyle={{ flexGrow: 1 }}>
           <View className="w-full h-full justify-center items-center transfrom translate-y-[-66px]" pointerEvents="box-none">
-            <AvatarSadMsg message={`아직 받은\n모임 요청이 없어요`} />
+            <AvatarSadMsg message={t('avatar.noReceivedTeam')} />
           </View>
         </ScrollView>
       )}

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import useCurrentRoute from '@hooks/useCurrentRoute';
 import { useForm } from 'react-hook-form';
 import { useUpdateOneTeam } from '@hooks/query';
+import { useTranslation } from 'react-i18next';
 
 import KeyboardAvoiding from '@components/common/KeyboardAvoiding';
 import DismissKeyboard from '@components/common/DismissKeyboard';
@@ -20,6 +21,7 @@ interface Props {
 const TeamEditScreen = ({}: Props) => {
   const { route } = useCurrentRoute();
   const { updateTeamMutation } = useUpdateOneTeam();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -38,21 +40,21 @@ const TeamEditScreen = ({}: Props) => {
       <View className="px-4 flex justify-between h-full">
         <View className="h-[122px] flex justify-center">
           <InputField
-            label="모임 이름"
+            label={t('team.name')}
             name="teamName"
             control={control}
             rules={{
-              required: '필수 입력 항목입니다',
-              maxLength: { value: 20, message: '20자 이내로 설정해 주세요.' },
+              required: t('error.required'),
+              maxLength: { value: 20, message: `${t('error.nickname')}` },
             }}
             errors={errors}
-            placeholder="모임 이름을 입력해 주세요"
+            placeholder={t('team.placeholder')}
           />
         </View>
         <KeyboardAvoiding>
           <View className="absolute bottom-[-5px] pt-4 pb-[20px] w-full bg-white">
             <Button onPress={onSubmit} disabled={!!errors.teamName || updateTeamMutation.isPending}>
-              수정 완료하기
+              {t('teamEdit.finish')}
             </Button>
           </View>
         </KeyboardAvoiding>

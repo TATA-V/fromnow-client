@@ -8,9 +8,11 @@ import { getStorage, setStorage } from '@utils/storage';
 import NoticeHeader from '@components/Notice/NoticeHeader';
 import { RefreshControl, ScrollView } from 'react-native';
 import AvatarSadMsg from '@components/common/AvatarSadMsg';
+import { useTranslation } from 'react-i18next';
 
 const NoticeScreen = () => {
   const [noticeList, setNoticeList] = useState<Notice[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getNoticeList = async () => {
@@ -60,10 +62,10 @@ const NoticeScreen = () => {
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           contentContainerStyle={{ height: '100%', justifyContent: 'center', transform: [{ translateY: -66 }] }}
           showsVerticalScrollIndicator={false}>
-          <AvatarSadMsg message={`최근 알림이 없습니다.`} />
+          <AvatarSadMsg message={t('avatar.noRecentNoti')} />
         </ScrollView>
       )}
-      <NoticeHeader title="알림" resetNoticeList={resetNoticeList} />
+      <NoticeHeader title={t('header.notice.title')} resetNoticeList={resetNoticeList} />
     </>
   );
 };

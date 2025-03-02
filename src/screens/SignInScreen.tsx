@@ -7,6 +7,7 @@ import { getStorage, setStorage } from '@utils/storage';
 import { checkPermissions } from '@utils/checkPermissions';
 import { allPermissions } from '@const/permissions';
 import { useModal } from '@components/Modal';
+import { useTranslation } from 'react-i18next';
 
 import GoogleSignInBtn from '@components/SignIn/GoogleSignInBtn';
 import KakaoSignInBtn from '@components/SignIn/KakaoSignInBtn';
@@ -16,6 +17,7 @@ const SignInScreen = () => {
   const { animated } = usePolicyStore(state => state);
   const clearAllUserData = useClearAllUserData();
   const { showModal } = useModal();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const setupLaunch = async () => {
@@ -25,7 +27,7 @@ const SignInScreen = () => {
       if (firstLaunch) return;
       showModal({
         type: 'confirm',
-        title: '프롬나우 이용을 위한\n접근 권한 안내',
+        title: t('signin.permissionGuide'),
         confirm: async () => {
           await setStorage('firstLaunch', 'true');
           await checkPermissions(allPermissions);
@@ -44,7 +46,7 @@ const SignInScreen = () => {
           <View className="w-[200px] h-[38px] mb-4">
             <Logo />
           </View>
-          <Text className="font-UhBee text-[28px]">지금의 순간을 기록하세요, 프롬 나우</Text>
+          <Text className="font-UhBee text-[28px]">{t('signin.greeting')}</Text>
         </View>
       </View>
       {animated && (

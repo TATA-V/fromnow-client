@@ -18,6 +18,7 @@ import useNavi from '@hooks/useNavi';
 import { QUERY_KEY, useKey } from '@hooks/query';
 import { useToastModal } from '@components/Modal';
 import { BaseAxiosError } from '@clientTypes/base';
+import { useTranslation } from 'react-i18next';
 
 export const useGetAllTeam = () => {
   const queryKey = useKey(['all', QUERY_KEY.TEAM]);
@@ -37,6 +38,7 @@ export const useDeleteOneTeam = (toastModal?: boolean) => {
   const { navigation } = useNavi();
   const queryClient = useQueryClient();
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+  const { t } = useTranslation();
 
   const deleteTeamMutation = useMutation({
     mutationFn: deleteOne,
@@ -44,10 +46,12 @@ export const useDeleteOneTeam = (toastModal?: boolean) => {
       await queryClient.invalidateQueries({ queryKey: myTeamsKey });
       await queryClient.refetchQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
-      toastModal ? showToastModal({ type: 'success', message: '모임을 삭제했습니다.' }) : successToast('모임을 삭제했습니다.');
+      toastModal
+        ? showToastModal({ type: 'success', message: `${t('toast.deleteTeam.success')}` })
+        : successToast(`${t('toast.deleteTeam.success')}`);
     },
     onError: () => {
-      toastModal ? showToastModal({ type: 'error', message: '모임 삭제에 실패했습니다.' }) : errorToast('모임 삭제에 실패했습니다.');
+      toastModal ? showToastModal({ type: 'error', message: `${t('toast.deleteTeam.fail')}` }) : errorToast(`${t('toast.deleteTeam.fail')}`);
     },
   });
 
@@ -60,6 +64,7 @@ export const useLeaveOneTeam = (toastModal?: boolean) => {
   const { navigation } = useNavi();
   const queryClient = useQueryClient();
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+  const { t } = useTranslation();
 
   const leaveTeamMutation = useMutation({
     mutationFn: leaveOne,
@@ -67,10 +72,10 @@ export const useLeaveOneTeam = (toastModal?: boolean) => {
       await queryClient.invalidateQueries({ queryKey: myTeamsKey });
       await queryClient.refetchQueries({ queryKey: myTeamsKey });
       navigation.navigate('Home');
-      toastModal ? showToastModal({ type: 'success', message: '모임을 떠났습니다.' }) : successToast('모임을 떠났습니다.');
+      toastModal ? showToastModal({ type: 'success', message: `${t('toast.leaveTeam.success')}` }) : successToast(`${t('toast.leaveTeam.success')}`);
     },
     onError: () => {
-      toastModal ? showToastModal({ type: 'error', message: '모임 나가기에 실패했습니다.' }) : errorToast('모임 나가기에 실패했습니다.');
+      toastModal ? showToastModal({ type: 'error', message: `${t('toast.leaveTeam.fail')}` }) : errorToast(`${t('toast.leaveTeam.fail')}`);
     },
   });
 
@@ -82,16 +87,17 @@ export const useUpdateOneTeam = () => {
   const { navigation } = useNavi();
   const queryClient = useQueryClient();
   const myTeamsKey = useKey(['all', QUERY_KEY.TEAM]);
+  const { t } = useTranslation();
 
   const updateTeamMutation = useMutation({
     mutationFn: async ({ diaryId, newTitle }: UpdateOne) => await updateOne({ diaryId, newTitle }),
     onSuccess: res => {
       navigation.navigate('Team', { id: res.data.diaryId });
       queryClient.invalidateQueries({ queryKey: myTeamsKey });
-      successToast('모임 이름을 수정했습니다.');
+      successToast(`${t('toast.updateTeam.success')}`);
     },
     onError: () => {
-      errorToast('모임 이름 수정에 실패했습니다.');
+      errorToast(`${t('toast.updateTeam.fail')}`);
     },
   });
 
@@ -103,6 +109,7 @@ export const usePostOneTeam = () => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
   const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
+  const { t } = useTranslation();
 
   const createTeamMutation = useMutation({
     mutationFn: postOne,
@@ -118,10 +125,10 @@ export const usePostOneTeam = () => {
         return update;
       });
       navigation.navigate('Home');
-      successToast('새로운 모임이 생성되었습니다.');
+      successToast(`${t('toast.createTeam.success')}`);
     },
     onError: () => {
-      errorToast('모임 생성에 실패했습니다.');
+      errorToast(`${t('toast.createTeam.fail')}`);
     },
   });
 
@@ -130,14 +137,15 @@ export const usePostOneTeam = () => {
 
 export const useInviteTeam = () => {
   const { successToast, errorToast } = useToast();
+  const { t } = useTranslation();
 
   const inviteTeamMutation = useMutation({
     mutationFn: async ({ diaryId, profileNames }: TeamInvite) => await postInvite({ diaryId, profileNames }),
     onSuccess: () => {
-      successToast('초대 성공!');
+      successToast(`${t('toast.inviteTeam.success')}`);
     },
     onError: () => {
-      errorToast('초대에 실패했습니다.');
+      errorToast(`${t('toast.inviteTeam.success')}`);
     },
   });
 
@@ -149,11 +157,12 @@ export const useAcceptTeam = () => {
   const queryClient = useQueryClient();
   const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
   const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
+  const { t } = useTranslation();
 
   const acceptTeamMutation = useMutation({
     mutationFn: postAccept,
     onSuccess: async res => {
-      successToast('모임 초대 수락이 완료되었습니다.');
+      successToast(`${t('toast.acceptTeam.success')}`);
       await queryClient.invalidateQueries({ queryKey: myTeamReqKey });
       await queryClient.invalidateQueries({ queryKey: myTeamKey });
       await queryClient.setQueryData(myTeamKey, (prev: Team[]) => {
@@ -168,7 +177,7 @@ export const useAcceptTeam = () => {
       });
     },
     onError: () => {
-      errorToast('모임 초대 수락에 실패했습니다.');
+      errorToast(`${t('toast.acceptTeam.fail')}`);
     },
   });
 
@@ -192,15 +201,16 @@ export const usePostTeamReject = () => {
   const { successToast, errorToast } = useToast();
   const queryClient = useQueryClient();
   const myTeamReqKey = useKey([QUERY_KEY.MY, 'team', 'request']);
+  const { t } = useTranslation();
 
   const friendRequestMutation = useMutation({
     mutationFn: postTeamReject,
     onSuccess: () => {
-      successToast('모임 요청 삭제 완료');
+      successToast(`${t('toast.rejectTeam.success')}`);
       queryClient.invalidateQueries({ queryKey: myTeamReqKey });
     },
     onError: () => {
-      errorToast('모임 요청 삭제에 실패했습니다.');
+      errorToast(`${t('toast.rejectTeam.fail')}`);
     },
   });
 
@@ -212,18 +222,19 @@ export const usePostImmediateInvite = () => {
   const queryClient = useQueryClient();
   const myTeamKey = useKey(['all', QUERY_KEY.TEAM]);
   const { navigation } = useNavi();
+  const { t } = useTranslation();
 
   const inviteTeamMutation = useMutation({
     mutationFn: async ({ diaryId, profileName }: TeamImmediateInvite) => await postImmediateInvite({ diaryId, profileName }),
     onSuccess: async () => {
-      successToast('모임에 초대되었습니다🎉');
+      successToast(`${t('toast.immediateInvite.success')}`);
       await queryClient.invalidateQueries({ queryKey: myTeamKey });
       navigation.navigate('Bottom', { screen: 'Home' });
     },
     onError: e => {
       const error = e as BaseAxiosError;
       const { message } = error.response.data;
-      errorToast(`모임 초대 받기에 실패했어요.\n${message}`);
+      errorToast(`${t('toast.immediateInvite.fail')}\n${message}`);
       navigation.navigate('Bottom', { screen: 'Home' });
     },
   });

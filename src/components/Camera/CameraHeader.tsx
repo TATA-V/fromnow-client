@@ -5,6 +5,7 @@ import LeftArrowIcon from '@assets/icons/LeftArrowIcon';
 import CycleIcon from '@assets/icons/cycle.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { isAndroid } from '@utils/deviceInfo';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   toggleCameraType: () => void;
@@ -13,6 +14,7 @@ interface Props {
 const CameraHeader = ({ toggleCameraType }: Props) => {
   const { navigation } = useNavi();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
 
   const goBack = () => {
     if (!navigation.canGoBack()) {
@@ -27,7 +29,7 @@ const CameraHeader = ({ toggleCameraType }: Props) => {
       <TouchableOpacity onPress={goBack} className="w-[44px] h-[44px] p-[10px]">
         <LeftArrowIcon color="#fff" />
       </TouchableOpacity>
-      <Text className="text-white text-base font-PTDSemiBold">일상 촬영</Text>
+      <Text className="text-white text-base font-PTDSemiBold">{t('header.camera')}</Text>
       <TouchableOpacity onPress={toggleCameraType} className="w-[44px] h-[44px] p-[12px]">
         <CycleIcon />
       </TouchableOpacity>

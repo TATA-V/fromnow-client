@@ -4,7 +4,9 @@ import { useDeleteFriend, usePostFriendAccept, usePostFriendRequest } from '@hoo
 import { Friend } from '@clientTypes/friend';
 import { useModal } from '@components/Modal';
 import { useDebounce } from '@hooks/useOptimization';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
+import { isKo } from '@utils/localize';
 
 interface Props extends Friend {
   isFriendReq?: boolean;
@@ -16,6 +18,7 @@ const FriendItem = (props: Props) => {
   const { friendDeleteMutation } = useDeleteFriend();
   const { friendRequestMutation } = usePostFriendRequest();
   const { showModal } = useModal();
+  const { t } = useTranslation();
 
   const updateFriend = () => {
     if (isFriendReq && !friend) {
@@ -26,7 +29,12 @@ const FriendItem = (props: Props) => {
       const confirm = () => {
         friendDeleteMutation.mutate(memberId);
       };
-      showModal({ type: 'dialog', title: '친구 삭제', description: `정말로 ${profileName} 님을 삭제하시겠습니까?`, confirm });
+      showModal({
+        type: 'dialog',
+        title: `${t('signin.remove')}`,
+        description: isKo() ? `정말로 ${profileName} 님을 삭제하시겠습니까?` : 'Remove this friend?',
+        confirm,
+      });
       return;
     }
     friendAcceptMutation.mutate(memberId);
@@ -47,7 +55,9 @@ const FriendItem = (props: Props) => {
           friend ? 'bg-white border-[1px] border-black200' : 'bg-black900',
           'h-9 px-[12.5px] flex justify-center items-center rounded-xl',
         )}>
-        <Text className={cn(friend ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>{friend ? '친구' : '친구추가'}</Text>
+        <Text className={cn(friend ? 'text-black900' : 'text-white', 'text-sm font-PTDSemiBold')}>
+          {friend ? `${t('myFriend.friend')}` : `${t('myFriend.addFriend')}`}
+        </Text>
       </TouchableOpacity>
     </View>
   );

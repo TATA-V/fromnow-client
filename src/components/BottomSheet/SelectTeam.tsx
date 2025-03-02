@@ -6,6 +6,7 @@ import { Image as ImageType } from 'react-native-image-crop-picker';
 import { Team } from '@clientTypes/team';
 import { useDebounce } from '@hooks/useOptimization';
 import { isIOS } from '@utils/deviceInfo';
+import { useTranslation } from 'react-i18next';
 
 import GrayLoadingLottie from '@components/Lottie/GrayLoadingLottie';
 import SelectTeamItem from '@components/BoardEdit/SelectTeamItem';
@@ -23,6 +24,7 @@ const SelectTeam = ({ payload }: Props) => {
   const [teams, setTeams] = useState<(Team & { isSharing: boolean })[]>([]);
   const { data, isLoading } = useGetAllTeam();
   const { createBoardMutation } = usePostOneBoard();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!data) return;
@@ -58,7 +60,7 @@ const SelectTeam = ({ payload }: Props) => {
             </View>
           </View>
           <View className="h-[66px] justify-center items-center">
-            <Text className="text-black900 text-base font-PTDSemiBold">공유 모임 선택</Text>
+            <Text className="text-black900 text-base font-PTDSemiBold">{t('team.select')}</Text>
           </View>
           <FlatList
             data={teams}

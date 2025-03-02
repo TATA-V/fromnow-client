@@ -109,3 +109,119 @@ export const servicePolicyData = [
     contents: [' • 개인정보처리방침 버전번호: 1.0\n • 개인정보처리방침 공고일자: 2024. 10. 05\n • 개인정보처리방침 시행일자: 2024. 11. 11'],
   },
 ];
+
+export const servicePolicyDataEn = [
+  {
+    title: 'Article 1 (Purpose of Processing Personal Information)',
+    contents: [
+      'The company processes personal information for the following purposes. The personal information processed is not used for any purposes other than those specified below, and if the purpose of use changes, necessary measures—such as obtaining separate consent in accordance with Article 18 of the Personal Information Protection Act—will be implemented.',
+      '1. Membership Registration and Management\nPersonal information is processed for purposes including verifying the intent to register as a member, identification and authentication in connection with the provision of member-based services, maintaining and managing membership, identity verification under the limited verification system, preventing fraudulent use of services, confirming the consent of legal representatives when processing personal information of children under 14, various notifications, and complaint handling.',
+      '2. Provision of Goods or Services\nPersonal information is processed for purposes including service provision, sending contracts/invoices, providing content, offering customized services, identity verification, age verification, payment/settlement of fees, and debt collection.',
+      '3. Complaint Handling\nPersonal information is processed for purposes including verifying the identity of complainants, confirming complaint details, contacting for fact-finding investigations, and notifying the results of processing.',
+    ],
+  },
+  {
+    title: 'Article 2 (Period for Processing and Retention of Personal Information)',
+    contents: [
+      '① The company processes and retains personal information within the retention and use period prescribed by law or the period agreed upon with the data subject at the time of collection.',
+      '② The period for processing and retaining personal information is as follows:\n1. Membership Registration and Management: Until the business entity/organization withdraws from the service.\n   However, in the following cases, personal information will be retained until the issue is resolved:\n   1) If an investigation or inquiry is underway due to a violation of applicable laws, until the conclusion of such investigation/inquiry.\n   2) If a credit/debt relationship arising from the use of services remains, until that relationship is settled.\n2. Provision of Goods or Services: Until the completion of the supply of goods/services and the settlement of payments.\n   However, in the following cases, personal information will be retained until the relevant period expires:\n   1) Under the “Act on Consumer Protection in Electronic Commerce, etc.”, records such as:\n      – Display/advertisement records: 6 months\n      – Records of contracts, cancellations, payments, and supply of goods: 5 years\n      – Records of consumer complaints or dispute resolutions: 3 years\n   2) Storage of communication data pursuant to Article 41 of the “Protection of Communications Secrets Act”:\n      – Call data (timestamps, start/end times, counterparty numbers, usage amounts, originating base station location data): 1 year\n      – Computer communications, internet log records, and access tracking data: 3 months',
+    ],
+  },
+  {
+    title: 'Article 3 (Provision of Personal Information to Third Parties)',
+    contents: [
+      '① The company processes personal information only within the scope specified in Article 1 (Purpose of Processing Personal Information) and provides personal information to third parties only in cases falling under Article 17 of the Personal Information Protection Act, such as with the data subject’s consent or as otherwise provided by law.',
+      '② The company does not provide personal information to third parties.',
+    ],
+  },
+  {
+    title: 'Article 4 (Outsourcing of Personal Information Processing)',
+    contents: [
+      '① The company does not outsource its personal information processing tasks.',
+      '② When entering into an outsourcing contract, the company specifies in the contract or related documents—in accordance with Article 25 of the Personal Information Protection Act—the prohibition of processing personal information beyond the purpose of the outsourced tasks, the technical and administrative protective measures, restrictions on re-outsourcing, management and supervision of the contractor, and liabilities such as for damages. The company also supervises whether the contractor processes personal information securely.',
+      '③ In the event of any changes to the outsourced tasks or the contractor, the company will disclose such changes without delay through this Personal Information Processing Policy.',
+    ],
+  },
+  {
+    title: 'Article 5 (Rights, Obligations, and Methods of Exercise for Data Subjects)',
+    contents: [
+      '① Data subjects may exercise the following rights related to personal information protection with respect to the company at any time:\n1. Request for access to personal information\n2. Request for correction in the event of errors\n3. Request for deletion\n4. Request for suspension of processing',
+      '② These rights may be exercised by contacting the company in writing, by telephone, email, or facsimile (FAX), and the company will promptly take action.',
+      '③ If a data subject requests correction or deletion of personal information due to errors, the company will not use or provide such personal information until the correction or deletion is completed.',
+      '④ The rights mentioned in paragraph 1 may be exercised through the data subject’s legal representative or an authorized agent. In such cases, an authorization letter in the form prescribed in Appendix 11 of the Enforcement Rules of the Personal Information Protection Act must be submitted.',
+      '⑤ Data subjects must not infringe upon their own or others’ personal information or privacy processed by the company in violation of the Personal Information Protection Act or other applicable laws.',
+    ],
+  },
+  {
+    title: 'Article 6 (Items of Personal Information Processed)',
+    contents: [
+      'The company processes the following items of personal information:',
+      '1. Membership Registration and Management\n • Mandatory items: Username, password, email address, mobile phone number, date of birth (user-provided)\n • Optional items: Information obtained after authentication (name, gender, date of birth, unique personal identifier, mobile phone number, carrier, foreigner status), contact list\n • When signing up via social authentication, information provided by the authentication service provider (such as name, email address, profile picture, etc.) may be automatically collected.',
+      '2. Provision of Goods or Services\n • Mandatory items: Capture information (date of capture, time of capture, photos/videos captured, metadata of the captured content)\n • Optional items: Location information, adult status',
+      '3. During app usage, the following items of personal information may be automatically collected:\n • IP address, device information, service usage records, visit records, records of improper usage, etc.',
+    ],
+  },
+  {
+    title: 'Article 7 (Destruction of Personal Information)',
+    contents: [
+      '① The company will destroy personal information without delay when it is no longer necessary, such as when the retention period has expired or the processing purpose has been achieved.',
+      '② In cases where personal information must be retained in accordance with other laws even after the agreed retention period or the processing purpose has been achieved, the company will transfer such personal information to a separate database (DB) or store it in a different location for retention.',
+      '③ The procedures and methods for destroying personal information are as follows:\n1. Destruction Procedure\n   The company selects the personal information subject to destruction due to the expiration of the retention period or fulfillment of the processing purpose and obtains approval from its designated Personal Information Protection Officer before destroying it.\n2. Destruction Method\n   For personal information stored in electronic file format, the company will destroy it using methods such as low-level formatting to render the records unrecoverable. For personal information stored in paper format, it will be shredded or incinerated.',
+    ],
+  },
+  {
+    title: 'Article 8 (Measures to Ensure the Security of Personal Information)',
+    contents: [
+      'The company takes the following measures to ensure the security of personal information:',
+      '1. Administrative measures: Establishment and implementation of internal management plans, regular employee training, etc.',
+      '2. Technical measures: Management of access rights to personal information processing systems, installation of access control systems, encryption of unique identification information, installation of security programs.',
+      '3. Physical measures: Access control for cloud servers, data storage servers, etc.',
+    ],
+  },
+  {
+    title: 'Article 9 (Installation, Operation, and Rejection of Devices for Automatic Collection of Personal Information)',
+    contents: [
+      '① The company securely stores and manages usage information in order to provide personalized services to users.',
+      '② The data is stored in a secure storage within the user’s device for the purpose of providing personalized services via the app.',
+      'a. Purpose of storing usage information: It is used to analyze the service usage patterns and secure connection status within the app to provide optimized and personalized services.\n' +
+        'b. Data storage and management: Users can delete or manage stored data through the app’s settings menu.\n' +
+        'c. If a user refuses or deletes the stored data, there may be limitations on the use of personalized services.',
+    ],
+  },
+  {
+    title: 'Article 10 (Personal Information Protection Officer)',
+    contents: [
+      '① The company is responsible for overseeing the processing of personal information and for handling data subjects’ complaints and redress related to personal information processing. It has designated the following Personal Information Protection Officer:',
+      '▶ Personal Information Protection Officer\nName: Lee Min-hyuk, Choi Hyeona, Kwon Chae-eun\nPosition: CEO of FromNow Inc.\nContact: E. teamfromnow@gmail.com',
+      '▶ Personal Information Protection Department\nDepartment Name: Operations Team\nPersons in Charge: Lee Min-hyuk, Choi Hyeona, Kwon Chae-eun\nContact: E. teamfromnow@gmail.com',
+      '② Data subjects may contact the Personal Information Protection Officer or the department in charge for any inquiries, complaints, or redress regarding personal information protection arising from the use of the company’s services (or business). The company will promptly respond to and address such inquiries.',
+    ],
+  },
+  {
+    title: 'Article 11 (Request for Access to Personal Information)',
+    contents: [
+      'Data subjects may submit requests for access to their personal information in accordance with Article 35 of the Personal Information Protection Act to the following department. The company will endeavor to process such requests promptly.',
+      '▶ Department for Receiving and Processing Requests for Access to Personal Information\nDepartment Name: Operations Team\nPersons in Charge: Lee Min-hyuk, Choi Hyeona, Kwon Chae-eun\nContact: E. teamfromnow@gmail.com',
+    ],
+  },
+  {
+    title: 'Article 12 (Methods for Redress of Rights Infringement)',
+    contents: [
+      'Data subjects may contact the following organizations for redress, consultation, etc. regarding any infringement or damage related to personal information.\n<The following organizations are independent of the company; if you are not satisfied with the company’s handling of personal information complaints or redress outcomes, or if you require more detailed assistance, please contact them.>',
+      '▶ Personal Information Infringement Report Center (Operated by the Korea Internet & Security Agency)\n– Responsibilities: Reporting personal information infringements, consultation requests\n– Website: privacy.kisa.or.kr\n– Phone: 118 (no area code)\n– Address: 3rd Floor, Personal Information Infringement Report Center, 9 Jinheung-gil, Naju, Jeollanam-do, 58324, South Korea',
+      '▶ Personal Information Dispute Mediation Committee\n– Responsibilities: Mediation applications for personal information disputes, collective dispute mediation (civil resolution)\n– Website: www.kopico.go.kr\n– Phone: 1833-6972 (no area code)\n– Address: 4th Floor, Government Complex Seoul, 209 Sejong-daero, Jongno-gu, Seoul, 03171, South Korea',
+      '▶ Cyber Crime Investigation Unit, Supreme Prosecutors’ Office: 02-3480-3573\n(www.spo.go.kr)',
+      '▶ Cyber Safety Bureau, National Police Agency: 182\n(http://cyberbureau.police.go.kr)',
+    ],
+  },
+  {
+    title: 'Article 13 (Installation and Operation of Video Information Processing Devices)',
+    contents: ['The company does not install or operate any video information processing devices.'],
+  },
+  {
+    title: 'Article 14 (Changes to the Personal Information Processing Policy)',
+    contents: [
+      ' • Personal Information Processing Policy Version: 1.0\n • Announcement Date of the Personal Information Processing Policy: 2024. 10. 05\n • Effective Date of the Personal Information Processing Policy: 2024. 11. 11',
+    ],
+  },
+];

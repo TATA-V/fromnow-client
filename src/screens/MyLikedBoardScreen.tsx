@@ -6,11 +6,13 @@ import { useGetAllMyLikedBoard, useKey, QUERY_KEY } from '@hooks/query';
 import useRefresh from '@hooks/useRefresh';
 import { FlashList } from '@shopify/flash-list';
 import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
+import { useTranslation } from 'react-i18next';
 
 const MyLikedBoardScreen = () => {
   const { data, isLoading } = useGetAllMyLikedBoard();
   const myLikedPostsKey = useKey([QUERY_KEY.MY, 'liked', 'posts']);
   const { refreshing, onRefresh } = useRefresh({ queryKey: myLikedPostsKey });
+  const { t } = useTranslation();
 
   if (isLoading) return <FullScreenMiniLoading />;
 
@@ -33,7 +35,7 @@ const MyLikedBoardScreen = () => {
       {(data?.length === 0 || !data) && (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View className="h-full justify-center transform translate-y-[-66px]">
-            <AvatarSadMsg message={`아직 좋아요를 누른\n게시글이 없어요`} />
+            <AvatarSadMsg message={t('avatar.noLikedPosts')} />
           </View>
         </ScrollView>
       )}

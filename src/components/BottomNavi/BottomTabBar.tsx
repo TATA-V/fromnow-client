@@ -15,12 +15,14 @@ import { androidPermission, iosPermission } from '@const/permissions';
 import { isIOS } from '@utils/deviceInfo';
 import { checkPremission } from '@utils/checkPermissions';
 import useDeviceSize from '@hooks/useDeviceSize';
+import { useTranslation } from 'react-i18next';
 
 const BottomTabBar = ({ state, descriptors, navigation }: any) => {
   // const [showBubble, setShowBubble] = useState(true);
   // 말풍선은 새로운 일상이 생겼을 때 + 내가 글을 작성하지 않았을 때만 뜬다.
   const { width, isTablet } = useDeviceSize();
   const styles = createStyles(width, isTablet);
+  const { t } = useTranslation();
 
   const queryClient = useQueryClient();
   const { showModal } = useModal();
@@ -63,13 +65,13 @@ const BottomTabBar = ({ state, descriptors, navigation }: any) => {
       <View style={styles.home} className="absolute">
         <TouchableOpacity onPress={() => navigateToScreen('Home')} className="items-center py-2 px-5">
           <HomeIcon color={state.routes[state.index].name === 'Home' ? '#1C1C1E' : '#D9D9DC'} />
-          <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">홈</Text>
+          <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">{t('base.home')}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.profile} className="absolute">
         <TouchableOpacity onPress={() => navigateToScreen('Profile')} className="items-center py-2 px-5">
           <PeopleIcon color={state.routes[state.index].name === 'Profile' ? '#1C1C1E' : '#D9D9DC'} />
-          <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">내 정보</Text>
+          <Text className="text-black900 font-PTDLight text-[12px] mt-[4px]">{t('base.profile')}</Text>
         </TouchableOpacity>
       </View>
       {/* </View> */}

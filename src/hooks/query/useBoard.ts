@@ -19,6 +19,7 @@ import { SheetManager } from 'react-native-actions-sheet';
 import { CalendarCol } from '@clientTypes/calendar';
 import { getDate } from '@utils/formatDate';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const useGetAllBoard = (boardData: GetAll) => {
   const queryKey = useKey(['all', QUERY_KEY.BOARD, boardData.diaryId, boardData.date]);
@@ -35,16 +36,17 @@ export const useGetAllBoard = (boardData: GetAll) => {
 export const usePostOneBoard = () => {
   const { successToast, errorToast } = useToast();
   const { navigation } = useNavi();
+  const { t } = useTranslation();
 
   const createBoardMutation = useMutation({
     mutationFn: async ({ uploadPhotos, chooseDiaryDto }: CreateBoard) => await postOne({ uploadPhotos, chooseDiaryDto }),
     onSuccess: () => {
       navigation.navigate('Home');
       SheetManager.hide('select-team');
-      successToast('게시글 작성 완료!');
+      successToast(`${t('toast.board.success')}`);
     },
     onError: () => {
-      errorToast('게시글 작성에 실패했습니다.');
+      errorToast(`${t('toast.board.fail')}`);
     },
   });
 
@@ -53,14 +55,15 @@ export const usePostOneBoard = () => {
 
 export const useLikeBoard = () => {
   const { successToast, errorToast } = useToast();
+  const { t } = useTranslation();
 
   const likeBoardMutation = useMutation({
     mutationFn: postLike,
     onSuccess: () => {
-      successToast('좋아요 완료!');
+      successToast(`${t('toast.like.success')}`);
     },
     onError: () => {
-      errorToast('좋아요에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      errorToast(`${t('toast.like.fail')}`);
     },
   });
 
@@ -69,14 +72,15 @@ export const useLikeBoard = () => {
 
 export const useDisLikeBoard = () => {
   const { successToast, errorToast } = useToast();
+  const { t } = useTranslation();
 
   const disLikeBoardMutation = useMutation({
     mutationFn: postDisLike,
     onSuccess: () => {
-      successToast('좋아요를 취소했습니다.');
+      successToast(`${t('toast.unlike.success')}`);
     },
     onError: () => {
-      errorToast('좋아요 취소에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      errorToast(`${t('toast.unlike.fail')}`);
     },
   });
 
@@ -137,11 +141,9 @@ export const useColCalendar = ({ diaryId, date, num = 2 }: RowColCalendar) => {
   });
 
   useEffect(() => {
-    if (isLoading || isFetching) return;
-    if (data && data.length > 0) {
-      setCalendarData(data);
-    }
-  }, [data]);
+    if (!data || isLoading || isFetching) return;
+    setCalendarData(prev => [...new Set([...prev, ...data])]);
+  }, [data, isLoading, isFetching]);
 
   return { data, calendarData, isLoading, isError, error };
 };

@@ -1,6 +1,4 @@
 import moment, { Moment } from 'moment-modification-rn';
-import 'moment-modification-rn/locale/ko';
-moment.locale('ko');
 
 export const getDate = (dateString: string | Moment = moment().format()) => {
   const date = moment(dateString, 'YYYYMMDDHHmmss');

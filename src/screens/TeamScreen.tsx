@@ -24,8 +24,8 @@ import FullScreenMiniLoading from '@components/common/FullScreenMiniLoading';
 import { useIsFocused } from '@react-navigation/native';
 import 'moment-modification-rn/locale/ko';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@utils/cn';
-moment.locale('ko');
 
 interface Props {
   paramName: string;
@@ -38,6 +38,7 @@ const TeamScreen = ({}: Props) => {
   const queryClient = useQueryClient();
   const { isScrollUp, scrollList } = useScrollDirection();
   const { recivedAt: teamDate, targetDate } = useSelectedTeamStore();
+  const { t } = useTranslation();
 
   const { route } = useCurrentRoute();
   const diaryId = route.params.id;
@@ -187,7 +188,7 @@ const TeamScreen = ({}: Props) => {
               <>
                 <Image source={blurPng} className="opacity-100 absolute top-0 w-full h-full" resizeMode="cover" />
                 <View className="absolute h-full justify-center items-center w-full transform translate-y-[-50px]" pointerEvents="box-none">
-                  <AvatarHappyMsg message={`오늘의 일상을 업로드하면\n친구들의 일상을 볼 수 있어요!`} />
+                  <AvatarHappyMsg message={t('avatar.uploadDailyLife')} />
                   <View className="mt-[24px]">
                     {formatDate() === formatDate(data[0]?.createdDate) && (
                       <Button
@@ -195,7 +196,7 @@ const TeamScreen = ({}: Props) => {
                         size="mid"
                         customStyle={{ width: 170 }}
                         icon={<CameraIcon height={24} width={24} />}>
-                        내 일상 공유하기
+                        {t('team.share')}
                       </Button>
                     )}
                   </View>
@@ -207,7 +208,7 @@ const TeamScreen = ({}: Props) => {
         {(!data || data?.boardOverViewResponseDtoList.length === 0) && !isLoading && (
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className="flex justify-center items-center h-full translate-y-[-66px]">
-              <AvatarSadMsg message={`아무도 글을\n작성하지 않았어요`} />
+              <AvatarSadMsg message={t('avatar.noPosts')} />
             </View>
           </ScrollView>
         )}
